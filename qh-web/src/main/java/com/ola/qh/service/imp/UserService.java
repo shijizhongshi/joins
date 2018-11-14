@@ -1,11 +1,11 @@
-package com.ola.qh.seivice.imp;
+package com.ola.qh.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.User;
-import com.ola.qh.seivice.IUserService;
+import com.ola.qh.service.IUserService;
 @Service
 public class UserService implements IUserService{
 

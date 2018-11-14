@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ola.qh.seivice.IStoreService;
+import com.ola.qh.service.IStoreService;
 import com.ola.qh.util.Results;
 
 @RestController

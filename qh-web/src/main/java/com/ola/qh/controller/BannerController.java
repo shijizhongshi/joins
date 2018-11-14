@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Banner;
-import com.ola.qh.seivice.IBannerService;
+import com.ola.qh.service.IBannerService;
 import com.ola.qh.util.Results;
 
 @RestController

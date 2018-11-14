@@ -1,4 +1,4 @@
-package com.ola.qh.seivice.imp;
+package com.ola.qh.service.imp;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.BannerDao;
 import com.ola.qh.entity.Banner;
-import com.ola.qh.seivice.IBannerService;
+import com.ola.qh.service.IBannerService;
 
 @Service
 public class BannerService implements IBannerService {

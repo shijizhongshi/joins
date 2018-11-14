@@ -1,4 +1,4 @@
-package com.ola.qh.seivice.imp;
+package com.ola.qh.service.imp;
 
 import java.io.ByteArrayInputStream;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
-import com.ola.qh.seivice.IStoreService;
+import com.ola.qh.service.IStoreService;
 import com.ola.qh.util.FileStorageException;
 import com.ola.qh.util.FileStore;
 

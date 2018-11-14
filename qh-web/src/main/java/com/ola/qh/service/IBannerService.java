@@ -1,4 +1,4 @@
-package com.ola.qh.seivice;
+package com.ola.qh.service;
 
 import java.util.List;
 
