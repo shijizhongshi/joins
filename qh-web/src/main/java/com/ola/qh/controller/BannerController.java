@@ -20,7 +20,7 @@ public class BannerController {
 	private IBannerService bannerService;
 	
 	@RequestMapping(value = "/selectlist",method = RequestMethod.GET)
-	public Results<List<Banner>>  selectBanner(@RequestParam(name="type",required=true)String type){
+	public Results<List<Banner>>  selectBanner(@RequestParam(name="type",required=true)int type){
 		Results<List<Banner>> results=new Results<List<Banner>>();
 		
 		List<Banner> bannerlist = bannerService.selectBanner(type);
