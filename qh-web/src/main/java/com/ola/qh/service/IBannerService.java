@@ -6,5 +6,5 @@ import com.ola.qh.entity.Banner;
 
 public interface IBannerService {
 
-	public List<Banner> selectBanner(String type);
+	public List<Banner> selectBanner(int type);
 }
