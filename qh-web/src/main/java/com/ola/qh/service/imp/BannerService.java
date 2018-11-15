@@ -16,7 +16,7 @@ public class BannerService implements IBannerService {
 	private BannerDao bannerDao;
 
 	@Override
-	public List<Banner> selectBanner(int type) {
+	public List<Banner> selectBanner(String type) {
 		
 		return bannerDao.selectBanner(type);
 	}

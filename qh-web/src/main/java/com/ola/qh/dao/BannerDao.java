@@ -6,5 +6,5 @@ import com.ola.qh.entity.Banner;
 
 public interface BannerDao {
 
-	public List<Banner> selectBanner(int type);
+	public List<Banner> selectBanner(String type);
 }
