@@ -15,6 +15,14 @@ import com.aliyuncs.profile.IClientProfile;
 import com.ola.qh.service.ISendSmsService;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * @ClassName: SendSmsService
+ * @Description: 用阿里大于发送手机验证码~
+ * @author guoyuxue
+ * @date 2018年11月15日
+ *
+ */
 @Service
 public class SendSmsService implements ISendSmsService {
 
@@ -66,11 +74,11 @@ public class SendSmsService implements ISendSmsService {
 			if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("ok")) {
 
 				result.setStatus("0");
-				
-			}else{
+
+			} else {
 				result.setStatus("1");
 				result.setMessage(sendSmsResponse.getMessage());
-				
+
 			}
 
 			return result;
@@ -81,7 +89,6 @@ public class SendSmsService implements ISendSmsService {
 			result.setMessage("异常报错,请检查");
 			return result;
 		}
-		
 
 	}
 
