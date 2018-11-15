@@ -10,7 +10,14 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.ola.qh.service.IStoreService;
 import com.ola.qh.util.FileStorageException;
 import com.ola.qh.util.FileStore;
-
+/**
+ * 
+* @ClassName: StoreService  
+* @Description: 用于阿里云oss上传图片用的  
+* @author guoyuxue  
+* @date 2018年11月14日  
+*
+ */
 @Service
 public class StoreService implements IStoreService {
 
