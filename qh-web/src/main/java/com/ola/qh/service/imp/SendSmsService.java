@@ -32,10 +32,10 @@ public class SendSmsService implements ISendSmsService {
 	static final String domain = "dysmsapi.aliyuncs.com";
 
 	// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-	static final String accessKeyId = "LTAIqoxWjtmP4y1A";
-	static final String accessKeySecret = "Zp3vDWNXuXx3V7A77lyrT67whaMlyo";
+	static final String accessKeyId = "LTAIvYOv6NLHmNnA";
+	static final String accessKeySecret = "oVZqnj6eQqKIUkdLylp04PMIIzYP9Y";
 
-	static final String smsFreeSignName = "中师";
+	static final String smsFreeSignName = "世纪中师";
 
 	@Override
 	public Results<String> sendSms(String mobile, String templateCode, Map<String, String> map) {
