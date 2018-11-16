@@ -12,6 +12,15 @@ import com.ola.qh.entity.Banner;
 import com.ola.qh.service.IBannerService;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName:BannerController
+ * @Description:Banner查
+ * @author guozihan
+ * @date 2018年11月15日
+ *
+ */
 @RestController
 @RequestMapping("/api/banner")
 public class BannerController {
