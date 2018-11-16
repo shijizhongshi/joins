@@ -5,21 +5,27 @@
 <mapper namespace="com.ola.qh.dao.NewsDao">
 
 	<resultMap type="com.ola.qh.entity.News" id="NewsMap">
-	<result column="id" property="id"/>
-	<result column="types" property="types"/>
-	<result column="title" property="title"/>
-	<result column="img_url" property="imgUrl"/>
-	<result column="content" property="content"/>
-	<result column="addtime" property="addtime"/>
-	<result column="isstick" property="isstick"/>
+		<result column="id" property="id" />
+		<result column="types" property="types" />
+		<result column="title" property="title" />
+		<result column="img_url" property="imgUrl" />
+		<result column="content" property="content" />
+		<result column="addtime" property="addtime" />
+		<result column="isstick" property="isstick" />
 	</resultMap>
 
 
-	<select id="selectNewList" resultMap="NewsMap">
-	
-	select * from news
-	  
-	
+	<select id="selectNewList" resultMap="NewsMap" parameterType="int">
+		select * from news
+		<if test="pageNo!=0">
+			where limit #{pageNo},#{pageSize}
+		</if>
+	</select>
+
+
+	<select id="singlenews" parameterType="String" resultType="com.ola.qh.entity.News">
+		select * from news
+		where id=#{id}
 	</select>
 
 
