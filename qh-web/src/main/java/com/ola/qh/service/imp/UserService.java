@@ -30,6 +30,16 @@ public class UserService implements IUserService{
 		return userDao.existMobileUser(mobile);
 	}
 
+	@Override
+	public int updateUser(String nickname, String headimg, String id) {
+		
+		return userDao.updateUser(nickname, headimg, id);
+	}
+
+	
+
+	
+
 	
 	
 }

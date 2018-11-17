@@ -105,4 +105,22 @@ public class UserController {
 		results.setStatus("1");
 		return results;
 	}
+	
+	@RequestMapping(value = "/updateuser", method = RequestMethod.GET)
+	public Results<String> updateUser(@RequestParam(name = "nickname", required = true) String nickname,
+			@RequestParam(name = "headimg", required = true) String headimg,
+			@RequestParam(name = "id", required = true) String id) {
+
+		Results<String> results = new Results<String>();
+
+		int user = userService.updateUser(nickname, headimg, id);
+		if (user >0) {
+			results.setStatus("0");
+			return results;
+		}
+		results.setMessage("更改异常");
+		results.setStatus("1");
+		return results;
+	}
+	
 }
