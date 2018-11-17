@@ -5,11 +5,20 @@
 <mapper namespace="com.ola.qh.dao.UserDao">
 	<resultMap type="com.ola.qh.entity.User" id="UserMap">
 		<result column="id" property="id" />
-		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+		<result column="password" property="password" />
+		<result column="addtime" property="addtime" />
+		<result column="head_img_url" property="headimg" />
+		<result column="userrole" property="userrole" />
+		<result column="mobile" property="mobile" />
 	</resultMap>
 
 
-	<insert id="saveUser" parameterType="com.ola.qh.entity.User">
-		insert into user(id,username) values(#{id},#{username})
+	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
+		insert into user(id,mobile,password,addtime) values (#{id},#{mobile},#{password},#{addtime})
 	</insert>
+	
+	<select id="loginUser"  resultType="com.ola.qh.entity.User">
+		select mobile,password from user where mobile=#{mobile} and password=#{password}
+	</select>
 </mapper>

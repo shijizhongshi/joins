@@ -18,6 +18,12 @@ public class UserService implements IUserService{
 		return userDao.saveUser(user);
 	}
 
+	@Override
+	public User loginUser(String mobile, String password) {
+		
+		return userDao.loginUser(mobile, password);
+	}
+
 	
 	
 }

@@ -3,6 +3,9 @@ package com.ola.qh.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,13 +37,15 @@ public class SendSmsController {
 	 * @return
 	 */
 	@RequestMapping("/sendmobile")
-	public Results<String> sendSms(@RequestParam(required = true, name = "mobile") String mobile) {
+	public Results<String> sendSms(@RequestParam(required = true, name = "mobile") String mobile,HttpServletRequest request) {
 
 		Results<String> result = new Results<String>();
 		Map<String, String> map = new HashMap<String, String>();
+		
 		///// map放code之外的参数
-		sendSmsCommon(mobile, "SMS_151230053", map);
-		return result;
+		
+		return sendSmsCommon(mobile, "SMS_151231966", map,request);
+		
 	}
 
 	/**
@@ -51,11 +56,12 @@ public class SendSmsController {
 	 * @param map
 	 * @return
 	 */
-	public Results<String> sendSmsCommon(String mobile, String templateCode, Map<String, String> map) {
+	public Results<String> sendSmsCommon(String mobile, String templateCode, Map<String, String> map,HttpServletRequest request) {
 
 		String code = new String(new RBuilder().length(4).hasletter(false).next());
 		map.put("code", code);
 		Results<String> result = sendSmsService.sendSms(mobile, templateCode, map);
+		request.getSession().setAttribute(mobile, code);
 		return result;
 	}
 
