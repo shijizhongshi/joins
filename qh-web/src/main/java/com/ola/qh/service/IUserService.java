@@ -6,4 +6,6 @@ public interface IUserService {
 	public int saveUsers(User user);
 	
 	public User loginUser(String mobile,String password);
+	
+	public User existMobileUser(String mobile);
 }

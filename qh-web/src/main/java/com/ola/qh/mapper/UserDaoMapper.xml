@@ -21,4 +21,9 @@
 	<select id="loginUser"  resultType="com.ola.qh.entity.User">
 		select mobile,password from user where mobile=#{mobile} and password=#{password}
 	</select>
+	
+	<select id="existMobileUser" resultType="com.ola.qh.entity.User">
+		select * from user where mobile=#{mobile}
+	</select>
+	
 </mapper>
