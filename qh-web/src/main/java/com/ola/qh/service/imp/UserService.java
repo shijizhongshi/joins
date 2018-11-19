@@ -24,6 +24,22 @@ public class UserService implements IUserService{
 		return userDao.loginUser(mobile, password);
 	}
 
+	@Override
+	public User existMobileUser(String mobile) {
+		
+		return userDao.existMobileUser(mobile);
+	}
+
+	@Override
+	public int updateUser(String nickname, String headimg, String id) {
+		
+		return userDao.updateUser(nickname, headimg, id);
+	}
+
+	
+
+	
+
 	
 	
 }

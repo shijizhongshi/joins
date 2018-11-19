@@ -1,7 +1,7 @@
 package com.ola.qh.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aliyun.oss.common.comm.ServiceClient.Request;
-import com.google.zxing.Result;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -28,9 +27,33 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 
+	@RequestMapping(value = "/existMobile", method = RequestMethod.GET)
+	public Results<User> existMobileUser(@RequestParam(name = "mobile", required = true) String mobile) {
+
+		Results<User> results = new Results<User>();
+
+		User existMobile = userService.existMobileUser(mobile);
+		if (existMobile == null) {
+
+			results.setStatus("0");
+			return results;
+		}
+		results.setStatus("1");
+		results.setMessage("手机号重复");
+		return results;
+	}
+
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Results<String> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
 		Results<String> result = new Results<String>();
+
+		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
+		pattern.matcher(user.getMobile()).matches();
+		if (!pattern.matcher(user.getMobile()).matches()) {
+			result.setStatus("1");
+			result.setMessage("手机号格式有误");
+			return result;
+		}
 
 		if (valid.hasErrors()) {
 			result.setMessage("注册信息填写不完整,请检查");
@@ -41,21 +64,25 @@ public class UserController {
 		String verification = request.getSession().getAttribute(user.getMobile()).toString();
 		if (verification.equals(user.getVerification())) {
 
-			user.setAddtime(new Date());
-			user.setId(KeyGen.uuid());
+			User existMobile = userService.existMobileUser(user.getMobile());
 
-			int num = userService.saveUsers(user);
-			if (num > 0) {
-				result.setStatus("0");
+			if (existMobile == null) {
+				user.setAddtime(new Date());
+				user.setId(KeyGen.uuid());
+
+				int num = userService.saveUsers(user);
+				if (num > 0) {
+					result.setStatus("0");
+					return result;
+				}
+				result.setStatus("1");
+				result.setMessage("注册用户有误");
 				return result;
-
 			}
-
 			result.setStatus("1");
-			result.setMessage("注册用户有误");
+			result.setMessage("手机号已存在");
 			return result;
 		}
-
 		result.setStatus("1");
 		result.setMessage("验证码有误");
 		return result;
@@ -78,4 +105,22 @@ public class UserController {
 		results.setStatus("1");
 		return results;
 	}
+	
+	@RequestMapping(value = "/updateuser", method = RequestMethod.GET)
+	public Results<String> updateUser(@RequestParam(name = "nickname", required = true) String nickname,
+			@RequestParam(name = "headimg", required = true) String headimg,
+			@RequestParam(name = "id", required = true) String id) {
+
+		Results<String> results = new Results<String>();
+
+		int user = userService.updateUser(nickname, headimg, id);
+		if (user >0) {
+			results.setStatus("0");
+			return results;
+		}
+		results.setMessage("更改异常");
+		results.setStatus("1");
+		return results;
+	}
+	
 }

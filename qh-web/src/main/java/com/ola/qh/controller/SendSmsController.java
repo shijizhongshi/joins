@@ -2,16 +2,18 @@ package com.ola.qh.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.User;
 import com.ola.qh.service.ISendSmsService;
+import com.ola.qh.service.IUserService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.RBuilder;
 import com.ola.qh.util.Results;
 
@@ -30,6 +32,9 @@ public class SendSmsController {
 	@Autowired
 	private ISendSmsService sendSmsService;
 
+	@Autowired
+	private IUserService userService;
+
 	/**
 	 * 注册时发送手机号
 	 * 
@@ -37,15 +42,30 @@ public class SendSmsController {
 	 * @return
 	 */
 	@RequestMapping("/sendmobile")
-	public Results<String> sendSms(@RequestParam(required = true, name = "mobile") String mobile,HttpServletRequest request) {
+	public Results<String> sendSms(@RequestParam(required = true, name = "mobile") String mobile,
+			HttpServletRequest request) {
+
+		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
+		pattern.matcher(mobile).matches();
 
 		Results<String> result = new Results<String>();
-		Map<String, String> map = new HashMap<String, String>();
-		
-		///// map放code之外的参数
-		
-		return sendSmsCommon(mobile, "SMS_151231966", map,request);
-		
+
+		if (!pattern.matcher(mobile).matches()) {
+			result.setStatus("1");
+			result.setMessage("手机号格式有误");
+			return result;
+		}
+		User existMobile = userService.existMobileUser(mobile);
+		if (existMobile == null) {
+			Map<String, String> map = new HashMap<String, String>();
+
+			///// map放code之外的参数
+
+			return sendSmsCommon(mobile, "SMS_151231966", map, request);
+		}
+		result.setStatus("1");
+		result.setMessage("手机号已存在");
+		return result;
 	}
 
 	/**
@@ -56,13 +76,15 @@ public class SendSmsController {
 	 * @param map
 	 * @return
 	 */
-	public Results<String> sendSmsCommon(String mobile, String templateCode, Map<String, String> map,HttpServletRequest request) {
+	public Results<String> sendSmsCommon(String mobile, String templateCode, Map<String, String> map,
+			HttpServletRequest request) {
 
 		String code = new String(new RBuilder().length(4).hasletter(false).next());
 		map.put("code", code);
 		Results<String> result = sendSmsService.sendSms(mobile, templateCode, map);
 		request.getSession().setAttribute(mobile, code);
 		return result;
+
 	}
 
 }

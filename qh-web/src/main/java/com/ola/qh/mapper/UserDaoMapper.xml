@@ -21,4 +21,21 @@
 	<select id="loginUser"  resultType="com.ola.qh.entity.User">
 		select mobile,password from user where mobile=#{mobile} and password=#{password}
 	</select>
+	
+	<select id="existMobileUser" resultType="com.ola.qh.entity.User">
+		select * from user where mobile=#{mobile}
+	</select>
+	
+	<update id="updateUser" parameterType="com.ola.qh.entity.User" >
+		update user set 
+		<if test="headimg!=null">
+		nickname=#{nickname},
+		</if>
+		<if test="headimg!=null">
+		head_img_url=#{headimg},
+		</if>
+		id=#{id} where id=#{id} 
+	</update>
+	
+	
 </mapper>
