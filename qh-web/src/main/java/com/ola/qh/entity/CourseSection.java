@@ -14,6 +14,8 @@ public class CourseSection {
 
 	private String id;
 	
+	private String courseChapterId;//////一章多个节
+	
 	private String sectionName;
 	
 	private int isshow;
@@ -71,6 +73,15 @@ public class CourseSection {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
+
+	public String getCourseChapterId() {
+		return courseChapterId;
+	}
+
+	public void setCourseChapterId(String courseChapterId) {
+		this.courseChapterId = courseChapterId;
+	}
+
 	
 	
 }

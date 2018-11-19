@@ -29,7 +29,7 @@ public class Course {
 	
 	private String courseShow;////课程是否展示
 	
-	private String courseExcellent;///是否是优秀课程
+	private int courseExcellent;///是否是优秀课程
 	
 	private String courseResourceType;/////课程资源类别
 	
@@ -40,6 +40,10 @@ public class Course {
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private int pageNo;////分页用的
+	
+	private int pageSize;
 
 	public String getCourseName() {
 		return courseName;
@@ -104,12 +108,11 @@ public class Course {
 	public void setCourseShow(String courseShow) {
 		this.courseShow = courseShow;
 	}
-
-	public String getCourseExcellent() {
+	public int getCourseExcellent() {
 		return courseExcellent;
 	}
 
-	public void setCourseExcellent(String courseExcellent) {
+	public void setCourseExcellent(int courseExcellent) {
 		this.courseExcellent = courseExcellent;
 	}
 
@@ -160,5 +163,23 @@ public class Course {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	
+	
 	
 }

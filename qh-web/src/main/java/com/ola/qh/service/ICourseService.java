@@ -1,4 +1,4 @@
-package com.ola.qh.dao;
+package com.ola.qh.service;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
-public interface CourseDao {
+
+public interface ICourseService {
 
 	public List<CourseType> courseTypeList();
 	
