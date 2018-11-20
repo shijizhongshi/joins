@@ -2,9 +2,9 @@
 <!DOCTYPE mapper 
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ola.qh.dao.UserbookDao">
+<mapper namespace="com.ola.qh.dao.UserBookDao">
 
-	<resultMap type="com.ola.qh.entity.Userbook" id="UserbookMap">
+	<resultMap type="com.ola.qh.entity.UserBook" id="UserBookMap">
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="accountMoney" property="accountMoney" />
@@ -12,13 +12,13 @@
 		<result column="updatetime" property="updatetime" />
 	</resultMap>
 
-	<select id="selectUserbook" resultType="com.ola.qh.entity.Userbook">
+	<select id="selectUserBook" resultType="com.ola.qh.entity.UserBook">
 		select user_id,accountMoney from user_book where user_id=#{userId}
 	</select>
-	<insert id="saveUserbook" parameterType="com.ola.qh.entity.Userbook">
+	<insert id="saveUserBook" parameterType="com.ola.qh.entity.UserBook">
 		insert into user_book(id,user_id,accountMoney,addtime) values(#{id},#{userId},#{accountMoney},#{addtime})
 	</insert>
-	<update id="updateUserbook" parameterType="com.ola.qh.entity.Userbook">
+	<update id="updateUserBook" parameterType="com.ola.qh.entity.UserBook">
 		update user_book set accountMoney=#{accountMoney},updatetime=#{updatetime} where user_id=#{userId}
 	</update>
 

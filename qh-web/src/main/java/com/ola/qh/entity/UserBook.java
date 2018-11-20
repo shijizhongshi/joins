@@ -2,16 +2,16 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
-public class Userbook {
+public class UserBook {
 
 	private String id;
-	
+
 	private String userId;
-	
+
 	private int accountMoney;
-	
+
 	private Date addtime;
-	
+
 	private Date updatetime;
 
 	public String getId() {
@@ -53,6 +53,5 @@ public class Userbook {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
-	
-	
+
 }

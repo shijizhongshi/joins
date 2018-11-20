@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.UserDao;
-import com.ola.qh.dao.UserbookDao;
+import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.entity.User;
-import com.ola.qh.entity.Userbook;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
@@ -22,7 +22,7 @@ public class UserService implements IUserService{
 	@Autowired
 	private UserDao userDao;
 	@Autowired
-	private UserbookDao userbookDao;
+	private UserBookDao userbookDao;
 	
 	@Transactional
 	@Override
@@ -48,12 +48,12 @@ public class UserService implements IUserService{
 					users.setId(user.getId());
 					users.setMobile(user.getMobile());
 					
-					Userbook userbook=new Userbook();
+					UserBook userbook=new UserBook();
 					userbook.setId(KeyGen.uuid());
 					userbook.setUserId(user.getId());
 					userbook.setAddtime(new Date());
 					
-					userbookDao.saveUserbook(userbook);
+					userbookDao.saveUserBook(userbook);
 					result.setData(users);
 					result.setStatus("0");
 					return result;
