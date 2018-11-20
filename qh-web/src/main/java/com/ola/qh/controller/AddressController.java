@@ -61,14 +61,13 @@ public class AddressController {
 		address.setAddtime(new Date());
 		int save = addressService.saveAddress(address);
 
-		if (save > 0) {
-			results.setStatus("0");
+		if (save <= 0) {
+			results.setMessage("添加失败");
+			results.setStatus("1");
 			return results;
 		}
-		results.setMessage("添加失败");
-		results.setStatus("1");
+		results.setStatus("0");
 		return results;
-
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -87,12 +86,12 @@ public class AddressController {
 		address.setUpdatetime(new Date());
 		int update = addressService.updateAddress(address);
 
-		if (update > 0) {
-			results.setStatus("0");
+		if (update <= 0) {
+			results.setMessage("修改失败");
+			results.setStatus("1");
 			return results;
 		}
-		results.setMessage("修改失败");
-		results.setStatus("1");
+		results.setStatus("0");
 		return results;
 	}
 
@@ -102,13 +101,13 @@ public class AddressController {
 		Results<String> results = new Results<String>();
 
 		int delete = addressService.deleteAddress(id);
-		if (delete > 0) {
-			results.setStatus("0");
+		if (delete <= 0) {
+			results.setMessage("删除失败");
+			results.setStatus("1");
 			return results;
 		}
-		results.setMessage("删除失败");
-		results.setStatus("1");
+		results.setStatus("0");
 		return results;
-
 	}
+
 }
