@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.sun.istack.NotNull;
+
 public class User {
 
 	private String id;
@@ -24,6 +26,18 @@ public class User {
 	
 	@NotEmpty(message="手机号不能为空")
 	private String mobile;
+	
+	@NotEmpty(message = "设备名称不能为空")
+	private String deviceName;
+	
+	@NotEmpty(message = "设备ID不能为空")
+	private String deviceId;
+	
+	@NotEmpty(message = "设备编号不能为空")
+	private String deviceToken;
+	
+	@NotNull
+	private int deviceType;
 	
 	public String getId() {
 		return id;
@@ -87,6 +101,38 @@ public class User {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+
+	public int getDeviceType() {
+		return deviceType;
+	}
+
+	public void setDeviceType(int deviceType) {
+		this.deviceType = deviceType;
 	}
 	
 	

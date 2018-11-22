@@ -12,7 +12,6 @@ public interface UserDao {
 	
 	public User existMobileUser(@Param("mobile")String mobile);
 	
-	public int updateUser(@Param("nickname")String nickname,@Param("headimg")String headimg,@Param("id")String id);
-	
+	public int updateUser(User user);
 	
 }

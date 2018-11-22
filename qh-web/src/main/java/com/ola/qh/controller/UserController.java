@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-
+/**
+ * 
+ * 
+* @ClassName: 
+* @Description:  用户的注册，用户信息的修改与验证码识别
+* @author guozihan
+* @date   
+*
+ */
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -61,32 +71,19 @@ public class UserController {
 		return userService.saveUsers(user, request);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public Results<User> loginUser(@RequestParam(name = "mobile", required = true) String mobile,
-			@RequestParam(name = "password", required = true) String password) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin,BindingResult valid) {
 
-		Results<User> results = new Results<User>();
-
-		User user = userService.loginUser(mobile, password);
-		if (user == null) {
-			results.setMessage("用户名或密码错误");
-			results.setStatus("1");
-			return results;
-		}
-		results.setStatus("0");
-		results.setData(user);
-		return results;
+		return userService.loginUser(userlogin);
 	}
 
-	@RequestMapping(value = "/updateuser", method = RequestMethod.GET)
-	public Results<String> updateUser(@RequestParam(name = "nickname", required = true) String nickname,
-			@RequestParam(name = "headimg", required = true) String headimg,
-			@RequestParam(name = "id", required = true) String id) {
+	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
+	public Results<String> updateUser(@RequestBody User user) {
 
 		Results<String> results = new Results<String>();
 
-		int user = userService.updateUser(nickname, headimg, id);
-		if (user <= 0) {
+		int users = userService.updateUser(user);
+		if (users <= 0) {
 			results.setMessage("更改异常");
 			results.setStatus("1");
 			return results;
