@@ -1,6 +1,6 @@
 package com.ola.qh.controller;
 
-import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
-import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-
+/**
+ * 
+ * 
+* @ClassName: 
+* @Description:  用户的注册，用户信息的修改与验证码识别
+* @author guozihan
+* @date   
+*
+ */
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -33,19 +41,19 @@ public class UserController {
 		Results<User> results = new Results<User>();
 
 		User existMobile = userService.existMobileUser(mobile);
-		if (existMobile == null) {
-
-			results.setStatus("0");
+		if (existMobile != null) {
+			results.setStatus("1");
+			results.setMessage("手机号重复");
 			return results;
 		}
-		results.setStatus("1");
-		results.setMessage("手机号重复");
+
+		results.setStatus("0");
 		return results;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Results<String> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
-		Results<String> result = new Results<String>();
+	public Results<User> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
+		Results<User> result = new Results<User>();
 
 		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
 		pattern.matcher(user.getMobile()).matches();
@@ -60,67 +68,28 @@ public class UserController {
 			result.setStatus("1");
 			return result;
 		}
-
-		String verification = request.getSession().getAttribute(user.getMobile()).toString();
-		if (verification.equals(user.getVerification())) {
-
-			User existMobile = userService.existMobileUser(user.getMobile());
-
-			if (existMobile == null) {
-				user.setAddtime(new Date());
-				user.setId(KeyGen.uuid());
-
-				int num = userService.saveUsers(user);
-				if (num > 0) {
-					result.setStatus("0");
-					return result;
-				}
-				result.setStatus("1");
-				result.setMessage("注册用户有误");
-				return result;
-			}
-			result.setStatus("1");
-			result.setMessage("手机号已存在");
-			return result;
-		}
-		result.setStatus("1");
-		result.setMessage("验证码有误");
-		return result;
-
+		return userService.saveUsers(user, request);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public Results<User> loginUser(@RequestParam(name = "mobile", required = true) String mobile,
-			@RequestParam(name = "password", required = true) String password) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin,BindingResult valid) {
 
-		Results<User> results = new Results<User>();
-
-		User user = userService.loginUser(mobile, password);
-		if (user != null) {
-			results.setStatus("0");
-			results.setData(user);
-			return results;
-		}
-		results.setMessage("用户名或密码错误");
-		results.setStatus("1");
-		return results;
+		return userService.loginUser(userlogin);
 	}
-	
-	@RequestMapping(value = "/updateuser", method = RequestMethod.GET)
-	public Results<String> updateUser(@RequestParam(name = "nickname", required = true) String nickname,
-			@RequestParam(name = "headimg", required = true) String headimg,
-			@RequestParam(name = "id", required = true) String id) {
+
+	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
+	public Results<String> updateUser(@RequestBody User user) {
 
 		Results<String> results = new Results<String>();
 
-		int user = userService.updateUser(nickname, headimg, id);
-		if (user >0) {
-			results.setStatus("0");
+		int users = userService.updateUser(user);
+		if (users <= 0) {
+			results.setMessage("更改异常");
+			results.setStatus("1");
 			return results;
 		}
-		results.setMessage("更改异常");
-		results.setStatus("1");
+		results.setStatus("0");
 		return results;
 	}
-	
+
 }

@@ -19,7 +19,7 @@
 	</insert>
 	
 	<select id="loginUser"  resultType="com.ola.qh.entity.User">
-		select mobile,password from user where mobile=#{mobile} and password=#{password}
+		select mobile,nickname,head_img_url,addtime,userrole from user where mobile=#{mobile} and password=#{password}
 	</select>
 	
 	<select id="existMobileUser" resultType="com.ola.qh.entity.User">
@@ -28,7 +28,7 @@
 	
 	<update id="updateUser" parameterType="com.ola.qh.entity.User" >
 		update user set 
-		<if test="headimg!=null">
+		<if test="nickname!=null">
 		nickname=#{nickname},
 		</if>
 		<if test="headimg!=null">

@@ -24,16 +24,16 @@
 	
 	<update id="updateAddress" parameterType="com.ola.qh.entity.Address" >
 		update address set 
-		<if test="receiver">
+		<if test="receiver!=null">
 		receiver=#{receiver},
 		</if>
-		<if test="mobile">
+		<if test="mobile!=null">
 		mobile=#{mobile},
 		</if>
-		<if test="address">
+		<if test="address!=null">
 		address=#{address},
 		</if>
-		<if test="sex">
+		<if test="sex!=null">
 		sex=#{sex},
 		</if>
 		updatetime=#{updatetime} where id=#{id} 
