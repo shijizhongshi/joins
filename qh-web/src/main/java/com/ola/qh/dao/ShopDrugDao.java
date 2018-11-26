@@ -10,10 +10,13 @@ public interface ShopDrugDao {
 	
 	public int insertDrug(ShopDrug shopDrug);
 	
-	public int updateDrug();
+	public int updateDrug(ShopDrug shopDrug);
 	
 	public ShopDrug selectById(String drugId);
 	
-	public List<ShopDrug> selectDrugList(@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<ShopDrug> selectDrugList(
+			@Param("shopId") String shopId,
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize);
 
 }

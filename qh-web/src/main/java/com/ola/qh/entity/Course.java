@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 /**
  * 
@@ -21,9 +22,9 @@ public class Course {
 	
 	private String courseChapterSize;////课程的章节数
 	
-	private String coursePrice;////课程的价格
+	private BigDecimal coursePrice;////课程的价格
 	
-	private String courseDiscountPrice;////课程折扣价格
+	private BigDecimal courseDiscountPrice;////课程折扣价格
 	
 	private String courseYear;////课程年限
 	
@@ -77,19 +78,20 @@ public class Course {
 		this.courseChapterSize = courseChapterSize;
 	}
 
-	public String getCoursePrice() {
+
+	public BigDecimal getCoursePrice() {
 		return coursePrice;
 	}
 
-	public void setCoursePrice(String coursePrice) {
+	public void setCoursePrice(BigDecimal coursePrice) {
 		this.coursePrice = coursePrice;
 	}
 
-	public String getCourseDiscountPrice() {
+	public BigDecimal getCourseDiscountPrice() {
 		return courseDiscountPrice;
 	}
 
-	public void setCourseDiscountPrice(String courseDiscountPrice) {
+	public void setCourseDiscountPrice(BigDecimal courseDiscountPrice) {
 		this.courseDiscountPrice = courseDiscountPrice;
 	}
 

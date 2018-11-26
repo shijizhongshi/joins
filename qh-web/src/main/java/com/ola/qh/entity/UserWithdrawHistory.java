@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,7 +14,7 @@ public class UserWithdrawHistory {
 	
 	private String withdrawTypes;
 	
-	private double money;
+	private BigDecimal money;
 	
 	private int payStatus;
 	
@@ -47,11 +48,12 @@ public class UserWithdrawHistory {
 		this.withdrawTypes = withdrawTypes;
 	}
 
-	public double getMoney() {
+	
+	public BigDecimal getMoney() {
 		return money;
 	}
 
-	public void setMoney(double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 

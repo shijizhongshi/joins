@@ -156,6 +156,9 @@
 	<select id="selectDrugList" resultMap="ShopDrugMap">
 	select <include refid="sql_base"></include>,img_url from shop_drug 
 	where 1=1
+	<if test="shopId!=null">
+	and shop_id=#{shopId}
+	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>

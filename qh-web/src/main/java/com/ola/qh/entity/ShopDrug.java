@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,11 +25,11 @@ public class ShopDrug {
 	@NotEmpty(message="药品规格不能为空")
 	private String specification;////药品规格
 	@NotNull
-	private double originalPrice;////原价
+	private BigDecimal originalPrice;////原价
 	
-	private double discountPrice;///折扣价
+	private BigDecimal discountPrice;///折扣价
 	@NotNull
-	private double price;////原价
+	private BigDecimal price;////原价
 	
 	private String drugDetail;///
 	
@@ -133,27 +134,28 @@ public class ShopDrug {
 		this.specification = specification;
 	}
 
-	public double getOriginalPrice() {
+	
+	public BigDecimal getOriginalPrice() {
 		return originalPrice;
 	}
 
-	public void setOriginalPrice(double originalPrice) {
+	public void setOriginalPrice(BigDecimal originalPrice) {
 		this.originalPrice = originalPrice;
 	}
 
-	public double getDiscountPrice() {
+	public BigDecimal getDiscountPrice() {
 		return discountPrice;
 	}
 
-	public void setDiscountPrice(double discountPrice) {
+	public void setDiscountPrice(BigDecimal discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

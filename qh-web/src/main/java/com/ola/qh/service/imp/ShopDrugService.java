@@ -1,6 +1,7 @@
 package com.ola.qh.service.imp;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,21 +77,85 @@ public class ShopDrugService implements IShopDrugService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Results<String> updateDrug(ShopDrug shopDrug) {
 		Results<String> result = new Results<String>();
+		if(shopDrug.getId()==null || "".equals(shopDrug.getId())){
+			result.setStatus("1");
+			result.setMessage("修改对象的id不能为空");
+			return result;
+		}
+		try {
+			shopDrugDao.updateDrug(shopDrug);
+			/////参数传过来的图片集合
+			List<ShopDrugImg> imglist = shopDrug.getImgList();
+			/////数据库中的图片集合
+			List<ShopDrugImg> originalimgList = shopDrugImgDao.listDrugImg(shopDrug.getId());
+			
+			for(int i=0;i<originalimgList.size();i++){
+				int j=0;
+				for(;j<imglist.size();j++){
+					if(originalimgList.get(i).getId().equals(imglist.get(j).getId())){
+						///////说明这个id的图片没有被删除
+						break;
+					}
+				}
+				if(j==imglist.size()){
+					shopDrugImgDao.deleteDrugImg(originalimgList.get(i).getId());
+				}
+			}
+			for (int j = 0; j < imglist.size(); j++){
+				if (imglist.get(j).getId() == null || "".equals(imglist.get(j).getId()))
+				{
+					///////说明是新增的图片没有id
+					imglist.get(j).setDrugId(imglist.get(j).getId());
+					imglist.get(j).setId(KeyGen.uuid());
+					imglist.get(j).setAddtime(new Date());
+					shopDrugImgDao.insertDrugImg(imglist.get(j));
+				}
+		    }
+			result.setStatus("0");
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result.setStatus("1");
+			result.setMessage("更新失败");
+			return result;
+		}
+	}
+
+	@Override
+	public Results<ShopDrug> selectById(String drugId) {
+		Results<ShopDrug> result = new Results<ShopDrug>();
+		ShopDrug sd = shopDrugDao.selectById(drugId);
+		List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(drugId);
+		sd.setImgList(listimg);
+		result.setData(sd);
+		result.setStatus("0");
 		return result;
 	}
 
 	@Override
-	public ShopDrug selectById(String drugId) {
+	/**
+	 * 药品的集合~~~
+	 * <p>Title: selectDrugList</p>  
+	 * <p>Description: </p>  
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ShopDrug> selectDrugList(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		Results<List<ShopDrug>> result = new Results<List<ShopDrug>>();
+		List<ShopDrug> list = shopDrugDao.selectDrugList(shopId,pageNo, pageSize);
+		for(int i=0;i<list.size();i++){
+			List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(list.get(i).getId());
+			list.get(i).setImgList(listimg);
+		}
+		result.setData(list);
+		result.setStatus("0");
+		return result;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserBook {
@@ -8,7 +9,7 @@ public class UserBook {
 
 	private String userId;
 
-	private int accountMoney;
+	private BigDecimal accountMoney;
 
 	private Date addtime;
 
@@ -30,11 +31,11 @@ public class UserBook {
 		this.userId = userId;
 	}
 
-	public int getAccountMoney() {
+	public BigDecimal getAccountMoney() {
 		return accountMoney;
 	}
 
-	public void setAccountMoney(int accountMoney) {
+	public void setAccountMoney(BigDecimal accountMoney) {
 		this.accountMoney = accountMoney;
 	}
 

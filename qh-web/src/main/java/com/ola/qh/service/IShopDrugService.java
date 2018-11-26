@@ -13,7 +13,7 @@ public interface IShopDrugService {
 	
 	public Results<String> updateDrug(ShopDrug shopDrug);
 	
-	public ShopDrug selectById(String drugId);
+	public Results<ShopDrug> selectById(String drugId);
 	
-	public List<ShopDrug> selectDrugList(int pageNo,int pageSize);
+	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo,int pageSize);
 }

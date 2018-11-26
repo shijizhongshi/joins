@@ -17,4 +17,8 @@
 	<select id="listDrugImg" resultMap="ShopDrugImgMap">
 	select id,img_url from shop_drug_img where drug_id=#{drugId}
 	</select>
+	
+	<delete id="deleteDrugImg" parameterType="String">
+	delete from shop_drug_img where id=#{id}
+	</delete>
 </mapper>

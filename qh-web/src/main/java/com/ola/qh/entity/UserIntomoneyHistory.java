@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserIntomoneyHistory {
@@ -8,7 +9,7 @@ public class UserIntomoneyHistory {
 	
 	private String userId;
 	
-	private int money;
+	private BigDecimal money;
 	
 	private int intoStatus;
 	
@@ -25,14 +26,11 @@ public class UserIntomoneyHistory {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-
-
-	public int getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
 
-	public void setMoney(int money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 

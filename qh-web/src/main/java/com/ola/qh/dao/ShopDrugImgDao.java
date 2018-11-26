@@ -10,4 +10,6 @@ public interface ShopDrugImgDao {
 	
 	public List<ShopDrugImg> listDrugImg(String drugId);
 	
+	public int deleteDrugImg(String id);
+	
 }
