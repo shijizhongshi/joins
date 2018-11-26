@@ -1,25 +1,33 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class ShopDrug {
 	
 	private String id;
-	
+	@NotEmpty(message="用户的id不能为空")
 	private String userId;
-	
+	@NotEmpty(message="店铺的id不能为空")
 	private String shopId;
-	
+	@NotEmpty(message="药品名称不能为空")
 	private String drugName;////药品名称
-	
+	@NotEmpty(message="治疗功能不能为空")
 	private String healingPowers;//////治疗功能
-	
+	@NotEmpty(message="药品规格不能为空")
 	private String specification;////药品规格
-	
+	@NotNull
 	private double originalPrice;////原价
 	
 	private double discountPrice;///折扣价
-	
+	@NotNull
 	private double price;////原价
 	
 	private String drugDetail;///
@@ -71,6 +79,10 @@ public class ShopDrug {
 	private Date addtime;
 	
 	private Date updatetime;
+	@Valid
+	@NotNull
+	@Size(min=1)
+	private List<ShopDrugImg> imgList=new ArrayList<ShopDrugImg>();
 	
 
 	public String getId() {
@@ -343,6 +355,14 @@ public class ShopDrug {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public List<ShopDrugImg> getImgList() {
+		return imgList;
+	}
+
+	public void setImgList(List<ShopDrugImg> imgList) {
+		this.imgList = imgList;
 	}
 	
 	

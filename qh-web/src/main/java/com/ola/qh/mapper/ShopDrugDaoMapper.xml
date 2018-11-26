@@ -54,8 +54,7 @@
 	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime})
 	</insert>
 	
-	
-	<update id="updateDrug">
+	<update id="updateDrug" parameterType="com.ola.qh.entity.ShopDrug">
 	update shop_drug set 
 	<if test="drugName!=null">
 	drug_name=#{drugName},
@@ -155,7 +154,7 @@
 	
 	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~-->
 	<select id="selectDrugList" resultMap="ShopDrugMap">
-	select <include refid="sql_base"></include> from shop_drug 
+	select <include refid="sql_base"></include>,img_url from shop_drug 
 	where 1=1
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

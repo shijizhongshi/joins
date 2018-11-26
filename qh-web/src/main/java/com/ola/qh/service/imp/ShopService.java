@@ -49,7 +49,7 @@ public class ShopService implements IShopService{
 	}
 
 	@Override
-	public List<Shop> selectShopByUserId(String userId) {
+	public List<Shop> selectShopByUserId(String userId){
 		// TODO Auto-generated method stub
 		return shopDao.selectShopByUserId(userId);
 	}
