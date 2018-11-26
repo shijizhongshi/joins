@@ -70,7 +70,7 @@ public class UserService implements IUserService{
 					userbookDao.saveUserBook(userbook);
 					
 					UserLogin userlogin=new UserLogin();
-					userlogin.setId("u9j_23GtRl6SaIOTjnsOlw");
+					userlogin.setId(KeyGen.uuid());
 					userlogin.setUserId(user.getId());
 					userlogin.setAddtime(new Date());
 					userloginDao.saveUserLogin(userlogin);
