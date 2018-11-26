@@ -39,7 +39,7 @@ public class UserService implements IUserService{
 	private UserLoginDao userloginDao;
 	
 	
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<User> saveUsers(User user,HttpServletRequest request) {
 		
@@ -70,7 +70,7 @@ public class UserService implements IUserService{
 					userbookDao.saveUserBook(userbook);
 					
 					UserLogin userlogin=new UserLogin();
-					userlogin.setId(KeyGen.uuid());
+					userlogin.setId("u9j_23GtRl6SaIOTjnsOlw");
 					userlogin.setUserId(user.getId());
 					userlogin.setAddtime(new Date());
 					userloginDao.saveUserLogin(userlogin);
