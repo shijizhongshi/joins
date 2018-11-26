@@ -59,6 +59,7 @@ public class UserService implements IUserService{
 					user.setAddtime(new Date());
 					user.setId(KeyGen.uuid());
 					userDao.saveUser(user);
+					userDao.loginUser(user.getMobile(), user.getPassword());
 					
 					users.setId(user.getId());
 					users.setMobile(user.getMobile());
@@ -74,7 +75,6 @@ public class UserService implements IUserService{
 					userlogin.setUserId(user.getId());
 					userlogin.setAddtime(new Date());
 					userloginDao.saveUserLogin(userlogin);
-					
 					
 					result.setData(users);
 					result.setStatus("0");

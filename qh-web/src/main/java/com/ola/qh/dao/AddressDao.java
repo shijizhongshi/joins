@@ -8,7 +8,7 @@ import com.ola.qh.entity.Address;
 
 public interface AddressDao {
 
-	public List<Address> selectAddress(String userId);
+	public List<Address> selectAddress(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 	
 	public int saveAddress(Address address);
 	

@@ -28,13 +28,16 @@ public class AddressController {
 	private IAddressService addressService;
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<Address>> selectAddress(@RequestParam(name = "userId", required = true) String userId) {
+	public Results<List<Address>> selectAddress(@RequestParam(name = "userId", required = true) String userId,
+			@RequestParam(name = "page", required = true) int page) {
 
 		Results<List<Address>> results = new Results<List<Address>>();
 
-		List<Address> list = addressService.selectAddress(userId);
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		List<Address> list = addressService.selectAddress(userId, pageNo, pageSize);
 
-		results.setData(addressService.selectAddress(userId));
+		results.setData(list);
 		results.setStatus("0");
 		return results;
 	}

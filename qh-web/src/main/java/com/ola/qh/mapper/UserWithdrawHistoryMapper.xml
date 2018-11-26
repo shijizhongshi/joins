@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserWithdrawHistoryDao">
+	<resultMap type="com.ola.qh.entity.UserWithdrawHistory"  id="UserWithdrawHistoryMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="withdraw_types" property="withdrawTypes" />
+		<result column="money" property="money" />
+		<result column="pay_status" property="payStatus" />
+		<result column="pay_message" property="payMessage" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		
+	</resultMap>
+
+
+	<select id="selectUserWithdrawHistory"  resultMap="UserWithdrawHistoryMap">
+		select withdraw_types,money,pay_status,pay_message from user_withdraw_history where user_id=#{userId} order by addtime desc limit #{pageNo},#{pageSize}
+	</select>
+	
+	<insert id="saveUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
+	 	insert into user_withdraw_history(id,user_id,withdraw_types,money,addtime) values(#{id},#{userId},#{withdrawTypes},#{money},#{addtime})
+	</insert>
+	
+	<delete id="deleteUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
+		delete from user_withdraw_history where id=#{id}
+	</delete>
+	
+</mapper>

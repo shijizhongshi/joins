@@ -37,5 +37,12 @@
 		id=#{id} where id=#{id} 
 	</update>
 	
+	<update id="updateUserPassword" parameterType="com.ola.qh.entity.User" >
+		update user set 
+		<if test="password!=null">
+		password=#{password},
+		</if>
+		id=#{id} where id=#{id} 
+	</update>
 	
 </mapper>
