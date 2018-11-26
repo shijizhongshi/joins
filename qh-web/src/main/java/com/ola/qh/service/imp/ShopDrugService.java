@@ -66,6 +66,7 @@ public class ShopDrugService implements IShopDrugService {
 			shopDrug.setId(id);
 			shopDrug.setAddtime(new Date());
 			shopDrugDao.insertDrug(shopDrug);
+			result.setStatus("0");
 			return result;
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -108,7 +109,7 @@ public class ShopDrugService implements IShopDrugService {
 				if (imglist.get(j).getId() == null || "".equals(imglist.get(j).getId()))
 				{
 					///////说明是新增的图片没有id
-					imglist.get(j).setDrugId(imglist.get(j).getId());
+					imglist.get(j).setDrugId(shopDrug.getId());
 					imglist.get(j).setId(KeyGen.uuid());
 					imglist.get(j).setAddtime(new Date());
 					shopDrugImgDao.insertDrugImg(imglist.get(j));
@@ -145,10 +146,10 @@ public class ShopDrugService implements IShopDrugService {
 	 * @param pageSize
 	 * @return
 	 */
-	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo, int pageSize) {
+	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo, int pageSize,int ishot) {
 		// TODO Auto-generated method stub
 		Results<List<ShopDrug>> result = new Results<List<ShopDrug>>();
-		List<ShopDrug> list = shopDrugDao.selectDrugList(shopId,pageNo, pageSize);
+		List<ShopDrug> list = shopDrugDao.selectDrugList(shopId,pageNo, pageSize,ishot);
 		for(int i=0;i<list.size();i++){
 			List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(list.get(i).getId());
 			list.get(i).setImgList(listimg);

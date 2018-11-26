@@ -27,7 +27,7 @@
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>
-		<if test="id!=null">
+		<if test="userId!=null">
 		and id=#{userId}
 		</if>
 	</select>

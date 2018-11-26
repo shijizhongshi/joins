@@ -20,11 +20,11 @@
 	<result column="drug_sign" property="drugSign"/>
 	<result column="approval_number" property="approvalNumber"/>
 	<result column="period_validity" property="periodValidity"/>
-	<result column="storage" property="storage"/>
+	<result column="storages" property="storages"/>
 	<result column="units" property="units"/>
 	<result column="proper_people" property="properPeople"/>
 	<result column="elements" property="elements"/>
-	<result column="character" property="character"/>
+	<result column="characters" property="characters"/>
 	<result column="packagings" property="packagings"/>
 	<result column="indication" property="indication"/>
 	<result column="dosage" property="dosage"/>
@@ -45,12 +45,12 @@
 	</sql>
 	<insert id="insertDrug" parameterType="com.ola.qh.entity.ShopDrug">
 	insert into shop_drug(<include refid="sql_base"></include>,specification_params,product_name,
-	manufacturer,drug_sign,approval_number,period_validity,storage,units,proper_people,elements,
-	character,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
+	manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
+	characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
 	drug_action,shap_code,friendly_hint,img_url,addtime)values(#{id},#{userId},#{shopId},#{drugName},
 	#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{specificationParams},
-	#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storage},#{units},#{properPeople},
-	#{elements},#{character},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
+	#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},
+	#{elements},#{characters},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
 	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime})
 	</insert>
 	
@@ -95,8 +95,8 @@
 	<if test="periodValidity!=null">
 	period_validity=#{periodValidity},
 	</if>
-	<if test="storage!=null">
-	storage=#{storage},
+	<if test="storages!=null">
+	storages=#{storages},
 	</if>
 	<if test="units!=null">
 	units=#{units},
@@ -107,8 +107,8 @@
 	<if test="elements!=null">
 	elements=#{elements},
 	</if>
-	<if test="character!=null">
-	character=#{character},
+	<if test="characters!=null">
+	characters=#{characters},
 	</if>
 	<if test="packagings!=null">
 	packagings=#{packagings},
@@ -159,6 +159,14 @@
 	<if test="shopId!=null">
 	and shop_id=#{shopId}
 	</if>
+	<if test="shopId==null">
+	<!-- 如果status的状态的0的时候表示的是正常的 -->
+	and status=0
+	</if>
+	<if test="ishot!=0">
+	and ishot=#{ishot}
+	</if>
+	
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>

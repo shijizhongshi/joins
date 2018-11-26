@@ -15,5 +15,5 @@ public interface IShopDrugService {
 	
 	public Results<ShopDrug> selectById(String drugId);
 	
-	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo,int pageSize);
+	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo,int pageSize,int ishot);
 }

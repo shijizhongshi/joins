@@ -17,6 +17,7 @@ public interface ShopDrugDao {
 	public List<ShopDrug> selectDrugList(
 			@Param("shopId") String shopId,
 			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize);
+			@Param("pageSize")int pageSize,
+			@Param("ishot")int ishot);
 
 }

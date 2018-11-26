@@ -45,7 +45,7 @@ public class ShopDrug {
 	
 	private String periodValidity;////有效期
 	
-	private String storage;///存储
+	private String storages;///存储
 	
 	private String units;////单位
 	
@@ -53,7 +53,7 @@ public class ShopDrug {
 	
 	private String elements;////成分
 	
-	private String character;////性状
+	private String characters;////性状
 	
 	private String packagings;////包装
 	
@@ -84,6 +84,10 @@ public class ShopDrug {
 	@NotNull
 	@Size(min=1)
 	private List<ShopDrugImg> imgList=new ArrayList<ShopDrugImg>();
+	
+	private int status;////0:自动状态
+	
+	private int ishot;////1"首页的热卖
 	
 
 	public String getId() {
@@ -215,13 +219,6 @@ public class ShopDrug {
 		this.periodValidity = periodValidity;
 	}
 
-	public String getStorage() {
-		return storage;
-	}
-
-	public void setStorage(String storage) {
-		this.storage = storage;
-	}
 
 	public String getUnits() {
 		return units;
@@ -246,13 +243,21 @@ public class ShopDrug {
 	public void setElements(String elements) {
 		this.elements = elements;
 	}
-
-	public String getCharacter() {
-		return character;
+	
+	public String getStorages() {
+		return storages;
 	}
 
-	public void setCharacter(String character) {
-		this.character = character;
+	public void setStorages(String storages) {
+		this.storages = storages;
+	}
+
+	public String getCharacters() {
+		return characters;
+	}
+
+	public void setCharacters(String characters) {
+		this.characters = characters;
 	}
 
 	public String getPackagings() {
@@ -365,6 +370,22 @@ public class ShopDrug {
 
 	public void setImgList(List<ShopDrugImg> imgList) {
 		this.imgList = imgList;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getIshot() {
+		return ishot;
+	}
+
+	public void setIshot(int ishot) {
+		this.ishot = ishot;
 	}
 	
 	
