@@ -48,7 +48,7 @@ public class UserService implements IUserService{
 			String verification = request.getSession().getAttribute(user.getMobile()).toString();
 			if (verification.equals(user.getVerification())) {
 
-				User existMobile = userDao.existMobileUser(user.getMobile());
+				User existMobile = userDao.existUser(user.getMobile(),null);
 				User users=new User();
 				
 				if (existMobile!=null) {
@@ -124,7 +124,26 @@ public class UserService implements IUserService{
 	@Override
 	public User existMobileUser(String mobile) {
 		
-		return userDao.existMobileUser(mobile);
+		return userDao.existUser(mobile,null);
+		
+		
+	}
+	
+	
+	
+	@Override
+	public Results<String> existUser(String userId) {
+		
+		Results<String> result = new Results<String>();
+		User user = userDao.existUser(null,userId);
+		if(user!=null){
+			result.setStatus("0");
+			return result;
+		}
+		result.setStatus("1");
+		result.setMessage("这个用户不存在");
+		return result;
+		
 	}
 
 	@Override

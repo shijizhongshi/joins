@@ -14,4 +14,7 @@ public interface IUserService {
 	public User existMobileUser(String mobile);
 
 	public int updateUser(User user);
+	
+	public Results<String> existUser(String userId);
+	
 }

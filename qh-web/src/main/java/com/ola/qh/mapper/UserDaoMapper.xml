@@ -22,8 +22,14 @@
 		select mobile,nickname,head_img_url,addtime,userrole from user where mobile=#{mobile} and password=#{password}
 	</select>
 	
-	<select id="existMobileUser" resultType="com.ola.qh.entity.User">
-		select * from user where mobile=#{mobile}
+	<select id="existUser" resultType="com.ola.qh.entity.User">
+		select * from user where 1=1
+		<if test="mobile!=null">
+		mobile=#{mobile}
+		</if>
+		<if test="id!=null">
+		id=#{userId}
+		</if>
 	</select>
 	
 	<update id="updateUser" parameterType="com.ola.qh.entity.User" >

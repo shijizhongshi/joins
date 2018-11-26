@@ -72,7 +72,13 @@
 	</update>
 	
 	<select id="selectShopByUserId" resultMap="ShopMap">
-	select <include refid="sql_base"></include> from shop where user_id=#{userId}
+	select <include refid="sql_base"></include> from shop where 1=1
+	<if test="userId!=null">
+	user_id=#{userId}
+	</if>
+	<if test="shopId!=null">
+	id=#{shopId}
+	</if>
 	</select>
 	
 
