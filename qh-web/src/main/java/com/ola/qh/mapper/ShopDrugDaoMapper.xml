@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.ShopDrugDao">
+	<resultMap type="com.ola.qh.entity.ShopDrug" id="ShopDrugMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="shop_id" property="shopId"/>
+	<result column="drug_name" property="drugName"/>
+	<result column="healing_powers" property="healingPowers"/>
+	<result column="specification" property="specification"/>
+	<result column="original_price" property="originalPrice"/>
+	<result column="discount_price" property="discountPrice"/>
+	<result column="price" property="price"/>
+	<result column="drug_detail" property="drugDetail"/>
+	<result column="specification_params" property="specificationParams"/>
+	<result column="product_name" property="productName"/>
+	<result column="manufacturer" property="manufacturer"/>
+	<result column="drug_sign" property="drugSign"/>
+	<result column="approval_number" property="approvalNumber"/>
+	<result column="period_validity" property="periodValidity"/>
+	<result column="storage" property="storage"/>
+	<result column="units" property="units"/>
+	<result column="proper_people" property="properPeople"/>
+	<result column="elements" property="elements"/>
+	<result column="character" property="character"/>
+	<result column="packagings" property="packagings"/>
+	<result column="indication" property="indication"/>
+	<result column="dosage" property="dosage"/>
+	<result column="bad_symptom" property="badSymptom"/>
+	<result column="taboo" property="taboo"/>
+	<result column="attention_matter" property="attentionMatter"/>
+	<result column="drug_interactions" property="drugInteractions"/>
+	<result column="drug_action" property="drugAction"/>
+	<result column="shap_code" property="shapCode"/>
+	<result column="friendly_hint" property="friendlyHint"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap> 
+	
+	<sql id="sql_base">
+	id,user_id,shop_id,drug_name,healing_powers,specification,original_price,
+	discount_price,price,drug_detail
+	</sql>
+	<insert id="insertDrug" parameterType="com.ola.qh.entity.ShopDrug">
+	insert into shop_drug(<include refid="sql_base"></include>,specification_params,product_name,
+	manufacturer,drug_sign,approval_number,period_validity,storage,units,proper_people,elements,
+	character,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
+	drug_action,shap_code,friendly_hint,img_url,addtime)values(#{id},#{userId},#{shopId},#{drugName},
+	#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{specificationParams},
+	#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storage},#{units},#{properPeople},
+	#{elements},#{character},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
+	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime})
+	</insert>
+	
+	
+	<update id="updateDrug">
+	update shop_drug set 
+	<if test="drugName!=null">
+	drug_name=#{drugName},
+	</if>
+	<if test="healingPowers!=null">
+	healing_powers=#{healingPowers},
+	</if>
+	<if test="specification!=null">
+	specification=#{specification},
+	</if>
+	<if test="originalPrice>0">
+	original_price=#{originalPrice},
+	</if>
+	<if test="discountPrice>0">
+	discount_price=#{discountPrice},
+	</if>
+	<if test="price>0">
+	price=#{price},
+	</if>
+	<if test="drugDetail!=null">
+	drug_detail=#{drugDetail},
+	</if>
+	<if test="specificationParams!=null">
+	specification_params=#{specificationParams},
+	</if>
+	<if test="productName!=null">
+	product_name=#{productName},
+	</if>
+	<if test="manufacturer!=null">
+	manufacturer=#{manufacturer},
+	</if>
+	<if test="drugSign!=null">
+	drug_sign=#{drugSign},
+	</if>
+	<if test="approvalNumber!=null">
+	approval_number=#{approvalNumber},
+	</if>
+	<if test="periodValidity!=null">
+	period_validity=#{periodValidity},
+	</if>
+	<if test="storage!=null">
+	storage=#{storage},
+	</if>
+	<if test="units!=null">
+	units=#{units},
+	</if>
+	<if test="properPeople!=null">
+	proper_people=#{properPeople},
+	</if>
+	<if test="elements!=null">
+	elements=#{elements},
+	</if>
+	<if test="character!=null">
+	character=#{character},
+	</if>
+	<if test="packagings!=null">
+	packagings=#{packagings},
+	</if>
+	<if test="indication!=null">
+	indication=#{indication}
+	</if>
+	<if test="dosage!=null">
+	dosage=#{dosage}
+	</if>
+	<if test="badSymptom!=null">
+	bad_symptom=#{badSymptom},
+	</if>
+	<if test="taboo!=null">
+	taboo=#{taboo},
+	</if>
+	<if test="attentionMatter!=null">
+	attention_matter=#{attentionMatter},
+	</if>
+	<if test="drugInteractions!=null">
+	drug_interactions=#{drugInteractions},
+	</if>
+	<if test="drugAction!=null">
+	drug_action = #{drugAction},
+	</if>
+	<if test="shapCode!=null">
+	shap_code=#{shapCode},
+	</if>
+	<if test="friendlyHint!=null">
+	friendly_hint=#{friendlyHint},
+	</if>
+	<if test="imgUrl!=null">
+	img_url=#{imgUrl},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
+	
+	<!-- 通过产品的id查详情页 -->
+	<select id="selectById" resultType="com.ola.qh.entity.ShopDrug">
+	select <include refid="sql_base"></include> from shop_drug where id=#{id}
+	</select>
+	
+	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~-->
+	<select id="selectDrugList" resultMap="ShopDrugMap">
+	select <include refid="sql_base"></include> from shop_drug 
+	where 1=1
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+</mapper>

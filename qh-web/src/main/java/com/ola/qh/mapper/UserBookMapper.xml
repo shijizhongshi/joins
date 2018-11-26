@@ -7,19 +7,19 @@
 	<resultMap type="com.ola.qh.entity.UserBook" id="UserBookMap">
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
-		<result column="accountMoney" property="accountMoney" />
+		<result column="account_money" property="accountMoney" />
 		<result column="addtime" property="addtime" />
 		<result column="updatetime" property="updatetime" />
 	</resultMap>
 
 	<select id="selectUserBook" resultType="com.ola.qh.entity.UserBook">
-		select user_id,accountMoney from user_book where user_id=#{userId}
+		select user_id,account_money from user_book where user_id=#{userId}
 	</select>
 	<insert id="saveUserBook" parameterType="com.ola.qh.entity.UserBook">
-		insert into user_book(id,user_id,accountMoney,addtime) values(#{id},#{userId},#{accountMoney},#{addtime})
+		insert into user_book(id,user_id,account_money,addtime) values(#{id},#{userId},#{accountMoney},#{addtime})
 	</insert>
 	<update id="updateUserBook" parameterType="com.ola.qh.entity.UserBook">
-		update user_book set accountMoney=#{accountMoney},updatetime=#{updatetime} where user_id=#{userId}
+		update user_book set account_money=#{accountMoney},updatetime=#{updatetime} where user_id=#{userId}
 	</update>
 
 </mapper>

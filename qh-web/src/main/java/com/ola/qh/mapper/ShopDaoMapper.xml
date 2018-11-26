@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.ShopDao">
+
+	<resultMap type="com.ola.qh.entity.Shop" id="ShopMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="shop_type" property="shopType"/>
+	<result column="shop_name" property="shopName"/>
+	<result column="leader_name" property="leaderName"/>
+	<result column="leader_mobile" property="leaderMobile"/>
+	<result column="address" property="address"/>
+	<result column="business_license_url" property="businessLicenseUrl"/>
+	<result column="license_status_url" property="licenseStatusUrl"/>
+	<result column="door_head_url" property="doorHeadUrl"/>
+	<result column="business_environment_url" property="businessEnvironmentUrl"/>
+	<result column="shop_logo" property="shopLogo"/>
+	<result column="licence_url" property="licenceUrl"/>
+	<result column="islimits" property="islimits"/>
+	<result column="addtime" property="addtime"/>
+	<result column="updatetime" property="updatetime"/>
+	
+	</resultMap>
+
+	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
+	license_status_url,door_head_url,business_environment_url,shop_logo,licence_url,islimits,addtime
+	</sql>
+	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
+	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
+	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{licenseStatusUrl},#{doorHeadUrl},
+	#{businessEnvironmentUrl},#{shopLogo},#{licenceUrl},#{islimits},#{addtime})
+	</insert>
+	
+	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
+	update shop set 
+	<if test="shopType!=0">
+	shop_type=#{shopType},
+	</if>
+	<if test="shopName!=null">
+	shop_name=#{shopName},
+	</if>
+	<if test="leaderName!=null">
+	leader_name=#{leaderName},
+	</if>
+	<if test="leaderMobile!=null">
+	leader_mobile=#{leaderMobile},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="businessLicenseUrl!=null">
+	business_license_url=#{businessLicenseUrl},
+	</if>
+	<if test="licenseStatusUrl!=null">
+	license_status_url=#{licenseStatusUrl},
+	</if>
+	<if test="doorHeadUrl!=null">
+	door_head_url=#{doorHeadUrl},
+	</if>
+	<if test="businessEnvironmentUrl!=null">
+	business_environment_url=#{businessEnvironmentUrl},
+	</if>
+	<if test="shopLogo!=null">
+	shop_logo=#{shopLogo},
+	</if>
+	<if test="licenceUrl!=null">
+	licence_url=#{licenceUrl},
+	</if>
+	updatetime=#{updatetime} where id=#{id}
+	</update>
+	
+	<select id="selectShopByUserId" resultMap="ShopMap">
+	select <include refid="sql_base"></include> from shop where user_id=#{userId}
+	</select>
+	
+
+</mapper>

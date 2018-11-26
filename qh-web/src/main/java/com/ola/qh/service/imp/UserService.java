@@ -39,7 +39,7 @@ public class UserService implements IUserService{
 	private UserLoginDao userloginDao;
 	
 	
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<User> saveUsers(User user,HttpServletRequest request) {
 		
