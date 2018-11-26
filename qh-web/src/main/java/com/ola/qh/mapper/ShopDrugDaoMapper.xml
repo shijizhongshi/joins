@@ -166,7 +166,6 @@
 	<if test="ishot!=0">
 	and ishot=#{ishot}
 	</if>
-	
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
