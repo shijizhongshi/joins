@@ -16,9 +16,9 @@ public class AddressService implements IAddressService{
 	private AddressDao addressDao;
 	
 	@Override
-	public List<Address> selectAddress(String userId) {
+	public List<Address> selectAddress(String userId,int pageNo,int pageSize){
 		
-		return addressDao.selectAddress(userId);
+		return addressDao.selectAddress(userId, pageNo, pageSize);
 	}
 
 	@Override

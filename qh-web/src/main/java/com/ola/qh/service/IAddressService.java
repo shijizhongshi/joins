@@ -8,7 +8,7 @@ import com.ola.qh.entity.Address;
 
 public interface IAddressService {
 
-	public List<Address> selectAddress(String userId);
+	public List<Address> selectAddress(String userId,int pageNo,int pageSize);
 	
 	public int saveAddress(Address address);
 	

@@ -16,7 +16,7 @@
 
 
 	<select id="selectAddress"  resultMap="AddressMap">
-		select id,address,receiver,mobile,sex from address  where user_id=#{userId}
+		select id,address,receiver,mobile,sex from address  where user_id=#{userId} order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
 	<insert id="saveAddress" parameterType="com.ola.qh.entity.Address" >
 	 	insert into address(id,user_id,receiver,mobile,address,sex,addtime) values(#{id},#{userId},#{receiver},#{mobile},#{address},#{sex},#{addtime})
