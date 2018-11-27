@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableSwagger2
+/*@EnableSwagger2*/
 @EnableTransactionManagement
 @MapperScan("com.ola.qh.dao")
 public class OlaTradeApplication extends SpringBootServletInitializer {
