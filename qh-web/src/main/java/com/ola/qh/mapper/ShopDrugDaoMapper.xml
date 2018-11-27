@@ -143,6 +143,10 @@
 	<if test="imgUrl!=null">
 	img_url=#{imgUrl},
 	</if>
+	<if test="status!=0">
+	<!-- 修改商品的状态 -->
+	status=#{status},
+	</if>
 	updatetime=#{updatetime}
 	where id=#{id}
 	</update>

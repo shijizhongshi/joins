@@ -156,10 +156,12 @@ public class ShopDrugService implements IShopDrugService {
 		// TODO Auto-generated method stub
 		Results<List<ShopDrug>> result = new Results<List<ShopDrug>>();
 		List<ShopDrug> list = shopDrugDao.selectDrugList(shopId,pageNo, pageSize,ishot);
-		for(int i=0;i<list.size();i++){
+		/*
+		 * 药品的集合不需要展示图片列表
+		 * for(int i=0;i<list.size();i++){
 			List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(list.get(i).getId());
 			list.get(i).setImgList(listimg);
-		}
+		}*/
 		result.setData(list);
 		result.setStatus("0");
 		return result;
