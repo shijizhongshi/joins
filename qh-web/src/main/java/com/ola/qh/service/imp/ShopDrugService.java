@@ -87,34 +87,40 @@ public class ShopDrugService implements IShopDrugService {
 			return result;
 		}
 		try {
-			shopDrugDao.updateDrug(shopDrug);
+			shopDrug.setUpdatetime(new Date());
 			/////参数传过来的图片集合
 			List<ShopDrugImg> imglist = shopDrug.getImgList();
-			/////数据库中的图片集合
-			List<ShopDrugImg> originalimgList = shopDrugImgDao.listDrugImg(shopDrug.getId());
-			
-			for(int i=0;i<originalimgList.size();i++){
-				int j=0;
-				for(;j<imglist.size();j++){
-					if(originalimgList.get(i).getId().equals(imglist.get(j).getId())){
-						///////说明这个id的图片没有被删除
-						break;
+			//////当传过来的图片不为空的时候进行修改图片
+			if(imglist!=null && imglist.size()!=0){
+				//////保证商品的主图是修改后的图片
+				shopDrug.setImgUrl(imglist.get(0).getImgUrl());	
+				/////数据库中的图片集合
+				List<ShopDrugImg> originalimgList = shopDrugImgDao.listDrugImg(shopDrug.getId());
+				for(int i=0;i<originalimgList.size();i++){
+					int j=0;
+					for(;j<imglist.size();j++){
+						if(originalimgList.get(i).getId().equals(imglist.get(j).getId())){
+							///////说明这个id的图片没有被删除
+							break;
+						}
+					}
+					if(j==imglist.size()){
+						shopDrugImgDao.deleteDrugImg(originalimgList.get(i).getId());
 					}
 				}
-				if(j==imglist.size()){
-					shopDrugImgDao.deleteDrugImg(originalimgList.get(i).getId());
-				}
+				for (int j = 0; j < imglist.size(); j++){
+					if (imglist.get(j).getId() == null || "".equals(imglist.get(j).getId()))
+					{
+						///////说明是新增的图片没有id
+						imglist.get(j).setDrugId(shopDrug.getId());
+						imglist.get(j).setId(KeyGen.uuid());
+						imglist.get(j).setAddtime(new Date());
+						shopDrugImgDao.insertDrugImg(imglist.get(j));
+					}
+			    }
 			}
-			for (int j = 0; j < imglist.size(); j++){
-				if (imglist.get(j).getId() == null || "".equals(imglist.get(j).getId()))
-				{
-					///////说明是新增的图片没有id
-					imglist.get(j).setDrugId(shopDrug.getId());
-					imglist.get(j).setId(KeyGen.uuid());
-					imglist.get(j).setAddtime(new Date());
-					shopDrugImgDao.insertDrugImg(imglist.get(j));
-				}
-		    }
+			
+			shopDrugDao.updateDrug(shopDrug);
 			result.setStatus("0");
 			return result;
 		} catch (Exception e) {
