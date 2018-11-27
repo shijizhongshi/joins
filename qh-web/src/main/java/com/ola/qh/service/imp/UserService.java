@@ -151,6 +151,7 @@ public class UserService implements IUserService{
 		
 		return userDao.updateUser(user);
 	}
+	
 
 	
 

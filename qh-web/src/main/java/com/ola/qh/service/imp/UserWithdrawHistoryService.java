@@ -1,35 +1,86 @@
 package com.ola.qh.service.imp;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserWithdrawHistoryDao;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserWithdrawHistory;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.service.IUserWithdrawHistoryService;
+import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Results;
 
 @Service
-public class UserWithdrawHistoryService implements IUserWithdrawHistoryService{
+public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 
 	@Autowired
 	private UserWithdrawHistoryDao userWithdrawHistoryDao;
-	
+	@Autowired
+	private IUserService userService;
+	@Autowired
+	private UserBookDao userBookDao;
+
 	@Override
-	public List<UserWithdrawHistory> selectUserWithdrawHistory(String userId,int pageNo,int pageSize) {
-		
+	public List<UserWithdrawHistory> selectUserWithdrawHistory(String userId, int pageNo, int pageSize) {
+
 		return userWithdrawHistoryDao.selectUserWithdrawHistory(userId, pageNo, pageSize);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int saveUserWithdrawHistory(UserWithdrawHistory userwithdrawhistory) {
-		
-		return userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory);
+	public Results<String> saveUserWithdrawHistory(UserWithdrawHistory userwithdrawhistory) {
+
+		Results<String> results = new Results<String>();
+
+		Results<String> userresult = userService.existUser(userwithdrawhistory.getUserId());
+		if ("1".equals(userresult.getStatus())) {
+			return userresult;
+		}
+		try {
+
+			UserBook userBooks=userBookDao.selectUserBook(userwithdrawhistory.getUserId());
+			BigDecimal accountMoney=userBooks.getAccountMoney();
+			BigDecimal onMoney=userwithdrawhistory.getOnMoney();
+			int bigdecimal=accountMoney.compareTo(onMoney);
+			if(bigdecimal==-1){
+				results.setMessage("账户余额不足");
+				results.setStatus("1");
+				return results;
+			}
+			UserBook userBook = new UserBook();
+			userBook.setAccountMoney(userwithdrawhistory.getMoney());
+			userBook.setUpdatetime(new Date());
+			userBook.setUserId(userwithdrawhistory.getUserId());
+			userBookDao.updatetUserBook(userBook);
+
+			userwithdrawhistory.setId(KeyGen.uuid());
+			userwithdrawhistory.setAddtime(new Date());
+			userwithdrawhistory.setMoney(onMoney);
+			userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory);
+			
+			results.setStatus("0");
+			
+			return results;
+
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			results.setStatus("1");
+			results.setMessage("保存失败");
+			return results;
+		}
 	}
 
 	@Override
 	public int deleteUserWithdrawHistory(String id) {
-		
+
 		return userWithdrawHistoryDao.deleteUserWithdrawHistory(id);
 	}
 

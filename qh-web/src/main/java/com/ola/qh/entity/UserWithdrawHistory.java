@@ -24,6 +24,8 @@ public class UserWithdrawHistory {
 	
 	private Date updatetime;
 	
+	private BigDecimal onMoney;
+	
 	public String getId() {
 		return id;
 	}
@@ -87,6 +89,14 @@ public class UserWithdrawHistory {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public BigDecimal getOnMoney() {
+		return onMoney;
+	}
+
+	public void setOnMoney(BigDecimal onMoney) {
+		this.onMoney = onMoney;
 	}
 
 

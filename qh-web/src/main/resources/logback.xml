@@ -15,7 +15,7 @@
 	%-5level：logger定义的级别
 	%logger{36}：logger名称
 	-%msg%n：定义的输出
-     -->
+   
 <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">  
         <File>${LOG_HOME}info.log</File>  
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
@@ -34,8 +34,8 @@
 		      <onMismatch>DENY</onMismatch>   
 		</filter>   
     </appender> 
-     
-    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+       -->
+  <!--    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">  
         <File>${LOG_HOME}debug.log</File>  
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">  
             <FileNamePattern>${LOG_HOME}/debug.log.%d{yyyy-MM-dd}.log</FileNamePattern>
@@ -52,7 +52,7 @@
 		      <onMatch>ACCEPT</onMatch>   
 		      <onMismatch>DENY</onMismatch>   
 		</filter>   
-    </appender>
+    </appender>-->
     
    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">  
         <File>${LOG_HOME}error.log</File>  
@@ -71,7 +71,7 @@
 		      <onMatch>ACCEPT</onMatch>   
 		      <onMismatch>DENY</onMismatch>   
 		</filter>   
-    </appender>
+    </appender> 
     <logger name="log4j.logger.org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />

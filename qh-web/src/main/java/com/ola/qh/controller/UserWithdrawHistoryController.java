@@ -1,8 +1,11 @@
 package com.ola.qh.controller;
 
-import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.UserWithdrawHistory;
 import com.ola.qh.service.IUserWithdrawHistoryService;
-import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
@@ -43,21 +45,10 @@ public class UserWithdrawHistoryController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Results<String> saveUserWithdrawHistory(@RequestBody UserWithdrawHistory userwithdrawhistory) {
+	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,BindingResult valid) {
 
-		Results<String> results = new Results<String>();
-
-		userwithdrawhistory.setId(KeyGen.uuid());
-		userwithdrawhistory.setAddtime(new Date());
-		int save = userWithdrawHistoryService.saveUserWithdrawHistory(userwithdrawhistory);
-
-		if (save <= 0) {
-			results.setMessage("添加失败");
-			results.setStatus("1");
-			return results;
-		}
-		results.setStatus("0");
-		return results;
+		
+		return userWithdrawHistoryService.saveUserWithdrawHistory(userwithdrawhistory);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

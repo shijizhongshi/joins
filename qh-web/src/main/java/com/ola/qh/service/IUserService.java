@@ -17,4 +17,6 @@ public interface IUserService {
 	
 	public Results<String> existUser(String userId);
 	
+	
+	
 }

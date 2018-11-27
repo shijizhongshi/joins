@@ -1,4 +1,4 @@
-package com.ola.qh.dao;
+package com.ola.qh.controller;
 
 import java.util.Date;
 import java.util.List;
