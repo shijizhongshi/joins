@@ -68,6 +68,12 @@
 	limit #{pageNo},#{pageSize}
 	</select>
 		
+		
+	<select id="singleCourse" resultMap="CourseMap">
+	    select * from course where id=#{courseId}
+	</select>	
+		
+		
 	<!-- 课程章的查询 -->
 	
 	<!-- 课程章的映射 -->

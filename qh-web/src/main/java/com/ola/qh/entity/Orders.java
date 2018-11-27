@@ -16,8 +16,8 @@ public class Orders {
 	private String id;
 	
 	private String userId;
-	
-	private String muserId;
+	@NotEmpty(message="商家的标识不能为空")
+	private String muserId;////
 	
 	private String orderno;
 	

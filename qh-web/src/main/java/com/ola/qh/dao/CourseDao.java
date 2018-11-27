@@ -18,4 +18,6 @@ public interface CourseDao {
 	public List<CourseChapter> courseChapterList(String courseId);
 	
 	public List<CourseSection> courseSectionList(String courseChapterId);
+	
+	public Course singleCourse(String courseId);
 }

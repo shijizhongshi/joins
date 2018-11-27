@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.OrdersDao">
+	<resultMap type="com.ola.qh.entity.Orders" id="OrdersMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="muser_id" property="muserId"/>
+	<result column="orderno" property="orderno"/>
+	<result column="orders_type" property="ordersType"/>
+	<result column="payaccount" property="payaccount"/>
+	<result column="address" property="address"/>
+	<result column="receiver" property="receiver"/>
+	<result column="mobile" property="mobile"/>
+	<result column="orders_status" property="statusCode"/>
+	<result column="orders_old_status" property="oldStatusCode"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+
+	<sql id="sql_base">
+	id,user_id,muser_id,orderno,orders_type,payaccount,address,receiver,mobile,orders_status
+	</sql>
+	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
+	insert into orders(<include refid="sql_base"></include>,orders_old_status,addtime)values(
+	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{address},#{receiver},
+	#{mobile},#{statusCode},#{oldStatusCode},#{addtime})
+	
+	</insert>
+</mapper>

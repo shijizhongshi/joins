@@ -1,5 +1,6 @@
 package com.ola.qh.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrdersVo{
 
-	@NotEmpty(message="用户的的标识不能为空")
-	private String userIds;
-	@NotNull(message="订单的类型不能为空")
-	private int ordersTypes;
+	private String userId;
+	private int ordersType;
 	
 	private String address;
 	
@@ -26,17 +25,21 @@ public class OrdersVo{
 	@Size(min=1)
 	private List<Orders> ordersList = new ArrayList<Orders>();
 	
-	public String getUserIds() {
-		return userIds;
+	private BigDecimal totalPayout;////实际支付多少钱
+	
+	private String paytypeCode;////支付的类型ALIPAY(支付宝支付)   WXPAY(微信支付)
+	
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserIds(String userIds) {
-		this.userIds = userIds;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public int getOrdersTypes() {
-		return ordersTypes;
+	public int getOrdersType() {
+		return ordersType;
 	}
-	public void setOrdersTypes(int ordersTypes) {
-		this.ordersTypes = ordersTypes;
+	public void setOrdersType(int ordersType) {
+		this.ordersType = ordersType;
 	}
 	public List<Orders> getOrdersList() {
 		return ordersList;
@@ -61,6 +64,18 @@ public class OrdersVo{
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+	public BigDecimal getTotalPayout() {
+		return totalPayout;
+	}
+	public void setTotalPayout(BigDecimal totalPayout) {
+		this.totalPayout = totalPayout;
+	}
+	public String getPaytypeCode() {
+		return paytypeCode;
+	}
+	public void setPaytypeCode(String paytypeCode) {
+		this.paytypeCode = paytypeCode;
 	}
 	
 	
