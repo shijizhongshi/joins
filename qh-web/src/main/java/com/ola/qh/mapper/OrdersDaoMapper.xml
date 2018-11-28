@@ -24,7 +24,7 @@
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders(<include refid="sql_base"></include>,orders_old_status,addtime)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{address},#{receiver},
-	#{mobile},#{statusCode},#{oldStatusCode},#{addtime})
+	#{mobile},#{ordersStatus},#{ordersOldStatus},#{addtime})
 	</insert>
 	
 	
@@ -43,7 +43,7 @@
 	</resultMap>
 	
 	<insert id="insertOrdersPayment" parameterType="com.ola.qh.entity.OrdersPayment">
-	insert into(id,user_id,muser_id,orders_id,money,done,paytype_code,pagetype_name,extransno,addtime)
+	insert into orders_payment(id,user_id,muser_id,orders_id,money,done,paytype_code,pagetype_name,extransno,addtime)
 	values(#{id},#{userId},#{muserId},#{ordersId},#{money},#{done},#{paytypeCode},#{paytypeName},
 	#{extransno},#{addtime})
 	</insert>
@@ -56,6 +56,6 @@
 		<result column="notice_url" property="noticeUrl"/>
 	</resultMap>	
 	<select id="singlePayPipeline" resultMap="PayPipelineMap">
-		select notice_url from where code=#{code}
+		select * from pay_pipeline where code=#{code}
 	</select>
 </mapper>
