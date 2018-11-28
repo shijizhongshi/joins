@@ -26,6 +26,21 @@
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{address},#{receiver},
 	#{mobile},#{ordersStatus},#{ordersOldStatus},#{addtime})
 	</insert>
+	<update id="updateOrders">
+	update orders set 
+	<if test="ordersStatus!=null">
+	orders_status=#{ordersStatus},
+	</if>
+	<if test="ordersOldStatus!=null">
+	orders_old_status=#{ordersOldStatus},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{oid}
+	</update>
+	
+	
+	
+	
 	
 	
 	<!-- 支付的开始~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -47,6 +62,10 @@
 	values(#{id},#{userId},#{muserId},#{ordersId},#{money},#{done},#{paytypeCode},#{paytypeName},
 	#{extransno},#{addtime})
 	</insert>
+	
+	<select id="listByExtransno" resultMap="OrdersPaymentMap">
+	select * from orders_payment where extransno=#{extransno}
+	</select>
 	<!-- 支付的结束~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	
 	<resultMap type="com.ola.qh.entity.PayPipeline" id="PayPipelineMap">
@@ -58,4 +77,20 @@
 	<select id="singlePayPipeline" resultMap="PayPipelineMap">
 		select * from pay_pipeline where code=#{code}
 	</select>
+	
+	
+	<resultMap type="com.ola.qh.entity.PayResult" id="PayResultMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="extransno" property="extransno"/>
+	<result column="oid" property="oid"/>
+	<result column="comment" property="comment"/>
+	<result column="pay_status" property="payStatus"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insertPayResult" parameterType="com.ola.qh.entity.PayResult">
+	insert into pay_result(id,user_id,extransno,oid,comment,pay_status,addtime)values(
+	#{id},#{userId},#{extransno},#{oid},#{comment},#{payStatus},#{addtime})
+	</insert>
 </mapper>

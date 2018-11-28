@@ -34,4 +34,22 @@
 	#{oldStatusCode},#{addtime});
 	</insert>
 
+	<select id="selectByOid" resultMap="OrdersProductMap">
+	select <include refid="sql_base"></include> from orders_product where orders_id=#{orderId} and status_code=#{statusCode}
+	</select>
+	
+	<update id="updateOrdersProduct">
+	update orders_product set 
+	<if test="statusCode!=null">
+	status_code=#{statusCode},
+	</if>
+	<if test="statusName!=null">
+	status_name=#{statusName},
+	</if>
+	<if test="oldStatusCode!=null">
+	old_status_code=#{oldStatusCode},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
 </mapper>
