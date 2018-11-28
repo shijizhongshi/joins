@@ -1,5 +1,7 @@
 package com.ola.qh.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Orders;
+import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.util.Results;
@@ -55,7 +58,7 @@ public class OrdersController {
 			result.setMessage("订单信息提交不完整");
 			return result;
 		}
-		Results<String> results = orderService.submitOrders(ordersVo);
+		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 		if("0".equals(results.getStatus())){
 			if("ALIPAY".equals(ordersVo.getPaytypeCode())){
 				//////调用支付宝支付的接口

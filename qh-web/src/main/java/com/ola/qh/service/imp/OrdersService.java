@@ -1,6 +1,7 @@
 package com.ola.qh.service.imp;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.Orders;
+import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.OrdersVo;
@@ -41,18 +43,24 @@ public class OrdersService implements IOrdersService{
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Results<String> submitOrders(OrdersVo ordersVo) {
+	public Results<List<OrdersPayment>> submitOrders(OrdersVo ordersVo) {
 		// TODO Auto-generated method stub
-		Results<String> result = new Results<String>();
+		Results<List<OrdersPayment>> result = new Results<List<OrdersPayment>>();
 		try {
 			/////校验用户的信息是否准确
 			Results<String> userResult = userService.existUser(ordersVo.getUserId());
 			if("1".equals(userResult.getStatus())){
-				return userResult;
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
 			}
 				List<Orders> ordersList = ordersVo.getOrdersList();
 				BigDecimal totalPrice=BigDecimal.ZERO;
+				List<OrdersPayment> oplist = new ArrayList<OrdersPayment>();
+				String extransno=String.valueOf(KeyGen.next18());
 				for (Orders orders : ordersList) {
+					
+					OrdersPayment op = new OrdersPayment();
 					String oid = KeyGen.uuid();
 					orders.setAddress(ordersVo.getAddress());
 					orders.setReceiver(ordersVo.getReceiver());
@@ -103,6 +111,27 @@ public class OrdersService implements IOrdersService{
 						orders.setPayaccount(prices);//////订单实际支付的金额
 						//////保存订单的信息
 						ordersDao.insertOrders(orders);
+						op.setUserId(ordersVo.getUserId());
+						op.setMuserId(orders.getMuserId());
+						op.setMoney(orders.getPayaccount());
+						op.setOrdersId(oid);
+						op.setPaytypeCode(ordersVo.getPaytypeCode());
+						op.setPaytypeName(ordersVo.getPaytypeName());
+						op.setAddtime(new Date());
+						op.setId(KeyGen.uuid());
+						op.setExtransno(extransno);
+						if(ordersVo.getOrdersType()==0){
+							//////购买课程
+							op.setSubjectTitle("购买课程");
+							op.setBodyDetail("购买课程的支付");
+						}else if(ordersVo.getOrdersType()==1){
+							/////购买药品
+							op.setSubjectTitle("购买店铺商品");
+							op.setBodyDetail("购买店铺商品的支付");
+							
+						}
+						ordersDao.insertOrdersPayment(op);/////保存订单的支付信息
+						oplist.add(op);/////
 					}
 					
 				}
@@ -113,6 +142,7 @@ public class OrdersService implements IOrdersService{
 					result.setMessage("订单总金额和实际计算的金额不符");
 			        return result;
 				}
+			result.setData(oplist);
 			result.setStatus("0");
 			return result;
 		} catch (Exception e) {

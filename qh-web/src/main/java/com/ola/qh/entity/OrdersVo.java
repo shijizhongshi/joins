@@ -29,6 +29,8 @@ public class OrdersVo{
 	
 	private String paytypeCode;////支付的类型ALIPAY(支付宝支付)   WXPAY(微信支付)
 	
+	private String paytypeName;////支付名称
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -76,6 +78,12 @@ public class OrdersVo{
 	}
 	public void setPaytypeCode(String paytypeCode) {
 		this.paytypeCode = paytypeCode;
+	}
+	public String getPaytypeName() {
+		return paytypeName;
+	}
+	public void setPaytypeName(String paytypeName) {
+		this.paytypeName = paytypeName;
 	}
 	
 	

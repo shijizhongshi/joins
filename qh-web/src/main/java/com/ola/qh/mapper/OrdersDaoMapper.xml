@@ -25,6 +25,37 @@
 	insert into orders(<include refid="sql_base"></include>,orders_old_status,addtime)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{address},#{receiver},
 	#{mobile},#{statusCode},#{oldStatusCode},#{addtime})
-	
 	</insert>
+	
+	
+	<!-- 支付的开始~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<resultMap type="com.ola.qh.entity.OrdersPayment" id="OrdersPaymentMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="muser_id" property="muserId"/>
+	<result column="orders_id" property="ordersId"/>
+	<result column="money" property="money"/>
+	<result column="done" property="done"/>
+	<result column="paytype_code" property="paytypeCode"/>
+	<result column="pagetype_name" property="paytypeName"/>
+	<result column="extransno" property="extransno"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insertOrdersPayment" parameterType="com.ola.qh.entity.OrdersPayment">
+	insert into(id,user_id,muser_id,orders_id,money,done,paytype_code,pagetype_name,extransno,addtime)
+	values(#{id},#{userId},#{muserId},#{ordersId},#{money},#{done},#{paytypeCode},#{paytypeName},
+	#{extransno},#{addtime})
+	</insert>
+	<!-- 支付的结束~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	
+	<resultMap type="com.ola.qh.entity.PayPipeline" id="PayPipelineMap">
+		<result column="id" property="id"/>
+		<result column="code" property="code"/>
+		<result column="name" property="name"/>
+		<result column="notice_url" property="noticeUrl"/>
+	</resultMap>	
+	<select id="singlePayPipeline" resultMap="PayPipelineMap">
+		select notice_url from where code=#{code}
+	</select>
 </mapper>

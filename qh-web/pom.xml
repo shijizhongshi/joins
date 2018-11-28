@@ -229,6 +229,11 @@
 
 		<!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
 		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>3.4.49.ALL</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>3.2.1</version>
