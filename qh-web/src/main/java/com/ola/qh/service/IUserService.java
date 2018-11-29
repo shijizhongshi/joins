@@ -17,6 +17,6 @@ public interface IUserService {
 	
 	public Results<String> existUser(String userId);
 	
-	
+	public Results<User> updatePassword(User user);
 	
 }

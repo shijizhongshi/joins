@@ -12,7 +12,7 @@
 		<result column="updatetime"  property="updatetime" />
 	</resultMap>
 
-	<select id="selectUserBook" resultType="com.ola.qh.entity.UserBook">
+	<select id="selectUserBook" resultMap="UserBookMap">
 		select * from user_book where user_id=#{userId}
 	</select>
 	<insert id="saveUserBook" parameterType="com.ola.qh.entity.UserBook">

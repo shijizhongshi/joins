@@ -18,14 +18,15 @@ import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+
 /**
  * 
  * 
-* @ClassName: 
-* @Description:  用户的注册，用户信息的修改与验证码识别
-* @author guozihan
-* @date   
-*
+ * @ClassName:
+ * @Description: 用户的注册，用户信息的修改与验证码识别
+ * @author guozihan
+ * @date
+ *
  */
 @RestController
 @RequestMapping("/api/user")
@@ -71,7 +72,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin,BindingResult valid) {
+	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid) {
 
 		return userService.loginUser(userlogin);
 	}
@@ -91,4 +92,9 @@ public class UserController {
 		return results;
 	}
 
+	@RequestMapping(value = "/updatepassword", method = RequestMethod.POST)
+	public Results<User> updatePassword(@RequestBody User user) {
+
+		return userService.updatePassword(user);
+	}
 }

@@ -36,6 +36,10 @@ public class User {
 	@NotEmpty(message = "设备编号不能为空")
 	private String deviceToken;
 	
+	private String password1;
+	
+	
+	
 	@NotNull
 	private int deviceType;
 	
@@ -133,6 +137,14 @@ public class User {
 
 	public void setDeviceType(int deviceType) {
 		this.deviceType = deviceType;
+	}
+
+	public String getPassword1() {
+		return password1;
+	}
+
+	public void setPassword1(String password1) {
+		this.password1 = password1;
 	}
 	
 	

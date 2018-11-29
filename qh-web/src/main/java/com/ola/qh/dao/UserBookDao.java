@@ -8,5 +8,5 @@ public interface UserBookDao {
 	
 	public int saveUserBook(UserBook userbook);
 	
-	public int updatetUserBook(UserBook userbook);
+	public int updateUserBook(UserBook userbook);
 }
