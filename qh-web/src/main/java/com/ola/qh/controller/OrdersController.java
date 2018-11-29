@@ -12,10 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersPayment;
+import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
@@ -105,5 +107,23 @@ public class OrdersController {
 		
 	}
 	
-	
+	@RequestMapping(value="/update",method=RequestMethod.GET)
+	public Results<String> updateOrders(@RequestParam(name="statusCode",required=true)String statusCode,
+			@RequestParam(name="statusName",required=true)String statusName,
+			@RequestParam(name="expressNo",required=false)String expressNo,
+			@RequestParam(name="ordersId",required=true)String ordersId){
+			
+		Results<String> result = new Results<String>();
+		if(OrdersStatus.DELIVERED.equals(statusCode)){
+			//////发货
+			if(expressNo==null || "".equals(expressNo)){
+				result.setStatus("1");
+				result.setMessage("快递单号不能为空");
+				return result;
+			}
+		}
+		
+		return null;
+		
+	}
 }

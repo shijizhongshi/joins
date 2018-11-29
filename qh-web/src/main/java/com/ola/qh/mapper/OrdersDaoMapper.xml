@@ -15,6 +15,7 @@
 	<result column="mobile" property="mobile"/>
 	<result column="orders_status" property="ordersStatus"/>
 	<result column="orders_old_status" property="ordersOldStatus"/>
+	<result column="express_no" property="expressNo"/>
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 
@@ -34,12 +35,15 @@
 	<if test="ordersOldStatus!=null">
 	orders_old_status=#{ordersOldStatus},
 	</if>
+	<if test="expressNo!=null">
+	express_no=#{expressNo},
+	</if>
 	updatetime=#{updatetime}
 	where id=#{oid}
 	</update>
 	
 	<select id="singleOrders" resultMap="OrdersMap">
-	select <include refid="sql_base"></include> from orders where id=#{orderId}
+	select <include refid="sql_base"></include>,expressNo from orders where id=#{orderId}
 	
 	</select>
 	

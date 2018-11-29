@@ -35,6 +35,8 @@ public class Orders {
 	
 	private String mobile;
 	
+	private String expressNo;////快递单号
+	
 	private Date addtime;
 	
 	private Date updatetime;
@@ -153,6 +155,14 @@ public class Orders {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getExpressNo() {
+		return expressNo;
+	}
+
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
 	}
 	
 	
