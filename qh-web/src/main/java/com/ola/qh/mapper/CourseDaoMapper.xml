@@ -7,6 +7,8 @@
 	<mapper namespace="com.ola.qh.dao.CourseDao">
 	<!--课程的映射-->
 	<resultMap type="com.ola.qh.entity.Course" id="CourseMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
 	<result column="course_name" property="courseName"/>
 	<result column="course_type_name" property="courseTypeName"/>
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>

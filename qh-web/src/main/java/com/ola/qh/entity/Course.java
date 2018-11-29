@@ -13,6 +13,8 @@ import java.util.Date;
 public class Course {
 	
 	private String id;
+	
+	private String userId;////课程所属者
 
 	private String courseName;//课程名称
 	

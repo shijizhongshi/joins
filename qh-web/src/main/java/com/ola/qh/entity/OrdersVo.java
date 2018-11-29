@@ -12,7 +12,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrdersVo{
 
+	@NotEmpty(message="用户的标识不能为空")
 	private String userId;
+	@NotNull
 	private int ordersType;
 	
 	private String address;
@@ -25,10 +27,12 @@ public class OrdersVo{
 	@Size(min=1)
 	private List<Orders> ordersList = new ArrayList<Orders>();
 	
+	@NotNull
 	private BigDecimal totalPayout;////实际支付多少钱
 	
+	@NotEmpty(message="支付方式不能为空")
 	private String paytypeCode;////支付的类型ALIPAY(支付宝支付)   WXPAY(微信支付)
-	
+	@NotEmpty(message="支付名称不能为空")
 	private String paytypeName;////支付名称
 	
 	public String getUserId() {

@@ -81,23 +81,23 @@ public class OrdersService implements IOrdersService{
 							ordersProduct.setId(KeyGen.uuid());
 							ordersProduct.setMuserId(orders.getMuserId());
 							ordersProduct.setOrdersId(oid);
-							if(ordersVo.getOrdersType()==1){
+							if(ordersVo.getOrdersType()==0){
 								//////通过药品的id查商品的价格等信息
 								ShopDrug shopDrug = shopDrugDao.selectById(ordersProduct.getProductId());
 								ordersProduct.setProductImg(shopDrug.getImgUrl());
 								ordersProduct.setProductName(shopDrug.getDrugName());
 								ordersProduct.setProductPrice(shopDrug.getDiscountPrice());
 								//////产品实际支付的金额
-								BigDecimal payout = shopDrug.getDiscountPrice().multiply(new BigDecimal(ordersProduct.getCount()));
+								BigDecimal payout = shopDrug.getDiscountPrice().multiply(new BigDecimal(ordersProduct.getCount())).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(payout);
-								prices.add(payout);
-							}else if(ordersVo.getOrdersType()==0){
+								prices = prices.add(payout).setScale(2, BigDecimal.ROUND_DOWN);
+							}else if(ordersVo.getOrdersType()==1){
 							   //////通过课程的id查课程的价格等信息
 								Course course = courseDao.singleCourse(ordersProduct.getProductId());
 								ordersProduct.setProductImg(course.getCourseImg());
 								ordersProduct.setProductName(course.getCourseName());
 								ordersProduct.setProductPrice(course.getCourseDiscountPrice());
-								prices.add(course.getCourseDiscountPrice());
+								prices = prices.add(course.getCourseDiscountPrice()).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(course.getCourseDiscountPrice());
 								//////count 记得传1
 							}
@@ -107,7 +107,7 @@ public class OrdersService implements IOrdersService{
 							ordersProductDao.insertOrdersProduct(ordersProduct);
 							
 						}
-						totalPrice.add(prices);
+						totalPrice = totalPrice.add(prices).setScale(2, BigDecimal.ROUND_DOWN);
 						orders.setPayaccount(prices);//////订单实际支付的金额
 						//////保存订单的信息
 						ordersDao.insertOrders(orders);
@@ -120,16 +120,17 @@ public class OrdersService implements IOrdersService{
 						op.setAddtime(new Date());
 						op.setId(KeyGen.uuid());
 						op.setExtransno(extransno);
-						if(ordersVo.getOrdersType()==0){
+						if(ordersVo.getOrdersType()==1){
 							//////购买课程
 							op.setSubjectTitle("购买课程");
 							op.setBodyDetail("购买课程的支付");
-						}else if(ordersVo.getOrdersType()==1){
+						}else if(ordersVo.getOrdersType()==0){
 							/////购买药品
 							op.setSubjectTitle("购买店铺商品");
 							op.setBodyDetail("购买店铺商品的支付");
 							
 						}
+						op.setOrdersType(ordersVo.getOrdersType());
 						ordersDao.insertOrdersPayment(op);/////保存订单的支付信息
 						oplist.add(op);/////
 					}
