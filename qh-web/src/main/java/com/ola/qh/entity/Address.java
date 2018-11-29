@@ -8,12 +8,16 @@ public class Address {
 
 	
 	private String id;
+	
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
+	
 	@NotEmpty(message="收货人不能为空")
 	private String receiver;
+	
 	@NotEmpty(message="手机号码不能为空")
 	private String mobile;
+	
 	@NotEmpty(message="地址不能为空")
 	private String address;
 	

@@ -152,11 +152,35 @@ public class UserService implements IUserService{
 		return userDao.updateUser(user);
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Results<User> updatePassword(User user) {
 
-	
+		Results<User> results = new Results<User>();
+		try {
+			String mobile = user.getMobile();
+			String password = user.getPassword();
+			User user1 = userDao.loginUser(mobile, password);
+			if (user1 == null) {
+				results.setMessage("用户名或密码错误");
+				results.setStatus("1");
+				return results;
+			}
 
-	
+			User user2 = new User();
+			user2.setId(user1.getId());
+			user2.setPassword(user.getPassword1());
+			userDao.updatePassword(user2);
+			results.setStatus("0");
+			return results;
 
-	
-	
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			results.setStatus("1");
+			results.setMessage("密码修改失败");
+			return results;
+		}
+
+	}
+
 }

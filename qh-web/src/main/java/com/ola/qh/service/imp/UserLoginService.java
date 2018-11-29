@@ -1,7 +1,5 @@
 package com.ola.qh.service.imp;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +12,7 @@ public class UserLoginService implements IUserLoginService{
 	@Autowired
 	private UserLoginDao userlogindao;
 	@Override
-	public List<UserLogin> selectUserLogin(String userId) {
+	public UserLogin selectUserLogin(String userId) {
 		
 		return userlogindao.selectUserLogin(userId);
 	}

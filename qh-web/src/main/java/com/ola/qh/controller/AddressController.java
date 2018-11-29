@@ -33,8 +33,8 @@ public class AddressController {
 
 		Results<List<Address>> results = new Results<List<Address>>();
 
-		int pageSize=Patterns.zupageSize;
-		int pageNo=(page-1)*pageSize;
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
 		List<Address> list = addressService.selectAddress(userId, pageNo, pageSize);
 
 		results.setData(list);

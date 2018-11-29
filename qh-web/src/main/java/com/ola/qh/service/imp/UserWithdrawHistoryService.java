@@ -46,28 +46,31 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 		}
 		try {
 
-			UserBook userBooks=userBookDao.selectUserBook(userwithdrawhistory.getUserId());
-			BigDecimal accountMoney=userBooks.getAccountMoney();
-			BigDecimal onMoney=userwithdrawhistory.getOnMoney();
-			int bigdecimal=accountMoney.compareTo(onMoney);
-			if(bigdecimal==-1){
+			UserBook userBooks = userBookDao.selectUserBook(userwithdrawhistory.getUserId());
+			BigDecimal accountMoney = userBooks.getAccountMoney();
+			BigDecimal onMoney = userwithdrawhistory.getOnMoney();
+			int bigdecimal = accountMoney.compareTo(onMoney);
+			if (bigdecimal == -1) {
 				results.setMessage("账户余额不足");
 				results.setStatus("1");
 				return results;
 			}
 			UserBook userBook = new UserBook();
-			userBook.setAccountMoney(userwithdrawhistory.getMoney());
+			BigDecimal bookMoney = accountMoney.subtract(onMoney);
+			userBook.setAccountMoney(bookMoney);
 			userBook.setUpdatetime(new Date());
 			userBook.setUserId(userwithdrawhistory.getUserId());
-			userBookDao.updatetUserBook(userBook);
+			userBookDao.updateUserBook(userBook);
 
-			userwithdrawhistory.setId(KeyGen.uuid());
-			userwithdrawhistory.setAddtime(new Date());
-			userwithdrawhistory.setMoney(onMoney);
-			userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory);
-			
+			UserWithdrawHistory userwithdrawhistory1 = new UserWithdrawHistory();
+			userwithdrawhistory1.setId(KeyGen.uuid());
+			userwithdrawhistory1.setAddtime(new Date());
+			userwithdrawhistory1.setMoney(onMoney);
+			userwithdrawhistory1.setUserId(userwithdrawhistory.getUserId());
+			userwithdrawhistory1.setWithdrawTypes(userwithdrawhistory.getWithdrawTypes());
+			userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory1);
+
 			results.setStatus("0");
-			
 			return results;
 
 		} catch (Exception e) {

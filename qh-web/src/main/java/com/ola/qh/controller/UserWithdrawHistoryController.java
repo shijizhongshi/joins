@@ -17,27 +17,29 @@ import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
-@RequestMapping(value="/api/userwithdrawhistory")
+@RequestMapping(value = "/api/userwithdrawhistory")
 public class UserWithdrawHistoryController {
 
 	@Autowired
 	private IUserWithdrawHistoryService userWithdrawHistoryService;
-	
+
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<UserWithdrawHistory>> selectUserWithdrawHistory(@RequestParam(name = "userId", required = true) String userId,
+	public Results<List<UserWithdrawHistory>> selectUserWithdrawHistory(
+			@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
 		Results<List<UserWithdrawHistory>> results = new Results<List<UserWithdrawHistory>>();
 
-		int pageSize=Patterns.zupageSize;
-		int pageNo=(page-1)*pageSize;
-		List<UserWithdrawHistory> select = userWithdrawHistoryService.selectUserWithdrawHistory(userId, pageNo, pageSize);
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
+		List<UserWithdrawHistory> select = userWithdrawHistoryService.selectUserWithdrawHistory(userId, pageNo,
+				pageSize);
 
-		if (select== null) {
+		if (select == null) {
 			results.setMessage("显示错误");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setData(select);
 		results.setStatus("0");
@@ -45,9 +47,9 @@ public class UserWithdrawHistoryController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,BindingResult valid) {
+	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,
+			BindingResult valid) {
 
-		
 		return userWithdrawHistoryService.saveUserWithdrawHistory(userwithdrawhistory);
 	}
 

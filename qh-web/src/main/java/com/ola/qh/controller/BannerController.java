@@ -27,26 +27,22 @@ public class BannerController {
 
 	@Autowired
 	private IBannerService bannerService;
-	
-	@RequestMapping(value = "/selectlist",method = RequestMethod.GET)
-	public Results<List<Banner>>  selectBanner(@RequestParam(name="type",required=true)String type){
-		Results<List<Banner>> results=new Results<List<Banner>>();
-		
+
+	@RequestMapping(value = "/selectlist", method = RequestMethod.GET)
+	public Results<List<Banner>> selectBanner(@RequestParam(name = "type", required = true) String type) {
+		Results<List<Banner>> results = new Results<List<Banner>>();
+
 		List<Banner> bannerlist = bannerService.selectBanner(type);
-		if(bannerlist!=null &&  bannerlist.size()!=0){
+		if (bannerlist != null && bannerlist.size() != 0) {
 			results.setData(bannerService.selectBanner(type));
 			results.setStatus("0");
 			return results;
 		}
-		
+
 		results.setMessage("图片为空");
 		results.setStatus("1");
 		return results;
-	
+
 	}
-		
-		
-	
-	
-	
+
 }

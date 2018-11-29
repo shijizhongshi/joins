@@ -9,6 +9,7 @@ public class UserWithdrawHistory {
 
 	@NotEmpty(message="ID不能为空")
 	private String id;
+	
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
 	

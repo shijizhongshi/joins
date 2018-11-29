@@ -16,57 +16,59 @@ import com.ola.qh.util.Results;
 @RequestMapping("/api/AddressPcd")
 public class AddressPcdController {
 
-	@Autowired 
+	@Autowired
 	private IAddressPcdService addresspcdservice;
-	
+
 	@RequestMapping(value = "/selectprovince", method = RequestMethod.GET)
-	public Results<List<AddressPcd>> selectProvince(){
+	public Results<List<AddressPcd>> selectProvince() {
 
 		Results<List<AddressPcd>> results = new Results<List<AddressPcd>>();
 
-		List<AddressPcd> province =addresspcdservice.selectProvince();
-		
-		if (province != null&&province.size() != 0) {
+		List<AddressPcd> province = addresspcdservice.selectProvince();
+
+		if (province != null && province.size() != 0) {
 			results.setData(province);
 			results.setStatus("0");
 			return results;
-			
+
 		}
-			results.setMessage("省份显示失败");
-			results.setStatus("1");
-			return results;
-		}
+		results.setMessage("省份显示失败");
+		results.setStatus("1");
+		return results;
+	}
+
 	@RequestMapping(value = "/selectcity", method = RequestMethod.GET)
 	public Results<List<AddressPcd>> selectCity(@RequestParam(name = "provinceId") int provinceId) {
 
 		Results<List<AddressPcd>> results = new Results<List<AddressPcd>>();
 
-		List<AddressPcd> city=addresspcdservice.selectCity(provinceId);
-		if (city != null&&city.size()!=0) {
+		List<AddressPcd> city = addresspcdservice.selectCity(provinceId);
+		if (city != null && city.size() != 0) {
 			results.setData(city);
 			results.setStatus("0");
 			return results;
-		
+
 		}
-			results.setMessage("城市显示失败");
-			results.setStatus("1");
-			return results;
-		}
+		results.setMessage("城市显示失败");
+		results.setStatus("1");
+		return results;
+	}
+
 	@RequestMapping(value = "/selectdistrict", method = RequestMethod.GET)
 	public Results<List<AddressPcd>> selectDistrict(@RequestParam(name = "cityId") int cityId) {
 
 		Results<List<AddressPcd>> results = new Results<List<AddressPcd>>();
 
 		List<AddressPcd> district = addresspcdservice.selectDistrict(cityId);
-		if (district != null&&district.size() != 0) {
+		if (district != null && district.size() != 0) {
 			results.setData(district);
 			results.setStatus("0");
 			return results;
-		
+
 		}
-			results.setMessage("区县显示失败");
-			results.setStatus("1");
-			return results;
-		}
-		
+		results.setMessage("区县显示失败");
+		results.setStatus("1");
+		return results;
+	}
+
 }

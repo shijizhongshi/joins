@@ -9,21 +9,28 @@ import com.sun.istack.NotNull;
 public class UserLogin {
 
 	private String id;
+	
 	private String userId;
+	
 	@NotEmpty(message = "设备名称不能为空")
 	private String deviceName;
+	
 	@NotEmpty(message = "设备ID不能为空")
 	private String deviceId;
+	
 	@NotEmpty(message = "设备编号不能为空")
 	private String deviceToken;
+	
 	@NotNull
 	private int deviceType;
 
 	private Date addtime;
 
 	private Date updatetime;
+	
 	@NotEmpty(message = "密码不能为空")
 	private String password;
+	
 	@NotEmpty(message = "手机号不能为空")
 	private String mobile;
 
