@@ -13,6 +13,8 @@ public class OrdersPayment {
 	
 	private String ordersId;
 	
+	private int ordersType;/////0:药品的订单   1;课程的订单
+	
 	private BigDecimal money;
 	
 	private int done;
@@ -124,6 +126,14 @@ public class OrdersPayment {
 
 	public void setBodyDetail(String bodyDetail) {
 		this.bodyDetail = bodyDetail;
+	}
+
+	public int getOrdersType() {
+		return ordersType;
+	}
+
+	public void setOrdersType(int ordersType) {
+		this.ordersType = ordersType;
 	}
 	
 }

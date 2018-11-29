@@ -145,16 +145,16 @@
 		</dependency>
 		<!-- 阿里云上传图片需要的包 -->
 
-    <dependency>
-        <groupId>com.aliyun.oss</groupId>
-        <artifactId>aliyun-sdk-oss</artifactId>
-        <version>2.5.0</version>
-    </dependency>
+		<dependency>
+			<groupId>com.aliyun.oss</groupId>
+			<artifactId>aliyun-sdk-oss</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 		<!-- 阿里大于发送短信需要的包 -->
 		<dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-core</artifactId>
-			<version>4.0.6</version> 
+			<version>4.0.6</version>
 			<!-- 注：如提示报错，先升级基础包版，无法解决可联系技术支持 -->
 		</dependency>
 		<dependency>
@@ -167,6 +167,13 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+
 
 		<!-- test scope dependency -->
 		<dependency>

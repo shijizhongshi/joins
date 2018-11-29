@@ -20,6 +20,8 @@ public interface OrdersDao {
 			@Param("ordersOldStatus")String ordersOldStatus,
 			@Param("updatetime")Date updatetime);
 	
+	public Orders singleOrders(String orderId);
+	
 	public int insertOrdersPayment(OrdersPayment op);
 	
 	public PayPipeline singlePayPipeline(String code);
@@ -28,4 +30,8 @@ public interface OrdersDao {
 	
 	public int insertPayResult(PayResult pr);
 
+	public int updateOrdersPayment(
+			@Param("id")String id,
+			@Param("done")int done,
+			@Param("updatetime")Date updatetime);
 }

@@ -130,6 +130,7 @@ public class OrdersService implements IOrdersService{
 							op.setBodyDetail("购买店铺商品的支付");
 							
 						}
+						op.setOrdersType(ordersVo.getOrdersType());
 						ordersDao.insertOrdersPayment(op);/////保存订单的支付信息
 						oplist.add(op);/////
 					}
