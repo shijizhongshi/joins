@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ola.qh.dao.OrdersProductRefundDao">
+	<resultMap type="com.ola.qh.entity.OrdersProductRefund" id="OrdersProductRefundMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="orders_product_id" property="ordersProductId"/>
+	<result column="refund_reason" property="refundReason"/>
+	<result column="refund_explain" property="refundExplain"/>
+	<result column="refund_money" property="refundMoney"/>
+	<result column="status_code" property="statusCode"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insertRefund" parameterType="com.ola.qh.entity.OrdersProductRefund">
+	insert into orders_product_refund(id,user_id,orders_product_id,refund_reason,refund_explain,refund_money,
+	addtime,status_code)values(#{id},#{userId},#{ordersProductId},#{refundReason},#{refundExplain},#{refundMoney},#{addtime},#{statusCode})
+	</insert>
+	
+	<update id="updateRefund" parameterType="com.ola.qh.entity.OrdersProductRefund">
+	update orders_product_refund set 
+	<if test="refundReason!=null">
+	refund_reason=#{refundReason},
+	</if>
+	<if test="refundExplain!=null">
+	refund_explain=#{refundExplain},
+	</if>
+	<if test="refundMoney!=0">
+	refund_money=#{refundMoney},
+	</if>
+	<if test="statusCode!=null">
+	status_code=#{statusCode},
+	</if>
+	updatetime=#{updatetime}
+	where 1=1
+	
+	<if test="id!=null">
+	and id=#{id}
+	</if>
+	<if test="ordersProductId!=null">
+	and orders_product_id=#{ordersProductId}
+	</if>
+	</update>
+	
+	<select id="singleRefund" resultMap="OrdersProductRefundMap">
+	select * from orders_product_refund where orders_product_id=#{ordersProductId}
+	</select>
+	</mapper>

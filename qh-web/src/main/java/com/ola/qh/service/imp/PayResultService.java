@@ -60,7 +60,7 @@ public class PayResultService implements IPayResultService{
 				Orders orders=ordersDao.singleOrders(op.getOrdersId());
 				ordersDao.updateOrdersPayment(op.getId(), 1, new Date());
 				List<OrdersProduct> listOrdersProduct=ordersProductDao.selectByOid(op.getOrdersId(), orders.getOrdersStatus());
-				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null);
+				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null,new Date(),null);
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.PAID, "支付成功", orderproduct.getStatusCode(), new Date());
 				}
@@ -93,7 +93,7 @@ public class PayResultService implements IPayResultService{
 				Orders orders=ordersDao.singleOrders(op.getOrdersId());
 				ordersDao.updateOrdersPayment(op.getId(), 1, new Date());
 				List<OrdersProduct> listOrdersProduct=ordersProductDao.selectByOid(op.getOrdersId(), orders.getOrdersStatus());
-				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.RECEIVED, orders.getOrdersStatus(), new Date(),null);
+				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.RECEIVED, orders.getOrdersStatus(), new Date(),null,new Date(),null);
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.RECEIVED, "支付成功订单完成~", orderproduct.getStatusCode(), new Date());
 					///////课程的操作(形成我的课程的信息)

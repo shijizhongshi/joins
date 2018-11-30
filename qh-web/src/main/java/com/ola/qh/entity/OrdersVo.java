@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrdersVo{
 
+	private String oid;/////这个订单的ID
 	@NotEmpty(message="用户的标识不能为空")
 	private String userId;
 	@NotNull
@@ -88,6 +89,12 @@ public class OrdersVo{
 	}
 	public void setPaytypeName(String paytypeName) {
 		this.paytypeName = paytypeName;
+	}
+	public String getOid() {
+		return oid;
+	}
+	public void setOid(String oid) {
+		this.oid = oid;
 	}
 	
 	

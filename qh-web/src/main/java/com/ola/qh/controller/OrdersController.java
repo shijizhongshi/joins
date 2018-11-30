@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Orders;
+import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
+import com.ola.qh.entity.OrdersProductRefund;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.OrdersVo;
+import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
 import com.ola.qh.util.Results;
 /**
- * 订单的提交  订单的查询 订单的修改
+ * 订单的提交  订单的查询 订单的修改  退款信息的提交
 * @ClassName: OrdersController  
 * @Description: TODO(这里用一句话描述这个类的作用)  
 * @author guoyuxue  
@@ -38,35 +41,41 @@ public class OrdersController {
 	private IOrdersService orderService;
 	@Autowired
 	private IPayService payService;
+	@Autowired
+	private IOrdersProductService ordersproductService;
 	
 	@RequestMapping(value="/submit",method=RequestMethod.POST)
 	public Results<Map<String,String>> submitOrders(@RequestBody @Valid OrdersVo ordersVo,BindingResult valid,HttpServletRequest request){
 		Results<Map<String,String>> result = new Results<Map<String,String>>();
+		if(ordersVo.getOid()==null || "".equals(ordersVo.getOid())){
 		if(ordersVo.getOrdersType()==0){
-			///////说明是药品的购买~~~
-			if(ordersVo.getAddress()==null || "".equals(ordersVo.getAddress())){
-				result.setStatus("1");
-				result.setMessage("买家地址不能为空");
-				return result;
+				///////说明是药品的购买~~~
+				if(ordersVo.getAddress()==null || "".equals(ordersVo.getAddress())){
+					result.setStatus("1");
+					result.setMessage("买家地址不能为空");
+					return result;
+				}
+				if(ordersVo.getReceiver()==null || "".equals(ordersVo.getReceiver())){
+					result.setStatus("1");
+					result.setMessage("买家收货人不能为空");
+					return result;
+				}
+				if(ordersVo.getMobile()==null || "".equals(ordersVo.getMobile())){
+					result.setStatus("1");
+					result.setMessage("买家手机号不能为空");
+					return result;
+				}
 			}
-			if(ordersVo.getReceiver()==null || "".equals(ordersVo.getReceiver())){
+			if(valid.hasErrors()){
+				//////信息不完整
 				result.setStatus("1");
-				result.setMessage("买家收货人不能为空");
-				return result;
-			}
-			if(ordersVo.getMobile()==null || "".equals(ordersVo.getMobile())){
-				result.setStatus("1");
-				result.setMessage("买家手机号不能为空");
+				result.setMessage("订单信息提交不完整");
 				return result;
 			}
 		}
-		if(valid.hasErrors()){
-			//////信息不完整
-			result.setStatus("1");
-			result.setMessage("订单信息提交不完整");
-			return result;
-		}
-		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
+			Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
+			
+		
 		if("0".equals(results.getStatus())){
 			if(!"ALIPAY".equals(ordersVo.getPaytypeCode()) && !"WXPAY".equals(ordersVo.getPaytypeCode())){
 				result.setStatus("1");
@@ -108,7 +117,8 @@ public class OrdersController {
 	}
 	
 	@RequestMapping(value="/update",method=RequestMethod.GET)
-	public Results<String> updateOrders(@RequestParam(name="statusCode",required=true)String statusCode,
+	public Results<String> updateOrders(
+			@RequestParam(name="statusCode",required=true)String statusCode,
 			@RequestParam(name="statusName",required=true)String statusName,
 			@RequestParam(name="expressNo",required=false)String expressNo,
 			@RequestParam(name="ordersId",required=true)String ordersId){
@@ -123,7 +133,21 @@ public class OrdersController {
 			}
 		}
 		
-		return null;
+		return orderService.updateOrders(statusCode, statusName, expressNo, ordersId);
 		
 	}
+	/**
+	 * 正常订单的订单详情
+	 * <p>Title: singleOrders</p>  
+	 * <p>Description: </p>  
+	 * @param ordersId
+	 * @return
+	 */
+	@RequestMapping("/single")
+	public Results<OrdersDomain> singleOrders(@RequestParam(name="ordersId",required=true)String ordersId){
+		
+		return orderService.singleOrders(ordersId);
+	}
+	
+	
 }

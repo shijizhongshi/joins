@@ -19,4 +19,6 @@ public interface OrdersProductDao {
 			@Param("statusName")String statusName,
 			@Param("oldStatusCode")String oldStatusCode,
 			@Param("updatetime")Date updatetime);
+	
+	public OrdersProduct singleOrdersProduct(String id);
 }

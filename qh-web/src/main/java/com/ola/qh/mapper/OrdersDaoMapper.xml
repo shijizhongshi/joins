@@ -16,16 +16,21 @@
 	<result column="orders_status" property="ordersStatus"/>
 	<result column="orders_old_status" property="ordersOldStatus"/>
 	<result column="express_no" property="expressNo"/>
+	<result column="paytype" property="paytype"/>
+	<result column="payname" property="payname"/>
 	<result column="addtime" property="addtime"/>
+	<result column="paidtime" property="paidtime"/>
+	<result column="deliveredtime" property="deliveredtime"/>
 	</resultMap>
 
 	<sql id="sql_base">
-	id,user_id,muser_id,orderno,orders_type,payaccount,address,receiver,mobile,orders_status
+	id,user_id,muser_id,orderno,orders_type,payaccount,address,receiver,mobile,orders_status,
+	paytype,payname
 	</sql>
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders(<include refid="sql_base"></include>,orders_old_status,addtime)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{address},#{receiver},
-	#{mobile},#{ordersStatus},#{ordersOldStatus},#{addtime})
+	#{mobile},#{ordersStatus},#{paytype},#{payname},#{ordersOldStatus},#{addtime})
 	</insert>
 	<update id="updateOrders">
 	update orders set 
@@ -38,13 +43,18 @@
 	<if test="expressNo!=null">
 	express_no=#{expressNo},
 	</if>
+	<if test="paidtime!=mull">
+	paidtime=#{paidtime},
+	</if>
+	<if test="deliveredtime!=null">
+	deliveredtime=#{deliveredtime},
+	</if>
 	updatetime=#{updatetime}
 	where id=#{oid}
 	</update>
 	
 	<select id="singleOrders" resultMap="OrdersMap">
-	select <include refid="sql_base"></include>,expressNo from orders where id=#{orderId}
-	
+	select <include refid="sql_base"></include>,expressNo,paidtime,deliveredtime from orders where id=#{orderId}
 	</select>
 	
 	
@@ -73,6 +83,10 @@
 	
 	<select id="listByExtransno" resultMap="OrdersPaymentMap">
 	select * from orders_payment where extransno=#{extransno}
+	</select>
+	
+	<select id="singlePayment" resultMap="OrdersPaymentMap">
+	select * from orders_payment where orders_id=#{orderId}
 	</select>
 	
 	<update id="updateOrdersPayment">

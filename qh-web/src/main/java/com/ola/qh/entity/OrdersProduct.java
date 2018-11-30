@@ -40,7 +40,9 @@ public class OrdersProduct {
 	private Date addtime;
 	
 	private Date updatetime;
-
+	
+	private OrdersProductRefund opr=new OrdersProductRefund();
+	
 	public String getId() {
 		return id;
 	}
@@ -167,6 +169,14 @@ public class OrdersProduct {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public OrdersProductRefund getOpr() {
+		return opr;
+	}
+
+	public void setOpr(OrdersProductRefund opr) {
+		this.opr = opr;
 	}
 	
 	

@@ -37,9 +37,17 @@ public class Orders {
 	
 	private String expressNo;////快递单号
 	
+	private String paytype;///支付方式
+	
+	private String payname;////支付方式名称
+	
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private Date deliveredtime;
+	
+	private Date paidtime;
 	@Valid
 	@NotNull
 	@Size(min=1)
@@ -163,6 +171,38 @@ public class Orders {
 
 	public void setExpressNo(String expressNo) {
 		this.expressNo = expressNo;
+	}
+
+	public String getPaytype() {
+		return paytype;
+	}
+
+	public void setPaytype(String paytype) {
+		this.paytype = paytype;
+	}
+
+	public String getPayname() {
+		return payname;
+	}
+
+	public void setPayname(String payname) {
+		this.payname = payname;
+	}
+
+	public Date getDeliveredtime() {
+		return deliveredtime;
+	}
+
+	public void setDeliveredtime(Date deliveredtime) {
+		this.deliveredtime = deliveredtime;
+	}
+
+	public Date getPaidtime() {
+		return paidtime;
+	}
+
+	public void setPaidtime(Date paidtime) {
+		this.paidtime = paidtime;
 	}
 	
 	
