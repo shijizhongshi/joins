@@ -18,7 +18,8 @@ public interface OrdersDao {
 			@Param("oid")String oid,
 			@Param("ordersStatus")String ordersStatus,
 			@Param("ordersOldStatus")String ordersOldStatus,
-			@Param("updatetime")Date updatetime);
+			@Param("updatetime")Date updatetime,
+			@Param("expressNo")String expressNo);
 	
 	public Orders singleOrders(String orderId);
 	
