@@ -43,7 +43,7 @@
 		updatetime=#{updatetime} where user_id=#{userId}
 	</update>
 	
-	<delete id="deleteUserPayBinding"  parameterType="com.ola.qh.entity.UserPayBinding" >
+	<delete id="deleteUserPayBinding" >
 		delete from user_pay_binding where user_id=#{userId}
 	</delete>
 	

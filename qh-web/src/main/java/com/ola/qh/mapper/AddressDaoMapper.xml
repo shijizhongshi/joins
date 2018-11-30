@@ -38,7 +38,7 @@
 		</if>
 		updatetime=#{updatetime} where id=#{id} 
 	</update>
-	<delete id="deleteAddress" parameterType="com.ola.qh.entity.Address" >
+	<delete id="deleteAddress" >
 		delete from address where id=#{id}
 	</delete>
 	

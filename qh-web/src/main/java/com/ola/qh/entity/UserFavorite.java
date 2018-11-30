@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Address {
+public class UserFavorite {
 
 	
 	private String id;
@@ -12,17 +12,14 @@ public class Address {
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
 	
-	@NotEmpty(message="收货人不能为空")
-	private String receiver;
+	@NotEmpty(message="产品ID不能为空")
+	private String productId;
 	
-	@NotEmpty(message="手机号码不能为空")
-	private String mobile;
+	@NotEmpty(message="产品姓名不能为空")
+	private String productName;
 	
-	@NotEmpty(message="地址不能为空")
-	private String address;
-	
-	@NotEmpty(message="性别不能为空")
-	private String sex;
+	@NotEmpty(message="产品展示图片不能为空")
+	private String productImgUrl;
 	
 	private Date addtime;
 	
@@ -36,6 +33,8 @@ public class Address {
 		this.id = id;
 	}
 
+	
+
 	public String getUserId() {
 		return userId;
 	}
@@ -44,36 +43,28 @@ public class Address {
 		this.userId = userId;
 	}
 
-	public String getReceiver() {
-		return receiver;
+	public String getProductId() {
+		return productId;
 	}
 
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
-	public String getMobile() {
-		return mobile;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getProductImgUrl() {
+		return productImgUrl;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setProductImgUrl(String productImgUrl) {
+		this.productImgUrl = productImgUrl;
 	}
 
 	public Date getAddtime() {
@@ -91,6 +82,6 @@ public class Address {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
-	
+
 	
 }

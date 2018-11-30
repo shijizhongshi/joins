@@ -9,6 +9,15 @@ import com.ola.qh.dao.AddressDao;
 import com.ola.qh.entity.Address;
 import com.ola.qh.service.IAddressService;
 
+/**
+ * 
+ * 
+* @ClassName: AddressService
+* @Description:  用户地址信息的增删改查
+* @author guozihan
+* @date   2018年11月30日
+*
+ */
 @Service
 public class AddressService implements IAddressService{
 

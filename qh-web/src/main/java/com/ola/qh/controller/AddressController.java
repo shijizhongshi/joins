@@ -20,6 +20,15 @@ import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+* @ClassName: AddressController
+* @Description:  用户地址信息的增删改查
+* @author guozihan
+* @date   2018年11月30日
+*
+ */
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
@@ -78,6 +87,11 @@ public class AddressController {
 
 		Results<String> results = new Results<String>();
 
+		if(address.getId()==null || "".equals(address.getId())){
+			results.setStatus("1");
+			results.setMessage("缺少地址ID");
+			return results;
+		}
 		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
 		pattern.matcher(address.getMobile()).matches();
 

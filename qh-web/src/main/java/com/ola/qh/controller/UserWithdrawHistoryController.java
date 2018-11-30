@@ -50,6 +50,12 @@ public class UserWithdrawHistoryController {
 	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,
 			BindingResult valid) {
 
+		Results<String> results=new Results<String>();
+		if (valid.hasErrors()) {
+			results.setMessage("信息填写不完整,请检查");
+			results.setStatus("1");
+			return results;
+		}
 		return userWithdrawHistoryService.saveUserWithdrawHistory(userwithdrawhistory);
 	}
 

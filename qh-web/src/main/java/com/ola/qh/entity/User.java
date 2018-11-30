@@ -38,8 +38,6 @@ public class User {
 	
 	private String password1;
 	
-	
-	
 	@NotNull
 	private int deviceType;
 	
