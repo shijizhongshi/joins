@@ -74,6 +74,12 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid) {
 
+		Results<User> result = new Results<User>();
+		if (valid.hasErrors()) {
+			result.setMessage("登录信息填写不完整,请检查");
+			result.setStatus("1");
+			return result;
+		}
 		return userService.loginUser(userlogin);
 	}
 
@@ -82,6 +88,11 @@ public class UserController {
 
 		Results<String> results = new Results<String>();
 
+		if(user.getId()==null || "".equals(user.getId())){
+			results.setStatus("1");
+			results.setMessage("缺少用户ID");
+			return results;
+		}
 		int users = userService.updateUser(user);
 		if (users <= 0) {
 			results.setMessage("更改异常");

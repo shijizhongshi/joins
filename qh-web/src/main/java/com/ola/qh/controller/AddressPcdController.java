@@ -12,6 +12,15 @@ import com.ola.qh.entity.AddressPcd;
 import com.ola.qh.service.IAddressPcdService;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+* @ClassName: AddressPcdController
+* @Description:  省份、城市、区县的查询
+* @author guozihan
+* @date   2018年11月30日
+*
+ */
 @RestController
 @RequestMapping("/api/AddressPcd")
 public class AddressPcdController {
@@ -38,7 +47,7 @@ public class AddressPcdController {
 	}
 
 	@RequestMapping(value = "/selectcity", method = RequestMethod.GET)
-	public Results<List<AddressPcd>> selectCity(@RequestParam(name = "provinceId") int provinceId) {
+	public Results<List<AddressPcd>> selectCity(@RequestParam(name = "provinceId",required=true) int provinceId) {
 
 		Results<List<AddressPcd>> results = new Results<List<AddressPcd>>();
 
@@ -55,7 +64,7 @@ public class AddressPcdController {
 	}
 
 	@RequestMapping(value = "/selectdistrict", method = RequestMethod.GET)
-	public Results<List<AddressPcd>> selectDistrict(@RequestParam(name = "cityId") int cityId) {
+	public Results<List<AddressPcd>> selectDistrict(@RequestParam(name = "cityId",required=true) int cityId) {
 
 		Results<List<AddressPcd>> results = new Results<List<AddressPcd>>();
 

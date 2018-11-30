@@ -39,6 +39,13 @@ public class UserLoginController {
 	public Results<String> updateUserLogin(@RequestBody UserLogin userlogin) {
 
 		Results<String> results = new Results<String>();
+		
+		if(userlogin.getUserId()==null || "".equals(userlogin.getUserId())){
+			results.setStatus("1");
+			results.setMessage("缺少用户ID");
+			return results;
+		}
+		
 		userlogin.setUpdatetime(new Date());
 		int update = userloginservice.updateUserLogin(userlogin);
 		if (update <= 0) {

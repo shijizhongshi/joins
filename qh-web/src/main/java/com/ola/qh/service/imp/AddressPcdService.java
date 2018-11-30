@@ -9,6 +9,15 @@ import com.ola.qh.dao.AddressPcdDao;
 import com.ola.qh.entity.AddressPcd;
 import com.ola.qh.service.IAddressPcdService;
 
+/**
+ * 
+ * 
+* @ClassName: AddressPcdService
+* @Description:  省份、城市、区县的查询
+* @author guozihan
+* @date   2018年11月30日
+*
+ */
 @Service
 public class AddressPcdService implements IAddressPcdService {
 

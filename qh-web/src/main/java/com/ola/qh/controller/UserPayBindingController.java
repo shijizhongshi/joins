@@ -43,6 +43,11 @@ public class UserPayBindingController {
 
 		Results<String> results = new Results<String>();
 
+		if(userpaybinding.getUserId()==null || "".equals(userpaybinding.getUserId())){
+			results.setStatus("1");
+			results.setMessage("缺少用户ID");
+			return results;
+		}
 		userpaybinding.setId(KeyGen.uuid());
 		userpaybinding.setAddtime(new Date());
 		int select = userPayBindingService.saveUserPayBinding(userpaybinding);
@@ -61,6 +66,11 @@ public class UserPayBindingController {
 
 		Results<String> results = new Results<String>();
 
+		if(userpaybinding.getUserId()==null || "".equals(userpaybinding.getUserId())){
+			results.setStatus("1");
+			results.setMessage("缺少用户ID");
+			return results;
+		}
 		userpaybinding.setUpdatetime(new Date());
 		int update = userPayBindingService.updateUserPayBinding(userpaybinding);
 
