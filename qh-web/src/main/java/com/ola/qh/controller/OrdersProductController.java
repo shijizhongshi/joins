@@ -73,7 +73,7 @@ public class OrdersProductController {
 			return result;
 		}
 		
-		return ordersproductService.applyRefund(opr);
+		return ordersproductService.alterRefund(opr);
 		
 	}
 	/**

@@ -118,7 +118,8 @@ public class OrdersController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public Results<String> updateOrders(@RequestParam(name = "statusCode", required = true) String statusCode,
+	public Results<String> updateOrders(
+			@RequestParam(name = "statusCode", required = true) String statusCode,
 			@RequestParam(name = "statusName", required = true) String statusName,
 			@RequestParam(name = "expressNo", required = false) String expressNo,
 			@RequestParam(name = "ordersId", required = true) String ordersId) {

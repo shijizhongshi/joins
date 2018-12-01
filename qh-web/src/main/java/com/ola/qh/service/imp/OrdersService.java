@@ -186,7 +186,7 @@ public class OrdersService implements IOrdersService {
 	@Transactional
 	public Results<String> updateOrders(String ordersStatus, String ordersName, String expressNo, String ordersId) {
 		Results<String> result = new Results<String>();
-		try {
+		/*try {*/
 			Date deliveredtime=null;
 			Orders orders = ordersDao.singleOrders(ordersId);
 			if (OrdersStatus.DELIVERED.equals(ordersStatus)) {
@@ -199,10 +199,7 @@ public class OrdersService implements IOrdersService {
 				deliveredtime=new Date();
 			}
 			List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
-			BigDecimal money=BigDecimal.ZERO;
-			for (OrdersProduct ordersProduct : listop) {
-				money=money.add(ordersProduct.getPayout());
-			}
+			
 			//////确认收货的页面
 			if (OrdersStatus.CONFIRMRECEIPT.equals(ordersStatus)) {
 				//// 订单已完成
@@ -210,6 +207,10 @@ public class OrdersService implements IOrdersService {
 					result.setStatus("1");
 					result.setMessage("订单状态不符");
 					return result;
+				}
+				BigDecimal money=BigDecimal.ZERO;
+				for (OrdersProduct ordersProduct : listop) {
+					money=money.add(ordersProduct.getPayout());
 				}
 				/////钱得到账本里
 				UserIntomoneyHistory uh=new UserIntomoneyHistory();
@@ -230,18 +231,18 @@ public class OrdersService implements IOrdersService {
 			ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime);
 			////// 修改订单产品的属性
 			for (OrdersProduct ordersProduct : listop) {
-				ordersProductDao.updateOrdersProduct(ordersProduct.getOrdersId(), ordersStatus, ordersName,
+				ordersProductDao.updateOrdersProduct(ordersProduct.getId(), ordersStatus, ordersName,
 						ordersProduct.getStatusCode(), new Date());
 			}
 			result.setStatus("0");
 			return result;
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("更新订单状态失败");
 			return result;
-		}
+		}*/
 
 	}
 
@@ -265,6 +266,7 @@ public class OrdersService implements IOrdersService {
 			totalprice=totalprice.add(op.getPayout());
 		}
 		//////防止订单中有退款的产品
+		od.setProduct(plist);
 		od.setPayaccount(totalprice);
 		result.setData(od);
 		result.setStatus("0");

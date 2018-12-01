@@ -20,7 +20,7 @@
 	</select>
 	
 	<insert id="saveUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >
-	 	insert into user_intomoney_history(id,user_id,money,orderid,status,addtime) values(#{id},#{userId},#{money},#{orderId},#{status},#{addtime})
+	 	insert into user_intomoney_history(id,user_id,money,orderid,into_status,addtime) values(#{id},#{userId},#{money},#{orderId},#{intoStatus},#{addtime})
 	</insert>
 	
 	<delete id="deleteUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >

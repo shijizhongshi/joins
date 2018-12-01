@@ -56,7 +56,7 @@
 	where id=#{id}
 	</update>
 	<select id="singleOrdersProduct" resultMap="OrdersProductMap">
-	select <include refid="sql_base"></include> from orders_product where id=#{id}
+	select <include refid="sql_base"></include>,old_status_code from orders_product where id=#{id}
 	</select>
 	
 	<select id="listOrdersProduct" resultMap="OrdersProductMap">

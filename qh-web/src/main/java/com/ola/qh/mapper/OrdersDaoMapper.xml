@@ -44,7 +44,7 @@
 	<if test="expressNo!=null">
 	express_no=#{expressNo},
 	</if>
-	<if test="paidtime!=mull">
+	<if test="paidtime!=null">
 	paidtime=#{paidtime},
 	</if>
 	<if test="deliveredtime!=null">
@@ -55,7 +55,7 @@
 	</update>
 	
 	<select id="singleOrders" resultMap="OrdersMap">
-	select <include refid="sql_base"></include>,expressNo,paidtime,deliveredtime from orders where id=#{orderId}
+	select <include refid="sql_base"></include>,express_no,paidtime,deliveredtime from orders where id=#{orderId}
 	</select>
 	
 	<select id="orderslist" resultMap="OrdersMap">

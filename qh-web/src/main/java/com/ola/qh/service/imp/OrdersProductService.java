@@ -22,6 +22,7 @@ import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IPayService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 /**
  * 申请退款 卖家的申请的处理   买家修改申请的操作
@@ -50,18 +51,29 @@ public class OrdersProductService implements IOrdersProductService{
 	public Results<String> applyRefund(OrdersProductRefund or) {
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
-		try {
+		/*try {*/
 			Results<String> userResult = userService.existUser(or.getUserId());
 			if("1".equals(userResult.getStatus())){
 				return userResult;
 			}
 			String opid = or.getOrdersProductId();
 			OrdersProduct op = ordersProductDao.singleOrdersProduct(opid);
+			
 			if(!OrdersStatus.PAID.equals(op.getStatusCode())){
 				result.setStatus("1");
 				result.setMessage("只有未发货的产品才可以申请退款");
 				return result;
 			}
+			/////产品的实际支付金额和申请的退款的金额进行比较
+			int num=op.getPayout().compareTo(or.getRefundMoney());
+			if(num==-1){
+				result.setStatus("1");
+				result.setMessage("退款金额大于实际支付金额");
+				return result;
+				
+			}
+			or.setId(KeyGen.uuid());
+			or.setAddtime(new Date());
 			ordersProductRefundDao.insertRefund(or);
 			List<OrdersProduct> oplist = ordersProductDao.selectByOid(op.getOrdersId(), null);
 			//////看看订单是否就这一个产品如果是的话  修改订单的产品   如果不是的话就不修改订单的状态
@@ -74,13 +86,13 @@ public class OrdersProductService implements IOrdersProductService{
 			
 			result.setStatus("0");
 			return result;
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("申请退款失败");
 			return result;
-		}
+		}*/
 		
 	}
 
