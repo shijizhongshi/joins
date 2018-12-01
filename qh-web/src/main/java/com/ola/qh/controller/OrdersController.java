@@ -24,14 +24,17 @@ import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+
 /**
- * 订单的提交  订单的查询 订单的修改  退款信息的提交
-* @ClassName: OrdersController  
-* @Description: TODO(这里用一句话描述这个类的作用)  
-* @author guoyuxue  
-* @date 2018年11月27日  
-*
+ * 订单的提交 订单的查询 订单的修改 
+ * 
+ * @ClassName: OrdersController
+ * @Description: TODO(这里用一句话描述这个类的作用)
+ * @author guoyuxue
+ * @date 2018年11月27日
+ *
  */
 @RestController
 @RequestMapping("/api/orders")
@@ -41,63 +44,61 @@ public class OrdersController {
 	private IOrdersService orderService;
 	@Autowired
 	private IPayService payService;
-	@Autowired
-	private IOrdersProductService ordersproductService;
-	
-	@RequestMapping(value="/submit",method=RequestMethod.POST)
-	public Results<Map<String,String>> submitOrders(@RequestBody @Valid OrdersVo ordersVo,BindingResult valid,HttpServletRequest request){
-		Results<Map<String,String>> result = new Results<Map<String,String>>();
-		if(ordersVo.getOid()==null || "".equals(ordersVo.getOid())){
-		if(ordersVo.getOrdersType()==0){
-				///////说明是药品的购买~~~
-				if(ordersVo.getAddress()==null || "".equals(ordersVo.getAddress())){
+
+	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	public Results<Map<String, String>> submitOrders(@RequestBody @Valid OrdersVo ordersVo, BindingResult valid,
+			HttpServletRequest request) {
+		Results<Map<String, String>> result = new Results<Map<String, String>>();
+		if (ordersVo.getOid() == null || "".equals(ordersVo.getOid())) {
+			if (ordersVo.getOrdersType() == 0) {
+				/////// 说明是药品的购买~~~
+				if (ordersVo.getAddress() == null || "".equals(ordersVo.getAddress())) {
 					result.setStatus("1");
 					result.setMessage("买家地址不能为空");
 					return result;
 				}
-				if(ordersVo.getReceiver()==null || "".equals(ordersVo.getReceiver())){
+				if (ordersVo.getReceiver() == null || "".equals(ordersVo.getReceiver())) {
 					result.setStatus("1");
 					result.setMessage("买家收货人不能为空");
 					return result;
 				}
-				if(ordersVo.getMobile()==null || "".equals(ordersVo.getMobile())){
+				if (ordersVo.getMobile() == null || "".equals(ordersVo.getMobile())) {
 					result.setStatus("1");
 					result.setMessage("买家手机号不能为空");
 					return result;
 				}
 			}
-			if(valid.hasErrors()){
-				//////信息不完整
+			if (valid.hasErrors()) {
+				////// 信息不完整
 				result.setStatus("1");
 				result.setMessage("订单信息提交不完整");
 				return result;
 			}
 		}
-			Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
-			
-		
-		if("0".equals(results.getStatus())){
-			if(!"ALIPAY".equals(ordersVo.getPaytypeCode()) && !"WXPAY".equals(ordersVo.getPaytypeCode())){
+		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
+
+		if ("0".equals(results.getStatus())) {
+			if (!"ALIPAY".equals(ordersVo.getPaytypeCode()) && !"WXPAY".equals(ordersVo.getPaytypeCode())) {
 				result.setStatus("1");
 				result.setMessage("只支持支付宝或者微信支付");
 				return result;
 			}
-			if("ALIPAY".equals(ordersVo.getPaytypeCode())){
-				//////调用支付宝支付的接口
+			if ("ALIPAY".equals(ordersVo.getPaytypeCode())) {
+				////// 调用支付宝支付的接口
 				Results<String> aliResult = payService.aliprepay(results.getData());
 				result.setStatus(aliResult.getStatus());
-				if("0".equals(aliResult.getStatus())){
-					Map<String,String> map = new HashMap<String,String>();
+				if ("0".equals(aliResult.getStatus())) {
+					Map<String, String> map = new HashMap<String, String>();
 					map.put("alibody", aliResult.getData());
 					result.setData(map);
 					return result;
-				}else{
+				} else {
 					result.setMessage(aliResult.getMessage());
 					return result;
 				}
 			}
-			if("WXPAY".equals(ordersVo.getPaytypeCode())){
-				//////调用微信支付的接口
+			if ("WXPAY".equals(ordersVo.getPaytypeCode())) {
+				////// 调用微信支付的接口
 				try {
 					result = payService.wxprepay(results.getData(), request);
 					return result;
@@ -108,46 +109,64 @@ public class OrdersController {
 					return result;
 				}
 			}
-			
+
 		}
 		result.setStatus(results.getStatus());
 		result.setMessage(results.getMessage());
 		return result;
-		
+
 	}
-	
-	@RequestMapping(value="/update",method=RequestMethod.GET)
-	public Results<String> updateOrders(
-			@RequestParam(name="statusCode",required=true)String statusCode,
-			@RequestParam(name="statusName",required=true)String statusName,
-			@RequestParam(name="expressNo",required=false)String expressNo,
-			@RequestParam(name="ordersId",required=true)String ordersId){
-			
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public Results<String> updateOrders(@RequestParam(name = "statusCode", required = true) String statusCode,
+			@RequestParam(name = "statusName", required = true) String statusName,
+			@RequestParam(name = "expressNo", required = false) String expressNo,
+			@RequestParam(name = "ordersId", required = true) String ordersId) {
+
 		Results<String> result = new Results<String>();
-		if(OrdersStatus.DELIVERED.equals(statusCode)){
-			//////发货
-			if(expressNo==null || "".equals(expressNo)){
+		if (OrdersStatus.DELIVERED.equals(statusCode)) {
+			////// 发货
+			if (expressNo == null || "".equals(expressNo)) {
 				result.setStatus("1");
 				result.setMessage("快递单号不能为空");
 				return result;
 			}
 		}
-		
+
 		return orderService.updateOrders(statusCode, statusName, expressNo, ordersId);
-		
+
 	}
+
 	/**
 	 * 正常订单的订单详情
-	 * <p>Title: singleOrders</p>  
-	 * <p>Description: </p>  
+	 * <p>
+	 * Title: singleOrders
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
 	 * @param ordersId
 	 * @return
 	 */
 	@RequestMapping("/single")
-	public Results<OrdersDomain> singleOrders(@RequestParam(name="ordersId",required=true)String ordersId){
-		
+	public Results<OrdersDomain> singleOrders(@RequestParam(name = "ordersId", required = true) String ordersId) {
+
 		return orderService.singleOrders(ordersId);
 	}
 	
-	
+	@RequestMapping("/list")
+	public Results<List<OrdersDomain>> listOrders(
+			@RequestParam(name="statusCode",required=true)String statusCode,
+			@RequestParam(name="page",required=true) int page){
+		
+		Results<List<OrdersDomain>> result = new Results<List<OrdersDomain>>();
+		int pageSize = Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		List<OrdersDomain> listDomain = orderService.listOrders(statusCode, pageNo, pageSize);
+		result.setStatus("0");
+		result.setData(listDomain);
+		return result;
+	}
+
 }

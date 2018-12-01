@@ -41,6 +41,10 @@ public class OrdersProduct {
 	
 	private Date updatetime;
 	
+	private String headImgUrl;
+	
+	private String nickname;
+	
 	private OrdersProductRefund opr=new OrdersProductRefund();
 	
 	public String getId() {
@@ -177,6 +181,22 @@ public class OrdersProduct {
 
 	public void setOpr(OrdersProductRefund opr) {
 		this.opr = opr;
+	}
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 	

@@ -17,7 +17,7 @@ public class UserIntomoneyHistory {
 	
 	private Date updatetime;
 	
-	private String orderid;
+	private String orderId;
 
 	public String getId() {
 		return id;
@@ -50,12 +50,13 @@ public class UserIntomoneyHistory {
 		this.updatetime = updatetime;
 	}
 
-	public String getOrderid() {
-		return orderid;
+	
+	public String getOrderId() {
+		return orderId;
 	}
 
-	public void setOrderid(String orderid) {
-		this.orderid = orderid;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 	public String getUserId() {

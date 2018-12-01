@@ -16,6 +16,9 @@ import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDrugDao;
+import com.ola.qh.dao.UserBookDao;
+import com.ola.qh.dao.UserIntomoneyHistoryDao;
+import com.ola.qh.dao.UserWithdrawHistoryDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersDomain;
@@ -24,6 +27,7 @@ import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -42,6 +46,11 @@ public class OrdersService implements IOrdersService {
 	private ShopDrugDao shopDrugDao;
 	@Autowired
 	private CourseDao courseDao;
+	@Autowired
+	private UserBookDao userBookDao;
+	
+	@Autowired
+	private UserIntomoneyHistoryDao userIntomoneyHistoryDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -59,6 +68,7 @@ public class OrdersService implements IOrdersService {
 				}
 				List<Orders> ordersList = ordersVo.getOrdersList();
 				BigDecimal totalPrice = BigDecimal.ZERO;
+				int count=0;
 				List<OrdersPayment> oplist = new ArrayList<OrdersPayment>();
 				String extransno = String.valueOf(KeyGen.next18());
 				for (Orders orders : ordersList) {
@@ -84,6 +94,7 @@ public class OrdersService implements IOrdersService {
 							ordersProduct.setId(KeyGen.uuid());
 							ordersProduct.setMuserId(orders.getMuserId());
 							ordersProduct.setOrdersId(oid);
+							count+=ordersProduct.getCount();
 							if (ordersVo.getOrdersType() == 0) {
 								////// 通过药品的id查商品的价格等信息
 								ShopDrug shopDrug = shopDrugDao.selectById(ordersProduct.getProductId());
@@ -114,6 +125,7 @@ public class OrdersService implements IOrdersService {
 						}
 						totalPrice = totalPrice.add(prices).setScale(2, BigDecimal.ROUND_DOWN);
 						orders.setPayaccount(prices);////// 订单实际支付的金额
+						orders.setCount(count);
 						////// 保存订单的信息
 						ordersDao.insertOrders(orders);
 						op.setUserId(ordersVo.getUserId());
@@ -186,16 +198,35 @@ public class OrdersService implements IOrdersService {
 				}
 				deliveredtime=new Date();
 			}
-			if (OrdersStatus.RECEIVED.equals(ordersStatus)) {
+			List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
+			BigDecimal money=BigDecimal.ZERO;
+			for (OrdersProduct ordersProduct : listop) {
+				money=money.add(ordersProduct.getPayout());
+			}
+			//////确认收货的页面
+			if (OrdersStatus.CONFIRMRECEIPT.equals(ordersStatus)) {
 				//// 订单已完成
 				if(!OrdersStatus.DELIVERED.equals(orders.getOrdersStatus())){
 					result.setStatus("1");
 					result.setMessage("订单状态不符");
 					return result;
 				}
+				/////钱得到账本里
+				UserIntomoneyHistory uh=new UserIntomoneyHistory();
+				uh.setAddtime(new Date());
+				uh.setIntoStatus(0);
+				uh.setId(KeyGen.uuid());
+				uh.setMoney(money);
+				uh.setOrderId(ordersId);
+				//////往商家店铺里打钱~~~
+				uh.setUserId(orders.getMuserId());
+				userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
+				///修改总账本
+				userBookDao.updateUserBook(orders.getMuserId(), money, new Date());
+				
 			}
 			//////// 修改订单的状态~~~
-			List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
+			
 			ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime);
 			////// 修改订单产品的属性
 			for (OrdersProduct ordersProduct : listop) {
@@ -241,15 +272,58 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public List<Orders> listOrders(String status,int pageNo, int pageSize) {
+	public List<OrdersDomain> listOrders(String statusCode,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		/////status:0全部的订单
-		//status:1待付款 
-		//status:2待发货的订单  
-		//status:3  待收货 
-		//status:4待评价  
-		//status:5退款售后
-		return null;
+		/////statusCode:AllStatus全部的订单
+		//statusCode:refundStatus退款售后
+		List<OrdersDomain> odmainList=new ArrayList<OrdersDomain>();
+		if("AllStatus".equals(statusCode)){
+			List<Orders> orderList = ordersDao.ordersList(null, pageNo, pageSize);
+			
+			for (Orders orders : orderList) {
+				OrdersDomain od=new OrdersDomain();
+				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
+				od.setProduct(listOrders);
+				BeanUtils.copyProperties(orders, od);
+				odmainList.add(od);
+			}
+			return odmainList;
+		}else if("refundStatus".equals(statusCode)){
+			//////退款售后
+			List<OrdersProduct> listOrders = ordersProductDao.listOrdersProduct("refundStatus",pageNo,pageSize);
+			for (OrdersProduct ordersProduct : listOrders) {
+				OrdersDomain od=new OrdersDomain();
+				od.setNickname(ordersProduct.getNickname());
+				od.setHeadImgUrl(ordersProduct.getHeadImgUrl());
+				od.setProduct(listOrders);
+				odmainList.add(od);
+				
+			}
+			return odmainList;
+			
+		}else{
+			////待付款(NEW)  待发货(PAID)  待收货(DELIVERED) 待评价(CONFIRMRECEIPT) 已完成(RECEIVED)
+			List<Orders> orderList = ordersDao.ordersList(statusCode, pageNo, pageSize);
+			
+			for (Orders orders : orderList) {
+				OrdersDomain od=new OrdersDomain();
+				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), statusCode);
+				BigDecimal payaccount=BigDecimal.ZERO;
+				int count=0;
+				for (OrdersProduct ordersProduct : listOrders) {
+					payaccount=payaccount.add(ordersProduct.getPayout());
+					count+=ordersProduct.getCount();
+				}
+				od.setPayaccount(payaccount);
+				od.setCount(count);
+				od.setProduct(listOrders);
+				BeanUtils.copyProperties(orders, od);
+				odmainList.add(od);
+			}
+			return odmainList;
+			
+		}
+		
 	}
 	
 

@@ -52,6 +52,28 @@ public class Orders {
 	@NotNull
 	@Size(min=1)
 	private List<OrdersProduct> product = new ArrayList<OrdersProduct>();
+	
+	private String headImgUrl;////商家的头像
+	
+	private String nickname;/////商家的昵称
+	
+	private int count;////总共多少件商品
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	public String getId() {
 		return id;
@@ -203,6 +225,14 @@ public class Orders {
 
 	public void setPaidtime(Date paidtime) {
 		this.paidtime = paidtime;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 	

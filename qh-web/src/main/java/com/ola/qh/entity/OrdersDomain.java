@@ -27,6 +27,12 @@ public class OrdersDomain {
 	private String paidtime;/////支付时间
 	
 	private List<OrdersProduct> product = new ArrayList<OrdersProduct>();
+	
+	private String headImgUrl;////商家的头像
+	
+	private String nickname;/////商家的昵称
+	
+	private int count;////总共多少件商品
 
 	public String getId() {
 		return id;
@@ -115,6 +121,31 @@ public class OrdersDomain {
 	public void setProduct(List<OrdersProduct> product) {
 		this.product = product;
 	}
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	
 	
 	

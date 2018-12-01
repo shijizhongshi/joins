@@ -48,27 +48,22 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 
 			UserBook userBooks = userBookDao.selectUserBook(userwithdrawhistory.getUserId());
 			BigDecimal accountMoney = userBooks.getAccountMoney();
-			BigDecimal onMoney = userwithdrawhistory.getOnMoney();
-			int bigdecimal = accountMoney.compareTo(onMoney);
+			BigDecimal outMoney = userwithdrawhistory.getOutMoney();
+			int bigdecimal = accountMoney.compareTo(outMoney);
 			if (bigdecimal == -1) {
 				results.setMessage("账户余额不足");
 				results.setStatus("1");
 				return results;
 			}
-			UserBook userBook = new UserBook();
-			BigDecimal bookMoney = accountMoney.subtract(onMoney);
-			userBook.setAccountMoney(bookMoney);
-			userBook.setUpdatetime(new Date());
-			userBook.setUserId(userwithdrawhistory.getUserId());
-			userBookDao.updateUserBook(userBook);
-
-			UserWithdrawHistory userwithdrawhistory1 = new UserWithdrawHistory();
-			userwithdrawhistory1.setId(KeyGen.uuid());
-			userwithdrawhistory1.setAddtime(new Date());
-			userwithdrawhistory1.setMoney(onMoney);
-			userwithdrawhistory1.setUserId(userwithdrawhistory.getUserId());
-			userwithdrawhistory1.setWithdrawTypes(userwithdrawhistory.getWithdrawTypes());
-			userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory1);
+			BigDecimal bookMoney = accountMoney.subtract(outMoney);
+			///////修改账本中的钱
+			userBookDao.updateUserBook(userwithdrawhistory.getUserId(), bookMoney, new Date());
+			//////保存账本的提现记录~
+			userwithdrawhistory.setAddtime(new Date());
+			userwithdrawhistory.setMoney(outMoney);
+			userwithdrawhistory.setId(KeyGen.uuid());
+			userwithdrawhistory.setPayStatus(0);
+			userWithdrawHistoryDao.saveUserWithdrawHistory(userwithdrawhistory);
 
 			results.setStatus("0");
 			return results;

@@ -7,13 +7,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserWithdrawHistory {
 
-	@NotEmpty(message="ID不能为空")
 	private String id;
 	
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
 	
-	private String withdrawTypes;
+	@NotEmpty(message="提现的方式不能为空")
+	private String withdrawTypes;/////支付宝或者是微信
 	
 	private BigDecimal money;
 	
@@ -25,7 +25,7 @@ public class UserWithdrawHistory {
 	
 	private Date updatetime;
 	
-	private BigDecimal onMoney;
+	private BigDecimal outMoney;/////提现金额
 	
 	public String getId() {
 		return id;
@@ -92,13 +92,15 @@ public class UserWithdrawHistory {
 		this.updatetime = updatetime;
 	}
 
-	public BigDecimal getOnMoney() {
-		return onMoney;
+	public BigDecimal getOutMoney() {
+		return outMoney;
 	}
 
-	public void setOnMoney(BigDecimal onMoney) {
-		this.onMoney = onMoney;
+	public void setOutMoney(BigDecimal outMoney) {
+		this.outMoney = outMoney;
 	}
+
+
 
 
 	

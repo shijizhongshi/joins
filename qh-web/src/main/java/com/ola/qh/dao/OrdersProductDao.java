@@ -21,4 +21,6 @@ public interface OrdersProductDao {
 			@Param("updatetime")Date updatetime);
 	
 	public OrdersProduct singleOrdersProduct(String id);
+	
+	public List<OrdersProduct> listOrdersProduct(String statusCode,int pageNo,int pageSize);
 }

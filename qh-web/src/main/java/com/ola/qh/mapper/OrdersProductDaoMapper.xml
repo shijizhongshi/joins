@@ -57,7 +57,16 @@
 	</update>
 	<select id="singleOrdersProduct" resultMap="OrdersProductMap">
 	select <include refid="sql_base"></include> from orders_product where id=#{id}
-	
 	</select>
 	
+	<select id="listOrdersProduct" resultMap="OrdersProductMap">
+	select <include refid="sql_base"></include>,u.head_img_url headImgUrl,u.nickname from orders_product op left join user u on
+	u.id=op.muser_id 
+	where 1=1
+	<if test="statusCode!=null">
+	and status_code in("APPLYREFUNED","AGREEREFUNED","REJECTREFUNED","REFUNED")
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
 </mapper>

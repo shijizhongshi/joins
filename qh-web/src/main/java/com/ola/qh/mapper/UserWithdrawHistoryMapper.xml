@@ -21,7 +21,7 @@
 	</select>
 	
 	<insert id="saveUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
-	 	insert into user_withdraw_history(id,user_id,withdraw_types,money,addtime) values(#{id},#{userId},#{withdrawTypes},#{money},#{addtime})
+	 	insert into user_withdraw_history(id,user_id,withdraw_types,money,pay_status,addtime) values(#{id},#{userId},#{withdrawTypes},#{money},#{payStatus},#{addtime})
 	</insert>
 	
 	<delete id="deleteUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >

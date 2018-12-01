@@ -39,4 +39,9 @@ public interface OrdersDao {
 			@Param("updatetime")Date updatetime);
 	
 	public OrdersPayment singlePayment(String ordersId);
+	
+	public List<Orders> ordersList(
+	@Param("ordersStatus")String ordersStatus,
+	@Param("pageNo")int pageNo,
+	@Param("pageSize")int pageSize);
 }

@@ -18,7 +18,7 @@
 	<insert id="saveUserBook" parameterType="com.ola.qh.entity.UserBook">
 		insert into user_book(id,user_id,account_money,addtime) values(#{id},#{userId},#{accountMoney},#{addtime})
 	</insert>
-	<update id="updateUserBook" parameterType="com.ola.qh.entity.UserBook">
+	<update id="updateUserBook">
 		update user_book set account_money=#{accountMoney},updatetime=#{updatetime} where user_id=#{userId}
 	</update>
 
