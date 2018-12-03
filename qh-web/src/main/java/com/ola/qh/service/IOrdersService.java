@@ -5,8 +5,8 @@ import java.util.List;
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
-import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.OrdersVo;
 
 public interface IOrdersService {
 

@@ -1,4 +1,4 @@
-package com.ola.qh.entity;
+package com.ola.qh.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.ola.qh.entity;
+package com.ola.qh.vo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

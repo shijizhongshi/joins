@@ -183,6 +183,14 @@ public class Course {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	
 	
 	

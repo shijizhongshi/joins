@@ -103,6 +103,14 @@ public class CourseChapter {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
+
+	public int getIspay() {
+		return ispay;
+	}
+
+	public void setIspay(int ispay) {
+		this.ispay = ispay;
+	}
 	
 	
 

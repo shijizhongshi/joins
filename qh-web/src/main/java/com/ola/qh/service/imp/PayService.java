@@ -49,13 +49,13 @@ import com.ola.qh.entity.BizContent;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.PayPipeline;
-import com.ola.qh.entity.WXPrePayResult;
 import com.ola.qh.service.IPayService;
 import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.MD5;
 import com.ola.qh.util.RBuilder;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.WXPrePayResult;
 
 /**
  * 调用支付宝和微信的接口

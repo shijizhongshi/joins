@@ -2,10 +2,8 @@ package com.ola.qh.controller.result;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.PayResult;
-import com.ola.qh.entity.WXPayResult;
 import com.ola.qh.service.IPayResultService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.MD5;
+import com.ola.qh.vo.WXPayResult;
 /**
  * 支付宝和微信的回调
 * @ClassName: PayResultApi  

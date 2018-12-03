@@ -25,13 +25,13 @@ import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
-import com.ola.qh.entity.OrdersVo;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.OrdersVo;
 
 @Service
 public class OrdersService implements IOrdersService {
