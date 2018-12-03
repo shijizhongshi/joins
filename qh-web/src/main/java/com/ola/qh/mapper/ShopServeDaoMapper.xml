@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ola.qh.dao.ShopServeDao">
+	
+	<resultMap type="com.ola.qh.entity.ShopServe" id="ShopServeMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="shop_id" property="shopId"/>
+	<result column="serve_name" property="serveName"/>
+	<result column="price" property="price"/>
+	<result column="discount_price" property="discountPrice"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="content" property="content"/>
+	<result column="serve_time" property="serveTime"/>
+	<result column="refund_rule" property="refundRule"/>
+	<result column="serve_status" property="serveStatus"/>
+	<result column="explains" property="explains"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<sql id="sql_base">
+	id,user_id,shop_id,serve_name,price,discount_price,img_url
+	</sql>
+	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
+	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,refund_rule,explains,
+	addtime)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},
+	#{content},#{serveTime},#{refundRule},#{serveStatus},#{explains},#{addtime})
+	</insert>
+	<update id="updateServe" parameterType="com.ola.qh.entity.ShopServe">
+	update shop_serve set
+	<if test="serveName!=null">
+	serve_name=#{serveName},
+	</if>
+	<if test="price!=0">
+	price=#{price},
+	</if>
+	<if test="discountPrice!=0">
+	discount_price=#{discountPrice},
+	</if>
+	<if test="imgUrl!=null">
+	img_url=#{imgUrl},
+	</if>
+	<if test="content!=null">
+	content=#{content},
+	</if>
+	<if test="serveTime!=null">
+	serve_time=#{serveTime},
+	</if>
+	<if test="refundRule!=null">
+	refund_rule=#{refundRule},
+	</if>
+	<if test="serveStatus!=0">
+	serve_status=#{serveStatus},
+	</if>
+	<if test="explains!=null">
+	explains=#{explains},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
+	<select id="selectSingle" resultMap="ShopServeMap">
+	select <include refid="sql_base"></include>,content,serve_time,refund_rule,explains from shop_serve where id=#{id}
+	</select>
+	
+	<select id="selectList" resultMap="ShopServeMap">
+	select <include refid="sql_base"></include> from shop_serve where 1=1
+	<if test="shopId!=null">
+	and shop_id=#{shopId}
+	</if>
+	<!-- 只有等于1的时候表示是 -->
+	<if test="shopId==null">
+	and serve_status=1
+	</if>
+	<if test="id!=null">
+	and id not in(#{id})
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+	
+	
+	
+	
+	
+	<resultMap type="com.ola.qh.entity.ShopServeImg" id="ShopServeImgMap">
+	<result column="id" property="id"/>
+	<result column="serve_id" property="serveId"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	<insert id="insertServeImg" parameterType="com.ola.qh.entity.ShopServeImg">
+	insert into shop_serve_img(id,serve_id,img_url,addtime)values(#{id},#{serveId},#{imgUrl},#{addtime})
+	</insert>
+	<delete id="deleteServeImg">
+	delete from shop_serve_img where id=#{id}
+	</delete>
+	<select id="selectByServeId" resultMap="ShopServeImgMap">
+	select id,serve_id,img_url from shop_serve_img where serve_id=#{serveId}
+	</select>
+	</mapper>
+

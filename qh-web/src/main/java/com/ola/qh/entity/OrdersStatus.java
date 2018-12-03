@@ -8,8 +8,6 @@ public class OrdersStatus {
     
     public static final String DELIVERED="DELIVERED";/////发货的订单
     
-    public static final String CONFIRMRECEIPT="CONFIRMRECEIPT";/////确认收货订单
-    
     public static final String RECEIVED="RECEIVED";/////完成的订单
     
     ////////////////对于订单商品的退货===============================

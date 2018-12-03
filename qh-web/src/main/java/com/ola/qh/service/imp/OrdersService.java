@@ -216,7 +216,7 @@ public class OrdersService implements IOrdersService {
 			List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
 			
 			//////确认收货的页面
-			if (OrdersStatus.CONFIRMRECEIPT.equals(ordersStatus)) {
+			if (OrdersStatus.RECEIVED.equals(ordersStatus)) {
 				//// 订单已完成
 				if(!OrdersStatus.DELIVERED.equals(orders.getOrdersStatus())){
 					result.setStatus("1");
@@ -319,7 +319,7 @@ public class OrdersService implements IOrdersService {
 			return odmainList;
 			
 		}else{
-			////待付款(NEW)  待发货(PAID)  待收货(DELIVERED) 待评价(CONFIRMRECEIPT) 已完成(RECEIVED)
+			////待付款(NEW)  待发货(PAID)  待收货(DELIVERED) 已完成(RECEIVED)
 			List<Orders> orderList = ordersDao.ordersList(statusCode, pageNo, pageSize);
 			
 			for (Orders orders : orderList) {

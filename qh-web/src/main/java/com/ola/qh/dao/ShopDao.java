@@ -12,5 +12,7 @@ public interface ShopDao {
 	
 	public int updateShop(Shop shop);
 	
-	public List<Shop> selectShopByUserId(@Param("userId")String userId,@Param("shopId")String shopId);
+	public List<Shop> selectShopByUserId(
+			@Param("userId")String userId,
+			@Param("shopId")String shopId);
 }
