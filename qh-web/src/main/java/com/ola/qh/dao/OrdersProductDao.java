@@ -22,5 +22,5 @@ public interface OrdersProductDao {
 	
 	public OrdersProduct singleOrdersProduct(String id);
 	
-	public List<OrdersProduct> listOrdersProduct(String statusCode,int pageNo,int pageSize);
+	public List<OrdersProduct> listOrdersProduct(@Param("statusCode")String statusCode,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 }

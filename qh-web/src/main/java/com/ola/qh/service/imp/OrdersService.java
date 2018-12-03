@@ -186,7 +186,7 @@ public class OrdersService implements IOrdersService {
 	@Transactional
 	public Results<String> updateOrders(String ordersStatus, String ordersName, String expressNo, String ordersId) {
 		Results<String> result = new Results<String>();
-		/*try {*/
+		try {
 			Date deliveredtime=null;
 			Orders orders = ordersDao.singleOrders(ordersId);
 			if (OrdersStatus.DELIVERED.equals(ordersStatus)) {
@@ -236,13 +236,13 @@ public class OrdersService implements IOrdersService {
 			}
 			result.setStatus("0");
 			return result;
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("更新订单状态失败");
 			return result;
-		}*/
+		}
 
 	}
 
@@ -284,9 +284,9 @@ public class OrdersService implements IOrdersService {
 			
 			for (Orders orders : orderList) {
 				OrdersDomain od=new OrdersDomain();
+				BeanUtils.copyProperties(orders, od);
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
 				od.setProduct(listOrders);
-				BeanUtils.copyProperties(orders, od);
 				odmainList.add(od);
 			}
 			return odmainList;
@@ -312,6 +312,7 @@ public class OrdersService implements IOrdersService {
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), statusCode);
 				BigDecimal payaccount=BigDecimal.ZERO;
 				int count=0;
+				BeanUtils.copyProperties(orders, od);
 				for (OrdersProduct ordersProduct : listOrders) {
 					payaccount=payaccount.add(ordersProduct.getPayout());
 					count+=ordersProduct.getCount();
@@ -319,7 +320,6 @@ public class OrdersService implements IOrdersService {
 				od.setPayaccount(payaccount);
 				od.setCount(count);
 				od.setProduct(listOrders);
-				BeanUtils.copyProperties(orders, od);
 				odmainList.add(od);
 			}
 			return odmainList;
