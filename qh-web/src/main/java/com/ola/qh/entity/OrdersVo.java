@@ -36,6 +36,10 @@ public class OrdersVo{
 	@NotEmpty(message="支付名称不能为空")
 	private String paytypeName;////支付名称
 	
+	private String leaveMessage;////留言
+	
+	private String sex;////性别
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -95,6 +99,18 @@ public class OrdersVo{
 	}
 	public void setOid(String oid) {
 		this.oid = oid;
+	}
+	public String getLeaveMessage() {
+		return leaveMessage;
+	}
+	public void setLeaveMessage(String leaveMessage) {
+		this.leaveMessage = leaveMessage;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	
 	

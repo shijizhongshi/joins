@@ -79,7 +79,7 @@ public class OrdersProductService implements IOrdersProductService{
 			//////看看订单是否就这一个产品如果是的话  修改订单的产品   如果不是的话就不修改订单的状态
 			if(oplist.size()==1){
 				/////修改订单的状态(订单中只有一个产品)
-				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.APPLYREFUNED, op.getStatusCode(), new Date(), null,null,null);
+				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.APPLYREFUNED, op.getStatusCode(), new Date(), null,null,null,null,null);
 			}
 			//////修改订单产品的状态
 			ordersProductDao.updateOrdersProduct(opid, OrdersStatus.APPLYREFUNED, "申请退款", op.getStatusCode(), new Date());
@@ -173,7 +173,7 @@ public class OrdersProductService implements IOrdersProductService{
 			ordersProductRefundDao.updateRefund(or);
 			ordersProductDao.updateOrdersProduct(ordersProductId, statusCode,statusName, null, new Date());
 			if(ordersProductDao.selectByOid(op.getOrdersId(), null).size()==1){
-				ordersDao.updateOrders(op.getOrdersId(), statusCode, null, new Date(), null,null,null);
+				ordersDao.updateOrders(op.getOrdersId(), statusCode, null, new Date(), null,null,null,null,null);
 			}
 			result.setStatus("0");
 			return result;
@@ -206,7 +206,7 @@ public class OrdersProductService implements IOrdersProductService{
 				opr.setStatusCode(OrdersStatus.APPLYREFUNED);
 				if(ordersProductDao.selectByOid(op.getOrdersId(),null).size()==1){
 					//////修改订单的信息
-					ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.APPLYREFUNED, null, new Date(), null,null,null);
+					ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.APPLYREFUNED, null, new Date(), null,null,null,null,null);
 				}
 				/////修改订单产品的信息
 				ordersProductDao.updateOrdersProduct(op.getId(), OrdersStatus.APPLYREFUNED, "申请", null, new Date());

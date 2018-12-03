@@ -1,5 +1,8 @@
 package com.ola.qh.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
+import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersProductRefund;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.OrdersVo;
+import com.ola.qh.entity.ProductVo;
 import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
@@ -117,6 +122,81 @@ public class OrdersController {
 
 	}
 
+	
+	@RequestMapping(value = "/submitSingle", method = RequestMethod.POST)
+	public Results<Map<String, String>> submitSingle(@RequestBody @Valid ProductVo productVo, BindingResult valid,
+			HttpServletRequest request) throws Exception {
+		Results<Map<String, String>> result = new Results<Map<String, String>>();
+		OrdersVo ordersVo=new OrdersVo();
+		
+		List<Orders> olist = new ArrayList<Orders>();
+		Orders o=new Orders();
+		o.setMuserId(productVo.getMuserId());
+		o.setLeaveMessage(productVo.getLeaveMessage());
+		o.setSex(productVo.getSex());
+		///////预定或者是购买
+		o.setPaymentType(productVo.getPaymentType());
+		if(productVo.getPresetTime()!=null && !"".equals(productVo.getPresetTime())){
+		    /////预约的时间(如果不是预定购买的话就没有这个字段)
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			o.setPresetTime(sf.parse(productVo.getPresetTime()));
+		}
+		
+		List<OrdersProduct> oplist = new ArrayList<OrdersProduct>();
+		OrdersProduct op = new OrdersProduct();
+		op.setProductId(productVo.getProductId());/////产品的id
+		op.setCount(productVo.getCount());
+		oplist.add(op);
+		o.setProduct(oplist);
+		olist.add(o);
+		ordersVo.setOrdersList(olist);
+		ordersVo.setOrdersType(productVo.getOrdersType());
+		ordersVo.setPaytypeCode(productVo.getPayTypeCode());
+		ordersVo.setPaytypeName(productVo.getPayTypeName());
+		ordersVo.setTotalPayout(productVo.getTotalPayout());
+		ordersVo.setUserId(productVo.getUserId());
+		
+		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
+
+		if ("0".equals(results.getStatus())) {
+			if (!"ALIPAY".equals(ordersVo.getPaytypeCode()) && !"WXPAY".equals(ordersVo.getPaytypeCode())) {
+				result.setStatus("1");
+				result.setMessage("只支持支付宝或者微信支付");
+				return result;
+			}
+			if ("ALIPAY".equals(ordersVo.getPaytypeCode())) {
+				////// 调用支付宝支付的接口
+				Results<String> aliResult = payService.aliprepay(results.getData());
+				result.setStatus(aliResult.getStatus());
+				if ("0".equals(aliResult.getStatus())) {
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("alibody", aliResult.getData());
+					result.setData(map);
+					return result;
+				} else {
+					result.setMessage(aliResult.getMessage());
+					return result;
+				}
+			}
+			if ("WXPAY".equals(ordersVo.getPaytypeCode())) {
+				////// 调用微信支付的接口
+				try {
+					result = payService.wxprepay(results.getData(), request);
+					return result;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					result.setStatus("1");
+					result.setMessage("处理异常呢~");
+					return result;
+				}
+			}
+
+		}
+		result.setStatus(results.getStatus());
+		result.setMessage(results.getMessage());
+		return result;
+
+	}
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public Results<String> updateOrders(
 			@RequestParam(name = "statusCode", required = true) String statusCode,

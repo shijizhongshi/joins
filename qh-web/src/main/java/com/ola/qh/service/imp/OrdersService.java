@@ -116,6 +116,11 @@ public class OrdersService implements IOrdersService {
 								prices = prices.add(course.getCourseDiscountPrice()).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(course.getCourseDiscountPrice());
 								////// count 记得传1
+							}else if(ordersVo.getOrdersType() == 2){
+								///////这个是服务店铺项目的的购买的流程(名称/图片/价格/实际支付)
+								
+								
+								
 							}
 							ordersProduct.setStatusCode(OrdersStatus.NEW);
 							ordersProduct.setStatusName("新订单");
@@ -145,6 +150,10 @@ public class OrdersService implements IOrdersService {
 							///// 购买药品
 							op.setSubjectTitle("购买店铺商品");
 							op.setBodyDetail("购买店铺商品的支付");
+						}else if(ordersVo.getOrdersType() == 2){
+							//////购买服务店铺的项目
+							op.setSubjectTitle("购买服务项目");
+							op.setBodyDetail("购买服务项目的支付");
 						}
 						op.setOrdersType(ordersVo.getOrdersType());
 						ordersDao.insertOrdersPayment(op);///// 保存订单的支付信息
@@ -162,8 +171,14 @@ public class OrdersService implements IOrdersService {
 				result.setStatus("0");
 				return result;
 			}
-			///////订单中待付款的订单立即付款的操作
+			///////订单中待付款的订单立即付款的操作(传订单的id和支付方式即可)
 			OrdersPayment opsingle= ordersDao.singlePayment(ordersVo.getOid());
+			///////////如果支付方式不变的话修改支付方式
+			if(!ordersVo.getPaytypeCode().equals(opsingle.getPaytypeCode())){
+				//////修改支付方式
+				ordersDao.updateOrders(opsingle.getOrdersId(), null, null, new Date(), null, null, null, ordersVo.getPaytypeCode(), ordersVo.getPaytypeName());
+				ordersDao.updateOrdersPayment(opsingle.getId(), 0, new Date(), ordersVo.getPaytypeCode(), ordersVo.getPaytypeName());
+			}
 			List<OrdersPayment> list = ordersDao.listByExtransno(opsingle.getExtransno());
 			result.setData(list);
 			result.setStatus("0");
@@ -228,7 +243,7 @@ public class OrdersService implements IOrdersService {
 			}
 			//////// 修改订单的状态~~~
 			
-			ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime);
+			ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime,null,null);
 			////// 修改订单产品的属性
 			for (OrdersProduct ordersProduct : listop) {
 				ordersProductDao.updateOrdersProduct(ordersProduct.getId(), ordersStatus, ordersName,

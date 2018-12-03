@@ -21,7 +21,9 @@ public interface OrdersDao {
 			@Param("updatetime")Date updatetime,
 			@Param("expressNo")String expressNo,
 			@Param("paidtime") Date paidtime,
-			@Param("deliveredtime")Date deliveredtime);
+			@Param("deliveredtime")Date deliveredtime,
+			@Param("paytype")String paytype,
+			@Param("payname")String payname);
 	
 	public Orders singleOrders(String orderId);
 	
@@ -36,7 +38,9 @@ public interface OrdersDao {
 	public int updateOrdersPayment(
 			@Param("id")String id,
 			@Param("done")int done,
-			@Param("updatetime")Date updatetime);
+			@Param("updatetime")Date updatetime,
+			@Param("paytypeCode")String paytypeCode,
+			@Param("paytypeName")String paytypeName);
 	
 	public OrdersPayment singlePayment(String ordersId);
 	

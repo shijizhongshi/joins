@@ -40,6 +40,10 @@ public class Shop {
 	
 	private int islimits;/////查看是否已经审核通过了
 	
+	private String remarked;////备注
+	
+	private String businessHours;////营业时间
+	
 	private Date addtime;
 	
 	private Date updatetime;
@@ -170,6 +174,22 @@ public class Shop {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public String getRemarked() {
+		return remarked;
+	}
+
+	public void setRemarked(String remarked) {
+		this.remarked = remarked;
+	}
+
+	public String getBusinessHours() {
+		return businessHours;
+	}
+
+	public void setBusinessHours(String businessHours) {
+		this.businessHours = businessHours;
 	}
 	
 	

@@ -22,16 +22,19 @@
 	<result column="addtime" property="addtime"/>
 	<result column="paidtime" property="paidtime"/>
 	<result column="deliveredtime" property="deliveredtime"/>
+	<result column="payment_type" property="paymentType"/>
+	<result column="preset_time" property="presetTime"/>
+	
 	</resultMap>
 
 	<sql id="sql_base">
 	o.id,o.user_id,o.muser_id,o.orderno,o.orders_type,o.payaccount,o.count,o.address,o.receiver,o.mobile,o.orders_status,
-	o.paytype,o.payname
+	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type
 	</sql>
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders o(<include refid="sql_base"></include>,orders_old_status,addtime)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{count},#{address},#{receiver},
-	#{mobile},#{ordersStatus},#{paytype},#{payname},#{ordersOldStatus},#{addtime})
+	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{ordersOldStatus},#{addtime})
 	</insert>
 	<update id="updateOrders">
 	update orders set 
@@ -50,6 +53,13 @@
 	<if test="deliveredtime!=null">
 	deliveredtime=#{deliveredtime},
 	</if>
+	<if test="paytype!=null">
+	paytype=#{paytype},
+	</if>
+	<if test="payname!=null">
+	payname=#{payname},
+	</if>
+	
 	updatetime=#{updatetime}
 	where id=#{oid}
 	</update>
@@ -102,6 +112,12 @@
 	update orders_payment set
 	<if test="done!=0">
 	done=#{done},
+	</if>
+	<if test="paytypeCode!=null">
+	paytype_code=#{paytypeCode},
+	</if>
+	<if test="paytypeName!=null">
+	pagetype_name=#{paytypeName},
 	</if>
 	updatetime=#{updatetime}
 	where id=#{id}

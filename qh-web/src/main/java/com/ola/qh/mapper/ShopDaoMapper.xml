@@ -19,18 +19,21 @@
 	<result column="shop_logo" property="shopLogo"/>
 	<result column="licence_url" property="licenceUrl"/>
 	<result column="islimits" property="islimits"/>
+	<result column="remarked" property="remarked"/>
+	<result column="business_hours" property="businessHours"/>
 	<result column="addtime" property="addtime"/>
 	<result column="updatetime" property="updatetime"/>
 	
 	</resultMap>
 
 	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
-	license_status_url,door_head_url,business_environment_url,shop_logo,licence_url,islimits,addtime
+	license_status_url,door_head_url,business_environment_url,shop_logo,licence_url,islimits,addtime,remarked,
+	business_hours
 	</sql>
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
 	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{licenseStatusUrl},#{doorHeadUrl},
-	#{businessEnvironmentUrl},#{shopLogo},#{licenceUrl},#{islimits},#{addtime})
+	#{businessEnvironmentUrl},#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{businessHours})
 	</insert>
 	
 	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">

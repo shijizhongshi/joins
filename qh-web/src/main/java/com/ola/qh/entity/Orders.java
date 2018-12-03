@@ -58,6 +58,14 @@ public class Orders {
 	private String nickname;/////商家的昵称
 	
 	private int count;////总共多少件商品
+	
+	private String leaveMessage;/////商家的留言
+	
+	private String sex;/////性别
+	
+	private String paymentType;////团购还是预定
+	
+	private Date presetTime;////预定的时间
 
 	public String getHeadImgUrl() {
 		return headImgUrl;
@@ -233,6 +241,38 @@ public class Orders {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public String getLeaveMessage() {
+		return leaveMessage;
+	}
+
+	public void setLeaveMessage(String leaveMessage) {
+		this.leaveMessage = leaveMessage;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public Date getPresetTime() {
+		return presetTime;
+	}
+
+	public void setPresetTime(Date presetTime) {
+		this.presetTime = presetTime;
 	}
 	
 	
