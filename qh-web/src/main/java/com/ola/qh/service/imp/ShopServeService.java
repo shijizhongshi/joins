@@ -14,6 +14,7 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.ShopServeImg;
 import com.ola.qh.service.IShopServeService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 
@@ -23,8 +24,7 @@ public class ShopServeService implements IShopServeService{
 	@Autowired
 	private ShopServeDao shopServeDao;
 	@Autowired
-	private UserService userService;
-	
+	private IUserService userService;
 	@Autowired
 	private ShopDao shopDao;
 	
@@ -113,6 +113,32 @@ public class ShopServeService implements IShopServeService{
 			result.setMessage("更新失败");
 			return result;
 		}
+	}
+
+	@Override
+	public Results<ShopServe> singleShopServe(String id) {
+		// TODO Auto-generated method stub
+		Results<ShopServe> result = new Results<ShopServe>();
+		ShopServe ss = shopServeDao.selectSingle(id);
+		List<ShopServeImg> listimg = shopServeDao.selectByServeId(id);
+		ss.setImglist(listimg);
+		result.setStatus("0");
+		result.setData(ss);
+		return result;
+	}
+
+	@Override
+	public Results<List<ShopServe>> selectServeList(String shopId, String id, int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		Results<List<ShopServe>> result = new Results<List<ShopServe>>();
+		List<ShopServe> list = shopServeDao.selectList(shopId, id, pageNo, pageSize);
+		for (ShopServe shopServe : list) {
+			List<ShopServeImg> imgList = shopServeDao.selectByServeId(shopServe.getId());
+			shopServe.setImglist(imgList);
+		}
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 }

@@ -84,5 +84,19 @@
 	</if>
 	</select>
 	
-
+	<resultMap type="com.ola.qh.entity.ShopImg" id="ShopImgMap">
+	<result column="id" property="id"/>
+	<result column="shop_id" property="shopId"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	<insert id="insertImg" parameterType="com.ola.qh.entity.ShopImg">
+	insert into shop_img(id,shop_id,img_url,addtime)values(#{id},#{shopId},#{imgUrl},#{addtime})
+	</insert>
+	<select id="selectList">
+	select id,img_url from shop_img where shop_id=#{shopId}
+	</select>
+	<delete id="deleteImg">
+	delete from shop_img where id=#{id}
+	</delete>
 </mapper>

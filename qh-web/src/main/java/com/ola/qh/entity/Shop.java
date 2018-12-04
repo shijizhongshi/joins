@@ -1,8 +1,12 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,9 +35,7 @@ public class Shop {
 	private String licenseStatusUrl;/////执业资格证图片
 	@NotEmpty(message="门口图片不能为空")
 	private String doorHeadUrl;//////门口图片
-	
-	private String businessEnvironmentUrl;////营业环境照片
-	
+		
 	private String shopLogo;//////商城参数的logo
 	
 	private String licenceUrl;/////商城的许可证
@@ -43,10 +45,22 @@ public class Shop {
 	private String remarked;////备注
 	
 	private String businessHours;////营业时间
+	@Valid
+	@NotNull
+	@Size(min=1)
+	private List<ShopImg> imgList=new ArrayList<ShopImg>();
 	
 	private Date addtime;
 	
 	private Date updatetime;
+
+	public List<ShopImg> getImgList() {
+		return imgList;
+	}
+
+	public void setImgList(List<ShopImg> imgList) {
+		this.imgList = imgList;
+	}
 
 	public String getId() {
 		return id;
@@ -127,15 +141,6 @@ public class Shop {
 	public void setDoorHeadUrl(String doorHeadUrl) {
 		this.doorHeadUrl = doorHeadUrl;
 	}
-
-	public String getBusinessEnvironmentUrl() {
-		return businessEnvironmentUrl;
-	}
-
-	public void setBusinessEnvironmentUrl(String businessEnvironmentUrl) {
-		this.businessEnvironmentUrl = businessEnvironmentUrl;
-	}
-
 	public String getShopLogo() {
 		return shopLogo;
 	}

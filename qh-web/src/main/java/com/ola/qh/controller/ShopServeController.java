@@ -1,6 +1,7 @@
 package com.ola.qh.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -9,13 +10,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.IShopServeService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 /**
- * 服务项目的操作
+ * 服务项目的操作增删改查
 * @ClassName: ShopServeController  
 * @Description: TODO(这里用一句话描述这个类的作用)  
 * @author guoyuxue  
@@ -51,6 +54,25 @@ public class ShopServeController {
 		return shopServeService.updateShopServe(ss);
 		
 	}
+	
+	@RequestMapping("/single")
+	public Results<ShopServe> singleServe(@RequestParam(name="id",required=true)String id){
+		return shopServeService.singleShopServe(id);
+	}
+	
+	@RequestMapping("/list")
+	public Results<List<ShopServe>> listServe(
+			@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="shopId",required=false)String shopId,
+			@RequestParam(name="serveId",required=false)String serveId){
+		
+		Results<List<ShopServe>> result=new Results<List<ShopServe>>();
+		int pageSize = Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		result=shopServeService.selectServeList(shopId, serveId, pageNo, pageSize);
+		return result;
+	}
+	
 	
 	
 }
