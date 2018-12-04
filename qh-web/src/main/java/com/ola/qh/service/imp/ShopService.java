@@ -30,7 +30,7 @@ public class ShopService implements IShopService {
 	public Results<String> shopSaveUpdate(Shop shop) {
 
 		Results<String> result = new Results<String>();
-		/*try {*/
+		try {
 			if (shop.getId() != null && !"".equals(shop.getId())) {
 				/////// 修改店铺的基本信息
 				shop.setUpdatetime(new Date());
@@ -140,13 +140,13 @@ public class ShopService implements IShopService {
 			result.setStatus("0");
 			return result;
 
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("店铺信息保存失败");
 			return result;
-		}*/
+		}
 
 	}
 

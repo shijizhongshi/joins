@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ShopServe {
 
 	private String id;
-	
+	@NotEmpty(message="用户的标识不能为空")
 	private String userId;////用户的id
 	@NotEmpty(message="店铺的标识不能为空")
 	private String shopId;/////店铺的id
@@ -38,6 +38,8 @@ public class ShopServe {
 	private String explains;///其他说明
 	
 	private Date addtime;
+	
+	private Date updatetime;
 	@Valid
 	@NotNull
 	@Size(min=1)
@@ -153,6 +155,14 @@ public class ShopServe {
 
 	public void setImglist(List<ShopServeImg> imglist) {
 		this.imglist = imglist;
+	}
+
+	public Date getUpdatetime() {
+		return updatetime;
+	}
+
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
 	}
 	
 	

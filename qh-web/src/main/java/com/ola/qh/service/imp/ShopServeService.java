@@ -19,7 +19,7 @@ import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 
 @Service
-public class ShopServeService implements IShopServeService{
+public class ShopServeService implements IShopServeService {
 
 	@Autowired
 	private ShopServeDao shopServeDao;
@@ -27,28 +27,28 @@ public class ShopServeService implements IShopServeService{
 	private IUserService userService;
 	@Autowired
 	private ShopDao shopDao;
-	
+
 	@Override
-	@Transactional(rollbackFor=Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public Results<String> saveShopServe(ShopServe ss) {
 		Results<String> result = new Results<String>();
 		try {
 			result = userService.existUser(ss.getUserId());
-			if("1".equals(result.getStatus())){
+			if ("1".equals(result.getStatus())) {
 				return result;
 			}
-			List<Shop> shoplist = shopDao.selectShopByUserId(ss.getUserId(), ss.getShopId(),0);
-			/////// 必须是1服务店铺才有上传药品的权限
-			if (shoplist.get(0).getShopType()==2) {
+			List<Shop> shoplist = shopDao.selectShopByUserId(ss.getUserId(), ss.getShopId(), 0);
+			/////// 必须是1服务店铺才有上传
+			if (shoplist.get(0).getShopType() == 2) {
 				result.setStatus("1");
 				result.setMessage("店铺的类型不对");
 				return result;
 			}
-			String id=KeyGen.uuid();
+			String id = KeyGen.uuid();
 			ss.setId(id);
 			ss.setAddtime(new Date());
 			ss.setServeStatus(0);
-			for(ShopServeImg ssi:ss.getImglist()){
+			for (ShopServeImg ssi : ss.getImglist()) {
 				ssi.setAddtime(new Date());
 				ssi.setId(KeyGen.uuid());
 				ssi.setImgUrl(ssi.getImgUrl());
@@ -58,51 +58,51 @@ public class ShopServeService implements IShopServeService{
 			shopServeDao.insertServe(ss);
 			result.setStatus("0");
 			return result;
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
-		    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-		    result.setStatus("1");
-		    result.setMessage("保存失败");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result.setStatus("1");
+			result.setMessage("保存失败");
 			return result;
 		}
-		
+
 	}
 
 	@Override
-	@Transactional(rollbackFor=Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public Results<String> updateShopServe(ShopServe ss) {
 		// TODO Auto-generated method stub
-		Results<String> result=new Results<String>();
+		Results<String> result = new Results<String>();
 		try {
+			ss.setUpdatetime(new Date());
 			shopServeDao.updateServe(ss);
-			if(ss.getImglist()!=null && ss.getImglist().size()>0){
-				//////原本数据库的参数
+			if (ss.getImglist() != null && ss.getImglist().size() > 0) {
+				////// 原本数据库的参数
 				List<ShopServeImg> originalList = shopServeDao.selectByServeId(ss.getId());
-				List<ShopServeImg> ssiList = ss.getImglist();/////传过来的参数
+				List<ShopServeImg> ssiList = ss.getImglist();///// 传过来的参数
 				for (int i = 0; i < originalList.size(); i++) {
-					int z=0;
-					for (;z<ssiList.size();z++){
-						if(originalList.get(i).getId().equals(ssiList.get(z).getId())){
-							/////说明这个图片的id没有被删除
+					int z = 0;
+					for (; z < ssiList.size(); z++) {
+						if (originalList.get(i).getId().equals(ssiList.get(z).getId())) {
+							///// 说明这个图片的id没有被删除
 							break;
 						}
 					}
-					if(z==ssiList.size()){
-						//////说明这个id被删除掉了
+					if (z == ssiList.size()) {
+						////// 说明这个id被删除掉了
 						shopServeDao.deleteServeImg(originalList.get(i).getId());
 					}
 				}
 				for (ShopServeImg shopServeImg : ssiList) {
-					if(shopServeImg.getId()==null && "".equals(shopServeImg.getId())){
+					if (shopServeImg.getId() == null || "".equals(shopServeImg.getId())) {
 						shopServeImg.setAddtime(new Date());
 						shopServeImg.setServeId(ss.getId());
 						shopServeImg.setId(KeyGen.uuid());
 						shopServeDao.insertServeImg(shopServeImg);
 					}
 				}
-				
-				
+
 			}
 			result.setStatus("0");
 			return result;

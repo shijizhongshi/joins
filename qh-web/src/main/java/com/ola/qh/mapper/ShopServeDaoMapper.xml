@@ -24,7 +24,7 @@
 	id,user_id,shop_id,serve_name,price,discount_price,img_url
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
-	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,refund_rule,explains,
+	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,refund_rule,serve_status,explains,
 	addtime)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},
 	#{content},#{serveTime},#{refundRule},#{serveStatus},#{explains},#{addtime})
 	</insert>
