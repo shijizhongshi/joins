@@ -15,11 +15,12 @@ public interface ShopDao {
 	
 	public List<Shop> selectShopByUserId(
 			@Param("userId")String userId,
-			@Param("shopId")String shopId);
+			@Param("shopId")String shopId,
+			@Param("shopType")int shopType);
 	
 	public int insertImg(ShopImg img);
 	
 	public int deleteImg(String id);
 	
-	public List<ShopImg> selectList(String shopId);
+	public List<ShopImg> selectList(@Param("shopId")String shopId,@Param("subtype")int subtype);
 }

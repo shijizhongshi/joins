@@ -15,6 +15,7 @@ public class Shop {
 
 	private String id;
 	
+	@NotEmpty(message="用户的标识不能为空")
 	private String userId;
 	@NotNull(message="必须选择店铺的类型")
 	private int shopType;////1:服务店铺    2:商城店铺
@@ -28,11 +29,11 @@ public class Shop {
 	@NotEmpty(message="负责人手机号不能为空")
 	private String leaderMobile;////负责人手机号
 	
+	@NotEmpty(message="详细地址不能为空")
 	private String address;////
 	@NotEmpty(message="营业执照图片不能为空")
 	private String businessLicenseUrl;/////营业执照图片
-	@NotEmpty(message="执业资格证图片不能为空")
-	private String licenseStatusUrl;/////执业资格证图片
+	
 	@NotEmpty(message="门口图片不能为空")
 	private String doorHeadUrl;//////门口图片
 		
@@ -49,6 +50,8 @@ public class Shop {
 	@NotNull
 	@Size(min=1)
 	private List<ShopImg> imgList=new ArrayList<ShopImg>();
+	
+	private List<ShopImg> environmentImgList=new ArrayList<ShopImg>();
 	
 	private Date addtime;
 	
@@ -126,14 +129,6 @@ public class Shop {
 		this.businessLicenseUrl = businessLicenseUrl;
 	}
 
-	public String getLicenseStatusUrl() {
-		return licenseStatusUrl;
-	}
-
-	public void setLicenseStatusUrl(String licenseStatusUrl) {
-		this.licenseStatusUrl = licenseStatusUrl;
-	}
-
 	public String getDoorHeadUrl() {
 		return doorHeadUrl;
 	}
@@ -195,6 +190,14 @@ public class Shop {
 
 	public void setBusinessHours(String businessHours) {
 		this.businessHours = businessHours;
+	}
+
+	public List<ShopImg> getEnvironmentImgList() {
+		return environmentImgList;
+	}
+
+	public void setEnvironmentImgList(List<ShopImg> environmentImgList) {
+		this.environmentImgList = environmentImgList;
 	}
 	
 	

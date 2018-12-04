@@ -41,9 +41,9 @@ public class ShopDrugService implements IShopDrugService {
 		if ("1".equals(result.getStatus())) {
 			return result;
 		}
-		List<Shop> shoplist = shopDao.selectShopByUserId(shopDrug.getUserId(), shopDrug.getShopId());
+		List<Shop> shoplist = shopDao.selectShopByUserId(shopDrug.getUserId(), shopDrug.getShopId(),0);
 		/////// 必须是2商城店铺才有上传药品的权限
-		if (shoplist.size()==1 && shoplist.get(0).getShopType()==1) {
+		if (shoplist.get(0).getShopType()==1) {
 			result.setStatus("1");
 			result.setMessage("店铺的类型不对");
 			return result;

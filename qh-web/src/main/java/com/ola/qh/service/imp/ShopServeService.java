@@ -37,9 +37,9 @@ public class ShopServeService implements IShopServeService{
 			if("1".equals(result.getStatus())){
 				return result;
 			}
-			List<Shop> shoplist = shopDao.selectShopByUserId(ss.getUserId(), ss.getShopId());
+			List<Shop> shoplist = shopDao.selectShopByUserId(ss.getUserId(), ss.getShopId(),0);
 			/////// 必须是1服务店铺才有上传药品的权限
-			if (shoplist.size()==1 && shoplist.get(0).getShopType()==2) {
+			if (shoplist.get(0).getShopType()==2) {
 				result.setStatus("1");
 				result.setMessage("店铺的类型不对");
 				return result;
