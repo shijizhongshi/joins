@@ -193,19 +193,22 @@ public class ShopDrugService implements IShopDrugService {
 			////审批失败的
 			list = shopDrugDao.selectDrugList(sdd);
 		}
-		List<Shop> shop = shopDao.selectShopByUserId(null, list.get(0).getShopId(), 2);
-	
-		vo.setShopId(shop.get(0).getId());
-		vo.setShopAddress(shop.get(0).getAddress());
-		vo.setShopDoorUrl(shop.get(0).getDoorHeadUrl());
-		vo.setShopLogo(shop.get(0).getShopLogo());
-		vo.setShopName(shop.get(0).getShopName());
-		vo.setList(list);
-		vo.setSalesList(list2);
-		for (ShopDrug sd : list) {
-			int salesNumber = ordersProductDao.salesCountByPid(sd.getId());
-			sd.setSalesNumber(salesNumber);
+		if(list!=null && list.size()!=0){
+			List<Shop> shop = shopDao.selectShopByUserId(null, list.get(0).getShopId(), 2);
+			
+			vo.setShopId(shop.get(0).getId());
+			vo.setShopAddress(shop.get(0).getAddress());
+			vo.setShopDoorUrl(shop.get(0).getDoorHeadUrl());
+			vo.setShopLogo(shop.get(0).getShopLogo());
+			vo.setShopName(shop.get(0).getShopName());
+			vo.setList(list);
+			vo.setSalesList(list2);
+			for (ShopDrug sd : list) {
+				int salesNumber = ordersProductDao.salesCountByPid(sd.getId());
+				sd.setSalesNumber(salesNumber);
+			}
 		}
+		
 		result.setData(vo);
 		result.setStatus("0");
 		return result;

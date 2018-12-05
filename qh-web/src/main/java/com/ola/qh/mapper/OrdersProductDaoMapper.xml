@@ -70,7 +70,7 @@
 	limit #{pageNo},#{pageSize}
 	</select>
 	
-	<select id="salesCountByPid">
+	<select id="salesCountByPid" resultType="int">
 	select count(id) from orders_product where product_id=#{productId} and status_code in("RECEIVED")
 	</select>
 </mapper>

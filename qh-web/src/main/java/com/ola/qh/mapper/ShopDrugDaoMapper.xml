@@ -211,7 +211,7 @@
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
-	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain">
+	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain" resultType="int">
 	select count(id) from shop_drug 
 	where 1=1
 	<if test="shopId!=null">
