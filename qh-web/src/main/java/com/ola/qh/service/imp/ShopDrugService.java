@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopDrugImgDao;
@@ -18,6 +20,8 @@ import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopDrugDomain;
+import com.ola.qh.vo.ShopDrugVo;
 
 @Service
 public class ShopDrugService implements IShopDrugService {
@@ -31,6 +35,8 @@ public class ShopDrugService implements IShopDrugService {
 	private IUserService userService;
 	@Autowired
 	private ShopDao shopDao;
+	@Autowired
+	private OrdersProductDao ordersProductDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -151,17 +157,56 @@ public class ShopDrugService implements IShopDrugService {
 	 * @param pageSize
 	 * @return
 	 */
-	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo, int pageSize,int ishot) {
+	public Results<ShopDrugVo> selectDrugList(ShopDrugDomain sdd) {
 		// TODO Auto-generated method stub
-		Results<List<ShopDrug>> result = new Results<List<ShopDrug>>();
-		List<ShopDrug> list = shopDrugDao.selectDrugList(shopId,pageNo, pageSize,ishot);
-		/*
-		 * 药品的集合不需要展示图片列表
-		 * for(int i=0;i<list.size();i++){
-			List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(list.get(i).getId());
-			list.get(i).setImgList(listimg);
-		}*/
-		result.setData(list);
+		Results<ShopDrugVo> result = new Results<ShopDrugVo>();
+		List<ShopDrug> list = new ArrayList<ShopDrug>();
+		List<ShopDrug> list2 = new ArrayList<ShopDrug>();
+		ShopDrugVo vo = new ShopDrugVo();
+		if(sdd.getStatus()==1){
+			///////店铺的首页
+		/////店铺首页展示(分推荐列表和促销列表)
+			sdd.setIsrecommend(1);////推荐列表
+			list = shopDrugDao.selectDrugList(sdd);
+			
+			sdd.setIsrecommend(0);
+			sdd.setIssales(1);////促销列表
+			list2 = shopDrugDao.selectDrugList(sdd);
+			
+			
+		}else if(sdd.getStatus()==0){
+			/////查全部的商品(按照类别查)正售中的
+			list = shopDrugDao.selectDrugList(sdd);
+			int salesCount = shopDrugDao.selectDrugListCount(sdd);
+			vo.setSalesCount(salesCount);
+		}else if(sdd.getStatus()==2){
+			//////下架的商品
+			list = shopDrugDao.selectDrugList(sdd);
+			int downCount = shopDrugDao.selectDrugListCount(sdd);
+			vo.setDownCount(downCount);
+		}else if(sdd.getStatus()==4){
+			////审批中的
+			list = shopDrugDao.selectDrugList(sdd);
+			int wlimitCount = shopDrugDao.selectDrugListCount(sdd);
+			vo.setWlimitCount(wlimitCount);
+		}else if(sdd.getStatus()==5){
+			////审批失败的
+			list = shopDrugDao.selectDrugList(sdd);
+		}
+		List<Shop> shop = shopDao.selectShopByUserId(null, list.get(0).getShopId(), 2);
+	
+		vo.setShopId(shop.get(0).getId());
+		vo.setShopAddress(shop.get(0).getAddress());
+		vo.setShopDoorUrl(shop.get(0).getDoorHeadUrl());
+		vo.setShopLogo(shop.get(0).getShopLogo());
+		vo.setShopName(shop.get(0).getShopName());
+		vo.setList(list);
+		vo.setSalesList(list2);
+		for (ShopDrug sd : list) {
+			int salesNumber = ordersProductDao.salesCountByPid(sd.getId());
+			sd.setSalesNumber(salesNumber);
+		}
+		result.setData(vo);
 		result.setStatus("0");
 		return result;
 	}

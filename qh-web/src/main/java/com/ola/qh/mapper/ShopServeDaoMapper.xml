@@ -76,6 +76,9 @@
 	<if test="id!=null">
 	and id not in(#{id})
 	</if>
+	<if test="serveName!=null">
+	and serve_name LIKE CONCAT(CONCAT('%',#{serveName},'%'))
+	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>

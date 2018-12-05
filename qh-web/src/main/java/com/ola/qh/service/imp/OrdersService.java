@@ -16,6 +16,7 @@ import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDrugDao;
+import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserIntomoneyHistoryDao;
 import com.ola.qh.dao.UserWithdrawHistoryDao;
@@ -26,6 +27,7 @@ import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IUserService;
@@ -48,6 +50,8 @@ public class OrdersService implements IOrdersService {
 	private CourseDao courseDao;
 	@Autowired
 	private UserBookDao userBookDao;
+	@Autowired
+	private ShopServeDao shopServeDao;
 	
 	@Autowired
 	private UserIntomoneyHistoryDao userIntomoneyHistoryDao;
@@ -89,6 +93,11 @@ public class OrdersService implements IOrdersService {
 						BigDecimal prices = BigDecimal.ZERO;
 						List<OrdersProduct> productList = orders.getProduct();
 						for (OrdersProduct ordersProduct : productList) {
+							if(ordersVo.getUserId().equals(orders.getMuserId())){
+								result.setStatus("1");
+								result.setMessage("不能购买自己的商品");
+								return result;
+							}
 							ordersProduct.setAddtime(new Date());
 							ordersProduct.setUserId(ordersVo.getUserId());
 							ordersProduct.setId(KeyGen.uuid());
@@ -98,6 +107,15 @@ public class OrdersService implements IOrdersService {
 							if (ordersVo.getOrdersType() == 0) {
 								////// 通过药品的id查商品的价格等信息
 								ShopDrug shopDrug = shopDrugDao.selectById(ordersProduct.getProductId());
+								///////修改商品的库存
+								if(shopDrug.getStocks()<ordersProduct.getCount()){
+									/////说明库存不足哦
+									result.setStatus("1");
+									result.setMessage("库存不足");
+									return result;
+								}
+								shopDrugDao.updateStocks(shopDrug.getStocks()-ordersProduct.getCount(), ordersProduct.getProductId());
+								
 								ordersProduct.setProductImg(shopDrug.getImgUrl());
 								ordersProduct.setProductName(shopDrug.getDrugName());
 								ordersProduct.setProductPrice(shopDrug.getDiscountPrice());
@@ -118,7 +136,15 @@ public class OrdersService implements IOrdersService {
 								////// count 记得传1
 							}else if(ordersVo.getOrdersType() == 2){
 								///////这个是服务店铺项目的的购买的流程(名称/图片/价格/实际支付)
-								
+								ShopServe ss = shopServeDao.selectSingle(ordersProduct.getProductId());
+								ordersProduct.setProductImg(ss.getImgUrl());
+								ordersProduct.setProductName(ss.getServeName());
+								ordersProduct.setProductPrice(ss.getDiscountPrice());
+								BigDecimal payout = ss.getDiscountPrice()
+										.multiply(new BigDecimal(ordersProduct.getCount()))
+										.setScale(2, BigDecimal.ROUND_DOWN);
+								prices = prices.add(payout).setScale(2, BigDecimal.ROUND_DOWN);
+								ordersProduct.setPayout(payout);
 								
 								
 							}

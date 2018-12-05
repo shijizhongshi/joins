@@ -20,6 +20,10 @@ public class ShopDrug {
 	private String shopId;
 	@NotEmpty(message="药品名称不能为空")
 	private String drugName;////药品名称
+	@NotEmpty(message="商品的类别不能为空")
+	private String categoryName;///商品的类别
+	@NotEmpty(message="商品的子类别不能为空")
+	private String categorySubname;////商品的类别
 	@NotEmpty(message="治疗功能不能为空")
 	private String healingPowers;//////治疗功能
 	@NotEmpty(message="药品规格不能为空")
@@ -30,6 +34,8 @@ public class ShopDrug {
 	private BigDecimal discountPrice;///折扣价
 	@NotNull
 	private BigDecimal price;////原价
+	@NotNull
+	private int stocks;////库存
 	
 	private String drugDetail;///
 	
@@ -89,6 +95,21 @@ public class ShopDrug {
 	
 	private int ishot;////1"首页的热卖
 	
+	private int isrecommend;////1:店家推荐  0不
+	
+	private int issales;////1:是促销  0:不
+	
+	private int islimits;///1:审批过了   2:审批不过  0未审批
+	
+	private int salesNumber;////销量
+
+	public int getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(int stocks) {
+		this.stocks = stocks;
+	}
 
 	public String getId() {
 		return id;
@@ -387,7 +408,53 @@ public class ShopDrug {
 	public void setIshot(int ishot) {
 		this.ishot = ishot;
 	}
-	
-	
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getCategorySubname() {
+		return categorySubname;
+	}
+
+	public void setCategorySubname(String categorySubname) {
+		this.categorySubname = categorySubname;
+	}
+
+	public int getIsrecommend() {
+		return isrecommend;
+	}
+
+	public void setIsrecommend(int isrecommend) {
+		this.isrecommend = isrecommend;
+	}
+
+	public int getIssales() {
+		return issales;
+	}
+
+	public void setIssales(int issales) {
+		this.issales = issales;
+	}
+
+	public int getIslimits() {
+		return islimits;
+	}
+
+	public void setIslimits(int islimits) {
+		this.islimits = islimits;
+	}
+
+	public int getSalesNumber() {
+		return salesNumber;
+	}
+
+	public void setSalesNumber(int salesNumber) {
+		this.salesNumber = salesNumber;
+	}
 	
 }

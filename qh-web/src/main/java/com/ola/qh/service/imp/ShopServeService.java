@@ -131,7 +131,7 @@ public class ShopServeService implements IShopServeService {
 	public Results<List<ShopServe>> selectServeList(String shopId, String id, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		Results<List<ShopServe>> result = new Results<List<ShopServe>>();
-		List<ShopServe> list = shopServeDao.selectList(shopId, id, pageNo, pageSize);
+		List<ShopServe> list = shopServeDao.selectList(shopId, id, pageNo, pageSize,null);
 		for (ShopServe shopServe : list) {
 			List<ShopServeImg> imgList = shopServeDao.selectByServeId(shopServe.getId());
 			shopServe.setImglist(imgList);

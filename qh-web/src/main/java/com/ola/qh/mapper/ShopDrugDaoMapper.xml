@@ -8,11 +8,19 @@
 	<result column="user_id" property="userId"/>
 	<result column="shop_id" property="shopId"/>
 	<result column="drug_name" property="drugName"/>
+	<result column="category_name" property="categoryName"/>
+	<result column="category_subname" property="categorySubname"/>
 	<result column="healing_powers" property="healingPowers"/>
 	<result column="specification" property="specification"/>
 	<result column="original_price" property="originalPrice"/>
 	<result column="discount_price" property="discountPrice"/>
 	<result column="price" property="price"/>
+	<result column="stocks" property="stocks"/>
+	<result column="status" property="status"/>
+	<result column="ishot" property="ishot"/>
+	<result column="isrecommend" property="isrecommend"/>
+	<result column="issales" property="issales"/>
+	<result column="islimits" property="islimits"/>
 	<result column="drug_detail" property="drugDetail"/>
 	<result column="specification_params" property="specificationParams"/>
 	<result column="product_name" property="productName"/>
@@ -40,18 +48,18 @@
 	</resultMap> 
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,drug_name,healing_powers,specification,original_price,
-	discount_price,price,drug_detail
+	id,user_id,shop_id,drug_name,category_name,category_subname,healing_powers,specification,original_price,
+	discount_price,price,drug_detail,stocks
 	</sql>
 	<insert id="insertDrug" parameterType="com.ola.qh.entity.ShopDrug">
 	insert into shop_drug(<include refid="sql_base"></include>,specification_params,product_name,
 	manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
 	characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
-	drug_action,shap_code,friendly_hint,img_url,addtime)values(#{id},#{userId},#{shopId},#{drugName},
-	#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{specificationParams},
+	drug_action,shap_code,friendly_hint,img_url,addtime,isrecommend,issales)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
+	#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{specificationParams},
 	#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},
 	#{elements},#{characters},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
-	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime})
+	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime},#{isrecommend},#{issales})
 	</insert>
 	
 	<update id="updateDrug" parameterType="com.ola.qh.entity.ShopDrug">
@@ -157,20 +165,98 @@
 	</select>
 	
 	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~-->
-	<select id="selectDrugList" resultMap="ShopDrugMap">
-	select <include refid="sql_base"></include>,img_url from shop_drug 
+	<select id="selectDrugList" parameterType="com.ola.qh.vo.ShopDrugDomain" resultMap="ShopDrugMap">
+	select <include refid="sql_base"></include>,img_url,islimits from shop_drug 
 	where 1=1
 	<if test="shopId!=null">
 	and shop_id=#{shopId}
 	</if>
-	<if test="shopId==null">
+	<if test="status==1 or status==0">
+	<!-- userrole==1标识看用户的首页 -->
 	<!-- 如果status的状态的0的时候表示的是正常的 -->
 	and status=0
+	and islimits=1
+	<!-- 审批过了架上的商品 -->
+	</if>
+	<if test="status==2">
+	<!-- 下架的商品 -->
+	and status=2
+	</if>
+	<if test="status==4">
+	<!-- 未审批 -->
+	and islimits=0
+	</if>
+	<if test="status==5">
+	<!-- 审批失败 -->
+	and islimits=2
 	</if>
 	<if test="ishot!=0">
 	and ishot=#{ishot}
 	</if>
+	<if test="issales!=0">
+	and issales=1
+	</if>
+	<if test="isrecommend!=0">
+	and isrecommend=1
+	</if>
+	<if test="drugName!=null">
+	and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
+	</if>
+	<if test="categoryName!=null and categoryName!=''">
+	and category_name=#{categoryName}
+	</if>
+	<if test="categorySubname!=null and categorySubname!=''">
+	and category_subname=#{categorySubname}
+	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
+	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain">
+	select count(id) from shop_drug 
+	where 1=1
+	<if test="shopId!=null">
+	and shop_id=#{shopId}
+	</if>
+	<if test="status==1 or status==0">
+	<!-- userrole==1标识看用户的首页 -->
+	<!-- 如果status的状态的0的时候表示的是正常的 -->
+	and status=0
+	and islimits=1
+	<!-- 审批过了架上的商品 -->
+	</if>
+	<if test="status==2">
+	<!-- 下架的商品 -->
+	and status=2
+	</if>
+	<if test="status==4">
+	<!-- 未审批 -->
+	and islimits=0
+	</if>
+	<if test="status==5">
+	<!-- 审批失败 -->
+	and islimits=2
+	</if>
+	<if test="ishot!=0">
+	and ishot=#{ishot}
+	</if>
+	<if test="issales!=0">
+	and issales=1
+	</if>
+	<if test="isrecommend!=0">
+	and isrecommend=1
+	</if>
+	<if test="drugName!=null">
+	and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
+	</if>
+	<if test="categoryName!=null and categoryName!=''">
+	and category_name=#{categoryName}
+	</if>
+	<if test="categorySubname!=null and categorySubname!=''">
+	and category_subname=#{categorySubname}
+	</if>
+	</select>
+	
+	<update id="updateStocks">
+	update shop_drug set stocks=#{stocks} where id=#{id}
+	</update>
 </mapper>

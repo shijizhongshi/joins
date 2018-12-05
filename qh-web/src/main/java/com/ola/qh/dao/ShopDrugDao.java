@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.vo.ShopDrugDomain;
 
 public interface ShopDrugDao {
 	
@@ -14,10 +15,10 @@ public interface ShopDrugDao {
 	
 	public ShopDrug selectById(String drugId);
 	
-	public List<ShopDrug> selectDrugList(
-			@Param("shopId") String shopId,
-			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize,
-			@Param("ishot")int ishot);
+	public List<ShopDrug> selectDrugList(ShopDrugDomain sdd);
+	
+	public int selectDrugListCount(ShopDrugDomain sdd);
+	
+	public int updateStocks(int stocks,String id);
 
 }

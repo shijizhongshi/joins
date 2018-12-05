@@ -69,4 +69,8 @@
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
+	
+	<select id="salesCountByPid">
+	select count(id) from orders_product where product_id=#{productId} and status_code in("RECEIVED")
+	</select>
 </mapper>

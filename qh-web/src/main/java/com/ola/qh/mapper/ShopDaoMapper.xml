@@ -16,6 +16,7 @@
 	<result column="door_head_url" property="doorHeadUrl"/>
 	<result column="shop_logo" property="shopLogo"/>
 	<result column="licence_url" property="licenceUrl"/>
+	<result column="isrecommend" property="isrecommend"/>
 	<result column="islimits" property="islimits"/>
 	<result column="remarked" property="remarked"/>
 	<result column="business_hours" property="businessHours"/>
@@ -25,13 +26,13 @@
 	</resultMap>
 
 	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
-	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,
+	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend
 	business_hours
 	</sql>
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
 	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{doorHeadUrl},
-	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{businessHours})
+	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours})
 	</insert>
 	
 	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
@@ -75,6 +76,24 @@
 	and shop_type=#{shopType}
 	</if>
 	</select>
+	
+	<select id="listShop" resultMap="ShopMap">
+	select <include refid="sql_base"></include> from shop where 1=1
+	<if test="shopName!=null and shopName!=''">
+	and shop_name LIKE CONCAT(CONCAT('%',#{shopName},'%'))
+	</if>
+	<if test="address!=null and address!=''">
+	and address LIKE CONCAT(CONCAT('%',#{address},'%'))
+	</if>
+	<if test="isrecommend!=0">
+	<!-- 首页推荐店铺的地方 -->
+	and isrecommend=#{isrecommend}
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+	
+	
 	
 	<resultMap type="com.ola.qh.entity.ShopImg" id="ShopImgMap">
 	<result column="id" property="id"/>

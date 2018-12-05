@@ -18,6 +18,12 @@ public interface ShopDao {
 			@Param("shopId")String shopId,
 			@Param("shopType")int shopType);
 	
+	public List<Shop> listShop(
+			@Param("shopName")String shopName,
+			@Param("address")String address,
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize);
+	
 	public int insertImg(ShopImg img);
 	
 	public int deleteImg(String id);

@@ -16,6 +16,8 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopDrugDomain;
+import com.ola.qh.vo.ShopDrugVo;
 /**
  *商城店铺的药品的增删改查
 * @ClassName: ShopDrugController  
@@ -77,13 +79,24 @@ public class ShopDrugController {
 	 * @return
 	 */
 	@RequestMapping(value="/list",method=RequestMethod.GET)
-	public Results<List<ShopDrug>> listShopDrug(
+	public Results<ShopDrugVo> listShopDrug(
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="shopId",required=false)String shopId,
-			@RequestParam(name="ishot",required=false)int ishot){
+			@RequestParam(name="ishot",required=false)int ishot,
+			@RequestParam(name="status",required=false)int status,
+			@RequestParam(name="categorySubname",required=false)String categorySubname,
+			@RequestParam(name="categoryName",required=false)String categoryName){
 		
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page-1)*pageSize;
-		return shopDrugService.selectDrugList(shopId, pageNo, pageSize,ishot);
+		ShopDrugDomain sdd = new ShopDrugDomain();
+		sdd.setCategoryName(categoryName);
+		sdd.setCategorySubname(categorySubname);
+		sdd.setIshot(ishot);
+		sdd.setPageNo(pageNo);
+		sdd.setPageSize(pageSize);
+		sdd.setShopId(shopId);
+		sdd.setStatus(status);
+		return shopDrugService.selectDrugList(sdd);
 	}
 }

@@ -19,7 +19,8 @@ public interface ShopServeDao {
 			@Param("shopId")String shopId,
 			@Param("id")String id,
 			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize);
+			@Param("pageSize")int pageSize,
+			@Param("serveName")String serveName);
 	
 	public int insertServeImg(ShopServeImg ssi);
 	

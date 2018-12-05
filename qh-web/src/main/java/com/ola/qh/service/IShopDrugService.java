@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopDrugDomain;
+import com.ola.qh.vo.ShopDrugVo;
 
 public interface IShopDrugService {
 
@@ -13,5 +15,5 @@ public interface IShopDrugService {
 	
 	public Results<ShopDrug> selectById(String drugId);
 	
-	public Results<List<ShopDrug>> selectDrugList(String shopId,int pageNo,int pageSize,int ishot);
+	public Results<ShopDrugVo> selectDrugList(ShopDrugDomain sdd);
 }

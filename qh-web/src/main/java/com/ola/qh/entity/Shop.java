@@ -56,6 +56,8 @@ public class Shop {
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private int isrecommend;////0:后台没有设置推荐   1:后台设置推荐的店铺
 
 	public List<ShopImg> getImgList() {
 		return imgList;
@@ -198,6 +200,14 @@ public class Shop {
 
 	public void setEnvironmentImgList(List<ShopImg> environmentImgList) {
 		this.environmentImgList = environmentImgList;
+	}
+
+	public int getIsrecommend() {
+		return isrecommend;
+	}
+
+	public void setIsrecommend(int isrecommend) {
+		this.isrecommend = isrecommend;
 	}
 	
 	
