@@ -36,10 +36,12 @@ public class User {
 	@NotEmpty(message = "设备编号不能为空")
 	private String deviceToken;
 	
-	private String password1;
+	private String newPassword;
 	
 	@NotNull
 	private int deviceType;
+	
+	private Date updateTime;
 	
 	public String getId() {
 		return id;
@@ -137,16 +139,20 @@ public class User {
 		this.deviceType = deviceType;
 	}
 
-	public String getPassword1() {
-		return password1;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
-	public void setPassword1(String password1) {
-		this.password1 = password1;
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
-	
-	
-	
-	
-	
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
 }

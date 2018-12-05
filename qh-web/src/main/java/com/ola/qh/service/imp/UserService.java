@@ -148,7 +148,7 @@ public class UserService implements IUserService{
 
 	@Override
 	public int updateUser(User user) {
-		
+		user.setUpdateTime(new Date());
 		return userDao.updateUser(user);
 	}
 	
@@ -169,7 +169,7 @@ public class UserService implements IUserService{
 
 			User user2 = new User();
 			user2.setId(user1.getId());
-			user2.setPassword(user.getPassword1());
+			//user2.setPassword(user.getPassword1());
 			userDao.updatePassword(user2);
 			results.setStatus("0");
 			return results;

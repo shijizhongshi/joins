@@ -40,12 +40,22 @@
 		<if test="headimg!=null">
 		head_img_url=#{headimg},
 		</if>
-		id=#{id} where id=#{id} 
+		<if test="password!=null and password!=''">
+		password=#{password}
+		</if>
+		updatetime=#{updatetime}
+		 where 1=1
+		<if test="id!=null and id!=''">
+		and id=#{id}
+		</if>
+		<if test="mobile!=null and mobile!=''">
+		and mobile=#{mobile}
+		</if>
 	</update>
 	
-	<update id="updatePassword" parameterType="com.ola.qh.entity.User" >
+	<!-- <update id="updatePassword" parameterType="com.ola.qh.entity.User" >
 		update user set password=#{password} where id=#{id} 
-	</update>
+	</update> -->
 	
 	
 </mapper>

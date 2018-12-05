@@ -83,7 +83,7 @@ public class UserController {
 		return userService.loginUser(userlogin);
 	}
 
-	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Results<String> updateUser(@RequestBody User user) {
 
 		Results<String> results = new Results<String>();
@@ -92,6 +92,10 @@ public class UserController {
 			results.setStatus("1");
 			results.setMessage("缺少用户ID");
 			return results;
+		}
+		if(user.getPassword()!=null && user.getPassword()!=""){
+			///////验证一下验证码
+			
 		}
 		int users = userService.updateUser(user);
 		if (users <= 0) {
@@ -103,9 +107,9 @@ public class UserController {
 		return results;
 	}
 
-	@RequestMapping(value = "/updatepassword", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/updatepassword", method = RequestMethod.POST)
 	public Results<User> updatePassword(@RequestBody User user) {
 
 		return userService.updatePassword(user);
-	}
+	}*/
 }
