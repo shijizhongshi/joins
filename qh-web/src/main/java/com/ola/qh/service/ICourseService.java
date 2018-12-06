@@ -16,6 +16,8 @@ public interface ICourseService {
 	
 	public List<Course> courseList(Course course);
 	
+	public Course singleCourse(String courseId);
+	
 	public List<CourseChapter> courseChapterList(String courseId);
 	
 	public List<CourseSection> courseSectionList(String courseChapterId);

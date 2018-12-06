@@ -57,4 +57,17 @@ public class CourseService implements ICourseService{
 		return courseDao.courseSectionList(courseChapterId);
 	}
 
+	@Override
+	public Course singleCourse(String courseId) {
+		// TODO Auto-generated method stub
+		Course c=  courseDao.singleCourse(courseId);
+		List<CourseChapter> cclist = courseDao.courseChapterList(courseId);
+		for (CourseChapter courseChapter : cclist) {
+			List<CourseSection> cslist = courseDao.courseSectionList(courseChapter.getId());
+			courseChapter.setCslist(cslist);
+		}
+			c.setCclist(cclist);
+		return c;
+	}
+
 }
