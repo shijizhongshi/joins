@@ -28,8 +28,9 @@ public class UserLogin {
 
 	private Date updatetime;
 	
-	@NotEmpty(message = "密码不能为空")
 	private String password;
+	
+	private String verification;////验证码登录
 	
 	@NotEmpty(message = "手机号不能为空")
 	private String mobile;
@@ -112,6 +113,14 @@ public class UserLogin {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getVerification() {
+		return verification;
+	}
+
+	public void setVerification(String verification) {
+		this.verification = verification;
 	}
 
 }

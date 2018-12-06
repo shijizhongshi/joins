@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,7 +60,7 @@ public class UserService implements IUserService{
 					user.setAddtime(new Date());
 					user.setId(KeyGen.uuid());
 					userDao.saveUser(user);
-					userDao.loginUser(user.getMobile(), user.getPassword());
+					//userDao.loginUser(user.getMobile(), user.getPassword());
 					
 					users.setId(user.getId());
 					users.setMobile(user.getMobile());
@@ -67,12 +68,17 @@ public class UserService implements IUserService{
 					UserBook userbook=new UserBook();
 					userbook.setId(KeyGen.uuid());
 					userbook.setUserId(user.getId());
+					userbook.setAccountMoney(BigDecimal.ZERO);
 					userbook.setAddtime(new Date());
 					userbookDao.saveUserBook(userbook);
 					
 					UserLogin userlogin=new UserLogin();
 					userlogin.setId(KeyGen.uuid());
 					userlogin.setUserId(user.getId());
+					userlogin.setDeviceId(user.getDeviceId());
+					userlogin.setDeviceName(user.getDeviceName());
+					userlogin.setDeviceToken(user.getDeviceToken());
+					userlogin.setDeviceType(user.getDeviceType());
 					userlogin.setAddtime(new Date());
 					userloginDao.saveUserLogin(userlogin);
 					
@@ -96,15 +102,40 @@ public class UserService implements IUserService{
 	}
 	@Transactional
 	@Override
-	public Results<User> loginUser(UserLogin userlogin) {
+	public Results<User> loginUser(UserLogin userlogin,HttpServletRequest request) {
 		Results<User> results=new Results<User>();
 		try {
-		User user = userDao.loginUser(userlogin.getMobile(), userlogin.getPassword());
-			if (user == null) {
-				results.setMessage("用户名或密码错误");
+			
+			if((userlogin.getVerification()==null || "".equals(userlogin.getVerification())) && (userlogin.getPassword()==null || "".equals(userlogin.getPassword()))){
+				results.setMessage("验证码和密码不能同时为空");
 				results.setStatus("1");
 				return results;
 			}
+			User user = new User();
+			if(userlogin.getVerification()!=null && !"".equals(userlogin.getVerification())){
+				String verification = request.getSession().getAttribute(userlogin.getMobile()).toString();
+				if(!userlogin.getVerification().equals(verification)){
+					results.setMessage("验证码输入有误");
+					results.setStatus("1");
+					return results;
+				}
+				user = userDao.existUser(userlogin.getMobile(), null);
+				if(user==null){
+					results.setMessage("该手机号未注册");
+					results.setStatus("1");
+					return results;
+				}
+				
+			}
+			if(userlogin.getPassword()!=null && !"".equals(userlogin.getPassword())){
+				user = userDao.loginUser(userlogin.getMobile(), userlogin.getPassword());
+				if (user == null) {
+					results.setMessage("用户名或密码错误");
+					results.setStatus("1");
+					return results;
+				}
+			}
+		
 			userlogin.setUserId(user.getId());
 			userlogin.setUpdatetime(new Date());
 			userloginDao.updateUserLogin(userlogin);
@@ -148,7 +179,7 @@ public class UserService implements IUserService{
 
 	@Override
 	public int updateUser(User user) {
-		user.setUpdateTime(new Date());
+		user.setUpdatetime(new Date());
 		return userDao.updateUser(user);
 	}
 	

@@ -72,7 +72,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid) {
+	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid,HttpServletRequest request) {
 
 		Results<User> result = new Results<User>();
 		if (valid.hasErrors()) {
@@ -80,22 +80,32 @@ public class UserController {
 			result.setStatus("1");
 			return result;
 		}
-		return userService.loginUser(userlogin);
+		return userService.loginUser(userlogin,request);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Results<String> updateUser(@RequestBody User user) {
+	public Results<String> updateUser(@RequestBody User user,HttpServletRequest  request) {
 
 		Results<String> results = new Results<String>();
 
-		if(user.getId()==null || "".equals(user.getId())){
+		if((user.getId()==null || "".equals(user.getId())) && (user.getMobile()==null || "".equals(user.getMobile()))){
 			results.setStatus("1");
-			results.setMessage("缺少用户ID");
+			results.setMessage("缺少用户的标识");
 			return results;
 		}
 		if(user.getPassword()!=null && user.getPassword()!=""){
-			///////验证一下验证码
-			
+			///////验证一下验证码说明是修改密码的操作
+			if(user.getVerification()==null || "".equals(user.getVerification())){
+				results.setStatus("1");
+				results.setMessage("修改密码的时候验证码不能为空");
+				return results;
+			}
+			String verification = request.getSession().getAttribute(user.getMobile()).toString();
+			if (!verification.equals(user.getVerification())) {
+				results.setStatus("1");
+				results.setMessage("验证码不正确,请稍后重新获取");
+				return results;
+			}
 		}
 		int users = userService.updateUser(user);
 		if (users <= 0) {

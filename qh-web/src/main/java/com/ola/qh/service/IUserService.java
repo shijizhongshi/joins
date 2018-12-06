@@ -9,7 +9,7 @@ import com.ola.qh.util.Results;
 public interface IUserService {
 	public Results<User> saveUsers(User user, HttpServletRequest request);
 
-	public Results<User> loginUser(UserLogin userlogin);
+	public Results<User> loginUser(UserLogin userlogin,HttpServletRequest request);
 
 	public User existMobileUser(String mobile);
 

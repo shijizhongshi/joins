@@ -42,7 +42,9 @@ public class SendSmsController {
 	 * @return
 	 */
 	@RequestMapping("/sendmobile")
-	public Results<String> sendSms(@RequestParam(required = true, name = "mobile") String mobile,
+	public Results<String> sendSms(
+			@RequestParam(required = true, name = "mobile") String mobile,
+			@RequestParam(required=true,name="types")String types,
 			HttpServletRequest request) {
 
 		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
@@ -55,16 +57,28 @@ public class SendSmsController {
 			result.setMessage("手机号格式有误");
 			return result;
 		}
-		User existMobile = userService.existMobileUser(mobile);
-		if (existMobile == null) {
+		if("1".equals(types)){
+			User existMobile = userService.existMobileUser(mobile);
+			if (existMobile == null) {
+				Map<String, String> map = new HashMap<String, String>();
+
+				///// map放code之外的参数
+
+				return sendSmsCommon(mobile, "SMS_151231966", map, request);
+			}
+			result.setStatus("1");
+			result.setMessage("手机号已存在");
+			return result;
+		}else if("2".equals(types)){
 			Map<String, String> map = new HashMap<String, String>();
 
 			///// map放code之外的参数
-
-			return sendSmsCommon(mobile, "SMS_151231966", map, request);
+			////验证码身份的模板消息
+			return sendSmsCommon(mobile, "SMS_151460179", map, request);
 		}
+		
 		result.setStatus("1");
-		result.setMessage("手机号已存在");
+		result.setMessage("请选择消息类别");
 		return result;
 	}
 

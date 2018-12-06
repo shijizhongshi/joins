@@ -23,7 +23,7 @@
 	</select>
 	
 	<select id="existUser" resultMap="UserMap">
-		select * from user where 1=1
+		select id,mobile,nickname,head_img_url,userrole from user where 1=1
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>
@@ -41,7 +41,7 @@
 		head_img_url=#{headimg},
 		</if>
 		<if test="password!=null and password!=''">
-		password=#{password}
+		password=#{password},
 		</if>
 		updatetime=#{updatetime}
 		 where 1=1

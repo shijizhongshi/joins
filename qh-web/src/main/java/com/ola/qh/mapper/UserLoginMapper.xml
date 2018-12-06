@@ -36,10 +36,9 @@
 		<if test="deviceType!=0">
 		device_type=#{deviceType},
 		</if>
-		<if test="deviceName!=null or deviceId!=null or deviceToken!=null or deviceType!=0">
-		updatetime=#{updatetime},
-		</if>
-		user_id=#{userId} where user_id=#{userId}
+		updatetime=#{updatetime}
+		
+		where user_id=#{userId}
 	</update>
 	
 </mapper>
