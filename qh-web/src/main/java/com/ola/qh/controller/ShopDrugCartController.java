@@ -56,10 +56,9 @@ public class ShopDrugCartController {
 		return results;
 	}
 
-	
-	@RequestMapping(value="/save",method=RequestMethod.POST)
-	public Results<String> insertShopDrugCart(@RequestBody @Valid ShopDrugCart shopDrugCart,BindingResult valid){
-		
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public Results<String> insertShopDrugCart(@RequestBody @Valid ShopDrugCart shopDrugCart, BindingResult valid) {
+
 		Results<String> results = new Results<String>();
 
 		if (valid.hasErrors()) {
@@ -77,6 +76,7 @@ public class ShopDrugCartController {
 			return results;
 
 		}
+
 		results.setStatus("0");
 		return results;
 	}
