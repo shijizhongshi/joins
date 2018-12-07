@@ -56,16 +56,11 @@ public class UserFavoriteController {
 		return results;
 
 	}
-
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public Results<String> insertUserFavorite(@RequestBody @Valid UserFavorite userFavorite, BindingResult valid) {
-
-		Results<String> results = new Results<String>();
-		if("".equals(userFavorite.getProductType())){
-			results.setMessage("收藏状态不能为空,请检查");
-			results.setStatus("1");
-			return results;
-		}
+	@RequestMapping(value="/save",method=RequestMethod.POST)
+	public Results<String> insertUserFavorite(@RequestBody @Valid UserFavorite userFavorite,BindingResult valid){
+		
+		Results<String> results=new Results<String>();
+		
 		if (valid.hasErrors()) {
 			results.setMessage("信息填写不完整,请检查");
 			results.setStatus("1");
