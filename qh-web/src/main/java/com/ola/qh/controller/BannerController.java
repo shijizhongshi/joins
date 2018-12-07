@@ -16,7 +16,7 @@ import com.ola.qh.util.Results;
  * 
  * 
  * @ClassName:BannerController
- * @Description:Banner查
+ * @Description:Banner图查询
  * @author guozihan
  * @date 2018年11月15日
  *

@@ -16,6 +16,15 @@ import com.ola.qh.service.IUserWithdrawHistoryService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName: UserWithdrawHistoryController
+ * @Description: 用户提现的增删查
+ * @author guozihan
+ * @date 2018/12/7
+ *
+ */
 @RestController
 @RequestMapping(value = "/api/withdraw")
 public class UserWithdrawHistoryController {
@@ -50,7 +59,7 @@ public class UserWithdrawHistoryController {
 	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,
 			BindingResult valid) {
 
-		Results<String> results=new Results<String>();
+		Results<String> results = new Results<String>();
 		if (valid.hasErrors()) {
 			results.setMessage("信息填写不完整,请检查");
 			results.setStatus("1");
@@ -60,16 +69,36 @@ public class UserWithdrawHistoryController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteUserWithdrawHistory(@RequestParam(name = "id", required = true) String id) {
+	public Results<String> deleteUserWithdrawHistory(@RequestParam(name = "id", required = true) String id,
+			@RequestParam(name = "payStatus", required = true) int payStatus) {
 
 		Results<String> results = new Results<String>();
 
+		int exist = userWithdrawHistoryService.existUserWithdrawHistory(id, payStatus);
+		if (exist==0) {
+			results.setMessage("账单信息不存在");
+			results.setStatus("1");
+			return results;
+
+		}
+		if (payStatus != 0) {
+			int update = userWithdrawHistoryService.updateUserWithdrawHistorystatus(id);
+			if (update <= 0) {
+				results.setMessage("删除失败1");
+				results.setStatus("1");
+				return results;
+			}
+			results.setStatus("0");
+			return results;
+
+		}
 		int delete = userWithdrawHistoryService.deleteUserWithdrawHistory(id);
 		if (delete <= 0) {
 			results.setMessage("删除失败");
 			results.setStatus("1");
 			return results;
 		}
+		results.setMessage("删除成功");
 		results.setStatus("0");
 		return results;
 	}

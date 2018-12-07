@@ -17,15 +17,22 @@
 
 
 	<select id="selectUserWithdrawHistory"  resultMap="UserWithdrawHistoryMap">
-		select withdraw_types,money,pay_status,pay_message from user_withdraw_history where user_id=#{userId} and status=0 order by addtime desc limit #{pageNo},#{pageSize}
+		select id,user_id,withdraw_types,money,pay_status,pay_message,status from user_withdraw_history where user_id=#{userId} and status=0 order by addtime desc limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="saveUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
 	 	insert into user_withdraw_history(id,user_id,withdraw_types,money,pay_status,addtime) values(#{id},#{userId},#{withdrawTypes},#{money},#{payStatus},#{addtime})
 	</insert>
 	
-	<update id="deleteUserWithdrawHistory" >
+	<update id="updateUserWithdrawHistorystatus" >
 		update user_withdraw_history set status=1 where id=#{id}
 	</update>
 	
+	<delete id="deleteUserWithdrawHistory">
+		delete from user_withdraw_history where id=#{id}
+	</delete>
+	
+	<select id="existUserWithdrawHistory" resultType="int">
+		select count(id) from user_withdraw_history where pay_status=#{payStatus} and id=#{id}
+	</select>
 </mapper>

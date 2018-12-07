@@ -11,31 +11,40 @@ import com.ola.qh.entity.ShopDrugCategory;
 import com.ola.qh.service.IShopDrugCategoryService;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName: ShopDrugCategoryController
+ * @Description: 药品分类的查询
+ * @author guozihan
+ * @date 2018/12/7
+ *
+ */
 @RestController
-@RequestMapping(value="/api/shopdrugcategory")
+@RequestMapping(value = "/api/shopdrugcategory")
 public class ShopDrugCategoryController {
 
 	@Autowired
 	private IShopDrugCategoryService shopDrugCategoryService;
-	
-	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<ShopDrugCategory>> selectShopDrugCategory(){
-		
-		Results<List<ShopDrugCategory>> results=new Results<List<ShopDrugCategory>>();
-		
-		List<ShopDrugCategory> list=shopDrugCategoryService.selectShopDrugCategory();
-		
-		if(list==null || list.size()==0){
-			
+
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	public Results<List<ShopDrugCategory>> selectShopDrugCategory() {
+
+		Results<List<ShopDrugCategory>> results = new Results<List<ShopDrugCategory>>();
+
+		List<ShopDrugCategory> list = shopDrugCategoryService.selectShopDrugCategory();
+
+		if (list == null || list.size() == 0) {
+
 			results.setMessage("未添加药品分类");
 			results.setStatus("1");
 			return results;
 		}
-		
+
 		results.setData(list);
 		results.setStatus("0");
 		return results;
-		
+
 	}
-	
+
 }

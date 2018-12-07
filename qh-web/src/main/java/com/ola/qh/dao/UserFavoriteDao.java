@@ -13,4 +13,6 @@ public interface UserFavoriteDao {
 	public int insertUserFavorite(UserFavorite userFavorite);
 	
 	public int deleteUserFavorite(@Param("id")String id);
+	
+	public int existUserFavorite(@Param("productId")String productId);
 }

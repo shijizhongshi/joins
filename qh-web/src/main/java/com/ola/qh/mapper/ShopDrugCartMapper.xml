@@ -18,7 +18,7 @@
 
 
 	<select id="selectShopDrugCart" resultMap="ShopDrugCartDaoMap">
-		select id,user_id,muser_id,drug_id,drug_name,drug_img_url,count,money,addtime from shop_drug_cart where user_id=#{userId}
+		select id,user_id,muser_id,drug_id,drug_name,drug_img_url,count,money,addtime from shop_drug_cart where user_id=#{userId} order by addtime desc limit #{pageNo},#{pageSize}
 	</select> 
 	
 	<insert id="insertShopDrugCart" parameterType="com.ola.qh.entity.ShopDrugCart">

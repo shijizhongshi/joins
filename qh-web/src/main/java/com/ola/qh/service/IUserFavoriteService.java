@@ -11,4 +11,6 @@ public interface IUserFavoriteService {
 	public int insertUserFavorite(UserFavorite userFavorite);
 	
 	public int deleteUserFavorite(String id);
+	
+	public int existUserFavorite(String productId);
 }

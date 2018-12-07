@@ -23,11 +23,11 @@ import com.ola.qh.util.Results;
 /**
  * 
  * 
-* @ClassName: AddressController
-* @Description:  用户地址信息的增删改查
-* @author guozihan
-* @date   2018年11月30日
-*
+ * @ClassName: AddressController
+ * @Description: 用户地址信息的增删改查
+ * @author guozihan
+ * @date 2018年11月30日
+ *
  */
 @RestController
 @RequestMapping("/api/address")
@@ -46,9 +46,9 @@ public class AddressController {
 		int pageNo = (page - 1) * pageSize;
 		List<Address> list = addressService.selectAddress(userId, pageNo, pageSize);
 
-			results.setData(list);
-			results.setStatus("0");
-			return results;
+		results.setData(list);
+		results.setStatus("0");
+		return results;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -87,13 +87,13 @@ public class AddressController {
 
 		Results<String> results = new Results<String>();
 
-		if(address.getId()==null || "".equals(address.getId())){
+		if (address.getId() == null || "".equals(address.getId())) {
 			results.setStatus("1");
 			results.setMessage("缺少地址ID");
 			return results;
 		}
-		
-		if(address.getMobile()!=null){
+
+		if (address.getMobile() != null) {
 			Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
 			pattern.matcher(address.getMobile()).matches();
 
@@ -103,7 +103,7 @@ public class AddressController {
 				return results;
 			}
 		}
-		
+
 		address.setUpdatetime(new Date());
 		int update = addressService.updateAddress(address);
 

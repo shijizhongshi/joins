@@ -12,4 +12,8 @@ public interface IUserWithdrawHistoryService {
 	public Results<String> saveUserWithdrawHistory(UserWithdrawHistory userwithdrawhistory);
 	
 	public int deleteUserWithdrawHistory(String id);
+	
+	public int updateUserWithdrawHistorystatus(String id);
+	
+	public int existUserWithdrawHistory(String id,int payStatus);
 }
