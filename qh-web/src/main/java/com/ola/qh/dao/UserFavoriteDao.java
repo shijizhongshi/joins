@@ -8,7 +8,7 @@ import com.ola.qh.entity.UserFavorite;
 
 public interface UserFavoriteDao {
 
-	public List<UserFavorite> selectUserFavorite(@Param("userId")String userId);
+	public List<UserFavorite> selectUserFavorite(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize,@Param("productType")int productType);
 	
 	public int insertUserFavorite(UserFavorite userFavorite);
 	

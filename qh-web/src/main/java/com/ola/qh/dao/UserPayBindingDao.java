@@ -12,5 +12,5 @@ public interface UserPayBindingDao {
 	
 	public int updateUserPayBinding(UserPayBinding userpaybinding);
 	
-	public int deleteUserPayBinding(@Param("userId")String userId);
+	public int deleteUserPayBinding(@Param("id")String id);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.UserFavorite;
 import com.ola.qh.service.IUserFavoriteService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -26,11 +27,15 @@ public class UserFavoriteController {
 	private IUserFavoriteService userFavoriteService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<UserFavorite>> selectUserFavorite(@RequestParam(name="userId",required=true)String userId){
+	public Results<List<UserFavorite>> selectUserFavorite(@RequestParam(name="userId",required=true)String userId,
+			@RequestParam(name = "page", required = true) int page,
+			@RequestParam(name = "productType", required = true) int productType){
 		
 		Results<List<UserFavorite>> results=new Results<List<UserFavorite>>();
 		
-		List<UserFavorite> list=userFavoriteService.selectUserFavorite(userId);
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
+		List<UserFavorite> list=userFavoriteService.selectUserFavorite(userId, pageNo, pageSize, productType);
 		
 		if (list != null && list.size() != 0) {
 			results.setData(list);

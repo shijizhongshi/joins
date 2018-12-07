@@ -10,5 +10,5 @@ public interface IUserPayBindingService {
 	
 	public int updateUserPayBinding(UserPayBinding userpaybinding);
 	
-	public int deleteUserPayBinding(String userId);
+	public int deleteUserPayBinding(String id);
 }

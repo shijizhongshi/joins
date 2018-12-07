@@ -27,6 +27,8 @@ public class UserWithdrawHistory {
 	
 	private BigDecimal outMoney;/////提现金额
 	
+	private int status;
+	
 	public String getId() {
 		return id;
 	}
@@ -100,7 +102,15 @@ public class UserWithdrawHistory {
 		this.outMoney = outMoney;
 	}
 
+	public int getStatus() {
+		return status;
+	}
 
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	
 
 
 	
