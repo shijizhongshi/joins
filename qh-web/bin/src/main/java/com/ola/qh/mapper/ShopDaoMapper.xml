@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.ShopDao">
+
+	<resultMap type="com.ola.qh.entity.Shop" id="ShopMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="shop_type" property="shopType"/>
+	<result column="shop_name" property="shopName"/>
+	<result column="leader_name" property="leaderName"/>
+	<result column="leader_mobile" property="leaderMobile"/>
+	<result column="address" property="address"/>
+	<result column="business_license_url" property="businessLicenseUrl"/>
+	<result column="door_head_url" property="doorHeadUrl"/>
+	<result column="shop_logo" property="shopLogo"/>
+	<result column="licence_url" property="licenceUrl"/>
+	<result column="isrecommend" property="isrecommend"/>
+	<result column="islimits" property="islimits"/>
+	<result column="remarked" property="remarked"/>
+	<result column="business_hours" property="businessHours"/>
+	<result column="addtime" property="addtime"/>
+	<result column="updatetime" property="updatetime"/>
+	
+	</resultMap>
+
+	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
+	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend
+	business_hours
+	</sql>
+	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
+	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
+	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{doorHeadUrl},
+	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours})
+	</insert>
+	
+	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
+	update shop set 
+	<if test="shopName!=null">
+	shop_name=#{shopName},
+	</if>
+	<if test="leaderName!=null">
+	leader_name=#{leaderName},
+	</if>
+	<if test="leaderMobile!=null">
+	leader_mobile=#{leaderMobile},
+	</if>
+	<if test="address!=null">
+	address=#{address},
+	</if>
+	<if test="businessLicenseUrl!=null">
+	business_license_url=#{businessLicenseUrl},
+	</if>
+	<if test="doorHeadUrl!=null">
+	door_head_url=#{doorHeadUrl},
+	</if>
+	<if test="shopLogo!=null">
+	shop_logo=#{shopLogo},
+	</if>
+	<if test="licenceUrl!=null">
+	licence_url=#{licenceUrl},
+	</if>
+	updatetime=#{updatetime} where id=#{id}
+	</update>
+	
+	<select id="selectShopByUserId" resultMap="ShopMap">
+	select <include refid="sql_base"></include> from shop where 1=1
+	<if test="userId!=null">
+	and user_id=#{userId}
+	</if>
+	<if test="shopId!=null">
+	and id=#{shopId}
+	</if>
+	<if test="shopType!=0">
+	and shop_type=#{shopType}
+	</if>
+	</select>
+	
+	<select id="listShop" resultMap="ShopMap">
+	select <include refid="sql_base"></include> from shop where 1=1
+	<if test="shopName!=null and shopName!=''">
+	and shop_name LIKE CONCAT(CONCAT('%',#{shopName},'%'))
+	</if>
+	<if test="address!=null and address!=''">
+	and address LIKE CONCAT(CONCAT('%',#{address},'%'))
+	</if>
+	<if test="isrecommend!=0">
+	<!-- 首页推荐店铺的地方 -->
+	and isrecommend=#{isrecommend}
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+	
+	
+	
+	<resultMap type="com.ola.qh.entity.ShopImg" id="ShopImgMap">
+	<result column="id" property="id"/>
+	<result column="shop_id" property="shopId"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="subtype" property="subtype"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	<insert id="insertImg" parameterType="com.ola.qh.entity.ShopImg">
+	insert into shop_img(id,shop_id,img_url,subtype,addtime)values(#{id},#{shopId},#{imgUrl},#{subtype},#{addtime})
+	</insert>
+	<select id="selectList" resultMap="ShopImgMap">
+	select id,img_url,subtype from shop_img where shop_id=#{shopId} and subtype=#{subtype}
+	</select>
+	<delete id="deleteImg">
+	delete from shop_img where id=#{id}
+	</delete>
+</mapper>

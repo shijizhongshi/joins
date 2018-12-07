@@ -26,7 +26,7 @@ public class ProductVo {
 	private BigDecimal totalPayout;/////实际支付金额
 	@NotEmpty(message="产品的标识不能为空")
 	private String productId;/////购买的产品(课程或者是服务)不能为空
-	
+	@NotNull
 	private int count;////对于服务店铺的项目就不止一个了
 	
 	private String leaveMessage;

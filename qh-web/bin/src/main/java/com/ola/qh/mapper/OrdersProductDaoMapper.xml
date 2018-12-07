@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.OrdersProductDao">
+	<resultMap type="com.ola.qh.entity.OrdersProduct" id="OrdersProductMap">
+	<result column="id" property="id"/>
+	<result column="orders_id" property="ordersId"/>
+	<result column="user_id" property="userId"/>
+	<result column="muser_id" property="muserId"/>
+	<result column="product_id" property="productId"/>
+	<result column="product_name" property="productName"/>
+	<result column="product_price" property="productPrice"/>
+	<result column="count" property="count"/>
+	<result column="coupon" property="coupon"/>
+	<result column="payout" property="payout"/>
+	<result column="product_img" property="productImg"/>
+	<result column="status_code" property="statusCode"/>
+	<result column="status_name" property="statusName"/>
+	<result column="old_status_code" property="oldStatusCode"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+
+
+	<sql id="sql_base">
+	op.id,op.orders_id,op.user_id,op.muser_id,op.product_id,op.product_name,op.product_price,op.count,
+	op.payout,op.product_img,op.status_code
+	</sql>
+	<insert id="insertOrdersProduct" parameterType="com.ola.qh.entity.OrdersProduct">
+	
+	insert into orders_product op(<include refid="sql_base"></include>,status_name,old_status_code,
+	addtime)values(#{id},#{ordersId},#{userId},#{muserId},#{productId},#{productName},
+	#{productPrice},#{count},#{payout},#{productImg},#{statusCode},#{statusName},
+	#{oldStatusCode},#{addtime});
+	</insert>
+
+	<select id="selectByOid" resultMap="OrdersProductMap">
+	select <include refid="sql_base"></include>,status_name from orders_product op where orders_id=#{orderId}
+	<if test="statusCode!=null">
+	and status_code=#{statusCode}
+	</if>
+	</select>
+	
+	<update id="updateOrdersProduct">
+	update orders_product set 
+	<if test="statusCode!=null">
+	status_code=#{statusCode},
+	</if>
+	<if test="statusName!=null">
+	status_name=#{statusName},
+	</if>
+	<if test="oldStatusCode!=null">
+	old_status_code=#{oldStatusCode},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
+	<select id="singleOrdersProduct" resultMap="OrdersProductMap">
+	select <include refid="sql_base"></include>,old_status_code from orders_product op where id=#{id}
+	</select>
+	
+	<select id="listOrdersProduct" resultMap="OrdersProductMap">
+	select <include refid="sql_base"></include>,op.addtime,u.head_img_url headImgUrl,u.nickname from orders_product op left join user u on
+	u.id=op.muser_id 
+	where 1=1
+	<if test="statusCode!=null">
+	and status_code in("APPLYREFUNED","AGREEREFUNED","REJECTREFUNED","REFUNED")
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="salesCountByPid" resultType="int">
+	select count(id) from orders_product where product_id=#{productId} and status_code in("RECEIVED")
+	</select>
+</mapper>

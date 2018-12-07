@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.AddressDao">
+	<resultMap type="com.ola.qh.entity.Address"  id="AddressMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="receiver" property="receiver" />
+		<result column="mobile" property="mobile" />
+		<result column="address" property="address" />
+		<result column="sex" property="sex" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+
+
+	<select id="selectAddress"  resultMap="AddressMap">
+		select id,address,receiver,mobile,sex from address  where user_id=#{userId} order by addtime DESC limit #{pageNo},#{pageSize}
+	</select>
+	<insert id="saveAddress" parameterType="com.ola.qh.entity.Address" >
+	 	insert into address(id,user_id,receiver,mobile,address,sex,addtime) values(#{id},#{userId},#{receiver},#{mobile},#{address},#{sex},#{addtime})
+	</insert>
+	
+	<update id="updateAddress" parameterType="com.ola.qh.entity.Address" >
+		update address set 
+		<if test="receiver!=null">
+		receiver=#{receiver},
+		</if>
+		<if test="mobile!=null">
+		mobile=#{mobile},
+		</if>
+		<if test="address!=null">
+		address=#{address},
+		</if>
+		<if test="sex!=null">
+		sex=#{sex},
+		</if>
+		updatetime=#{updatetime} where id=#{id} 
+	</update>
+	<delete id="deleteAddress" >
+		delete from address where id=#{id}
+	</delete>
+	
+</mapper>

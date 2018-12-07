@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.ShopDrugCategoryDao">
+	<resultMap type="com.ola.qh.entity.ShopDrugCategory"  id="ShopDrugCategoryMap">
+		<result column="id" property="id" />
+		<result column="category_name" property="categoryName" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+	
+	<select id="selectShopDrugCategory" resultMap="ShopDrugCategoryMap">
+		select id,category_name,addtime from shop_drug_category
+	</select>
+
+
+</mapper>

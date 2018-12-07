@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserFavoriteDao">
+	<resultMap type="com.ola.qh.entity.UserFavorite"  id="UserFavoriteMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="product_id" property="productId" />
+		<result column="product_name" property="productName" />
+		<result column="product_img_url" property="productImgUrl" />
+		<result column="product_type" property="productType" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+
+
+	<select id="selectUserFavorite"  resultMap="UserFavoriteMap">
+		select id,user_id,product_id,product_name,product_img_url,addtime from user_favorite where user_id=#{userId} and product_type=#{productType} order by addtime DESC limit #{pageNo},#{pageSize}
+	</select>
+	
+	<insert id="insertUserFavorite" parameterType="com.ola.qh.entity.UserFavorite" >
+	 	insert into user_favorite(id,user_id,product_id,product_name,product_img_url,addtime) values(#{id},#{userId},#{productId},#{productName},#{productImgUrl},#{addtime})
+	</insert>
+	
+	<delete id="deleteUserFavorite" >
+		delete from user_favorite where id=#{id}
+	</delete>
+	
+</mapper>
