@@ -17,7 +17,7 @@ import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
-@RequestMapping(value = "/api/userwithdrawhistory")
+@RequestMapping(value = "/api/withdraw")
 public class UserWithdrawHistoryController {
 
 	@Autowired

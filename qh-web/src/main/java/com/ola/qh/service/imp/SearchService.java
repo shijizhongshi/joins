@@ -70,7 +70,7 @@ public class SearchService implements ISearchService{
 			}
 			if("1".equals(status)){
 				/////通过店铺名查店铺
-				List<Shop> shopList = shopDao.listShop(searchName, null, pageNo, pageSize);
+				List<Shop> shopList = shopDao.listShop(searchName, null, pageNo, pageSize,0);
 				for (Shop shop : shopList) {
 					SearchProductVo vo=new SearchProductVo();
 					vo.setAddress(shop.getAddress());

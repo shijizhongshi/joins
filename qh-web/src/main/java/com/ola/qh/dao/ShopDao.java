@@ -22,7 +22,8 @@ public interface ShopDao {
 			@Param("shopName")String shopName,
 			@Param("address")String address,
 			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize);
+			@Param("pageSize")int pageSize,
+			@Param("isrecommend")int isrecommend);
 	
 	public int insertImg(ShopImg img);
 	
