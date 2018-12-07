@@ -45,7 +45,7 @@ public class UserFavoriteController {
 		
 		
 	}
-	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public Results<String> insertUserFavorite(@RequestBody @Valid UserFavorite userFavorite,BindingResult valid){
 		
 		
