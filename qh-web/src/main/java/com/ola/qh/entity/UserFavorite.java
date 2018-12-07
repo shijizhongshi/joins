@@ -21,7 +21,6 @@ public class UserFavorite {
 	@NotEmpty(message="收藏展示图片不能为空")
 	private String productImgUrl;
 	
-	@NotEmpty(message="收藏类型不能为空")
 	private int productType;
 	
 	private Date addtime;

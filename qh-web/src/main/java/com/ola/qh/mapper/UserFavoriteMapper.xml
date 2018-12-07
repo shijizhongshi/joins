@@ -20,11 +20,15 @@
 	</select>
 	
 	<insert id="insertUserFavorite" parameterType="com.ola.qh.entity.UserFavorite" >
-	 	insert into user_favorite(id,user_id,product_id,product_name,product_img_url,addtime) values(#{id},#{userId},#{productId},#{productName},#{productImgUrl},#{addtime})
+	 	insert into user_favorite(id,user_id,product_id,product_name,product_img_url,product_type,addtime) values(#{id},#{userId},#{productId},#{productName},#{productImgUrl},#{productType},#{addtime})
 	</insert>
 	
 	<delete id="deleteUserFavorite" >
 		delete from user_favorite where id=#{id}
 	</delete>
+	
+	<select id="existUserFavorite" resultType="int">
+		select count(id) from user_favorite where product_id=#{productId}
+	</select>
 	
 </mapper>

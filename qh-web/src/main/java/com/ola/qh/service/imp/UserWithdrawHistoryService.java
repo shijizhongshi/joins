@@ -82,4 +82,16 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 		return userWithdrawHistoryDao.deleteUserWithdrawHistory(id);
 	}
 
+	@Override
+	public int updateUserWithdrawHistorystatus(String id) {
+		
+		return userWithdrawHistoryDao.updateUserWithdrawHistorystatus(id);
+	}
+
+	@Override
+	public int existUserWithdrawHistory(String id, int payStatus) {
+		
+		return userWithdrawHistoryDao.existUserWithdrawHistory(id, payStatus);
+	}
+
 }

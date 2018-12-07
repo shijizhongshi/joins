@@ -8,7 +8,7 @@ import com.ola.qh.entity.ShopDrugCart;
 
 public interface ShopDrugCartDao {
 
-	public List<ShopDrugCart> selectShopDrugCart(@Param("userId")String userId);
+	public List<ShopDrugCart> selectShopDrugCart(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 	
 	public int insertShopDrugCart(ShopDrugCart shopDrugCart);
 	

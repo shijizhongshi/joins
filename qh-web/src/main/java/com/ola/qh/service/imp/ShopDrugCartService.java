@@ -16,9 +16,9 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	private ShopDrugCartDao shopDrugCartDao;
 	
 	@Override
-	public List<ShopDrugCart> selectShopDrugCart(String userId) {
+	public List<ShopDrugCart> selectShopDrugCart(String userId, int pageNo, int pageSize) {
 		
-		return shopDrugCartDao.selectShopDrugCart(userId);
+		return shopDrugCartDao.selectShopDrugCart(userId, pageNo, pageSize);
 	}
 
 	@Override

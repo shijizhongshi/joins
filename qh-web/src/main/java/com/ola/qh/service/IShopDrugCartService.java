@@ -7,7 +7,7 @@ import com.ola.qh.entity.ShopDrugCart;
 
 public interface IShopDrugCartService {
 
-	public List<ShopDrugCart> selectShopDrugCart(String userId);
+	public List<ShopDrugCart> selectShopDrugCart(String userId,int pageNo,int pageSize);
 	
 	public int insertShopDrugCart(ShopDrugCart shopDrugCart);
 	

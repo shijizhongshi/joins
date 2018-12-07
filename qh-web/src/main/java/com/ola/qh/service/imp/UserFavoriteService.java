@@ -32,4 +32,10 @@ public class UserFavoriteService implements IUserFavoriteService{
 		
 		return userFavoriteDao.deleteUserFavorite(id);
 	}
+
+	@Override
+	public int existUserFavorite(String productId) {
+		
+		return userFavoriteDao.existUserFavorite(productId);
+	}
 }

@@ -14,6 +14,15 @@ import com.ola.qh.service.IUserPayBindingService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName: UserPayBindingController
+ * @Description: 用户绑定的支付账号的增删改查
+ * @author guozihan
+ * @date 2018/12/7
+ *
+ */
 @RestController
 @RequestMapping(value = "/api/userpaybinding")
 public class UserPayBindingController {
@@ -43,7 +52,7 @@ public class UserPayBindingController {
 
 		Results<String> results = new Results<String>();
 
-		if(userpaybinding.getUserId()==null || "".equals(userpaybinding.getUserId())){
+		if (userpaybinding.getUserId() == null || "".equals(userpaybinding.getUserId())) {
 			results.setStatus("1");
 			results.setMessage("缺少用户ID");
 			return results;
@@ -66,7 +75,7 @@ public class UserPayBindingController {
 
 		Results<String> results = new Results<String>();
 
-		if(userpaybinding.getUserId()==null || "".equals(userpaybinding.getUserId())){
+		if (userpaybinding.getUserId() == null || "".equals(userpaybinding.getUserId())) {
 			results.setStatus("1");
 			results.setMessage("缺少用户ID");
 			return results;

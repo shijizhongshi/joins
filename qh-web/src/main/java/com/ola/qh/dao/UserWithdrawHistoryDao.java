@@ -14,5 +14,8 @@ public interface UserWithdrawHistoryDao {
 	
 	public int deleteUserWithdrawHistory(@Param("id")String id);
 	
+	public int updateUserWithdrawHistorystatus(@Param("id")String id);
+	
+	public int existUserWithdrawHistory(@Param("id")String id,@Param("payStatus")int payStatus);
 	
 }

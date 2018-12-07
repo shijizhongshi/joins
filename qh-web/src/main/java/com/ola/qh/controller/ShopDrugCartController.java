@@ -1,6 +1,5 @@
 package com.ola.qh.controller;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -17,36 +16,49 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.service.IShopDrugCartService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName: ShopDrugCartController
+ * @Description: 购物车的增删改查
+ * @author guozihan
+ * @date 2018/12/7
+ *
+ */
 @RestController
-@RequestMapping(value="/api/shopdrugcart")
+@RequestMapping(value = "/api/shopdrugcart")
 public class ShopDrugCartController {
 
 	@Autowired
 	private IShopDrugCartService shopDrugCartService;
-	
-	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<ShopDrugCart>> selectShopDrugCart(@RequestParam(name="userId",required=true)String userId){
-		
+
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	public Results<List<ShopDrugCart>> selectShopDrugCart(@RequestParam(name = "userId", required = true) String userId,
+			@RequestParam(name = "page", required = true) int page) {
+
 		Results<List<ShopDrugCart>> results = new Results<List<ShopDrugCart>>();
 
-		List<ShopDrugCart> list = shopDrugCartService.selectShopDrugCart(userId);
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
+		List<ShopDrugCart> list = shopDrugCartService.selectShopDrugCart(userId, pageNo, pageSize);
 
-		if(list==null || list.size()==0){
+		if (list == null || list.size() == 0) {
 			results.setMessage("购物车空空如也");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setData(list);
 		results.setStatus("0");
 		return results;
 	}
-	
-	@RequestMapping(value="/insert",method=RequestMethod.POST)
-	public Results<String> insertShopDrugCart(@RequestBody @Valid ShopDrugCart shopDrugCart,BindingResult valid){
-		
+
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public Results<String> insertShopDrugCart(@RequestBody @Valid ShopDrugCart shopDrugCart, BindingResult valid) {
+
 		Results<String> results = new Results<String>();
 
 		if (valid.hasErrors()) {
@@ -56,68 +68,70 @@ public class ShopDrugCartController {
 		}
 		shopDrugCart.setId(KeyGen.uuid());
 		shopDrugCart.setAddtime(new Date());
-		int insert=shopDrugCartService.insertShopDrugCart(shopDrugCart);
+		int insert = shopDrugCartService.insertShopDrugCart(shopDrugCart);
 
-		if(insert<=0){
+		if (insert <= 0) {
 			results.setMessage("购物车添加出错");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setStatus("0");
 		return results;
 	}
-	
-	@RequestMapping(value="/update",method=RequestMethod.GET)
-	public Results<String> updateShopDrugCart(@RequestParam(name="count",required=true)int count,
-			@RequestParam(name="id",required=true)String id){
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public Results<String> updateShopDrugCart(@RequestParam(name = "count", required = true) int count,
+			@RequestParam(name = "id", required = true) String id) {
 
 		Results<String> results = new Results<String>();
 
-		Date updatetime=new Date();
-		
-		int update=shopDrugCartService.updateShopDrugCart(count, id,updatetime);
+		Date updatetime = new Date();
 
-		if(update<=0){
+		int update = shopDrugCartService.updateShopDrugCart(count, id, updatetime);
+
+		if (update <= 0) {
 			results.setMessage("修改出错");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setStatus("0");
 		return results;
 	}
-	@RequestMapping(value="/delete",method=RequestMethod.GET)
-	public Results<String> deleteShopDrugCart(@RequestParam(name="id",required=true)String id){
-		
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public Results<String> deleteShopDrugCart(@RequestParam(name = "id", required = true) String id) {
+
 		Results<String> results = new Results<String>();
 
-		int delete=shopDrugCartService.deleteShopDrugCart(id);
+		int delete = shopDrugCartService.deleteShopDrugCart(id);
 
-		if(delete<=0){
+		if (delete <= 0) {
 			results.setMessage("删除出现异常");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setStatus("0");
 		return results;
 	}
-	@RequestMapping(value="/deleteall",method=RequestMethod.GET)
-	public Results<String> deleteAllShopDrugCart(@RequestParam(name="userId",required=true)String userId){
-		
+
+	@RequestMapping(value = "/deleteall", method = RequestMethod.GET)
+	public Results<String> deleteAllShopDrugCart(@RequestParam(name = "userId", required = true) String userId) {
+
 		Results<String> results = new Results<String>();
 
-		int deleteall=shopDrugCartService.deleteAllShopDrugCart(userId);
+		int deleteall = shopDrugCartService.deleteAllShopDrugCart(userId);
 
-		if(deleteall<=0){
+		if (deleteall <= 0) {
 			results.setMessage("删除出现异常");
 			results.setStatus("1");
 			return results;
-			
+
 		}
 		results.setStatus("0");
 		return results;
 	}
-	
+
 }

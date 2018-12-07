@@ -11,6 +11,15 @@ import com.ola.qh.entity.ShopServeType;
 import com.ola.qh.service.IShopServeTypeService;
 import com.ola.qh.util.Results;
 
+/**
+ * 
+ * 
+ * @ClassName: ShopServeTypeController
+ * @Description: 服务类别的查询
+ * @author guozihan
+ * @date 2018/12/7
+ *
+ */
 @RestController
 @RequestMapping("/api/shopservetype")
 public class ShopServeTypeController {
@@ -22,7 +31,7 @@ public class ShopServeTypeController {
 
 		Results<List<ShopServeType>> results = new Results<List<ShopServeType>>();
 
-		List<ShopServeType> list=shopServeTypeService.selectShopServeType();
+		List<ShopServeType> list = shopServeTypeService.selectShopServeType();
 		if (list != null && list.size() != 0) {
 
 			results.setData(list);
@@ -35,6 +44,4 @@ public class ShopServeTypeController {
 		return results;
 	}
 
-	
 }
-
