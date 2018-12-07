@@ -30,7 +30,7 @@ public class ShopDrug {
 	private String specification;////药品规格
 	@NotNull
 	private BigDecimal originalPrice;////原价
-	
+	@NotNull
 	private BigDecimal discountPrice;///折扣价
 	@NotNull
 	private BigDecimal price;////原价

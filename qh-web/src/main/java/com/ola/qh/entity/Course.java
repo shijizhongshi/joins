@@ -1,7 +1,9 @@
 package com.ola.qh.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 /**
  * 
 * @ClassName: Course  
@@ -47,6 +49,8 @@ public class Course {
 	private int pageNo;////分页用的
 	
 	private int pageSize;
+	
+	private List<CourseChapter> cclist=new ArrayList<CourseChapter>();
 
 	public String getCourseName() {
 		return courseName;
@@ -190,6 +194,14 @@ public class Course {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public List<CourseChapter> getCclist() {
+		return cclist;
+	}
+
+	public void setCclist(List<CourseChapter> cclist) {
+		this.cclist = cclist;
 	}
 	
 	

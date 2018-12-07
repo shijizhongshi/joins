@@ -49,14 +49,14 @@
 	
 	<!--通过大类别的id查小类别-->
 	<select id="courseTypeSubclassList" resultMap="CourseTypeSubclassMap">
-	select course_type_subclass_name from course_type_subclass where course_type_id=#{courseTypeId}
+	select course_type_subclass_name from course_type_subclass,course_chapter_size where course_type_id=#{courseTypeId}
 	</select>
 	<!--查用户类别的结束#################### -->
 	
 	<!--课程按照不同的条件进行查询-->
 	<select id="courseList" resultMap="CourseMap" parameterType="com.ola.qh.entity.Course">
 	
-	select * from course where course_show=1
+	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img from course where course_show=1
 	<if test="courseExcellent!=0">
 	 and course_excellent=#{courseExcellent}
 	</if>

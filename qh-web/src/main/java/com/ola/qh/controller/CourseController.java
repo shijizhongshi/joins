@@ -104,6 +104,16 @@ public class CourseController {
 		return result;
 	}
 	
+	@RequestMapping("/single")
+	public Results<Course> singleCourse(@RequestParam(name="courseId",required=true)String courseId){
+		Results<Course> result = new Results<Course>();
+		result.setStatus("0");
+		result.setData(courseService.singleCourse(courseId));
+		return result;
+	}
+	
+	
+	
 	/**
 	 * 通过课程的id查对应的章的id
 	 * <p>Title: ListCourseChapter</p>  

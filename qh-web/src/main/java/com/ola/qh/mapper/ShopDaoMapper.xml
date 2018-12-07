@@ -106,7 +106,7 @@
 	insert into shop_img(id,shop_id,img_url,subtype,addtime)values(#{id},#{shopId},#{imgUrl},#{subtype},#{addtime})
 	</insert>
 	<select id="selectList" resultMap="ShopImgMap">
-	select id,img_url from shop_img where shop_id=#{shopId} and subtype=#{subtype}
+	select id,img_url,subtype from shop_img where shop_id=#{shopId} and subtype=#{subtype}
 	</select>
 	<delete id="deleteImg">
 	delete from shop_img where id=#{id}

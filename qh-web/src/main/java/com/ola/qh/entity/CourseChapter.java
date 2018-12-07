@@ -1,6 +1,8 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -31,6 +33,8 @@ public class CourseChapter {
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private List<CourseSection> cslist = new ArrayList<CourseSection>();
 
 	public String getId() {
 		return id;
@@ -110,6 +114,14 @@ public class CourseChapter {
 
 	public void setIspay(int ispay) {
 		this.ispay = ispay;
+	}
+
+	public List<CourseSection> getCslist() {
+		return cslist;
+	}
+
+	public void setCslist(List<CourseSection> cslist) {
+		this.cslist = cslist;
 	}
 	
 	

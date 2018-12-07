@@ -14,7 +14,7 @@ public class ShopDrugCart {
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
 	
-	@NotEmpty(message="钱包ID不能为空")
+	@NotEmpty(message="卖家不能为空")
 	private String muserId;
 	
 	@NotEmpty(message="药品ID不能为空")
