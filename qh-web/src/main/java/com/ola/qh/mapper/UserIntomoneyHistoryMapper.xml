@@ -11,20 +11,20 @@
 		<result column="orderid" property="orderId" />
 		<result column="addtime" property="addtime" />
 		<result column="updatetime" property="updatetime" />
-		
+		<result column="status" property="status" />
 	</resultMap>
 
 
 	<select id="selectUserIntomoneyHistory"  resultMap="UserIntomoneyHistoryMap">
-		select orderid,money,into_status from user_intomoney_history where user_id=#{userId} order by addtime DESC limit #{pageNo},#{pageSize}
+		select orderid,money,into_status from user_intomoney_history where user_id=#{userId} and status=0 order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="saveUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >
 	 	insert into user_intomoney_history(id,user_id,money,orderid,into_status,addtime) values(#{id},#{userId},#{money},#{orderId},#{intoStatus},#{addtime})
 	</insert>
 	
-	<delete id="deleteUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >
-		delete from user_intomoney_history where id=#{id}
-	</delete>
+	<update id="deleteUserIntomoneyHistory" >
+		update user_intomoney_history set status=1 where id=#{id}
+	</update>
 	
 </mapper>

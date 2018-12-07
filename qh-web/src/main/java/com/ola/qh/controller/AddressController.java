@@ -46,9 +46,9 @@ public class AddressController {
 		int pageNo = (page - 1) * pageSize;
 		List<Address> list = addressService.selectAddress(userId, pageNo, pageSize);
 
-		results.setData(list);
-		results.setStatus("0");
-		return results;
+			results.setData(list);
+			results.setStatus("0");
+			return results;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -92,14 +92,18 @@ public class AddressController {
 			results.setMessage("缺少地址ID");
 			return results;
 		}
-		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
-		pattern.matcher(address.getMobile()).matches();
+		
+		if(address.getMobile()!=null){
+			Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
+			pattern.matcher(address.getMobile()).matches();
 
-		if (!pattern.matcher(address.getMobile()).matches()) {
-			results.setStatus("1");
-			results.setMessage("手机号格式有误");
-			return results;
+			if (!pattern.matcher(address.getMobile()).matches()) {
+				results.setStatus("1");
+				results.setMessage("手机号格式有误");
+				return results;
+			}
 		}
+		
 		address.setUpdatetime(new Date());
 		int update = addressService.updateAddress(address);
 

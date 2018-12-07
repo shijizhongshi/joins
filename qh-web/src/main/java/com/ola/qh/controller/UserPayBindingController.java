@@ -21,7 +21,7 @@ public class UserPayBindingController {
 	@Autowired
 	private IUserPayBindingService userPayBindingService;
 
-	@RequestMapping(value = "select", method = RequestMethod.GET)
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public Results<UserPayBinding> selectUserPayBinding(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<UserPayBinding> results = new Results<UserPayBinding>();
@@ -38,7 +38,7 @@ public class UserPayBindingController {
 
 	}
 
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Results<String> saveUserPayBinding(@RequestBody UserPayBinding userpaybinding) {
 
 		Results<String> results = new Results<String>();
@@ -61,7 +61,7 @@ public class UserPayBindingController {
 		return results;
 	}
 
-	@RequestMapping(value = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Results<String> updateUserPayBinding(@RequestBody UserPayBinding userpaybinding) {
 
 		Results<String> results = new Results<String>();
@@ -83,12 +83,12 @@ public class UserPayBindingController {
 		return results;
 	}
 
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public Results<String> deleteUserPayBinding(@RequestParam(name = "userId", required = true) String userId) {
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public Results<String> deleteUserPayBinding(@RequestParam(name = "id", required = true) String id) {
 
 		Results<String> results = new Results<String>();
 
-		int delete = userPayBindingService.deleteUserPayBinding(userId);
+		int delete = userPayBindingService.deleteUserPayBinding(id);
 		if (delete <= 0) {
 			results.setMessage("删除错误");
 			results.setStatus("1");

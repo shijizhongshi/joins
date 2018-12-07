@@ -16,9 +16,9 @@ public class UserFavoriteService implements IUserFavoriteService{
 	private UserFavoriteDao userFavoriteDao;
 
 	@Override
-	public List<UserFavorite> selectUserFavorite(String userId) {
+	public List<UserFavorite> selectUserFavorite(String userId,int pageNo,int pageSize,int productType) {
 		
-		return userFavoriteDao.selectUserFavorite(userId);
+		return userFavoriteDao.selectUserFavorite(userId, pageNo, pageSize, productType);
 	}
 
 	@Override

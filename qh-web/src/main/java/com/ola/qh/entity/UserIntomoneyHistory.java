@@ -18,6 +18,8 @@ public class UserIntomoneyHistory {
 	private Date updatetime;
 	
 	private String orderId;
+	
+	private int status;
 
 	public String getId() {
 		return id;
@@ -73,6 +75,14 @@ public class UserIntomoneyHistory {
 
 	public void setIntoStatus(int intoStatus) {
 		this.intoStatus = intoStatus;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

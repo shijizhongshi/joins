@@ -32,9 +32,9 @@ public class UserPayBindingService implements IUserPayBindingService{
 	}
 
 	@Override
-	public int deleteUserPayBinding(String userId) {
+	public int deleteUserPayBinding(String id) {
 		
-		return userPayBindingDao.deleteUserPayBinding(userId);
+		return userPayBindingDao.deleteUserPayBinding(id);
 	}
 
 	

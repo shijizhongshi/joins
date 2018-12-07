@@ -12,14 +12,17 @@ public class UserFavorite {
 	@NotEmpty(message="用户ID不能为空")
 	private String userId;
 	
-	@NotEmpty(message="产品ID不能为空")
+	@NotEmpty(message="收藏ID不能为空")
 	private String productId;
 	
-	@NotEmpty(message="产品姓名不能为空")
+	@NotEmpty(message="收藏的产品姓名不能为空")
 	private String productName;
 	
-	@NotEmpty(message="产品展示图片不能为空")
+	@NotEmpty(message="收藏展示图片不能为空")
 	private String productImgUrl;
+	
+	@NotEmpty(message="收藏类型不能为空")
+	private int productType;
 	
 	private Date addtime;
 	
@@ -81,6 +84,14 @@ public class UserFavorite {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public int getProductType() {
+		return productType;
+	}
+
+	public void setProductType(int productType) {
+		this.productType = productType;
 	}
 
 	

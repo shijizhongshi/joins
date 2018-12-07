@@ -6,7 +6,7 @@ import com.ola.qh.entity.UserFavorite;
 
 public interface IUserFavoriteService {
 
-	public List<UserFavorite> selectUserFavorite(String userId);
+	public List<UserFavorite> selectUserFavorite(String userId,int pageNo,int pageSize,int productType);
 	
 	public int insertUserFavorite(UserFavorite userFavorite);
 	
