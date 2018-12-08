@@ -15,6 +15,9 @@ public class UserWithdrawHistory {
 	@NotEmpty(message="提现的方式不能为空")
 	private String withdrawTypes;/////支付宝或者是微信
 	
+	@NotEmpty(message="真实姓名不能为空")
+	private String realname;
+	
 	private BigDecimal money;
 	
 	private int payStatus;
@@ -108,6 +111,14 @@ public class UserWithdrawHistory {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 
 	

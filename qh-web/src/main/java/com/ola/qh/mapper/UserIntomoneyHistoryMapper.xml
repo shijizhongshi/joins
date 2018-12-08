@@ -16,7 +16,7 @@
 
 
 	<select id="selectUserIntomoneyHistory"  resultMap="UserIntomoneyHistoryMap">
-		select orderid,money,into_status from user_intomoney_history where user_id=#{userId} and status=0 order by addtime DESC limit #{pageNo},#{pageSize}
+		select id,user_id,orderid,money,into_status from user_intomoney_history where user_id=#{userId} and status=0 order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="saveUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >

@@ -22,6 +22,8 @@
 	<result column="business_hours" property="businessHours"/>
 	<result column="addtime" property="addtime"/>
 	<result column="updatetime" property="updatetime"/>
+	<result column="idcard" property="idcard"/>
+	<result column="realname" property="realname"/>
 	
 	</resultMap>
 
@@ -32,7 +34,7 @@
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
 	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{doorHeadUrl},
-	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours})
+	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours},#{idcard},#{realname})
 	</insert>
 	
 	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
@@ -60,6 +62,12 @@
 	</if>
 	<if test="licenceUrl!=null">
 	licence_url=#{licenceUrl},
+	</if>
+	<if test="idcard!=null">
+	idcard=#{idcard},
+	</if>
+	<if test="realname!=null">
+	realname=#{realname},
 	</if>
 	updatetime=#{updatetime} where id=#{id}
 	</update>

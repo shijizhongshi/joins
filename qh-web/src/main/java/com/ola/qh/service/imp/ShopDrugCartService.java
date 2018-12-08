@@ -45,5 +45,11 @@ public class ShopDrugCartService implements IShopDrugCartService{
 		return shopDrugCartDao.updateShopDrugCart(count, id,updatetime);
 	}
 
+	@Override
+	public ShopDrugCart existShopDrugCart(String drugId, String userId) {
+		
+		return shopDrugCartDao.existShopDrugCart(drugId, userId);
+	}
+
 	
 }

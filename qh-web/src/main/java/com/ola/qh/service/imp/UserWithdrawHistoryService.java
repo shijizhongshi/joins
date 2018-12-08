@@ -44,11 +44,17 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 		if ("1".equals(userresult.getStatus())) {
 			return userresult;
 		}
+		BigDecimal outMoney = userwithdrawhistory.getOutMoney();
+		int notzero = outMoney.compareTo(new BigDecimal(0));
+		if (notzero == 0) {
+			results.setMessage("请输入提现金额");
+			results.setStatus("1");
+			return results;
+		}
 		try {
 
 			UserBook userBooks = userBookDao.selectUserBook(userwithdrawhistory.getUserId());
 			BigDecimal accountMoney = userBooks.getAccountMoney();
-			BigDecimal outMoney = userwithdrawhistory.getOutMoney();
 			int bigdecimal = accountMoney.compareTo(outMoney);
 			if (bigdecimal == -1) {
 				results.setMessage("账户余额不足");

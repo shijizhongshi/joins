@@ -2,17 +2,21 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserPayBinding {
 
+	
 	private String id;
 	
+	@NotEmpty(message="用户id不能为空")
 	private String userId;
 	
 	private String weixin;
 	
 	private String aliaccount;
 	
-	private String bankCard;
+	//private String bankCard;
 	
 	private String realname;
 	
@@ -54,13 +58,13 @@ public class UserPayBinding {
 		this.aliaccount = aliaccount;
 	}
 
-	public String getBankCard() {
+/*	public String getBankCard() {
 		return bankCard;
 	}
 
 	public void setBankCard(String bankCard) {
 		this.bankCard = bankCard;
-	}
+	}*/
 
 	public String getRealname() {
 		return realname;

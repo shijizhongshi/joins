@@ -58,6 +58,12 @@ public class Shop {
 	private Date updatetime;
 	
 	private int isrecommend;////0:后台没有设置推荐   1:后台设置推荐的店铺
+	
+	@NotEmpty(message="负责人身份证号不能为空")
+	private String idcard;////负责人的身份证号
+	
+	@NotEmpty(message="负责人姓名不能为空")
+	private String realname;////负责人的姓名
 
 	public List<ShopImg> getImgList() {
 		return imgList;
@@ -208,6 +214,22 @@ public class Shop {
 
 	public void setIsrecommend(int isrecommend) {
 		this.isrecommend = isrecommend;
+	}
+
+	public String getIdcard() {
+		return idcard;
+	}
+
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 	
 	

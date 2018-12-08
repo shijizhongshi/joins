@@ -40,4 +40,8 @@
 	<delete id="deleteAllShopDrugCart">
 		delete from shop_drug_cart where user_id=#{userId}
 	</delete>
+	
+	<select id="existShopDrugCart" resultType="com.ola.qh.entity.ShopDrugCart">
+		select id,count from shop_drug_cart where user_id=#{userId} and drug_id=#{drugId}
+	</select>
 </mapper>

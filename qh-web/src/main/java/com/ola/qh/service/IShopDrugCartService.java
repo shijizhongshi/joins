@@ -16,4 +16,6 @@ public interface IShopDrugCartService {
 	public int deleteAllShopDrugCart(String userId);
 
 	public int updateShopDrugCart(int count, String id,Date updatetime);
+	
+	public ShopDrugCart existShopDrugCart(String drugId,String userId);
 }

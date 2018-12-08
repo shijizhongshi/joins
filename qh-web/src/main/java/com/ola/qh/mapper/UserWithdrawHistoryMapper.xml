@@ -7,6 +7,7 @@
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="withdraw_types" property="withdrawTypes" />
+		<result column="realname" property="realname" />
 		<result column="money" property="money" />
 		<result column="pay_status" property="payStatus" />
 		<result column="pay_message" property="payMessage" />
@@ -17,11 +18,11 @@
 
 
 	<select id="selectUserWithdrawHistory"  resultMap="UserWithdrawHistoryMap">
-		select id,user_id,withdraw_types,money,pay_status,pay_message,status from user_withdraw_history where user_id=#{userId} and status=0 order by addtime desc limit #{pageNo},#{pageSize}
+		select id,user_id,withdraw_types,realname,money,pay_status,pay_message,status from user_withdraw_history where user_id=#{userId} and status=0 order by addtime desc limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="saveUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
-	 	insert into user_withdraw_history(id,user_id,withdraw_types,money,pay_status,addtime) values(#{id},#{userId},#{withdrawTypes},#{money},#{payStatus},#{addtime})
+	 	insert into user_withdraw_history(id,user_id,withdraw_types,realname,money,pay_status,addtime) values(#{id},#{userId},#{withdrawTypes},#{realname},#{money},#{payStatus},#{addtime})
 	</insert>
 	
 	<update id="updateUserWithdrawHistorystatus" >

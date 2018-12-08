@@ -13,7 +13,7 @@
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
-		select id,user_id,comment,comment_type from user_comment where shop_id=#{shopId} order by addtime desc limit #{pageNo},#{pageSize}
+		select id,shop_id,user_id,comment,comment_type from user_comment where shop_id=#{shopId} order by addtime desc limit #{pageNo},#{pageSize}
 	</select>
 	
 	<select id="selectMyUserComment" resultMap="UserCommentMap">

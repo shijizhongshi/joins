@@ -57,34 +57,40 @@ public class UserPayBindingController {
 			results.setMessage("缺少用户ID");
 			return results;
 		}
+		UserPayBinding exist=userPayBindingService.existUserPayBinding(userpaybinding.getUserId());
+		
+		if(exist!=null){
+			userpaybinding.setUpdatetime(new Date());
+			int update = userPayBindingService.updateUserPayBinding(userpaybinding);
+
+			if (update <= 0) {
+				results.setMessage("操作有误");
+				results.setStatus("1");
+				return results;
+			}
+			results.setStatus("0");
+			return results;
+			
+			
+		}
+		if(userpaybinding.getWeixin()==null && userpaybinding.getAliaccount()==null){
+			
+			results.setStatus("1");
+			results.setMessage("缺少支付账号");
+			return results;
+		}
+		if(userpaybinding.getRealname()==null ||userpaybinding.getIdnumber()==null){
+			
+			results.setStatus("1");
+			results.setMessage("缺少真实姓名和密码");
+			return results;
+		}
 		userpaybinding.setId(KeyGen.uuid());
 		userpaybinding.setAddtime(new Date());
 		int select = userPayBindingService.saveUserPayBinding(userpaybinding);
 
 		if (select <= 0) {
 			results.setMessage("添加错误");
-			results.setStatus("1");
-			return results;
-		}
-		results.setStatus("0");
-		return results;
-	}
-
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Results<String> updateUserPayBinding(@RequestBody UserPayBinding userpaybinding) {
-
-		Results<String> results = new Results<String>();
-
-		if (userpaybinding.getUserId() == null || "".equals(userpaybinding.getUserId())) {
-			results.setStatus("1");
-			results.setMessage("缺少用户ID");
-			return results;
-		}
-		userpaybinding.setUpdatetime(new Date());
-		int update = userPayBindingService.updateUserPayBinding(userpaybinding);
-
-		if (update <= 0) {
-			results.setMessage("添加支付信息错误");
 			results.setStatus("1");
 			return results;
 		}

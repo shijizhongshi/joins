@@ -135,7 +135,10 @@ public class ShopService implements IShopService {
 				shopDao.insertImg(shopImg);
 			}
 			
-			
+			if(shop.getIdcard()==null || shop.getRealname()==null){
+				result.setStatus("1");
+				return result;
+			}
 			shopDao.insertShop(shop);
 			result.setStatus("0");
 			return result;

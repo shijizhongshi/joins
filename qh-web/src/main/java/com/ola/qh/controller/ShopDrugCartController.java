@@ -66,6 +66,24 @@ public class ShopDrugCartController {
 			results.setStatus("1");
 			return results;
 		}
+		ShopDrugCart exist=shopDrugCartService.existShopDrugCart(shopDrugCart.getDrugId(), shopDrugCart.getUserId());
+		if(exist!=null){
+			int count=exist.getCount()+1;
+			String id=exist.getId();
+			Date updatetime=new Date();
+			int update = shopDrugCartService.updateShopDrugCart(count, id, updatetime);
+
+			if (update <= 0) {
+				results.setMessage("保存出错");
+				results.setStatus("1");
+				return results;
+
+			}
+			results.setStatus("0");
+			return results;
+			
+		}
+		
 		shopDrugCart.setId(KeyGen.uuid());
 		shopDrugCart.setAddtime(new Date());
 		int insert = shopDrugCartService.insertShopDrugCart(shopDrugCart);

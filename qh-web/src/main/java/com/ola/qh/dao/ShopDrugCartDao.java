@@ -17,4 +17,6 @@ public interface ShopDrugCartDao {
 	public int deleteShopDrugCart(@Param("id")String id);
 	
 	public int deleteAllShopDrugCart(@Param("userId")String userId);
+	
+	public ShopDrugCart existShopDrugCart(@Param("drugId")String drugId,@Param("userId")String userId);
 }

@@ -37,5 +37,11 @@ public class UserPayBindingService implements IUserPayBindingService{
 		return userPayBindingDao.deleteUserPayBinding(id);
 	}
 
+	@Override
+	public UserPayBinding existUserPayBinding(String userId) {
+		
+		return userPayBindingDao.existUserPayBinding(userId);
+	}
+
 	
 }
