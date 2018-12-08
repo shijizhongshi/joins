@@ -22,6 +22,8 @@
 	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{addtime},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
 	</insert>
 	
-	
+	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">
+	select id,user_id,course_id,course_name,course_discount_price,course_price,course_img_url,orders_id,addtime from user_buy_course where user_id=#{userId}
+	</select>
 	
 </mapper>
