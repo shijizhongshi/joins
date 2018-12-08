@@ -140,6 +140,11 @@ public class UserService implements IUserService{
 			userlogin.setUpdatetime(new Date());
 			userloginDao.updateUserLogin(userlogin);
 			
+			user.setDeviceId(userlogin.getDeviceId());
+			user.setDeviceName(userlogin.getDeviceName());
+			user.setDeviceToken(userlogin.getDeviceToken());
+			user.setDeviceType(userlogin.getDeviceType());
+			
 			results.setStatus("0");
 			results.setData(user);
 			return results;
