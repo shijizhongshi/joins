@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserIntomoneyHistoryDao">
+	<resultMap type="com.ola.qh.entity.UserIntomoneyHistory"  id="UserIntomoneyHistoryMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="money" property="money" />
+		<result column="into_status" property="intoStatus" />
+		<result column="orderid" property="orderId" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		<result column="status" property="status" />
+	</resultMap>
+
+
+	<select id="selectUserIntomoneyHistory"  resultMap="UserIntomoneyHistoryMap">
+		select orderid,money,into_status from user_intomoney_history where user_id=#{userId} and status=0 order by addtime DESC limit #{pageNo},#{pageSize}
+	</select>
+	
+	<insert id="saveUserIntomoneyHistory" parameterType="com.ola.qh.entity.UserIntomoneyHistory" >
+	 	insert into user_intomoney_history(id,user_id,money,orderid,into_status,addtime) values(#{id},#{userId},#{money},#{orderId},#{intoStatus},#{addtime})
+	</insert>
+	
+	<update id="deleteUserIntomoneyHistory" >
+		update user_intomoney_history set status=1 where id=#{id}
+	</update>
+	
+</mapper>

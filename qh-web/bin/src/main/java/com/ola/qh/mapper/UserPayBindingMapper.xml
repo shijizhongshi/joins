@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserPayBindingDao">
+	<resultMap type="com.ola.qh.entity.UserPayBinding"  id="UserPayBindingMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="weixin" property="weixin" />
+		<result column="aliaccount" property="aliaccount" />
+		<result column="bank_card" property="bankCard" />
+		<result column="realname" property="realname" />
+		<result column="idnumber" property="idnumber" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+
+	<select id="selectUserPayBinding"  resultType="com.ola.qh.entity.UserPayBinding">
+		select user_id,weixin,aliaccount,bank_card,realname,idnumber,addtime from user_pay_binding  where user_id=#{userId}
+	</select>
+	
+	<insert id="saveUserPayBinding" parameterType="com.ola.qh.entity.UserPayBinding" >
+	 	insert into user_pay_binding(id,user_id,addtime) values(#{id},#{userId},#{addtime})
+	</insert>
+	
+	<update id="updateUserPayBinding" parameterType="com.ola.qh.entity.UserPayBinding" >
+		update user_pay_binding set 
+		<if test="weixin!=null ">
+		weixin=#{weixin},
+		</if>
+		<if test="aliaccount!=null ">
+		aliaccount=#{aliaccount},
+		</if>
+		<if test="bankCard!=null and idnumber!=null and realname!=null">
+		bank_card=#{bankCard},
+		</if>
+		<if test="(weixin!=null or aliaccount!=null or bankCard!=null) and realname!=null">
+		realname=#{realname},
+		</if>
+		<if test="bankCard!=null and idnumber!=null and realname!=null">
+		idnumber=#{idnumber},
+		</if>
+		updatetime=#{updatetime} where user_id=#{userId}
+	</update>
+	
+	<delete id="deleteUserPayBinding" >
+		delete from user_pay_binding where id=#{id}
+	</delete>
+	
+	
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.OrdersDao">
+	<resultMap type="com.ola.qh.entity.Orders" id="OrdersMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="muser_id" property="muserId"/>
+	<result column="orderno" property="orderno"/>
+	<result column="orders_type" property="ordersType"/>
+	<result column="payaccount" property="payaccount"/>
+	<result column="count" property="count"/>
+	<result column="address" property="address"/>
+	<result column="receiver" property="receiver"/>
+	<result column="mobile" property="mobile"/>
+	<result column="orders_status" property="ordersStatus"/>
+	<result column="orders_old_status" property="ordersOldStatus"/>
+	<result column="express_no" property="expressNo"/>
+	<result column="paytype" property="paytype"/>
+	<result column="payname" property="payname"/>
+	<result column="addtime" property="addtime"/>
+	<result column="paidtime" property="paidtime"/>
+	<result column="deliveredtime" property="deliveredtime"/>
+	<result column="payment_type" property="paymentType"/>
+	<result column="preset_time" property="presetTime"/>
+	
+	</resultMap>
+
+	<sql id="sql_base">
+	o.id,o.user_id,o.muser_id,o.orderno,o.orders_type,o.payaccount,o.count,o.address,o.receiver,o.mobile,o.orders_status,
+	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type
+	</sql>
+	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
+	insert into orders o(<include refid="sql_base"></include>,orders_old_status,addtime)values(
+	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{count},#{address},#{receiver},
+	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{ordersOldStatus},#{addtime})
+	</insert>
+	<update id="updateOrders">
+	update orders set 
+	<if test="ordersStatus!=null">
+	orders_status=#{ordersStatus},
+	</if>
+	<if test="ordersOldStatus!=null">
+	orders_old_status=#{ordersOldStatus},
+	</if>
+	<if test="expressNo!=null">
+	express_no=#{expressNo},
+	</if>
+	<if test="paidtime!=null">
+	paidtime=#{paidtime},
+	</if>
+	<if test="deliveredtime!=null">
+	deliveredtime=#{deliveredtime},
+	</if>
+	<if test="paytype!=null">
+	paytype=#{paytype},
+	</if>
+	<if test="payname!=null">
+	payname=#{payname},
+	</if>
+	
+	updatetime=#{updatetime}
+	where id=#{oid}
+	</update>
+	
+	<select id="singleOrders" resultMap="OrdersMap">
+	select <include refid="sql_base"></include>,o.express_no,o.paidtime,o.deliveredtime from orders o where id=#{orderId}
+	</select>
+	
+	<select id="ordersList" resultMap="OrdersMap">
+	select <include refid="sql_base"></include>,o.addtime,u.head_img_url headImgUrl,u.nickname from orders o left join user u on u.id=o.muser_id
+	 where 1=1
+	<if test="ordersStatus!=null">
+	and orders_status=#{ordersStatus}
+	</if>
+	order by addtime desc
+	limit #{pageNo},#{pageSize}
+	</select>
+	
+	
+	<!-- 支付的开始~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<resultMap type="com.ola.qh.entity.OrdersPayment" id="OrdersPaymentMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="muser_id" property="muserId"/>
+	<result column="orders_id" property="ordersId"/>
+	<result column="orders_type" property="ordersType"/>
+	<result column="money" property="money"/>
+	<result column="done" property="done"/>
+	<result column="paytype_code" property="paytypeCode"/>
+	<result column="pagetype_name" property="paytypeName"/>
+	<result column="extransno" property="extransno"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insertOrdersPayment" parameterType="com.ola.qh.entity.OrdersPayment">
+	insert into orders_payment(id,user_id,muser_id,orders_id,orders_type,money,done,paytype_code,pagetype_name,extransno,addtime)
+	values(#{id},#{userId},#{muserId},#{ordersId},#{ordersType},#{money},#{done},#{paytypeCode},#{paytypeName},
+	#{extransno},#{addtime})
+	</insert>
+	
+	<select id="listByExtransno" resultMap="OrdersPaymentMap">
+	select * from orders_payment where extransno=#{extransno}
+	</select>
+	
+	<select id="singlePayment" resultMap="OrdersPaymentMap">
+	select * from orders_payment where orders_id=#{orderId}
+	</select>
+	
+	<update id="updateOrdersPayment">
+	update orders_payment set
+	<if test="done!=0">
+	done=#{done},
+	</if>
+	<if test="paytypeCode!=null">
+	paytype_code=#{paytypeCode},
+	</if>
+	<if test="paytypeName!=null">
+	pagetype_name=#{paytypeName},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
+	<!-- 支付的结束~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	
+	<resultMap type="com.ola.qh.entity.PayPipeline" id="PayPipelineMap">
+		<result column="id" property="id"/>
+		<result column="code" property="code"/>
+		<result column="name" property="name"/>
+		<result column="notice_url" property="noticeUrl"/>
+	</resultMap>	
+	<select id="singlePayPipeline" resultMap="PayPipelineMap">
+		select * from pay_pipeline where code=#{code}
+	</select>
+	
+	
+	<resultMap type="com.ola.qh.entity.PayResult" id="PayResultMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="extransno" property="extransno"/>
+	<result column="oid" property="oid"/>
+	<result column="comment" property="comment"/>
+	<result column="pay_status" property="payStatus"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insertPayResult" parameterType="com.ola.qh.entity.PayResult">
+	insert into pay_result(id,user_id,extransno,oid,comment,pay_status,addtime)values(
+	#{id},#{userId},#{extransno},#{oid},#{comment},#{payStatus},#{addtime})
+	</insert>
+</mapper>

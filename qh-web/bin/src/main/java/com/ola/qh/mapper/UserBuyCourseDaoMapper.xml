@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ola.qh.dao.UserBuyCourseDao">
+
+	<resultMap type="com.ola.qh.entity.UserBuyCourse" id="UserBuyCourseMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="course_id" property="courseId" />
+		<result column="course_name" property="courseName" />
+		<result column="course_discount_price" property="courseDiscountPrice" />
+		<result column="course_price" property="coursePrice" />
+		<result column="course_img_url" property="courseImgUrl" />
+		<result column="orders_id" property="ordersId" />
+		<result column="addtime" property="addtime" />
+	</resultMap>
+	<sql id="sql_base">id,user_id,course_id,course_name,orders_id,addtime</sql>
+	<insert id="insertUserCourse" parameterType="com.ola.qh.entity.UserBuyCourse">
+	insert into user_buy_course(<include refid="sql_base"></include>,course_discount_price,course_price,course_img_url)values(
+	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{addtime},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
+	</insert>
+	
+	
+	
+</mapper>

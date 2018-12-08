@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserDao">
+	<resultMap type="com.ola.qh.entity.User" id="UserMap">
+		<result column="id" property="id" />
+		<result column="nickname" property="nickname" />
+		<result column="password" property="password" />
+		<result column="addtime" property="addtime" />
+		<result column="head_img_url" property="headimg" />
+		<result column="userrole" property="userrole" />
+		<result column="mobile" property="mobile" />
+	</resultMap>
+
+
+	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
+		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
+	</insert>
+	
+	<select id="loginUser"  resultType="com.ola.qh.entity.User">
+		select id,mobile,nickname,head_img_url,addtime,userrole from user where mobile=#{mobile} and password=#{password}
+	</select>
+	
+	<select id="existUser" resultMap="UserMap">
+		select id,mobile,nickname,head_img_url,userrole from user where 1=1
+		<if test="mobile!=null">
+		and mobile=#{mobile}
+		</if>
+		<if test="userId!=null">
+		and id=#{userId}
+		</if>
+	</select>
+	
+	<update id="updateUser" parameterType="com.ola.qh.entity.User" >
+		update user set 
+		<if test="nickname!=null">
+		nickname=#{nickname},
+		</if>
+		<if test="headimg!=null">
+		head_img_url=#{headimg},
+		</if>
+		<if test="password!=null and password!=''">
+		password=#{password},
+		</if>
+		updatetime=#{updatetime}
+		 where 1=1
+		<if test="id!=null and id!=''">
+		and id=#{id}
+		</if>
+		<if test="mobile!=null and mobile!=''">
+		and mobile=#{mobile}
+		</if>
+	</update>
+	
+	<!-- <update id="updatePassword" parameterType="com.ola.qh.entity.User" >
+		update user set password=#{password} where id=#{id} 
+	</update> -->
+	
+	
+</mapper>

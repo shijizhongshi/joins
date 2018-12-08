@@ -236,7 +236,9 @@ public class OrdersController {
 	@RequestMapping("/list")
 	public Results<List<OrdersDomain>> listOrders(
 			@RequestParam(name="statusCode",required=true)String statusCode,
-			@RequestParam(name="page",required=true) int page){
+			@RequestParam(name="page",required=true) int page,
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="muserId",required=false)String muserId){
 		
 		Results<List<OrdersDomain>> result = new Results<List<OrdersDomain>>();
 		int pageSize = Patterns.zupageSize;
