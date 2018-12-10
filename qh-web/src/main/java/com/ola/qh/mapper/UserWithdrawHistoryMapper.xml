@@ -22,7 +22,7 @@
 	</select>
 	
 	<insert id="saveUserWithdrawHistory" parameterType="com.ola.qh.entity.UserWithdrawHistory" >
-	 	insert into user_withdraw_history(id,user_id,withdraw_types,realname,money,pay_status,addtime) values(#{id},#{userId},#{withdrawTypes},#{realname},#{money},#{payStatus},#{addtime})
+	 	insert into user_withdraw_history(id,user_id,withdraw_types,realname,money,addtime) values(#{id},#{userId},#{withdrawTypes},#{realname},#{money},#{addtime})
 	</insert>
 	
 	<update id="updateUserWithdrawHistorystatus" >
