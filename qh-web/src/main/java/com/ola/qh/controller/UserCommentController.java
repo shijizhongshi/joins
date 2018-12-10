@@ -61,14 +61,11 @@ public class UserCommentController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteUserComment(@RequestParam(name = "id", required = true) String id) {
+	public Results<String> deleteUserComment(@RequestParam(name = "id", required = false) String id
+			,@RequestParam(name = "userId", required = false) String userId) {
 
-		return userCommentService.deleteUserComment(id);
+		return userCommentService.deleteUserComment(id,userId);
 	}
 
-	@RequestMapping(value = "/deleteall", method = RequestMethod.GET)
-	public Results<String> deleteAllUserComment(@RequestParam(name = "userId", required = true) String userId) {
-
-		return userCommentService.deleteAllUserComment(userId);
-	}
+	
 }

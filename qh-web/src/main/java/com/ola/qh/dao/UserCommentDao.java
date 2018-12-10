@@ -14,7 +14,7 @@ public interface UserCommentDao {
 	
 	public int insertUserComment(UserComment usercomment);
 	
-	public int deleteUserComment(@Param("id")String id);
+	public int deleteUserComment(@Param("id")String id,@Param("userId")String userId);
 	
-	public int deleteAllUserComment(@Param("userId")String userId);
+	
 }

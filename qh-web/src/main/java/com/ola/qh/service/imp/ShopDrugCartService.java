@@ -28,15 +28,9 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	}
 
 	@Override
-	public int deleteShopDrugCart(String id) {
+	public int deleteShopDrugCart(String id,String userId) {
 		
-		return shopDrugCartDao.deleteShopDrugCart(id);
-	}
-
-	@Override
-	public int deleteAllShopDrugCart(String userId) {
-		
-		return shopDrugCartDao.deleteAllShopDrugCart(userId);
+		return shopDrugCartDao.deleteShopDrugCart(id,userId);
 	}
 
 	@Override

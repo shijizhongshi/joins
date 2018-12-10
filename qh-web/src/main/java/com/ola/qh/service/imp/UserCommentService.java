@@ -116,16 +116,16 @@ public class UserCommentService implements IUserCommentService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Results<String> deleteUserComment(String id) {
+	public Results<String> deleteUserComment(String id,String userId) {
 
 		Results<String> results = new Results<String>();
 
 		try {
 
-			userCommentDao.deleteUserComment(id);
+			userCommentDao.deleteUserComment(id,userId);
 
 			String commentId = id;
-			userCommentImgDao.deleteUserCommentImg(commentId);
+			userCommentImgDao.deleteUserCommentImg(commentId,userId);
 
 			results.setStatus("0");
 			return results;
@@ -138,29 +138,5 @@ public class UserCommentService implements IUserCommentService {
 		}
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public Results<String> deleteAllUserComment(String userId) {
-
-		Results<String> results = new Results<String>();
-
-		try {
-			if (userId == null) {
-				results.setStatus("1");
-				return results;
-			}
-			userCommentDao.deleteAllUserComment(userId);
-
-			userCommentImgDao.deleteAllUserCommentImg(userId);
-
-			results.setStatus("0");
-			return results;
-		} catch (Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			results.setStatus("1");
-			results.setMessage("保存失败");
-			return results;
-		}
-	}
-
+	
 }

@@ -13,9 +13,6 @@ public interface IUserCommentService {
 	
 	public Results<String> insertUserComment(UserComment usercomment);
 	
-	public Results<String> deleteUserComment(String id);
-	
-	public Results<String> deleteAllUserComment(String userId);
-
+	public Results<String> deleteUserComment(String id,String userId);
 	
 }

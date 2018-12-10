@@ -25,10 +25,13 @@
 	</insert>
 	
 	<delete id="deleteUserComment">
-		delete from user_comment where id=#{id}
+		delete from user_comment where 1=1
+		<if test="id!=null">
+		and id=#{id}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
 	</delete>
 	
-	<delete id="deleteAllUserComment">
-		delete from user_comment where user_id=#{userId}
-	</delete>
-</mapper>
+	</mapper>
