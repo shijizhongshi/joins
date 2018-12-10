@@ -20,10 +20,13 @@
 	</insert>
 	
 	<delete id="deleteUserCommentImg">
-		delete from user_comment_img where comment_id=#{commentId}
+		delete from user_comment_img where 1=1
+		<if test="commentId!=null">
+		and comment_id=#{commentId}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
 	</delete>
 	
-	<delete id="deleteAllUserCommentImg">
-		delete from user_comment_img where user_id=#{userId}
-	</delete>
 </mapper>

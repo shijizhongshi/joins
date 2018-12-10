@@ -27,7 +27,7 @@ public class UserCommentService implements IUserCommentService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Results<List<UserComment>> selectShopUserComment(String shopId, int page) {
+	public Results<List<UserComment>> selectShopUserComment(String shopId,String userId, int page) {
 
 		Results<List<UserComment>> results = new Results<List<UserComment>>();
 
@@ -36,36 +36,7 @@ public class UserCommentService implements IUserCommentService {
 			int pageSize = Patterns.zupageSize;
 			int pageNo = (page - 1) * pageSize;
 
-			List<UserComment> list = userCommentDao.selectShopUserComment(shopId, pageNo, pageSize);
-
-			for (UserComment userComment : list) {
-
-				List<UserCommentImg> imglist = userCommentImgDao.selectUserCommentImg(userComment.getId());
-				userComment.setList(imglist);
-			}
-
-			results.setStatus("0");
-			results.setData(list);
-			return results;
-		} catch (Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			results.setStatus("1");
-			results.setMessage("保存失败");
-			return results;
-		}
-	}
-
-	@Override
-	public Results<List<UserComment>> selectMyUserComment(String userId, int page) {
-
-		Results<List<UserComment>> results = new Results<List<UserComment>>();
-
-		try {
-
-			int pageSize = Patterns.zupageSize;
-			int pageNo = (page - 1) * pageSize;
-
-			List<UserComment> list = userCommentDao.selectMyUserComment(userId, pageNo, pageSize);
+			List<UserComment> list = userCommentDao.selectShopUserComment(shopId,userId, pageNo, pageSize);
 
 			for (UserComment userComment : list) {
 
@@ -116,16 +87,20 @@ public class UserCommentService implements IUserCommentService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Results<String> deleteUserComment(String id) {
+	public Results<String> deleteUserComment(String id,String userId) {
 
 		Results<String> results = new Results<String>();
 
+		if(id==null && userId==null){
+			results.setStatus("1");
+			return results;
+		}
 		try {
 
-			userCommentDao.deleteUserComment(id);
+			userCommentDao.deleteUserComment(id,userId);
 
 			String commentId = id;
-			userCommentImgDao.deleteUserCommentImg(commentId);
+			userCommentImgDao.deleteUserCommentImg(commentId,userId);
 
 			results.setStatus("0");
 			return results;
@@ -138,29 +113,5 @@ public class UserCommentService implements IUserCommentService {
 		}
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public Results<String> deleteAllUserComment(String userId) {
-
-		Results<String> results = new Results<String>();
-
-		try {
-			if (userId == null) {
-				results.setStatus("1");
-				return results;
-			}
-			userCommentDao.deleteAllUserComment(userId);
-
-			userCommentImgDao.deleteAllUserCommentImg(userId);
-
-			results.setStatus("0");
-			return results;
-		} catch (Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			results.setStatus("1");
-			results.setMessage("保存失败");
-			return results;
-		}
-	}
-
+	
 }

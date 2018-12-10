@@ -13,11 +13,14 @@
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
-		select id,shop_id,user_id,comment,comment_type from user_comment where shop_id=#{shopId} order by addtime desc limit #{pageNo},#{pageSize}
-	</select>
-	
-	<select id="selectMyUserComment" resultMap="UserCommentMap">
-		select id,user_id,comment,comment_type from user_comment where user_id=#{userId} order by addtime desc limit #{pageNo},#{pageSize}
+		select id,shop_id,user_id,comment,comment_type,addtime from user_comment where 1=1
+		<if test="shopId!=null">
+		and shop_id=#{shopId}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
+		order by addtime desc limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="insertUserComment" parameterType="com.ola.qh.entity.UserComment">
@@ -25,10 +28,13 @@
 	</insert>
 	
 	<delete id="deleteUserComment">
-		delete from user_comment where id=#{id}
+		delete from user_comment where 1=1
+		<if test="id!=null">
+		and id=#{id}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
 	</delete>
 	
-	<delete id="deleteAllUserComment">
-		delete from user_comment where user_id=#{userId}
-	</delete>
-</mapper>
+	</mapper>

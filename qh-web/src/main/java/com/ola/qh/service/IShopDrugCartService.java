@@ -13,10 +13,8 @@ public interface IShopDrugCartService {
 	
 	public Results<String> insertShopDrugCart(ShopDrugCart shopDrugCart);
 	
-	public int deleteShopDrugCart(String id);
+	public int deleteShopDrugCart(String id,String userId);
 	
-	public int deleteAllShopDrugCart(String userId);
-
 	public int updateShopDrugCart(int count, String id,Date updatetime);
 	
 }

@@ -2,6 +2,8 @@ package com.ola.qh.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ola.qh.entity.UserCommentImg;
 
 public interface UserCommentImgDao {
@@ -10,7 +12,6 @@ public interface UserCommentImgDao {
 	
 	public int insertUserCommentImg(UserCommentImg usercommentimg);
 	
-	public int deleteUserCommentImg(String commentId);
+	public int deleteUserCommentImg(@Param("commentId")String commentId,@Param("userId")String userId);
 	
-	public int deleteAllUserCommentImg(String userId);
 }

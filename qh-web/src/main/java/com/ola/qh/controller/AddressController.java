@@ -74,7 +74,6 @@ public class AddressController {
 		int save = addressService.saveAddress(address);
 
 		if (save <= 0) {
-			results.setMessage("添加失败");
 			results.setStatus("1");
 			return results;
 		}
@@ -89,7 +88,6 @@ public class AddressController {
 
 		if (address.getId() == null || "".equals(address.getId())) {
 			results.setStatus("1");
-			results.setMessage("缺少地址ID");
 			return results;
 		}
 
@@ -108,7 +106,6 @@ public class AddressController {
 		int update = addressService.updateAddress(address);
 
 		if (update <= 0) {
-			results.setMessage("修改失败");
 			results.setStatus("1");
 			return results;
 		}
@@ -123,7 +120,6 @@ public class AddressController {
 
 		int delete = addressService.deleteAddress(id);
 		if (delete <= 0) {
-			results.setMessage("删除失败");
 			results.setStatus("1");
 			return results;
 		}

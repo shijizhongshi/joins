@@ -34,17 +34,11 @@ public class UserCommentController {
 
 	@RequestMapping(value = "/selectshop", method = RequestMethod.GET)
 	public Results<List<UserComment>> selectShopUserComment(
-			@RequestParam(name = "shopId", required = true) String shopId,
+			@RequestParam(name = "shopId", required = false) String shopId,
+			@RequestParam(name = "userId", required = false) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		return userCommentService.selectShopUserComment(shopId, page);
-	}
-
-	@RequestMapping(value = "/selectmy", method = RequestMethod.GET)
-	public Results<List<UserComment>> selectMyUserComment(@RequestParam(name = "userId", required = true) String userId,
-			@RequestParam(name = "page", required = true) int page) {
-
-		return userCommentService.selectShopUserComment(userId, page);
+		return userCommentService.selectShopUserComment(shopId,userId, page);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -61,14 +55,11 @@ public class UserCommentController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteUserComment(@RequestParam(name = "id", required = true) String id) {
+	public Results<String> deleteUserComment(@RequestParam(name = "id", required = false) String id
+			,@RequestParam(name = "userId", required = false) String userId) {
 
-		return userCommentService.deleteUserComment(id);
+		return userCommentService.deleteUserComment(id,userId);
 	}
 
-	@RequestMapping(value = "/deleteall", method = RequestMethod.GET)
-	public Results<String> deleteAllUserComment(@RequestParam(name = "userId", required = true) String userId) {
-
-		return userCommentService.deleteAllUserComment(userId);
-	}
+	
 }

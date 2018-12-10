@@ -47,11 +47,13 @@
 	</update>
 	
 	<delete id="deleteShopDrugCart">
-		delete from shop_drug_cart where id=#{id}
-	</delete>
-	
-	<delete id="deleteAllShopDrugCart">
-		delete from shop_drug_cart where user_id=#{userId}
+		delete from shop_drug_cart where 1=1
+		<if test="id!=null">
+		  and id=#{id}
+		 </if>
+		<if test="userId!=null">
+		  and user_id=#{userId}
+		</if>
 	</delete>
 	
 	<select id="singleShopDrugCart" resultType="com.ola.qh.entity.ShopDrugCart">

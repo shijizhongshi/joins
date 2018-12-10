@@ -84,11 +84,16 @@ public class ShopDrugCartController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteShopDrugCart(@RequestParam(name = "id", required = true) String id) {
+	public Results<String> deleteShopDrugCart(@RequestParam(name = "id", required = false) String id,
+			@RequestParam(name = "userId", required = false) String userId) {
 
 		Results<String> results = new Results<String>();
 
-		int delete = shopDrugCartService.deleteShopDrugCart(id);
+		if(id==null && userId==null){
+			results.setStatus("1");
+			return results;
+		}
+		int delete = shopDrugCartService.deleteShopDrugCart(id,userId);
 
 		if (delete <= 0) {
 			results.setMessage("删除出现异常");
@@ -100,21 +105,5 @@ public class ShopDrugCartController {
 		return results;
 	}
 
-	@RequestMapping(value = "/deleteall", method = RequestMethod.GET)
-	public Results<String> deleteAllShopDrugCart(@RequestParam(name = "userId", required = true) String userId) {
-
-		Results<String> results = new Results<String>();
-
-		int deleteall = shopDrugCartService.deleteAllShopDrugCart(userId);
-
-		if (deleteall <= 0) {
-			results.setMessage("删除出现异常");
-			results.setStatus("1");
-			return results;
-
-		}
-		results.setStatus("0");
-		return results;
-	}
 
 }
