@@ -2,6 +2,8 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.sun.istack.NotNull;
@@ -21,6 +23,7 @@ public class UserLogin {
 	@NotEmpty(message = "设备编号不能为空")
 	private String deviceToken;
 	
+	@Valid
 	@NotNull
 	private int deviceType;
 
