@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserCode;
 import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
@@ -34,6 +35,8 @@ public class UserController {
 
 	@Autowired
 	private IUserService userService;
+	
+	
 
 	@RequestMapping(value = "/existMobile", method = RequestMethod.GET)
 	public Results<User> existMobileUser(@RequestParam(name = "mobile", required = true) String mobile) {
@@ -100,8 +103,10 @@ public class UserController {
 				results.setMessage("修改密码的时候验证码不能为空");
 				return results;
 			}
-			String verification = request.getSession().getAttribute(user.getMobile()).toString();
-			if (!verification.equals(user.getVerification())) {
+			//String verification = request.getSession().getAttribute(user.getMobile()).toString();
+			UserCode uc = userService.singleCode(user.getMobile());
+			
+			if (!uc.getCode().equals(user.getVerification())) {
 				results.setStatus("1");
 				results.setMessage("验证码不正确,请稍后重新获取");
 				return results;

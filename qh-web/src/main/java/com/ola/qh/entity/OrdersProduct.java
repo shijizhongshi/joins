@@ -47,6 +47,18 @@ public class OrdersProduct {
 	
 	private OrdersProductRefund opr=new OrdersProductRefund();
 	
+	private String cartId;////购物车的id
+	
+	
+	
+	public String getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(String cartId) {
+		this.cartId = cartId;
+	}
+
 	public String getId() {
 		return id;
 	}

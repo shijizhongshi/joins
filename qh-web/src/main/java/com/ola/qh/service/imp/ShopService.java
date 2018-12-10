@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.ShopDao;
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -23,6 +25,8 @@ public class ShopService implements IShopService {
 	private ShopDao shopDao;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private UserDao userDao;
 	
 	
 	@Override
@@ -134,12 +138,28 @@ public class ShopService implements IShopService {
 				shopImg.setSubtype(1);
 				shopDao.insertImg(shopImg);
 			}
-			
-			if(shop.getIdcard()==null || shop.getRealname()==null){
-				result.setStatus("1");
-				return result;
-			}
 			shopDao.insertShop(shop);
+			/////修改用户表的userrole 0:没有店铺   1:服务店铺   2:商城店铺  3:两种店铺都有
+			List<Shop> listshopss = shopDao.selectShopByUserId(shop.getUserId(), null, 0);
+			User user= new User();
+			user.setId(shop.getUserId());
+			if(listshopss.size()==1){
+				/////说明只有一种类型的店铺
+				if(listshopss.get(0).getShopType()==1){
+					/////服务 店铺
+					user.setUserrole(1);
+				}else if(listshopss.get(0).getShopType()==2){
+					/////商城店铺
+					user.setUserrole(2);
+				}
+			}
+			if(listshopss.size()==2){
+				/////两种类型的店铺都有
+				user.setUserrole(3);
+			}
+			
+			userDao.updateUser(user);
+			
 			result.setStatus("0");
 			return result;
 
@@ -168,6 +188,12 @@ public class ShopService implements IShopService {
 			shop.setImgList(imgList);
 		}
 		return shopList;
+	}
+
+	@Override
+	public List<Shop> listShop(String shopName, String address, int pageNo, int pageSize, int isrecommend,int shopType) {
+		// TODO Auto-generated method stub
+		return shopDao.listShop(shopName, address, pageNo, pageSize, isrecommend,shopType);
 	}
 
 }

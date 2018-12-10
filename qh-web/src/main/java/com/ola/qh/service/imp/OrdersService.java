@@ -15,6 +15,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
+import com.ola.qh.dao.ShopDrugCartDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
@@ -55,6 +56,11 @@ public class OrdersService implements IOrdersService {
 	
 	@Autowired
 	private UserIntomoneyHistoryDao userIntomoneyHistoryDao;
+	@Autowired
+	private ShopDrugCartDao shopDrugCartDao;
+	
+	
+	
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -97,6 +103,10 @@ public class OrdersService implements IOrdersService {
 								result.setStatus("1");
 								result.setMessage("不能购买自己的商品");
 								return result;
+							}
+							if(ordersProduct.getCartId()!=null && !"".equals(ordersProduct.getCartId())){
+								//////如果购物车的ID存在的话就把这个产品在购物车中删除
+								shopDrugCartDao.deleteShopDrugCart(ordersProduct.getCartId());
 							}
 							ordersProduct.setAddtime(new Date());
 							ordersProduct.setUserId(ordersVo.getUserId());

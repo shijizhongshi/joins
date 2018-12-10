@@ -71,7 +71,7 @@ public class SendSmsService implements ISendSmsService {
 			// hint 此处可能会抛出异常，注意catch
 			SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
 
-			if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("ok")) {
+			if (sendSmsResponse.getCode() != null && sendSmsResponse.getMessage().equals("OK")) {
 
 				result.setStatus("0");
 
