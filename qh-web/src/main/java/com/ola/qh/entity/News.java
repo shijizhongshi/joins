@@ -17,6 +17,8 @@ public class News {
 	private Date addtime;
 	
 	private int isstick;////是否置顶
+	
+	private int status;///1:失效
 
 	public String getId() {
 		return id;
@@ -72,6 +74,14 @@ public class News {
 
 	public void setIsstick(int isstick) {
 		this.isstick = isstick;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

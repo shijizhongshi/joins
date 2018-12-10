@@ -16,7 +16,7 @@
 
 
 <sql id="sql_base">
-	id,types,title,img_url,addtime,isstick
+	id,types,title,img_url,addtime,isstick,status
 	</sql>
 	<select id="selectNewList" resultMap="NewsMap" parameterType="int">
 		select <include refid="sql_base"></include> from news

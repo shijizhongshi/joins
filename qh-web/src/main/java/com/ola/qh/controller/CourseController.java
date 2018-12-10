@@ -107,8 +107,14 @@ public class CourseController {
 	@RequestMapping("/single")
 	public Results<Course> singleCourse(@RequestParam(name="courseId",required=true)String courseId){
 		Results<Course> result = new Results<Course>();
+		Course c = courseService.singleCourse(courseId);
+		if(c!=null && c.getCourseShow()==1){
+			result.setStatus("1");
+			result.setMessage("课程已失效");
+			return result;
+		}
 		result.setStatus("0");
-		result.setData(courseService.singleCourse(courseId));
+		result.setData(c);
 		return result;
 	}
 	

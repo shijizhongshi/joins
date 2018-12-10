@@ -32,7 +32,7 @@ public class Course {
 	
 	private String courseYear;////课程年限
 	
-	private String courseShow;////课程是否展示
+	private int courseShow;////课程是否展示
 	
 	private int courseExcellent;///是否是优秀课程
 	
@@ -109,13 +109,15 @@ public class Course {
 		this.courseYear = courseYear;
 	}
 
-	public String getCourseShow() {
+	
+	public int getCourseShow() {
 		return courseShow;
 	}
 
-	public void setCourseShow(String courseShow) {
+	public void setCourseShow(int courseShow) {
 		this.courseShow = courseShow;
 	}
+
 	public int getCourseExcellent() {
 		return courseExcellent;
 	}

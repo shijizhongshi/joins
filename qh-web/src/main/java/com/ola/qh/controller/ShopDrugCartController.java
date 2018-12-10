@@ -18,6 +18,7 @@ import com.ola.qh.service.IShopDrugCartService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.CartVo;
 
 /**
  * 
@@ -36,21 +37,14 @@ public class ShopDrugCartController {
 	private IShopDrugCartService shopDrugCartService;
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<ShopDrugCart>> selectShopDrugCart(@RequestParam(name = "userId", required = true) String userId,
+	public Results<List<CartVo>> selectShopDrugCart(@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<ShopDrugCart>> results = new Results<List<ShopDrugCart>>();
+		Results<List<CartVo>> results = new Results<List<CartVo>>();
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<ShopDrugCart> list = shopDrugCartService.selectShopDrugCart(userId, pageNo, pageSize);
-
-		if (list == null || list.size() == 0) {
-			results.setMessage("购物车空空如也");
-			results.setStatus("1");
-			return results;
-
-		}
+		List<CartVo> list = shopDrugCartService.selectShopDrugCart(userId, pageNo, pageSize);
 		results.setData(list);
 		results.setStatus("0");
 		return results;
@@ -66,37 +60,7 @@ public class ShopDrugCartController {
 			results.setStatus("1");
 			return results;
 		}
-		ShopDrugCart exist=shopDrugCartService.existShopDrugCart(shopDrugCart.getDrugId(), shopDrugCart.getUserId());
-		if(exist!=null){
-			int count=exist.getCount()+1;
-			String id=exist.getId();
-			Date updatetime=new Date();
-			int update = shopDrugCartService.updateShopDrugCart(count, id, updatetime);
-
-			if (update <= 0) {
-				results.setMessage("保存出错");
-				results.setStatus("1");
-				return results;
-
-			}
-			results.setStatus("0");
-			return results;
-			
-		}
-		
-		shopDrugCart.setId(KeyGen.uuid());
-		shopDrugCart.setAddtime(new Date());
-		int insert = shopDrugCartService.insertShopDrugCart(shopDrugCart);
-
-		if (insert <= 0) {
-			results.setMessage("购物车添加出错");
-			results.setStatus("1");
-			return results;
-
-		}
-
-		results.setStatus("0");
-		return results;
+		return shopDrugCartService.insertShopDrugCart(shopDrugCart);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)

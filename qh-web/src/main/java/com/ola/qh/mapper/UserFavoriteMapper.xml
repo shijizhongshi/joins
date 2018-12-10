@@ -16,13 +16,16 @@
 
 
 	<select id="selectUserFavorite"  resultMap="UserFavoriteMap">
-		select id,user_id,product_id,product_name,product_img_url,addtime from user_favorite where user_id=#{userId} and product_type=#{productType} order by addtime DESC limit #{pageNo},#{pageSize}
+		select id,user_id,product_id,product_name,product_img_url,addtime,status from user_favorite where user_id=#{userId} and product_type=#{productType} order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="insertUserFavorite" parameterType="com.ola.qh.entity.UserFavorite" >
 	 	insert into user_favorite(id,user_id,product_id,product_name,product_img_url,product_type,addtime) values(#{id},#{userId},#{productId},#{productName},#{productImgUrl},#{productType},#{addtime})
 	</insert>
 	
+	<update id="update">
+	update user_favorite set status=#{status} where id=#{productId}
+	</update>
 	<delete id="deleteUserFavorite" >
 		delete from user_favorite where id=#{id}
 	</delete>

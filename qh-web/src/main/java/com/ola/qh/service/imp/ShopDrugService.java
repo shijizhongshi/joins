@@ -11,8 +11,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDao;
+import com.ola.qh.dao.ShopDrugCartDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopDrugImgDao;
+import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugImg;
@@ -37,6 +39,10 @@ public class ShopDrugService implements IShopDrugService {
 	private ShopDao shopDao;
 	@Autowired
 	private OrdersProductDao ordersProductDao;
+	@Autowired
+	private UserFavoriteDao userFavoriteDao;
+	@Autowired
+	private ShopDrugCartDao shopDrugCartDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -124,7 +130,13 @@ public class ShopDrugService implements IShopDrugService {
 					}
 			    }
 			}
-			
+			if(shopDrug.getStatus()!=0){
+				//////也就是说修改产品的状态
+				/////失效收藏的商品   失效购物车的商品
+				shopDrugCartDao.updateShopDrugCart(0, shopDrug.getId(), new Date(),1);
+				
+				userFavoriteDao.update(shopDrug.getId(), 1);
+			}
 			shopDrugDao.updateDrug(shopDrug);
 			result.setStatus("0");
 			return result;

@@ -108,6 +108,7 @@ public class OrdersService implements IOrdersService {
 								//////如果购物车的ID存在的话就把这个产品在购物车中删除
 								shopDrugCartDao.deleteShopDrugCart(ordersProduct.getCartId());
 							}
+							
 							ordersProduct.setAddtime(new Date());
 							ordersProduct.setUserId(ordersVo.getUserId());
 							ordersProduct.setId(KeyGen.uuid());
@@ -118,6 +119,12 @@ public class OrdersService implements IOrdersService {
 								////// 通过药品的id查商品的价格等信息
 								ShopDrug shopDrug = shopDrugDao.selectById(ordersProduct.getProductId());
 								///////修改商品的库存
+								if(shopDrug.getStatus()!=0){
+									result.setStatus("1");
+									result.setMessage("商品已失效");
+									return result;
+									
+								}
 								if(shopDrug.getStocks()<ordersProduct.getCount()){
 									/////说明库存不足哦
 									result.setStatus("1");

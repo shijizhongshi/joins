@@ -36,6 +36,18 @@ public class ShopDrugCart {
 	
 	private Date updatetime;
 	
+	private String shopName;///店铺的名称
+	
+	private int status;////1;失效
+	
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -114,6 +126,14 @@ public class ShopDrugCart {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	

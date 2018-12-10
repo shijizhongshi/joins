@@ -19,6 +19,7 @@ public interface UserDao {
 	
 	
 	
+	
 	public int insertCode(UserCode uc);
 	
 	public UserCode singleCode(String mobile);

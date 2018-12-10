@@ -57,17 +57,14 @@ public class NewsController {
 		
 		Results<News> result=new Results<News>();
 		News news = newsService.singlenews(id);
-		if(news!=null){
-			result.setData(news);
-			result.setStatus("0");
+		if(news!=null && news.getStatus()==1){
+			result.setStatus("1");
+			result.setMessage("文章已失效");
 			return result;
 		}
-		result.setStatus("1");
-		result.setMessage("对象不存在");
+		result.setData(news);
+		result.setStatus("0");
 		return result;
-		
-		
-		
 	}
 	
 }

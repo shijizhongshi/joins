@@ -23,6 +23,8 @@ public class UserFavorite {
 	
 	private int productType;
 	
+	private int status;////1;失效
+	
 	private Date addtime;
 	
 	private Date updatetime;
@@ -91,6 +93,14 @@ public class UserFavorite {
 
 	public void setProductType(int productType) {
 		this.productType = productType;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	
