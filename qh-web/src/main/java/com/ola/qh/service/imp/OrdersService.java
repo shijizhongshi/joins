@@ -106,7 +106,7 @@ public class OrdersService implements IOrdersService {
 							}
 							if(ordersProduct.getCartId()!=null && !"".equals(ordersProduct.getCartId())){
 								//////如果购物车的ID存在的话就把这个产品在购物车中删除
-								shopDrugCartDao.deleteShopDrugCart(ordersProduct.getCartId());
+								shopDrugCartDao.deleteShopDrugCart(ordersProduct.getCartId(),null);
 							}
 							
 							ordersProduct.setAddtime(new Date());
