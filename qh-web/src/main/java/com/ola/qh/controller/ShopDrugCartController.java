@@ -125,6 +125,10 @@ public class ShopDrugCartController {
 
 		Results<String> results = new Results<String>();
 
+		if(id==null && userId==null){
+			results.setStatus("1");
+			return results;
+		}
 		int delete = shopDrugCartService.deleteShopDrugCart(id,userId);
 
 		if (delete <= 0) {

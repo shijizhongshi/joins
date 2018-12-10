@@ -8,9 +8,7 @@ import com.ola.qh.entity.UserComment;
 
 public interface UserCommentDao {
 
-	public List<UserComment> selectShopUserComment(@Param("shopId")String shopId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
-	
-	public List<UserComment> selectMyUserComment(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<UserComment> selectShopUserComment(@Param("shopId")String shopId,@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 	
 	public int insertUserComment(UserComment usercomment);
 	

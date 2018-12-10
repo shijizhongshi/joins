@@ -34,17 +34,11 @@ public class UserCommentController {
 
 	@RequestMapping(value = "/selectshop", method = RequestMethod.GET)
 	public Results<List<UserComment>> selectShopUserComment(
-			@RequestParam(name = "shopId", required = true) String shopId,
+			@RequestParam(name = "shopId", required = false) String shopId,
+			@RequestParam(name = "userId", required = false) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		return userCommentService.selectShopUserComment(shopId, page);
-	}
-
-	@RequestMapping(value = "/selectmy", method = RequestMethod.GET)
-	public Results<List<UserComment>> selectMyUserComment(@RequestParam(name = "userId", required = true) String userId,
-			@RequestParam(name = "page", required = true) int page) {
-
-		return userCommentService.selectShopUserComment(userId, page);
+		return userCommentService.selectShopUserComment(shopId,userId, page);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
