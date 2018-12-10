@@ -29,6 +29,11 @@ public class ProductVo {
 	@NotNull
 	private int count;////对于服务店铺的项目就不止一个了
 	
+	
+	private String mobile;
+	
+	private String receiver;
+	
 	private String leaveMessage;
 	
 	private String sex;
@@ -131,6 +136,22 @@ public class ProductVo {
 
 	public void setPresetTime(String presetTime) {
 		this.presetTime = presetTime;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
 	}
 
 	

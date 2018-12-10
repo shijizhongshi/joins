@@ -28,7 +28,8 @@
 	</sql>
 	<insert id="insertOrdersProduct" parameterType="com.ola.qh.entity.OrdersProduct">
 	
-	insert into orders_product op(<include refid="sql_base"></include>,status_name,old_status_code,
+	insert into orders_product (id,orders_id,user_id,muser_id,product_id,product_name,product_price,count,
+	payout,product_img,status_code,status_name,old_status_code,
 	addtime)values(#{id},#{ordersId},#{userId},#{muserId},#{productId},#{productName},
 	#{productPrice},#{count},#{payout},#{productImg},#{statusCode},#{statusName},
 	#{oldStatusCode},#{addtime});

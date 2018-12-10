@@ -152,6 +152,8 @@ public class OrdersController {
 		ordersVo.setPaytypeName(productVo.getPayTypeName());
 		ordersVo.setTotalPayout(productVo.getTotalPayout());
 		ordersVo.setUserId(productVo.getUserId());
+		ordersVo.setMobile(productVo.getMobile());
+		ordersVo.setReceiver(productVo.getReceiver());
 		
 		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 
