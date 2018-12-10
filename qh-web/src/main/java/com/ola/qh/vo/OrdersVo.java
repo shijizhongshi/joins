@@ -19,11 +19,11 @@ public class OrdersVo{
 	private String userId;
 	@NotNull
 	private int ordersType;
-	
+	@NotEmpty
 	private String address;
-	
+	@NotEmpty
 	private String receiver;
-	
+	@NotEmpty
 	private String mobile;
 	@Valid
 	@NotNull

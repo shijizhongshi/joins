@@ -42,7 +42,7 @@ public class IndexController {
 		IndexVo vo=new IndexVo();
 		List<Banner> bannerlist=bannerDao.selectBanner("1");
 		vo.setBannerlist(bannerlist);
-		List<Shop> shoplist = shopDao.listShop(null, null, 0, 6, 1);
+		List<Shop> shoplist = shopDao.listShop(null, null, 0, 6, 1,0);
 		vo.setShoplist(shoplist);
 		ShopDrugDomain sdd = new ShopDrugDomain();
 		sdd.setIshot(1);

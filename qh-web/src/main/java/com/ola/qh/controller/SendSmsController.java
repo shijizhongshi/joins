@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -10,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserCode;
 import com.ola.qh.service.ISendSmsService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.RBuilder;
 import com.ola.qh.util.Results;
@@ -34,7 +38,7 @@ public class SendSmsController {
 
 	@Autowired
 	private IUserService userService;
-
+	
 	/**
 	 * 注册时发送手机号
 	 * 
@@ -96,7 +100,18 @@ public class SendSmsController {
 		String code = new String(new RBuilder().length(4).hasletter(false).next());
 		map.put("code", code);
 		Results<String> result = sendSmsService.sendSms(mobile, templateCode, map);
-		request.getSession().setAttribute(mobile, code);
+		UserCode uc = userService.singleCode(mobile);
+		if(uc==null){
+			UserCode ue = new UserCode();
+			ue.setCode(code);
+			ue.setAddtime(new Date());
+			ue.setMobile(mobile);
+			ue.setId(KeyGen.uuid());
+			userService.insertCode(ue);
+		}else{
+			userService.updateCode(code, mobile);
+		}
+		//request.getSession().setAttribute(mobile, code);
 		return result;
 
 	}

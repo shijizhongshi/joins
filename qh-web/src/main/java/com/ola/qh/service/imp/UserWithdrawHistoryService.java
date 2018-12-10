@@ -46,7 +46,7 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 		}
 		BigDecimal outMoney = userwithdrawhistory.getOutMoney();
 		int notzero = outMoney.compareTo(new BigDecimal(0));
-		if (notzero == 0) {
+		if (notzero <= 0) {
 			results.setMessage("请输入提现金额");
 			results.setStatus("1");
 			return results;

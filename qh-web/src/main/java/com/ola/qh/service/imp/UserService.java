@@ -14,6 +14,7 @@ import com.ola.qh.dao.UserLoginDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
+import com.ola.qh.entity.UserCode;
 import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -45,8 +46,10 @@ public class UserService implements IUserService {
 
 		Results<User> result = new Results<User>();
 		try {
-			String verification = request.getSession().getAttribute(user.getMobile()).toString();
-			if (verification.equals(user.getVerification())) {
+			//String verification = request.getSession().getAttribute(user.getMobile()).toString();
+			UserCode uc = userDao.singleCode(user.getMobile());
+			
+			if (uc.getCode().equals(user.getVerification())) {
 
 				User existMobile = userDao.existUser(user.getMobile(), null);
 				User users = new User();
@@ -111,9 +114,12 @@ public class UserService implements IUserService {
 				return results;
 			}
 			User user = new User();
-			if (userlogin.getVerification() != null && !"".equals(userlogin.getVerification())) {
-				String verification = request.getSession().getAttribute(userlogin.getMobile()).toString();
-				if (!userlogin.getVerification().equals(verification)) {
+
+			if(userlogin.getVerification()!=null && !"".equals(userlogin.getVerification())){
+				//String verification = request.getSession().getAttribute(userlogin.getMobile()).toString();
+				UserCode uc =userDao.singleCode(userlogin.getMobile());
+				
+				if(!userlogin.getVerification().equals(uc.getCode())){
 					results.setMessage("验证码输入有误");
 					results.setStatus("1");
 					return results;
@@ -213,6 +219,21 @@ public class UserService implements IUserService {
 			return results;
 		}
 
+	}
+	@Override
+	public int insertCode(UserCode uc) {
+		// TODO Auto-generated method stub
+		return userDao.insertCode(uc);
+	}
+	@Override
+	public UserCode singleCode(String mobile) {
+		// TODO Auto-generated method stub
+		return userDao.singleCode(mobile);
+	}
+	@Override
+	public int updateCode(String code, String mobile) {
+		// TODO Auto-generated method stub
+		return userDao.updateCode(code, mobile);
 	}
 
 }

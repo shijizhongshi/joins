@@ -28,8 +28,8 @@
 	</resultMap>
 
 	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
-	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend
-	business_hours
+	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend,
+	business_hours,idcard,realname
 	</sql>
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
@@ -96,6 +96,9 @@
 	<if test="isrecommend!=0">
 	<!-- 首页推荐店铺的地方 -->
 	and isrecommend=#{isrecommend}
+	</if>
+	<if test="shopType!=0">
+	and shop_type=#{shopType}
 	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

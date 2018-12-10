@@ -10,4 +10,6 @@ public interface IShopService {
 	public Results<String> shopSaveUpdate(Shop shop);
 	
 	public List<Shop> selectShopByUserId(String userId);
+	
+	public List<Shop> listShop(String shopName,String address,int pageNo,int pageSize,int isrecommend,int shopType);
 }
