@@ -22,6 +22,12 @@ public class ShopDrugDomain {
 	
 	private int issales;
 	
+	private int ordersSales;///按照销量排序
+	
+	private int ordersstocks;////按照库存排序
+	
+	private int orderstime;////按照时间排序
+	
 	public int getStatus() {
 		return status;
 	}
@@ -100,6 +106,30 @@ public class ShopDrugDomain {
 
 	public void setIssales(int issales) {
 		this.issales = issales;
+	}
+
+	public int getOrdersSales() {
+		return ordersSales;
+	}
+
+	public void setOrdersSales(int ordersSales) {
+		this.ordersSales = ordersSales;
+	}
+
+	public int getOrdersstocks() {
+		return ordersstocks;
+	}
+
+	public void setOrdersstocks(int ordersstocks) {
+		this.ordersstocks = ordersstocks;
+	}
+
+	public int getOrderstime() {
+		return orderstime;
+	}
+
+	public void setOrderstime(int orderstime) {
+		this.orderstime = orderstime;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ola.qh.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +37,18 @@ public class NewsController {
 	 * @return
 	 */
 	@RequestMapping(value="/newLists")
-	public Results<List<News>> newsList(@RequestParam(name = "page", required = false) int page){
+	public Results<List<News>> newsList(
+			@RequestParam(name = "page", required = true) int page,
+			@RequestParam(name = "types", required = false) String types){
 		
 		Results<List<News>> result = new Results<List<News>>();
 		int pageNo = (page - 1) * Patterns.zupageSize;
 		
-		List<News> lists = newsService.selectNewList(pageNo,Patterns.zupageSize);
+		List<News> lists = newsService.selectNewList(pageNo,Patterns.zupageSize,types);
+		for (News news : lists) {
+			news.setShowtime(Patterns.sfTime(news.getAddtime()));
+		}
+		
 		result.setData(lists);
 		result.setStatus("0");
 		return result;
@@ -57,6 +65,10 @@ public class NewsController {
 		
 		Results<News> result=new Results<News>();
 		News news = newsService.singlenews(id);
+		if(news.getAddtime()!=null){
+			String time = Patterns.sfTime(news.getAddtime());
+			news.setShowtime(time);
+		}
 		if(news!=null && news.getStatus()==1){
 			result.setStatus("1");
 			result.setMessage("文章已失效");

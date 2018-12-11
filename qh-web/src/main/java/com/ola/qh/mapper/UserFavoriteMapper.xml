@@ -24,7 +24,7 @@
 	</insert>
 	
 	<update id="update">
-	update user_favorite set status=#{status} where id=#{productId}
+	update user_favorite set status=#{status} where product_id=#{productId}
 	</update>
 	<delete id="deleteUserFavorite" >
 		delete from user_favorite where id=#{id}

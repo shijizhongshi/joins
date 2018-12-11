@@ -4,259 +4,302 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ola.qh.dao.ShopDrugDao">
 	<resultMap type="com.ola.qh.entity.ShopDrug" id="ShopDrugMap">
-	<result column="id" property="id"/>
-	<result column="user_id" property="userId"/>
-	<result column="shop_id" property="shopId"/>
-	<result column="drug_name" property="drugName"/>
-	<result column="category_name" property="categoryName"/>
-	<result column="category_subname" property="categorySubname"/>
-	<result column="healing_powers" property="healingPowers"/>
-	<result column="specification" property="specification"/>
-	<result column="original_price" property="originalPrice"/>
-	<result column="discount_price" property="discountPrice"/>
-	<result column="price" property="price"/>
-	<result column="stocks" property="stocks"/>
-	<result column="status" property="status"/>
-	<result column="ishot" property="ishot"/>
-	<result column="isrecommend" property="isrecommend"/>
-	<result column="issales" property="issales"/>
-	<result column="islimits" property="islimits"/>
-	<result column="drug_detail" property="drugDetail"/>
-	<result column="specification_params" property="specificationParams"/>
-	<result column="product_name" property="productName"/>
-	<result column="manufacturer" property="manufacturer"/>
-	<result column="drug_sign" property="drugSign"/>
-	<result column="approval_number" property="approvalNumber"/>
-	<result column="period_validity" property="periodValidity"/>
-	<result column="storages" property="storages"/>
-	<result column="units" property="units"/>
-	<result column="proper_people" property="properPeople"/>
-	<result column="elements" property="elements"/>
-	<result column="characters" property="characters"/>
-	<result column="packagings" property="packagings"/>
-	<result column="indication" property="indication"/>
-	<result column="dosage" property="dosage"/>
-	<result column="bad_symptom" property="badSymptom"/>
-	<result column="taboo" property="taboo"/>
-	<result column="attention_matter" property="attentionMatter"/>
-	<result column="drug_interactions" property="drugInteractions"/>
-	<result column="drug_action" property="drugAction"/>
-	<result column="shap_code" property="shapCode"/>
-	<result column="friendly_hint" property="friendlyHint"/>
-	<result column="img_url" property="imgUrl"/>
-	<result column="addtime" property="addtime"/>
-	</resultMap> 
-	
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="shop_id" property="shopId" />
+		<result column="drug_name" property="drugName" />
+		<result column="category_name" property="categoryName" />
+		<result column="category_subname" property="categorySubname" />
+		<result column="healing_powers" property="healingPowers" />
+		<result column="specification" property="specification" />
+		<result column="original_price" property="originalPrice" />
+		<result column="discount_price" property="discountPrice" />
+		<result column="price" property="price" />
+		<result column="stocks" property="stocks" />
+		<result column="sales_number" property="salesNumber" />
+		<result column="status" property="status" />
+		<result column="ishot" property="ishot" />
+		<result column="isrecommend" property="isrecommend" />
+		<result column="issales" property="issales" />
+		<result column="islimits" property="islimits" />
+		<result column="drug_detail" property="drugDetail" />
+		<result column="specification_params" property="specificationParams" />
+		<result column="product_name" property="productName" />
+		<result column="manufacturer" property="manufacturer" />
+		<result column="drug_sign" property="drugSign" />
+		<result column="approval_number" property="approvalNumber" />
+		<result column="period_validity" property="periodValidity" />
+		<result column="storages" property="storages" />
+		<result column="units" property="units" />
+		<result column="proper_people" property="properPeople" />
+		<result column="elements" property="elements" />
+		<result column="characters" property="characters" />
+		<result column="packagings" property="packagings" />
+		<result column="indication" property="indication" />
+		<result column="dosage" property="dosage" />
+		<result column="bad_symptom" property="badSymptom" />
+		<result column="taboo" property="taboo" />
+		<result column="attention_matter" property="attentionMatter" />
+		<result column="drug_interactions" property="drugInteractions" />
+		<result column="drug_action" property="drugAction" />
+		<result column="shap_code" property="shapCode" />
+		<result column="friendly_hint" property="friendlyHint" />
+		<result column="img_url" property="imgUrl" />
+		<result column="addtime" property="addtime" />
+		<result column="freight" property="freight"/>
+	</resultMap>
+
 	<sql id="sql_base">
-	id,user_id,shop_id,drug_name,category_name,category_subname,healing_powers,specification,original_price,
-	discount_price,price,drug_detail,stocks
+		id,user_id,shop_id,drug_name,category_name,category_subname,healing_powers,specification,original_price,
+		discount_price,price,drug_detail,stocks,sales_number,freight
 	</sql>
 	<insert id="insertDrug" parameterType="com.ola.qh.entity.ShopDrug">
-	insert into shop_drug(<include refid="sql_base"></include>,specification_params,product_name,
-	manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
-	characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
-	drug_action,shap_code,friendly_hint,img_url,addtime,isrecommend,issales)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
-	#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{specificationParams},
-	#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},
-	#{elements},#{characters},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
-	#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime},#{isrecommend},#{issales})
+		insert into shop_drug(
+		<include refid="sql_base"></include>
+		,specification_params,product_name,
+		manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
+		characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
+		drug_action,shap_code,friendly_hint,img_url,addtime,isrecommend,issales)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
+		#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{salesNumber},#{freight},#{specificationParams},
+		#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},
+		#{elements},#{characters},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
+		#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime},#{isrecommend},#{issales})
 	</insert>
-	
+
 	<update id="updateDrug" parameterType="com.ola.qh.entity.ShopDrug">
-	update shop_drug set 
-	<if test="drugName!=null">
-	drug_name=#{drugName},
-	</if>
-	<if test="healingPowers!=null">
-	healing_powers=#{healingPowers},
-	</if>
-	<if test="specification!=null">
-	specification=#{specification},
-	</if>
-	<if test="originalPrice>0">
-	original_price=#{originalPrice},
-	</if>
-	<if test="discountPrice>0">
-	discount_price=#{discountPrice},
-	</if>
-	<if test="price>0">
-	price=#{price},
-	</if>
-	<if test="drugDetail!=null">
-	drug_detail=#{drugDetail},
-	</if>
-	<if test="specificationParams!=null">
-	specification_params=#{specificationParams},
-	</if>
-	<if test="productName!=null">
-	product_name=#{productName},
-	</if>
-	<if test="manufacturer!=null">
-	manufacturer=#{manufacturer},
-	</if>
-	<if test="drugSign!=null">
-	drug_sign=#{drugSign},
-	</if>
-	<if test="approvalNumber!=null">
-	approval_number=#{approvalNumber},
-	</if>
-	<if test="periodValidity!=null">
-	period_validity=#{periodValidity},
-	</if>
-	<if test="storages!=null">
-	storages=#{storages},
-	</if>
-	<if test="units!=null">
-	units=#{units},
-	</if>
-	<if test="properPeople!=null">
-	proper_people=#{properPeople},
-	</if>
-	<if test="elements!=null">
-	elements=#{elements},
-	</if>
-	<if test="characters!=null">
-	characters=#{characters},
-	</if>
-	<if test="packagings!=null">
-	packagings=#{packagings},
-	</if>
-	<if test="indication!=null">
-	indication=#{indication}
-	</if>
-	<if test="dosage!=null">
-	dosage=#{dosage}
-	</if>
-	<if test="badSymptom!=null">
-	bad_symptom=#{badSymptom},
-	</if>
-	<if test="taboo!=null">
-	taboo=#{taboo},
-	</if>
-	<if test="attentionMatter!=null">
-	attention_matter=#{attentionMatter},
-	</if>
-	<if test="drugInteractions!=null">
-	drug_interactions=#{drugInteractions},
-	</if>
-	<if test="drugAction!=null">
-	drug_action = #{drugAction},
-	</if>
-	<if test="shapCode!=null">
-	shap_code=#{shapCode},
-	</if>
-	<if test="friendlyHint!=null">
-	friendly_hint=#{friendlyHint},
-	</if>
-	<if test="imgUrl!=null">
-	img_url=#{imgUrl},
-	</if>
-	<if test="status!=0">
-	<!-- 修改商品的状态 -->
-	status=#{status},
-	</if>
-	updatetime=#{updatetime}
-	where id=#{id}
+		update shop_drug set
+		<if test="drugName!=null">
+			drug_name=#{drugName},
+		</if>
+		<if test="healingPowers!=null">
+			healing_powers=#{healingPowers},
+		</if>
+		<if test="specification!=null">
+			specification=#{specification},
+		</if>
+		<if test="originalPrice>0">
+			original_price=#{originalPrice},
+		</if>
+		<if test="discountPrice>0">
+			discount_price=#{discountPrice},
+		</if>
+		<if test="freight>0">
+		  freight=#{freight},
+		</if>
+		<if test="price>0">
+			price=#{price},
+		</if>
+		<if test="drugDetail!=null">
+			drug_detail=#{drugDetail},
+		</if>
+		<if test="specificationParams!=null">
+			specification_params=#{specificationParams},
+		</if>
+		<if test="productName!=null">
+			product_name=#{productName},
+		</if>
+		<if test="manufacturer!=null">
+			manufacturer=#{manufacturer},
+		</if>
+		<if test="drugSign!=null">
+			drug_sign=#{drugSign},
+		</if>
+		<if test="approvalNumber!=null">
+			approval_number=#{approvalNumber},
+		</if>
+		<if test="periodValidity!=null">
+			period_validity=#{periodValidity},
+		</if>
+		<if test="storages!=null">
+			storages=#{storages},
+		</if>
+		<if test="units!=null">
+			units=#{units},
+		</if>
+		<if test="properPeople!=null">
+			proper_people=#{properPeople},
+		</if>
+		<if test="elements!=null">
+			elements=#{elements},
+		</if>
+		<if test="characters!=null">
+			characters=#{characters},
+		</if>
+		<if test="packagings!=null">
+			packagings=#{packagings},
+		</if>
+		<if test="indication!=null">
+			indication=#{indication}
+		</if>
+		<if test="dosage!=null">
+			dosage=#{dosage}
+		</if>
+		<if test="badSymptom!=null">
+			bad_symptom=#{badSymptom},
+		</if>
+		<if test="taboo!=null">
+			taboo=#{taboo},
+		</if>
+		<if test="attentionMatter!=null">
+			attention_matter=#{attentionMatter},
+		</if>
+		<if test="drugInteractions!=null">
+			drug_interactions=#{drugInteractions},
+		</if>
+		<if test="drugAction!=null">
+			drug_action = #{drugAction},
+		</if>
+		<if test="shapCode!=null">
+			shap_code=#{shapCode},
+		</if>
+		<if test="friendlyHint!=null">
+			friendly_hint=#{friendlyHint},
+		</if>
+		<if test="imgUrl!=null">
+			img_url=#{imgUrl},
+		</if>
+		<if test="status!=0">
+			<!-- 修改商品的状态 -->
+			status=#{status},
+		</if>
+		updatetime=#{updatetime}
+		where id=#{id}
 	</update>
-	
+
 	<!-- 通过产品的id查详情页 -->
 	<select id="selectById" resultMap="ShopDrugMap">
-	select <include refid="sql_base"></include> from shop_drug where id=#{id}
+		select
+		<include refid="sql_base"></include>
+		from shop_drug where id=#{id}
 	</select>
-	
-	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~-->
-	<select id="selectDrugList" parameterType="com.ola.qh.vo.ShopDrugDomain" resultMap="ShopDrugMap">
-	select <include refid="sql_base"></include>,img_url,islimits from shop_drug 
-	where 1=1
-	<if test="shopId!=null">
-	and shop_id=#{shopId}
-	</if>
-	<if test="status==1 or status==0">
-	<!-- userrole==1标识看用户的首页 -->
-	<!-- 如果status的状态的0的时候表示的是正常的 -->
-	and status=0
-	and islimits=1
-	<!-- 审批过了架上的商品 -->
-	</if>
-	<if test="status==2">
-	<!-- 下架的商品 -->
-	and status=2
-	</if>
-	<if test="status==4">
-	<!-- 未审批 -->
-	and islimits=0
-	</if>
-	<if test="status==5">
-	<!-- 审批失败 -->
-	and islimits=2
-	</if>
-	<if test="ishot!=0">
-	and ishot=#{ishot}
-	</if>
-	<if test="issales!=0">
-	and issales=1
-	</if>
-	<if test="isrecommend!=0">
-	and isrecommend=1
-	</if>
-	<if test="drugName!=null">
-	and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
-	</if>
-	<if test="categoryName!=null and categoryName!=''">
-	and category_name=#{categoryName}
-	</if>
-	<if test="categorySubname!=null and categorySubname!=''">
-	and category_subname=#{categorySubname}
-	</if>
-	order by addtime desc
-	limit #{pageNo},#{pageSize}
+
+	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~ -->
+	<select id="selectDrugList" parameterType="com.ola.qh.vo.ShopDrugDomain"
+		resultMap="ShopDrugMap">
+		select
+		<include refid="sql_base"></include>
+		,img_url,islimits from shop_drug
+		where 1=1
+		<if test="shopId!=null">
+			and shop_id=#{shopId}
+		</if>
+		<if test="status==1 or status==0">
+			<!-- userrole==1标识看用户的首页 -->
+			<!-- 如果status的状态的0的时候表示的是正常的 -->
+			and status=0
+			and islimits=1
+			<!-- 审批过了架上的商品 -->
+		</if>
+		<if test="status==2">
+			<!-- 下架的商品 -->
+			and status=2
+		</if>
+		<if test="status==4">
+			<!-- 未审批 -->
+			and islimits=0
+		</if>
+		<if test="status==5">
+			<!-- 审批失败 -->
+			and islimits=2
+		</if>
+		<if test="ishot!=0">
+			and ishot=#{ishot}
+		</if>
+		<if test="issales!=0">
+			and issales=1
+		</if>
+		<if test="isrecommend!=0">
+			and isrecommend=1
+		</if>
+		<if test="drugName!=null">
+			and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
+		</if>
+		<if test="categoryName!=null and categoryName!=''">
+			and category_name=#{categoryName}
+		</if>
+		<if test="categorySubname!=null and categorySubname!=''">
+			and category_subname=#{categorySubname}
+		</if>
+		<if test="ordersSales==1">
+			<!-- 按照销量排序 -->
+			order by sales_number desc
+		</if>
+		<if test="ordersSales==2">
+			<!-- 按照销量排序 -->
+			order by sales_number asc
+		</if>
+		<if test="ordersstocks==1">
+			<!-- 按照存库排序 -->
+			order by stocks desc
+		</if>
+		<if test="ordersstocks==2">
+			<!-- 按照存库排序 -->
+			order by stocks asc
+		</if>
+		<if test="orderstime==1">
+			order by addtime desc
+		</if>
+		<if test="orderstime==2">
+			order by addtime asc
+		</if>
+
+		limit #{pageNo},#{pageSize}
 	</select>
-	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain" resultType="int">
-	select count(id) from shop_drug 
-	where 1=1
-	<if test="shopId!=null">
-	and shop_id=#{shopId}
-	</if>
-	<if test="status==1 or status==0">
-	<!-- userrole==1标识看用户的首页 -->
-	<!-- 如果status的状态的0的时候表示的是正常的 -->
-	and status=0
-	and islimits=1
-	<!-- 审批过了架上的商品 -->
-	</if>
-	<if test="status==2">
-	<!-- 下架的商品 -->
-	and status=2
-	</if>
-	<if test="status==4">
-	<!-- 未审批 -->
-	and islimits=0
-	</if>
-	<if test="status==5">
-	<!-- 审批失败 -->
-	and islimits=2
-	</if>
-	<if test="ishot!=0">
-	and ishot=#{ishot}
-	</if>
-	<if test="issales!=0">
-	and issales=1
-	</if>
-	<if test="isrecommend!=0">
-	and isrecommend=1
-	</if>
-	<if test="drugName!=null">
-	and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
-	</if>
-	<if test="categoryName!=null and categoryName!=''">
-	and category_name=#{categoryName}
-	</if>
-	<if test="categorySubname!=null and categorySubname!=''">
-	and category_subname=#{categorySubname}
-	</if>
+	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain"
+		resultType="int">
+		select count(id) from shop_drug
+		where 1=1
+		<if test="shopId!=null">
+			and shop_id=#{shopId}
+		</if>
+		<if test="status==1 or status==0">
+			<!-- userrole==1标识看用户的首页 -->
+			<!-- 如果status的状态的0的时候表示的是正常的 -->
+			and status=0
+			and islimits=1
+			<!-- 审批过了架上的商品 -->
+		</if>
+		<if test="status==2">
+			<!-- 下架的商品 -->
+			and status=2
+		</if>
+		<if test="status==4">
+			<!-- 未审批 -->
+			and islimits=0
+		</if>
+		<if test="status==5">
+			<!-- 审批失败 -->
+			and islimits=2
+		</if>
+		<if test="ishot!=0">
+			and ishot=#{ishot}
+		</if>
+		<if test="issales!=0">
+			and issales=1
+		</if>
+		<if test="isrecommend!=0">
+			and isrecommend=1
+		</if>
+		<if test="drugName!=null">
+			and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
+		</if>
+		<if test="categoryName!=null and categoryName!=''">
+			and category_name=#{categoryName}
+		</if>
+		<if test="categorySubname!=null and categorySubname!=''">
+			and category_subname=#{categorySubname}
+		</if>
 	</select>
-	
-	<update id="updateStocks">
-	update shop_drug set stocks=#{stocks} where id=#{id}
+
+	<update id="updateCount">
+		update shop_drug set
+		<if test="stocks!=0">
+			stocks=#{stocks},
+		</if>
+		<if test="salesNumber!=0">
+			sales_number=#{salesNumber},
+		</if>
+		updatetime=#{updatetime}
+		where id=#{id}
 	</update>
 </mapper>

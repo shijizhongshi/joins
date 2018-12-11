@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
+import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugCartDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopServeDao;
@@ -27,12 +29,14 @@ import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
+import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.OrdersVo;
 
@@ -60,7 +64,8 @@ public class OrdersService implements IOrdersService {
 	private ShopDrugCartDao shopDrugCartDao;
 	
 	
-	
+	@Autowired
+	private ShopDao shopDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -97,6 +102,7 @@ public class OrdersService implements IOrdersService {
 					if (orders.getProduct() != null && orders.getProduct().size() != 0) {
 						////// 说明订单中有产品
 						BigDecimal prices = BigDecimal.ZERO;
+						BigDecimal freight=BigDecimal.ZERO;
 						List<OrdersProduct> productList = orders.getProduct();
 						for (OrdersProduct ordersProduct : productList) {
 							if(ordersVo.getUserId().equals(orders.getMuserId())){
@@ -131,15 +137,20 @@ public class OrdersService implements IOrdersService {
 									result.setMessage("库存不足");
 									return result;
 								}
-								shopDrugDao.updateStocks(shopDrug.getStocks()-ordersProduct.getCount(), ordersProduct.getProductId());
-								
+								shopDrugDao.updateCount(shopDrug.getStocks()-ordersProduct.getCount(), ordersProduct.getProductId(),ordersProduct.getCount(),null);
+								ordersProduct.setFreight(shopDrug.getFreight());
 								ordersProduct.setProductImg(shopDrug.getImgUrl());
 								ordersProduct.setProductName(shopDrug.getDrugName());
 								ordersProduct.setProductPrice(shopDrug.getDiscountPrice());
 								////// 产品实际支付的金额
-								BigDecimal payout = shopDrug.getDiscountPrice()
+								BigDecimal payout=BigDecimal.ZERO;
+								payout = shopDrug.getDiscountPrice()
 										.multiply(new BigDecimal(ordersProduct.getCount()))
 										.setScale(2, BigDecimal.ROUND_DOWN);
+								if(shopDrug.getFreight().compareTo(BigDecimal.ZERO)==1){
+									payout = payout.add(shopDrug.getFreight()).setScale(2, BigDecimal.ROUND_DOWN);
+								}
+								freight=freight.add(shopDrug.getFreight()).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(payout);
 								prices = prices.add(payout).setScale(2, BigDecimal.ROUND_DOWN);
 							} else if (ordersVo.getOrdersType() == 1) {
@@ -174,6 +185,7 @@ public class OrdersService implements IOrdersService {
 						totalPrice = totalPrice.add(prices).setScale(2, BigDecimal.ROUND_DOWN);
 						orders.setPayaccount(prices);////// 订单实际支付的金额
 						orders.setCount(count);
+						orders.setFreight(freight);/////订单总运费
 						////// 保存订单的信息
 						ordersDao.insertOrders(orders);
 						op.setUserId(ordersVo.getUserId());
@@ -247,53 +259,57 @@ public class OrdersService implements IOrdersService {
 		try {
 			Date deliveredtime=null;
 			Orders orders = ordersDao.singleOrders(ordersId);
-			if (OrdersStatus.DELIVERED.equals(ordersStatus)) {
-				//////订单发货
-				if (!OrdersStatus.PAID.equals(orders.getOrdersStatus())) {
-					result.setStatus("1");
-					result.setMessage("订单状态不符");
-					return result;
+			if(orders.getOrdersType()==0){
+				if (OrdersStatus.DELIVERED.equals(ordersStatus) && orders.getOrdersType()==0) {
+					//////订单发货
+					if (!OrdersStatus.PAID.equals(orders.getOrdersStatus())) {
+						result.setStatus("1");
+						result.setMessage("订单状态不符");
+						return result;
+					}
+					deliveredtime=new Date();
 				}
-				deliveredtime=new Date();
-			}
-			List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
-			
-			//////确认收货的页面
-			if (OrdersStatus.RECEIVED.equals(ordersStatus)) {
-				//// 订单已完成
-				if(!OrdersStatus.DELIVERED.equals(orders.getOrdersStatus())){
-					result.setStatus("1");
-					result.setMessage("订单状态不符");
-					return result;
-				}
-				BigDecimal money=BigDecimal.ZERO;
-				for (OrdersProduct ordersProduct : listop) {
-					money=money.add(ordersProduct.getPayout());
-				}
-				/////钱得到账本里
-				UserIntomoneyHistory uh=new UserIntomoneyHistory();
-				uh.setAddtime(new Date());
-				uh.setIntoStatus(0);
-				uh.setId(KeyGen.uuid());
-				uh.setMoney(money);
-				uh.setOrderId(ordersId);
-				//////往商家店铺里打钱~~~
-				uh.setUserId(orders.getMuserId());
-				userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
-				///修改总账本
-				userBookDao.updateUserBook(orders.getMuserId(), money, new Date());
+				List<OrdersProduct> listop = ordersProductDao.selectByOid(ordersId, orders.getOrdersStatus());
 				
+				//////确认收货的页面
+				if (OrdersStatus.RECEIVED.equals(ordersStatus) && orders.getOrdersType()==0) {
+					//// 订单已完成
+					if(!OrdersStatus.DELIVERED.equals(orders.getOrdersStatus())){
+						result.setStatus("1");
+						result.setMessage("订单状态不符");
+						return result;
+					}
+					BigDecimal money=BigDecimal.ZERO;
+					for (OrdersProduct ordersProduct : listop) {
+						money=money.add(ordersProduct.getPayout());
+					}
+					/////钱得到账本里
+					UserIntomoneyHistory uh=new UserIntomoneyHistory();
+					uh.setAddtime(new Date());
+					uh.setIntoStatus(0);
+					uh.setId(KeyGen.uuid());
+					uh.setMoney(money);
+					uh.setOrderId(ordersId);
+					//////往商家店铺里打钱~~~
+					uh.setUserId(orders.getMuserId());
+					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
+					///修改总账本
+					userBookDao.updateUserBook(orders.getMuserId(), money, new Date());
+					
+				}
+				//////// 修改订单的状态~~~
+				
+				ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime,null,null);
+				////// 修改订单产品的属性
+				for (OrdersProduct ordersProduct : listop) {
+					ordersProductDao.updateOrdersProduct(ordersProduct.getId(), ordersStatus, ordersName,
+							ordersProduct.getStatusCode(), new Date());
+				}
+				result.setStatus("0");
+				return result;
 			}
-			//////// 修改订单的状态~~~
 			
-			ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo,null,deliveredtime,null,null);
-			////// 修改订单产品的属性
-			for (OrdersProduct ordersProduct : listop) {
-				ordersProductDao.updateOrdersProduct(ordersProduct.getId(), ordersStatus, ordersName,
-						ordersProduct.getStatusCode(), new Date());
-			}
-			result.setStatus("0");
-			return result;
+			return udpateServeOrders(orders,ordersStatus,ordersName);
 		} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -304,6 +320,18 @@ public class OrdersService implements IOrdersService {
 
 	}
 
+	
+	public Results<String> udpateServeOrders(Orders orders,String ordersStatus,String ordersName){
+		Results<String> result=new Results<String>();
+		if(orders.getOrdersType()==2){
+			//////服务订单的
+			
+		}
+		
+		
+		return result;
+	}
+	
 	@Override
 	public Results<OrdersDomain> singleOrders(String ordersId) {
 		Results<OrdersDomain> result=new Results<OrdersDomain>();
@@ -332,45 +360,63 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public List<OrdersDomain> listOrders(String statusCode,int pageNo, int pageSize) {
+	public List<OrdersDomain> listOrders(String statusCode,int pageNo, int pageSize,String userId,String muserId,int ordersType) {
 		// TODO Auto-generated method stub
 		/////statusCode:AllStatus全部的订单
 		//statusCode:refundStatus退款售后
 		List<OrdersDomain> odmainList=new ArrayList<OrdersDomain>();
 		if("AllStatus".equals(statusCode)){
-			List<Orders> orderList = ordersDao.ordersList(null, pageNo, pageSize);
+			List<Orders> orderList = ordersDao.ordersList(null, pageNo, pageSize,userId,muserId,ordersType);
 			
 			for (Orders orders : orderList) {
 				OrdersDomain od=new OrdersDomain();
 				BeanUtils.copyProperties(orders, od);
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
 				od.setProduct(listOrders);
+				OrdersDomain shopdomain = getShop(ordersType, orders.getMuserId(),orders.getAddtime());
+				if(shopdomain!=null){
+					od.setShopLogo(shopdomain.getShopLogo());
+					od.setShopName(shopdomain.getShopName());
+					od.setShowtime(shopdomain.getShowtime());
+				}
 				odmainList.add(od);
 			}
 			return odmainList;
 		}else if("refundStatus".equals(statusCode)){
 			//////退款售后
-			List<OrdersProduct> listOrders = ordersProductDao.listOrdersProduct("refundStatus",pageNo,pageSize);
+			List<OrdersProduct> listOrders = ordersProductDao.listOrdersProduct("refundStatus", pageNo, pageSize, userId, muserId);
 			for (OrdersProduct ordersProduct : listOrders) {
 				OrdersDomain od=new OrdersDomain();
-				od.setNickname(ordersProduct.getNickname());
-				od.setHeadImgUrl(ordersProduct.getHeadImgUrl());
-				od.setProduct(listOrders);
+				List<OrdersProduct> listOrdersp=new ArrayList<OrdersProduct>();
+				//////查出商品所属的店铺的信息
+				OrdersDomain shopdomain = getShop(ordersType, ordersProduct.getMuserId(),null);
+				if(shopdomain!=null){
+					od.setShopLogo(shopdomain.getShopLogo());
+					od.setShopName(shopdomain.getShopName());
+				}
+				listOrdersp.add(ordersProduct);
+				od.setProduct(listOrdersp);
 				odmainList.add(od);
-				
 			}
 			return odmainList;
 			
 		}else{
 			////待付款(NEW)  待发货(PAID)  待收货(DELIVERED) 已完成(RECEIVED)
-			List<Orders> orderList = ordersDao.ordersList(statusCode, pageNo, pageSize);
+			List<Orders> orderList = ordersDao.ordersList(statusCode, pageNo, pageSize,userId,muserId,ordersType);
 			
 			for (Orders orders : orderList) {
 				OrdersDomain od=new OrdersDomain();
+			    //////查出商品所属的店铺的信息
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), statusCode);
 				BigDecimal payaccount=BigDecimal.ZERO;
 				int count=0;
 				BeanUtils.copyProperties(orders, od);
+				OrdersDomain shopdomain = getShop(ordersType, orders.getMuserId(),orders.getAddtime());
+				if(shopdomain!=null){
+					od.setShopLogo(shopdomain.getShopLogo());
+					od.setShopName(shopdomain.getShopName());
+					od.setShowtime(shopdomain.getShowtime());
+				}
 				for (OrdersProduct ordersProduct : listOrders) {
 					payaccount=payaccount.add(ordersProduct.getPayout());
 					count+=ordersProduct.getCount();
@@ -378,11 +424,38 @@ public class OrdersService implements IOrdersService {
 				od.setPayaccount(payaccount);
 				od.setCount(count);
 				od.setProduct(listOrders);
+				
+				
 				odmainList.add(od);
 			}
 			return odmainList;
 			
 		}
+		
+	}
+	
+	public OrdersDomain getShop(int ordersType,String muserId,Date addtime){
+		int shopType = 0;
+		if(ordersType==0){
+			////药品的订单
+			shopType=2;
+		}else if(ordersType==1){
+			///课程的订单
+			shopType=0;
+		}else if(ordersType==2){
+			////服务店铺的订单
+			shopType=1;
+		}
+		OrdersDomain od=new OrdersDomain();
+		if(shopType!=0){
+			List<Shop> listshop = shopDao.selectShopByUserId(muserId, null, 2);
+			od.setShopLogo(listshop.get(0).getShopLogo());
+			od.setShopName(listshop.get(0).getShopName());
+		}
+		if(addtime!=null){
+			od.setShowtime(Patterns.sfDetailTime(addtime));
+		}
+		return od;
 		
 	}
 	

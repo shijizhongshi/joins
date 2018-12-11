@@ -125,6 +125,41 @@ public class PayResultService implements IPayResultService{
 			ordersDao.insertPayResult(pr);
 		}
 	}
+
+	@Override
+	public void payServeResults(List<OrdersPayment> oplist) {
+		// TODO Auto-generated method stub
+		PayResult pr= new PayResult();
+		pr.setAddtime(new Date());
+		pr.setExtransno(oplist.get(0).getExtransno());
+		pr.setId(KeyGen.uuid());
+		pr.setUserId(oplist.get(0).getUserId());
+		try {
+			for (OrdersPayment op:oplist) {
+				Orders orders=ordersDao.singleOrders(op.getOrdersId());
+				///////修改支付成功的状态值(防止重复性的回调)
+				ordersDao.updateOrdersPayment(op.getId(), 1, new Date(),null,null);
+				List<OrdersProduct> listOrdersProduct=ordersProductDao.selectByOid(op.getOrdersId(), orders.getOrdersStatus());
+				///服务已经购买但是没有使用~
+				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null,new Date(),null,null,null);
+				for (OrdersProduct orderproduct : listOrdersProduct) {
+					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.PAID, "支付成功未使用", orderproduct.getStatusCode(), new Date());
+				}
+			}
+			
+			
+			pr.setComment("支付成功之后服务项目的回调成功");
+            pr.setPayStatus("Success");
+			ordersDao.insertPayResult(pr);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			pr.setComment("支付成功之后的服务回调失败");
+            pr.setPayStatus("failure");
+			ordersDao.insertPayResult(pr);
+		}
+	}
 	
 	
 	

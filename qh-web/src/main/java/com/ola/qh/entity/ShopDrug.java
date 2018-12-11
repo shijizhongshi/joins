@@ -102,6 +102,16 @@ public class ShopDrug {
 	private int islimits;///1:审批过了   2:审批不过  0未审批
 	
 	private int salesNumber;////销量
+	
+	private BigDecimal freight;////运费
+
+	public BigDecimal getFreight() {
+		return freight;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+	}
 
 	public int getStocks() {
 		return stocks;

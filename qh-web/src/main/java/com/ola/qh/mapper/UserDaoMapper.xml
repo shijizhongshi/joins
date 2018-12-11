@@ -13,17 +13,20 @@
 		<result column="mobile" property="mobile" />
 	</resultMap>
 
+	<sql id="sql_base">
+	id,mobile,password,nickname,head_img_url,userrole
+	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
 		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
 	</insert>
 	
-	<select id="loginUser"  resultType="com.ola.qh.entity.User">
-		select id,mobile,nickname,head_img_url,addtime,userrole from user where mobile=#{mobile} and password=#{password}
+	<select id="loginUser"  resultMap="UserMap">
+		select <include refid="sql_base"></include> from user where mobile=#{mobile} and password=#{password}
 	</select>
 	
-	<select id="existUser" resultMap="UserMap">
-		select id,mobile,nickname,head_img_url,userrole from user where 1=1
+	<select id="singleUser" resultMap="UserMap">
+		select <include refid="sql_base"></include> from user where 1=1
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>

@@ -19,6 +19,17 @@ public class News {
 	private int isstick;////是否置顶
 	
 	private int status;///1:失效
+	
+	private String showtime;
+	
+
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
+	}
 
 	public String getId() {
 		return id;

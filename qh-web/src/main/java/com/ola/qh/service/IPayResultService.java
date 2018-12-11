@@ -9,4 +9,6 @@ public interface IPayResultService {
 	public void payDrugResults(List<OrdersPayment> oplist);
 	
 	public void payCourseResults(List<OrdersPayment> oplist);
+	
+	public void payServeResults(List<OrdersPayment> oplist);
 }
