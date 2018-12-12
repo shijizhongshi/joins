@@ -133,7 +133,7 @@ public class ShopDrugService implements IShopDrugService {
 			if(shopDrug.getStatus()!=0){
 				//////也就是说修改产品的状态
 				/////失效收藏的商品   失效购物车的商品
-				shopDrugCartDao.updateShopDrugCart(0, shopDrug.getId(), new Date(),1);
+				shopDrugCartDao.updateShopDrugCart(0, null, new Date(),1,shopDrug.getId());
 				
 				userFavoriteDao.update(shopDrug.getId(), 1);
 			}
@@ -215,10 +215,6 @@ public class ShopDrugService implements IShopDrugService {
 			vo.setShopName(shop.get(0).getShopName());
 			vo.setList(list);
 			vo.setSalesList(list2);
-			for (ShopDrug sd : list) {
-				int salesNumber = ordersProductDao.salesCountByPid(sd.getId());
-				sd.setSalesNumber(salesNumber);
-			}
 		}
 		
 		result.setData(vo);

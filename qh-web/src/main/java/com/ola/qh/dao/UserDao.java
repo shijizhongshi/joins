@@ -11,7 +11,7 @@ public interface UserDao {
 	
 	public User loginUser(@Param("mobile")String mobile,@Param("password")String password);
 	
-	public User existUser(@Param("mobile")String mobile,@Param("userId")String userId);
+	public User singleUser(@Param("mobile")String mobile,@Param("userId")String userId);
 	
 	public int updateUser(User user);
 	

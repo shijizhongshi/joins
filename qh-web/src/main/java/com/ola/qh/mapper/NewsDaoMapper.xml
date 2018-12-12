@@ -15,18 +15,23 @@
 	</resultMap>
 
 
-<sql id="sql_base">
-	id,types,title,img_url,addtime,isstick,status
+	<sql id="sql_base">
+		id,types,title,img_url,addtime,isstick,status
 	</sql>
 	<select id="selectNewList" resultMap="NewsMap" parameterType="int">
-		select <include refid="sql_base"></include> from news
+		select
+		<include refid="sql_base"></include>
+		from news where 1=1
+		<if test="types!=null">
+			and types=#{types}
+		</if>
 		<if test="pageNo!=0">
 			where limit #{pageNo},#{pageSize}
 		</if>
 	</select>
 
 
-	<select id="singlenews" parameterType="String" resultMap="NewsMap" >
+	<select id="singlenews" parameterType="String" resultMap="NewsMap">
 		select * from news
 		where id=#{id}
 	</select>

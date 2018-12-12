@@ -22,7 +22,12 @@ public interface OrdersProductDao {
 	
 	public OrdersProduct singleOrdersProduct(String id);
 	
-	public List<OrdersProduct> listOrdersProduct(@Param("statusCode")String statusCode,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<OrdersProduct> listOrdersProduct(
+			@Param("statusCode")String statusCode,
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize,
+			@Param("userId")String userId,
+			@Param("muserId")String muserId);
 	
-	public int salesCountByPid(String productId);
+	/*public int salesCountByPid(String productId);*/
 }

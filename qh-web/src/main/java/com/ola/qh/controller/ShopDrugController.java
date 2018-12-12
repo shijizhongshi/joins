@@ -85,7 +85,10 @@ public class ShopDrugController {
 			@RequestParam(name="ishot",required=false)int ishot,
 			@RequestParam(name="status",required=false)int status,
 			@RequestParam(name="categorySubname",required=false)String categorySubname,
-			@RequestParam(name="categoryName",required=false)String categoryName){
+			@RequestParam(name="categoryName",required=false)String categoryName,
+			@RequestParam(name="ordersSales",required=false)int ordersSales,
+			@RequestParam(name="ordersstocks",required=false)int ordersstocks,
+			@RequestParam(name="orderstime",required=false)int orderstime){
 		
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page-1)*pageSize;
@@ -97,6 +100,8 @@ public class ShopDrugController {
 		sdd.setPageSize(pageSize);
 		sdd.setShopId(shopId);
 		sdd.setStatus(status);
+		sdd.setOrdersSales(ordersSales);
+		sdd.setOrdersstocks(ordersstocks);
 		return shopDrugService.selectDrugList(sdd);
 	}
 }

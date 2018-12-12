@@ -81,7 +81,7 @@ public class ShopDrugCartService implements IShopDrugCartService{
 				int count=single.getCount()+1;
 				String id=single.getId();
 				Date updatetime=new Date();
-				shopDrugCartDao.updateShopDrugCart(count, id, updatetime,0);
+				shopDrugCartDao.updateShopDrugCart(count, id, updatetime,0,null);
 				
 				results.setStatus("0");
 				return results;
@@ -111,7 +111,7 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	@Override
 	public int updateShopDrugCart(int count, String id,Date updatetime) {
 		
-		return shopDrugCartDao.updateShopDrugCart(count, id,updatetime,0);
+		return shopDrugCartDao.updateShopDrugCart(count, id,updatetime,0,null);
 	}
 
 

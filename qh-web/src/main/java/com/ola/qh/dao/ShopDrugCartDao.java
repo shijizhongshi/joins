@@ -19,7 +19,8 @@ public interface ShopDrugCartDao {
 			@Param("count")int count,
 			@Param("id")String id,
 			@Param("updatetime")Date updatetime,
-			@Param("status")int status);
+			@Param("status")int status,
+			@Param("drugId")String drugId);
 	
 	public int deleteShopDrugCart(@Param("id")String id,@Param("userId")String userId);
 	

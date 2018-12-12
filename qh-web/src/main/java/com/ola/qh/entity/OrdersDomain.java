@@ -28,11 +28,30 @@ public class OrdersDomain {
 	
 	private List<OrdersProduct> product = new ArrayList<OrdersProduct>();
 	
-	private String headImgUrl;////商家的头像
+	private String shopLogo;////商家的头像////购物订单的展示
 	
-	private String nickname;/////商家的昵称
+	private String shopName;/////商家的店名//购物订单的展示
+	
+	private String address;////收货地址店铺订单展示的
+	
+	private String mobile;/////
+	
+	private String receiver;////
 	
 	private int count;////总共多少件商品
+	
+	private String showtime;////时间的展示
+	
+	private BigDecimal freight;///运费
+
+	
+	public BigDecimal getFreight() {
+		return freight;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+	}
 
 	public String getId() {
 		return id;
@@ -122,20 +141,21 @@ public class OrdersDomain {
 		this.product = product;
 	}
 
-	public String getHeadImgUrl() {
-		return headImgUrl;
+	
+	public String getShopLogo() {
+		return shopLogo;
 	}
 
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = headImgUrl;
+	public void setShopLogo(String shopLogo) {
+		this.shopLogo = shopLogo;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getShopName() {
+		return shopName;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
 
 	public int getCount() {
@@ -144,6 +164,38 @@ public class OrdersDomain {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
 	}
 
 	

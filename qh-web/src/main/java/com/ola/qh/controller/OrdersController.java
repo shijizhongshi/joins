@@ -240,12 +240,13 @@ public class OrdersController {
 			@RequestParam(name="statusCode",required=true)String statusCode,
 			@RequestParam(name="page",required=true) int page,
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="muserId",required=false)String muserId){
+			@RequestParam(name="muserId",required=false)String muserId,
+			@RequestParam(name="ordersType",required=false)int ordersType){
 		
 		Results<List<OrdersDomain>> result = new Results<List<OrdersDomain>>();
 		int pageSize = Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<OrdersDomain> listDomain = orderService.listOrders(statusCode, pageNo, pageSize);
+		List<OrdersDomain> listDomain = orderService.listOrders(statusCode, pageNo, pageSize, userId, muserId, ordersType);
 		result.setStatus("0");
 		result.setData(listDomain);
 		return result;

@@ -51,7 +51,7 @@ public class UserService implements IUserService {
 			
 			if (uc.getCode().equals(user.getVerification())) {
 
-				User existMobile = userDao.existUser(user.getMobile(), null);
+				User existMobile = userDao.singleUser(user.getMobile(), null);
 				User users = new User();
 
 				if (existMobile != null) {
@@ -107,14 +107,21 @@ public class UserService implements IUserService {
 		Results<User> results = new Results<User>();
 		try {
 
+			User user = new User();
+
+			user = userDao.singleUser(userlogin.getMobile(), null);
+			if (user == null) {
+				results.setMessage("该手机号未注册");
+				results.setStatus("1");
+				return results;
+			}
 			if ((userlogin.getVerification() == null || "".equals(userlogin.getVerification()))
 					&& (userlogin.getPassword() == null || "".equals(userlogin.getPassword()))) {
 				results.setMessage("验证码和密码不能同时为空");
 				results.setStatus("1");
 				return results;
 			}
-			User user = new User();
-
+			
 			if(userlogin.getVerification()!=null && !"".equals(userlogin.getVerification())){
 				//String verification = request.getSession().getAttribute(userlogin.getMobile()).toString();
 				UserCode uc =userDao.singleCode(userlogin.getMobile());
@@ -124,18 +131,12 @@ public class UserService implements IUserService {
 					results.setStatus("1");
 					return results;
 				}
-				user = userDao.existUser(userlogin.getMobile(), null);
-				if (user == null) {
-					results.setMessage("该手机号未注册");
-					results.setStatus("1");
-					return results;
-				}
+				
 
 			}
 			if (userlogin.getPassword() != null && !"".equals(userlogin.getPassword())) {
-				user = userDao.loginUser(userlogin.getMobile(), userlogin.getPassword());
-				if (user == null) {
-					results.setMessage("用户名或密码错误");
+				if (!user.getPassword().equals(userlogin.getPassword())) {
+					results.setMessage("密码错误");
 					results.setStatus("1");
 					return results;
 				}
@@ -151,6 +152,7 @@ public class UserService implements IUserService {
 			user.setDeviceType(userlogin.getDeviceType());
 
 			results.setStatus("0");
+			user.setPassword(null);
 			results.setData(user);
 			return results;
 
@@ -165,7 +167,7 @@ public class UserService implements IUserService {
 	@Override
 	public User existMobileUser(String mobile) {
 
-		return userDao.existUser(mobile, null);
+		return userDao.singleUser(mobile, null);
 
 	}
 
@@ -173,7 +175,7 @@ public class UserService implements IUserService {
 	public Results<String> existUser(String userId) {
 
 		Results<String> result = new Results<String>();
-		User user = userDao.existUser(null, userId);
+		User user = userDao.singleUser(null, userId);
 		if (user != null) {
 			result.setStatus("0");
 			return result;

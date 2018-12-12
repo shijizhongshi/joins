@@ -43,7 +43,13 @@
 		<if test="status!=0">
 		status=#{status}
 		</if>
-		updatetime=#{updatetime} where id=#{id}
+		updatetime=#{updatetime} where 1=1
+		<if test="id!=null">
+		and id=#{id}
+		</if>
+		<if test="drugId!=null">
+		drug_id=#{drugId}
+		</if>
 	</update>
 	
 	<delete id="deleteShopDrugCart">

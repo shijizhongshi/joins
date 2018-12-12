@@ -49,8 +49,18 @@ public class OrdersProduct {
 	
 	private String cartId;////购物车的id
 	
+	private BigDecimal freight;////运费
 	
 	
+	
+	public BigDecimal getFreight() {
+		return freight;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+	}
+
 	public String getCartId() {
 		return cartId;
 	}

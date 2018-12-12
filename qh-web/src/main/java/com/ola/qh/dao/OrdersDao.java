@@ -47,5 +47,8 @@ public interface OrdersDao {
 	public List<Orders> ordersList(
 	@Param("ordersStatus")String ordersStatus,
 	@Param("pageNo")int pageNo,
-	@Param("pageSize")int pageSize);
+	@Param("pageSize")int pageSize,
+	@Param("userId")String userId,
+	@Param("muserId")String muserId,
+	@Param("ordersType")int  ordersType);
 }

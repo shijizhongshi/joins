@@ -21,7 +21,7 @@ public class Orders {
 	
 	private String orderno;
 	
-	private int ordersType;////0:药品订单  1:课程订单
+	private int ordersType;////0:药品订单  1:课程订单 2:服务的订单
 	
 	private BigDecimal payaccount;/////实际支付金额
 	
@@ -53,10 +53,6 @@ public class Orders {
 	@Size(min=1)
 	private List<OrdersProduct> product = new ArrayList<OrdersProduct>();
 	
-	private String headImgUrl;////商家的头像
-	
-	private String nickname;/////商家的昵称
-	
 	private int count;////总共多少件商品
 	
 	private String leaveMessage;/////商家的留言
@@ -66,22 +62,19 @@ public class Orders {
 	private String paymentType;////团购还是预定
 	
 	private Date presetTime;////预定的时间
+	
+	private BigDecimal freight;////运费
+	
+	
 
-	public String getHeadImgUrl() {
-		return headImgUrl;
+	public BigDecimal getFreight() {
+		return freight;
 	}
 
-	public void setHeadImgUrl(String headImgUrl) {
-		this.headImgUrl = headImgUrl;
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
 	}
 
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
 
 	public String getId() {
 		return id;

@@ -1,5 +1,6 @@
 package com.ola.qh.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +20,10 @@ public interface ShopDrugDao {
 	
 	public int selectDrugListCount(ShopDrugDomain sdd);
 	
-	public int updateStocks(int stocks,String id);
+	public int updateCount(
+			@Param("stocks")int stocks,
+			@Param("id")String id,
+			@Param("salesNumber")int salesNumber,
+			@Param("updatetime")Date updatetime);
 
 }

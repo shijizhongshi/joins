@@ -10,6 +10,7 @@
 	<result column="orderno" property="orderno"/>
 	<result column="orders_type" property="ordersType"/>
 	<result column="payaccount" property="payaccount"/>
+	<result column="freight" property="freight"/>
 	<result column="count" property="count"/>
 	<result column="address" property="address"/>
 	<result column="receiver" property="receiver"/>
@@ -29,13 +30,13 @@
 
 	<sql id="sql_base">
 	o.id,o.user_id,o.muser_id,o.orderno,o.orders_type,o.payaccount,o.count,o.address,o.receiver,o.mobile,o.orders_status,
-	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type
+	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type,o.freight
 	</sql>
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders(id,user_id,muser_id,orderno,orders_type,payaccount,count,address,receiver,mobile,orders_status,
-	paytype,payname,leave_message,sex,preset_time,payment_type,orders_old_status,addtime)values(
+	paytype,payname,leave_message,sex,preset_time,payment_type,freight,orders_old_status,addtime)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{count},#{address},#{receiver},
-	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{ordersOldStatus},#{addtime})
+	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{freight},#{ordersOldStatus},#{addtime})
 	</insert>
 	<update id="updateOrders">
 	update orders set 
@@ -70,10 +71,19 @@
 	</select>
 	
 	<select id="ordersList" resultMap="OrdersMap">
-	select <include refid="sql_base"></include>,o.addtime,u.head_img_url headImgUrl,u.nickname from orders o left join user u on u.id=o.muser_id
+	select <include refid="sql_base"></include>,o.addtime from orders o
 	 where 1=1
 	<if test="ordersStatus!=null">
 	and orders_status=#{ordersStatus}
+	</if>
+	<if test="userId!=null and userId!='' ">
+	and user_id=#{userId}
+	</if>
+	<if test="muserId!=null and muserId!='' ">
+	and muser_id=#{muserId}
+	</if>
+	<if test="ordersType!=0">
+	and orders_type=#{ordersType}
 	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

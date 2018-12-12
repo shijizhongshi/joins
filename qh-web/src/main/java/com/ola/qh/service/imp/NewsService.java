@@ -25,9 +25,9 @@ public class NewsService implements INewsService {
 	
 	
 	@Override
-	public List<News> selectNewList(int pageNo,int pageSize) {
+	public List<News> selectNewList(int pageNo,int pageSize,String types) {
 		// TODO Auto-generated method stub
-		return newsDao.selectNewList(pageNo,pageSize);
+		return newsDao.selectNewList(pageNo,pageSize,types);
 	}
 
 

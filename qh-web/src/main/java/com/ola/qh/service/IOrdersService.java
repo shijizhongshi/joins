@@ -15,5 +15,5 @@ public interface IOrdersService {
 	
 	public Results<OrdersDomain> singleOrders(String ordersId);
 	
-	public List<OrdersDomain> listOrders(String statusCode,int pageNo,int pageSize);
+	public List<OrdersDomain> listOrders(String statusCode,int pageNo,int pageSize,String userId,String muserId,int ordersType);
 }
