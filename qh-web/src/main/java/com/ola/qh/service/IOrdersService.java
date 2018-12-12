@@ -13,7 +13,11 @@ public interface IOrdersService {
 	
 	public Results<String> updateOrders(String ordersStatus,String ordersName,String expressNo,String ordersId);
 	
+	public Results<String> updateServe(String statusCode,String ordersId,String userId);
+	
 	public Results<OrdersDomain> singleOrders(String ordersId);
 	
 	public List<OrdersDomain> listOrders(String statusCode,int pageNo,int pageSize,String userId,String muserId,int ordersType);
+	
+	
 }

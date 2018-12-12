@@ -145,7 +145,7 @@ public class OrdersProductService implements IOrdersProductService{
 						map=payService.wxOrderRefund(orderspayment.getExtransno(), totalfee, refundfee);
 					}
 					if("0".equals(map.get("status"))){
-						statusCode=OrdersStatus.RECEIVED;/////退款成功的也就意味着退款工作已完成
+						statusCode=OrdersStatus.REFUNED;/////退款成功的也就意味着退款工作已完成
 						statusName="退款成功~";
 					}else{
 						result.setStatus("1");

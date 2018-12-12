@@ -56,4 +56,9 @@ public class KeyGen {
 		long re = (sd > 0 ? sd : -sd);
 		return re;
 	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(gen());
+	}
 }

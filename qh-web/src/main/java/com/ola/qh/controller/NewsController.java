@@ -61,22 +61,12 @@ public class NewsController {
 	 * @return
 	 */
 	@RequestMapping(value="/single",method=RequestMethod.GET)
-	public Results<News> newSingle(@RequestParam(name="id",required=true)String id){
+	public Results<News> newSingle(
+			@RequestParam(name="id",required=true)String id,
+			@RequestParam(name="userId",required=false)String userId){
 		
-		Results<News> result=new Results<News>();
-		News news = newsService.singlenews(id);
-		if(news.getAddtime()!=null){
-			String time = Patterns.sfTime(news.getAddtime());
-			news.setShowtime(time);
-		}
-		if(news!=null && news.getStatus()==1){
-			result.setStatus("1");
-			result.setMessage("文章已失效");
-			return result;
-		}
-		result.setData(news);
-		result.setStatus("0");
-		return result;
+		return newsService.singlenews(id,userId);
+		
 	}
 	
 }

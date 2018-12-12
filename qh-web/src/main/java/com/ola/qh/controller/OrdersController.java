@@ -199,7 +199,7 @@ public class OrdersController {
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public Results<String> updateOrders(
 			@RequestParam(name = "statusCode", required = true) String statusCode,
-			@RequestParam(name = "statusName", required = true) String statusName,
+			@RequestParam(name = "statusName", required = false) String statusName,
 			@RequestParam(name = "expressNo", required = false) String expressNo,
 			@RequestParam(name = "ordersId", required = true) String ordersId) {
 
@@ -215,6 +215,17 @@ public class OrdersController {
 
 		return orderService.updateOrders(statusCode, statusName, expressNo, ordersId);
 
+	}
+	
+	
+	
+	@RequestMapping("/updateServe")
+	public Results<String> updateServe(
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="ordersId",required=true)String ordersId,
+			@RequestParam(name="statusCode",required=true)String statusCode){
+		
+		return orderService.updateServe(statusCode, ordersId, userId);
 	}
 
 	/**

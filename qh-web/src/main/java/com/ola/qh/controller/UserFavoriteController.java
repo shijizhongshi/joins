@@ -35,7 +35,8 @@ public class UserFavoriteController {
 	private IUserFavoriteService userFavoriteService;
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<UserFavorite>> selectUserFavorite(@RequestParam(name = "userId", required = true) String userId,
+	public Results<List<UserFavorite>> selectUserFavorite(
+			@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "page", required = true) int page,
 			@RequestParam(name = "productType", required = true) int productType) {
 
@@ -66,23 +67,7 @@ public class UserFavoriteController {
 			results.setStatus("1");
 			return results;
 		}
-		int exist=userFavoriteService.existUserFavorite(userFavorite.getProductId());
-		if(exist!=0){
-			results.setMessage("您已经收藏过此宝贝了");
-			results.setStatus("1");
-			return results;
-		}
-		userFavorite.setId(KeyGen.uuid());
-		userFavorite.setAddtime(new Date());
-		int insert = userFavoriteService.insertUserFavorite(userFavorite);
-
-		if (insert <= 0) {
-			results.setStatus("1");
-			return results;
-		}
-
-		results.setStatus("0");
-		return results;
+		return userFavoriteService.insertUserFavorite(userFavorite);
 
 	}
 
