@@ -24,6 +24,8 @@ public class UserComment {
 	
 	private Date addtime;
 	
+	private int grade;//用户对商品的评分
+	
 	private List<UserCommentImg> list=new ArrayList<UserCommentImg>();
 
 	public String getId() {
@@ -80,6 +82,14 @@ public class UserComment {
 
 	public void setList(List<UserCommentImg> list) {
 		this.list = list;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 	
 	

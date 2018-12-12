@@ -27,10 +27,10 @@ public class ShopDrugCart {
 	private String drugImgUrl;
 	
 	@NotNull
-	private int count;
+	private int count;//购买数量
 	
 	@NotNull
-	private BigDecimal money;
+	private BigDecimal money;//商品单价
 	
 	private Date addtime;
 	

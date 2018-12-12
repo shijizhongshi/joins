@@ -12,7 +12,7 @@ public class User {
 
 	private String id;
 	
-	private String nickname;
+	private String nickname;//用户昵称
 	
 	@NotEmpty(message="密码不能为空")
 	private String password;
@@ -22,9 +22,9 @@ public class User {
 	
 	private Date addtime;
 	
-	private String headimg;
+	private String headimg;//用户头像
 	
-	private int userrole;
+	private int userrole;//用户类型
 	
 	@NotEmpty(message="手机号不能为空")
 	private String mobile;
@@ -39,7 +39,7 @@ public class User {
 	private String deviceToken;
 	@Valid
 	@NotNull
-	private int deviceType;
+	private int deviceType;//设备类型
 	
 	private Date updatetime;
 	

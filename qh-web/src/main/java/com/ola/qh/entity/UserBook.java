@@ -9,7 +9,7 @@ public class UserBook {
 
 	private String userId;
 
-	private BigDecimal accountMoney;
+	private BigDecimal accountMoney;//账户金额
 
 	private Date addtime;
 

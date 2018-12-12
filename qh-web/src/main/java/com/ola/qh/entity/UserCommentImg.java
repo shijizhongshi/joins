@@ -6,9 +6,9 @@ public class UserCommentImg {
 
 	private String id;
 	
-	private String commentId;
+	private String commentId;//评论的id
 	
-	private String imgUrl;
+	private String imgUrl;//图片路径
 	
 	private Date addtime;
 	

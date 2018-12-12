@@ -25,7 +25,7 @@ public class UserLogin {
 	
 	@Valid
 	@NotNull
-	private int deviceType;
+	private int deviceType;//设备类型
 
 	private Date addtime;
 

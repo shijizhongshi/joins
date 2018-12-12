@@ -6,7 +6,7 @@ public class ShopServeType {
 
 	private String id;
 	
-	private String name;
+	private String name;//服务类别的名称(小儿推拿，执业药师......)
 	
 	private Date addtime;
 	

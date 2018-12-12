@@ -20,9 +20,9 @@ public class UserWithdrawHistory {
 	
 	private BigDecimal money;
 	
-	private int payStatus;
+	private int payStatus;//审核是否通过
 	
-	private String payMessage;
+	private String payMessage;//审核失败的原因
 	
 	private Date addtime;
 	

@@ -10,10 +10,11 @@
 		<result column="comment" property="comment" />
 		<result column="comment_type" property="commentType" />
 		<result column="addtime" property="addtime" />
+		<result column="grade" property="grade" />
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
-		select id,shop_id,user_id,comment,comment_type,addtime from user_comment where 1=1
+		select id,shop_id,user_id,comment,comment_type,addtime,grade from user_comment where 1=1
 		<if test="shopId!=null">
 		and shop_id=#{shopId}
 		</if>
@@ -24,7 +25,7 @@
 	</select>
 	
 	<insert id="insertUserComment" parameterType="com.ola.qh.entity.UserComment">
-		insert into user_comment(id,shop_id,user_id,comment,comment_type,addtime) values(#{id},#{shopId},#{userId},#{comment},#{commentType},#{addtime})
+		insert into user_comment(id,shop_id,user_id,comment,comment_type,addtime,grade) values(#{id},#{shopId},#{userId},#{comment},#{commentType},#{addtime},#{grade})
 	</insert>
 	
 	<delete id="deleteUserComment">
@@ -37,4 +38,7 @@
 		</if>
 	</delete>
 	
+	<select id="selectAvgGrade" resultType="double">
+		select round(AVG(grade),1) AS avgGrade from user_comment where shop_id=#{shopId}
+	</select>
 	</mapper>

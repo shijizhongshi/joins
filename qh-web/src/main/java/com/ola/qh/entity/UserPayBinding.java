@@ -14,13 +14,13 @@ public class UserPayBinding {
 	
 	private String weixin;
 	
-	private String aliaccount;
+	private String aliaccount;//支付宝
 	
 	//private String bankCard;
 	
-	private String realname;
+	private String realname;//真实姓名
 	
-	private String idnumber;
+	private String idnumber;//身份证号
 	
 	private Date addtime;
 	
