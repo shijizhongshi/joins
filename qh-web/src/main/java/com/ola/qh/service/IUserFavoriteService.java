@@ -13,4 +13,6 @@ public interface IUserFavoriteService {
 	public int deleteUserFavorite(String id);
 	
 	public int existUserFavorite(String productId);
+	
+	public List<UserFavorite> selectSearchUserFavorite(String userId,int pageNo,int pageSize,String productName);
 }

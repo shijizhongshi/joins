@@ -38,4 +38,12 @@ public class UserFavoriteService implements IUserFavoriteService{
 		
 		return userFavoriteDao.existUserFavorite(productId);
 	}
+
+	@Override
+	public List<UserFavorite> selectSearchUserFavorite(String userId, int pageNo, int pageSize, String productName) {
+		
+		return userFavoriteDao.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
+	}
+
+	
 }

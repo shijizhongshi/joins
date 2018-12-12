@@ -18,4 +18,6 @@ public interface UserFavoriteDao {
 	public int deleteUserFavorite(@Param("id")String id);
 	
 	public int existUserFavorite(@Param("productId")String productId);
+	
+	public List<UserFavorite> selectSearchUserFavorite(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize,@Param("productName")String productName);
 }

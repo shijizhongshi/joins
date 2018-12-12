@@ -103,4 +103,27 @@ public class UserFavoriteController {
 		return results;
 
 	}
+	@RequestMapping(value = "/selectsearch", method = RequestMethod.GET)
+	public Results<List<UserFavorite>> selectSearchUserFavorite(@RequestParam(name = "userId", required = true) String userId,
+			@RequestParam(name = "productName", required = false) String productName,
+			@RequestParam(name = "page", required = true) int page) {
+
+		Results<List<UserFavorite>> results = new Results<List<UserFavorite>>();
+
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
+		List<UserFavorite> list = userFavoriteService.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
+
+		if (list != null && list.size() != 0) {
+			results.setData(list);
+			results.setStatus("0");
+			return results;
+		}
+
+		results.setMessage("收藏为空");
+		results.setStatus("1");
+		return results;
+
+	}	
+	
 }
