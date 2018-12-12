@@ -11,6 +11,7 @@
 		<result column="head_img_url" property="headimg" />
 		<result column="userrole" property="userrole" />
 		<result column="mobile" property="mobile" />
+		<result column="birthday" property="birthday" />
 	</resultMap>
 
 	<sql id="sql_base">
@@ -48,6 +49,9 @@
 		</if>
 		<if test="userrole!=0">
 		userrole=#{userrole},
+		</if>
+		<if test="birthday!=null">
+		birthday=#{birthday},
 		</if>
 		updatetime=#{updatetime}
 		 where 1=1

@@ -43,6 +43,8 @@ public class User {
 	
 	private Date updatetime;
 	
+	private Date birthday;
+	
 	public String getId() {
 		return id;
 	}
@@ -147,5 +149,14 @@ public class User {
 		this.updatetime = updatetime;
 	}
 
+	public Date getBirthday() {
+		return birthday;
+	}
 
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+
+	
 }
