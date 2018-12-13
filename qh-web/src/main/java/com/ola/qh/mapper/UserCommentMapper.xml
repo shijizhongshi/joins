@@ -11,10 +11,11 @@
 		<result column="comment_type" property="commentType" />
 		<result column="addtime" property="addtime" />
 		<result column="grade" property="grade" />
+		<result column="text_name" property="textName" />
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
-		select id,shop_id,user_id,comment,comment_type,addtime,grade from user_comment where 1=1
+		select id,shop_id,user_id,comment,comment_type,addtime,grade,text_name from user_comment where 1=1
 		<if test="shopId!=null">
 		and shop_id=#{shopId}
 		</if>
@@ -25,7 +26,7 @@
 	</select>
 	
 	<insert id="insertUserComment" parameterType="com.ola.qh.entity.UserComment">
-		insert into user_comment(id,shop_id,user_id,comment,comment_type,addtime,grade) values(#{id},#{shopId},#{userId},#{comment},#{commentType},#{addtime},#{grade})
+		insert into user_comment(id,shop_id,user_id,comment,comment_type,addtime,grade,text_name) values(#{id},#{shopId},#{userId},#{comment},#{commentType},#{addtime},#{grade},#{textName})
 	</insert>
 	
 	<delete id="deleteUserComment">

@@ -10,10 +10,8 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.dao.UserCommentImgDao;
-import com.ola.qh.dao.UserCommentTextDao;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.entity.UserCommentImg;
-import com.ola.qh.entity.UserCommentText;
 import com.ola.qh.service.IUserCommentService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
@@ -26,9 +24,6 @@ public class UserCommentService implements IUserCommentService {
 	private UserCommentDao userCommentDao;
 	@Autowired
 	private UserCommentImgDao userCommentImgDao;
-	@Autowired
-	private UserCommentTextDao userCommentTextDao;
-	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<List<UserComment>> selectShopUserComment(String shopId,String userId, int page) {
@@ -48,12 +43,6 @@ public class UserCommentService implements IUserCommentService {
 				userComment.setList(imglist);
 			}
 
-			for (UserComment userComment : list) {
-
-				List<UserCommentText> textlist = userCommentTextDao.selectUserCommentText(userComment.getId());
-				userComment.setTextlist(textlist);
-			}
-			
 			results.setStatus("0");
 			results.setData(list);
 			return results;
@@ -72,7 +61,23 @@ public class UserCommentService implements IUserCommentService {
 		Results<String> results = new Results<String>();
 
 		try {
+			
+			String textName=new String();
+			
+			for(int i=0;i<usercomment.getTextlist().size();i++){
+				
+				if(i==usercomment.getTextlist().size()-1){
+					textName=textName+usercomment.getTextlist().get(i);
+					
+				}
+				else{
+					textName=textName+usercomment.getTextlist().get(i)+",";
+					
+				}
+			}
+			
 			String commentId = KeyGen.uuid();
+			usercomment.setTextName(textName);
 			usercomment.setId(commentId);
 			usercomment.setAddtime(new Date());
 			userCommentDao.insertUserComment(usercomment);
@@ -84,13 +89,6 @@ public class UserCommentService implements IUserCommentService {
 				usercommentimg.setUserId(usercomment.getUserId());
 				userCommentImgDao.insertUserCommentImg(usercommentimg);
 			}
-			for (UserCommentText usercommenttext : usercomment.getTextlist()) {
-				usercommenttext.setId(KeyGen.uuid());
-				usercommenttext.setCommentId(commentId);
-				usercommenttext.setUserId(usercomment.getUserId());
-				userCommentTextDao.insertUserCommentText(usercommenttext);
-			}
-
 			results.setStatus("0");
 			return results;
 		} catch (Exception e) {
@@ -118,8 +116,6 @@ public class UserCommentService implements IUserCommentService {
 			String commentId = id;
 			userCommentImgDao.deleteUserCommentImg(commentId,userId);
 			
-			userCommentTextDao.deleteUserCommentText(commentId, userId);
-
 			results.setStatus("0");
 			return results;
 

@@ -26,9 +26,11 @@ public class UserComment {
 	
 	private int grade;//用户对商品的评分
 	
+	private String textName;//评论文本
+	
 	private List<UserCommentImg> list=new ArrayList<UserCommentImg>();
 	
-	private List<UserCommentText> textlist=new ArrayList<UserCommentText>();
+	private List<String> textlist=new ArrayList<String>();
 
 	public String getId() {
 		return id;
@@ -94,11 +96,19 @@ public class UserComment {
 		this.grade = grade;
 	}
 
-	public List<UserCommentText> getTextlist() {
+	public String getTextName() {
+		return textName;
+	}
+
+	public void setTextName(String textName) {
+		this.textName = textName;
+	}
+
+	public List<String> getTextlist() {
 		return textlist;
 	}
 
-	public void setTextlist(List<UserCommentText> textlist) {
+	public void setTextlist(List<String> textlist) {
 		this.textlist = textlist;
 	}
 	
