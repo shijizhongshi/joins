@@ -13,4 +13,6 @@ public interface IUserCommentService {
 	
 	public Results<String> deleteUserComment(String id,String userId);
 	
+	public double selectAvgGrade(String shopId);
+	
 }

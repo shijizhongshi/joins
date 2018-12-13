@@ -40,4 +40,7 @@
 		</if>
 	</select>
 	
+	<select id="selectSearchUserFavorite" resultMap="UserFavoriteMap">
+		select id,user_id,product_id,product_name,product_img_url,addtime,status from user_favorite where user_id=#{userId} and product_name like concat('%', #{productName},'%') order by addtime DESC limit #{pageNo},#{pageSize}
+	</select>
 </mapper>

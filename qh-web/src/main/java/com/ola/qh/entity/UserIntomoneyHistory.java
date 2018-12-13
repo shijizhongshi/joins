@@ -11,15 +11,15 @@ public class UserIntomoneyHistory {
 	
 	private BigDecimal money;
 	
-	private int intoStatus;
+	private int intoStatus;//商城卖店铺里的商品所得
 	
 	private Date addtime;
 	
 	private Date updatetime;
 	
-	private String orderId;
+	private String orderId;//订单的id
 	
-	private int status;
+	private int status;//0:正常状态 1:用户删除之后的状态
 
 	public String getId() {
 		return id;

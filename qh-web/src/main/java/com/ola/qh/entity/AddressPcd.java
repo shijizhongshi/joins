@@ -2,15 +2,15 @@ package com.ola.qh.entity;
 
 public class AddressPcd {
 
-	private int cityId;
+	private int cityId;//城市id
 	
 	private String cityName;
 	
-	private String zipcode;
+	private String zipcode;//邮政编码
 	
-	private int provinceId;
+	private int provinceId;//省份id
 	
-	private int districtId;
+	private int districtId;//区县id
 	
 	private String districtName;
 	

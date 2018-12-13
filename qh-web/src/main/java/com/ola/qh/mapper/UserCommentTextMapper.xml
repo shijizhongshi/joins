@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserCommentTextDao">
+	<resultMap type="com.ola.qh.entity.UserCommentText"  id="UserCommentTextMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="comment_id" property="commentId" />
+		<result column="text_name" property="textName" />
+	</resultMap>
+
+	<select id="selectUserCommentText" resultMap="UserCommentTextMap">
+		select id,user_id,comment_id,text_name from user_comment_text where comment_id=#{commentId}
+	</select>
+	
+	<insert id="insertUserCommentText" parameterType="com.ola.qh.entity.UserCommentText">
+		insert into user_comment_text(id,user_id,comment_id,text_name) values(#{id},#{userId},#{commentId},#{textName})
+	</insert>
+	
+	<delete id="deleteUserCommentText">
+		delete from user_comment_text where 1=1
+		<if test="commentId!=null">
+		and comment_id=#{commentId}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
+	</delete>
+	
+</mapper>
