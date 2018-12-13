@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersPayment;
@@ -51,4 +52,8 @@ public interface OrdersDao {
 	@Param("userId")String userId,
 	@Param("muserId")String muserId,
 	@Param("ordersType")int  ordersType);
+	
+	public int updateQrcode(
+			@Param("id")String id,
+			@Param("qrcode")String qrcode);
 }

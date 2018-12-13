@@ -65,7 +65,16 @@ public class Orders {
 	
 	private BigDecimal freight;////运费
 	
+	private String qrcodes;/////服务店铺的二维码
+
 	
+	public String getQrcodes() {
+		return qrcodes;
+	}
+
+	public void setQrcodes(String qrcodes) {
+		this.qrcodes = qrcodes;
+	}
 
 	public BigDecimal getFreight() {
 		return freight;
