@@ -21,6 +21,8 @@ import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.service.ICourseService;
+import com.ola.qh.service.IUserFavoriteService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
@@ -30,6 +32,7 @@ public class CourseController {
 
 	@Autowired
 	private ICourseService courseService;
+	
 
 	/**
 	 * 大类别的集合
@@ -105,17 +108,12 @@ public class CourseController {
 	}
 	
 	@RequestMapping("/single")
-	public Results<Course> singleCourse(@RequestParam(name="courseId",required=true)String courseId){
-		Results<Course> result = new Results<Course>();
-		Course c = courseService.singleCourse(courseId);
-		if(c!=null && c.getCourseShow()==1){
-			result.setStatus("1");
-			result.setMessage("课程已失效");
-			return result;
-		}
-		result.setStatus("0");
-		result.setData(c);
-		return result;
+	public Results<Course> singleCourse(
+			@RequestParam(name="courseId",required=true)String courseId,
+			@RequestParam(name="userId",required=false)String userId){
+		
+		return courseService.singleCourse(courseId,userId);
+		
 	}
 	
 	

@@ -42,12 +42,15 @@ public class NewsService implements INewsService {
 	public Results<News> singlenews(String id,String userId) {
 		// TODO Auto-generated method stub
 		Results<News> result=new Results<News>();
-		Results<String> userResult = userService.existUser(userId);
-		if("1".equals(userResult.getStatus())){
-			result.setMessage(userResult.getMessage());
-			result.setStatus("1");
-			return result;
+		if(userId!=null && !"".equals(userId)){
+			Results<String> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setMessage(userResult.getMessage());
+				result.setStatus("1");
+				return result;
+			}
 		}
+		
 		News news = newsDao.singlenews(id);
 		if(news!=null && news.getStatus()==1){
 			result.setStatus("1");

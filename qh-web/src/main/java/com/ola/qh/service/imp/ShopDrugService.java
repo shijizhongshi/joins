@@ -150,9 +150,23 @@ public class ShopDrugService implements IShopDrugService {
 	}
 
 	@Override
-	public Results<ShopDrug> selectById(String drugId) {
+	public Results<ShopDrug> selectById(String drugId,String userId) {
 		Results<ShopDrug> result = new Results<ShopDrug>();
+		if(userId!=null && !"".equals(userId)){
+			///////
+			Results<String> userresult = userService.existUser(userId);
+			if("1".equals(userresult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userresult.getMessage());
+				return result;
+			}
+		}
+		
 		ShopDrug sd = shopDrugDao.selectById(drugId);
+		int count = userFavoriteDao.existUserFavorite(drugId, userId);
+		if(count>0){
+			sd.setIsFavorite(1);
+		}
 		List<ShopDrugImg> listimg = shopDrugImgDao.listDrugImg(drugId);
 		sd.setImgList(listimg);
 		result.setData(sd);
