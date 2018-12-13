@@ -39,7 +39,4 @@
 		</if>
 	</delete>
 	
-	<select id="selectAvgGrade" resultType="double">
-		select round(AVG(grade),1) AS avgGrade from user_comment where shop_id=#{shopId}
-	</select>
 	</mapper>

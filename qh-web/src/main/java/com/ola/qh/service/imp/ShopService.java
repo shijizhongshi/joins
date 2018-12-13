@@ -1,22 +1,30 @@
 package com.ola.qh.service.imp;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.ShopDao;
+import com.ola.qh.dao.ShopServeTypeDao;
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
+import com.ola.qh.entity.ShopServeType;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopDomain;
 
 @Service
 public class ShopService implements IShopService {
@@ -27,6 +35,8 @@ public class ShopService implements IShopService {
 	private IUserService userService;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private ShopServeTypeDao shopTypeDao;
 	
 	
 	@Override
@@ -39,6 +49,18 @@ public class ShopService implements IShopService {
 				/////// 修改店铺的基本信息
 				shop.setUpdatetime(new Date());
 				shopDao.updateShop(shop);
+				if(shop.getServeDaomainList()!=null && shop.getServeDaomainList().size()!=0){
+					List<String> serveList = shop.getServeDaomainList();
+					String servename="";
+					for (String servedomain : serveList) {
+						if("".equals(servename)){
+							servename=servedomain;
+						}else{
+							servename=servename+servedomain;
+						}
+					}
+					shop.setServeDomain(servename);
+				}
 				if(shop.getImgList()!=null && shop.getImgList().size()>0){
 					//////店铺执业资格的图片集合
 					List<ShopImg> imgList = shop.getImgList();
@@ -138,6 +160,26 @@ public class ShopService implements IShopService {
 				shopImg.setSubtype(1);
 				shopDao.insertImg(shopImg);
 			}
+			if(shop.getShopType()==1){
+				if(shop.getServeDaomainList()==null || shop.getServeDaomainList().size()==0){
+					result.setStatus("1");
+					result.setMessage("服务店铺的服务领域不能为空");
+					return result;
+				}
+				List<String> serveList = shop.getServeDaomainList();
+				String servename="";
+				for (String servedomain : serveList) {
+					if("".equals(servename)){
+						servename=servedomain;
+					}else{
+						servename=servename+","+servedomain;
+					}
+				}
+				shop.setServeDomain(servename);/////服务领域
+				
+			}
+			
+			
 			shopDao.insertShop(shop);
 			/////修改用户表的userrole 0:没有店铺   1:服务店铺   2:商城店铺  3:两种店铺都有
 			List<Shop> listshopss = shopDao.selectShopByUserId(shop.getUserId(), null, 0);
@@ -184,16 +226,32 @@ public class ShopService implements IShopService {
 				List<ShopImg> enimgList = shopDao.selectList(shop.getId(),2);
 				shop.setEnvironmentImgList(enimgList);
 			}
-			
 			shop.setImgList(imgList);
 		}
 		return shopList;
 	}
 
 	@Override
-	public List<Shop> listShop(String shopName, String address, int pageNo, int pageSize, int isrecommend,int shopType) {
+	public List<Shop> listShop(ShopDomain sd) {
 		// TODO Auto-generated method stub
-		return shopDao.listShop(shopName, address, pageNo, pageSize, isrecommend,shopType);
+		List<Shop> listshop = shopDao.listShop(sd);
+		for (Shop shop : listshop) {
+			shopDao.commentGrade(shop.getId());
+			List<ShopServeType> typelist = shopTypeDao.selectShopServeType();
+			Random rand = new Random();
+			String comments="";
+			for(int i=0;i<2;i++){
+				int num = rand.nextInt(typelist.size())+0;
+				if("".equals(comments)){
+					comments=typelist.get(num).getName();
+				}else{
+					comments=comments+typelist.get(num).getName();
+				}
+			}
+			shop.setComments(comments);
+		}
+		return listshop;
 	}
+	
 
 }

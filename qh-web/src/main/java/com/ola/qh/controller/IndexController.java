@@ -22,6 +22,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.IndexVo;
+import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
 
 @RestController
@@ -45,7 +46,12 @@ public class IndexController {
 		IndexVo vo = new IndexVo();
 		List<Banner> bannerlist = bannerDao.selectBanner("1");
 		vo.setBannerlist(bannerlist);
-		List<Shop> shoplist = shopDao.listShop(null, null, 0, 6, 1, 0);
+		ShopDomain shopDoamin = new ShopDomain();
+		shopDoamin.setPageNo(0);
+		shopDoamin.setPageSize(6);
+		shopDoamin.setIsrecommend(1);
+		
+		List<Shop> shoplist = shopDao.listShop(shopDoamin);
 		vo.setShoplist(shoplist);
 		ShopDrugDomain sdd = new ShopDrugDomain();
 		sdd.setIshot(1);

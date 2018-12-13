@@ -61,21 +61,4 @@ public class UserCommentController {
 		return userCommentService.deleteUserComment(id,userId);
 	}
 
-	@RequestMapping(value="/avg",method=RequestMethod.GET)
-	public Results<Double> selectAvgGrade(@RequestParam(name = "shopId", required = true) String shopId){
-		
-		Results<Double> results=new Results<Double>();
-		
-		double avg=userCommentService.selectAvgGrade(shopId);
-		
-		if(avg<=0){
-			results.setStatus("1");
-			results.setMessage("此商品还没有评价");
-			return results;
-			
-		}
-		results.setStatus("0");
-		results.setData(avg);
-		return results;
-	}
 }

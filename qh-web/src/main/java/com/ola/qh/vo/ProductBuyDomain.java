@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
-public class ProductVo {
+public class ProductBuyDomain {
 	
 	@NotEmpty(message="用户的标识不能为空")
 	private String userId;

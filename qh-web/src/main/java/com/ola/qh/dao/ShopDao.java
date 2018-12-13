@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
+import com.ola.qh.vo.ShopDomain;
 
 public interface ShopDao {
 
@@ -18,13 +19,9 @@ public interface ShopDao {
 			@Param("shopId")String shopId,
 			@Param("shopType")int shopType);
 	
-	public List<Shop> listShop(
-			@Param("shopName")String shopName,
-			@Param("address")String address,
-			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize,
-			@Param("isrecommend")int isrecommend,
-			@Param("shopType")int shopType);
+	public List<Shop> listShop(ShopDomain sd);
+	
+	public double commentGrade(String shopId);
 	
 	public int insertImg(ShopImg img);
 	

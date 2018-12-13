@@ -24,17 +24,19 @@
 	<result column="updatetime" property="updatetime"/>
 	<result column="idcard" property="idcard"/>
 	<result column="realname" property="realname"/>
+	<result column="serve_domain" property="serveDomain"/>
 	
 	</resultMap>
 
 	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
 	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend,
-	business_hours,idcard,realname
+	business_hours,idcard,realname,serve_domain
 	</sql>
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
 	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{doorHeadUrl},
-	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours},#{idcard},#{realname})
+	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours},#{idcard},
+	#{realname},#{serveDomain})
 	</insert>
 	
 	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
@@ -69,6 +71,9 @@
 	<if test="realname!=null">
 	realname=#{realname},
 	</if>
+	<if test="serveDomain!=null">
+	serve_domain=#{serveDomain},
+	</if>
 	updatetime=#{updatetime} where id=#{id}
 	</update>
 	
@@ -84,9 +89,12 @@
 	and shop_type=#{shopType}
 	</if>
 	</select>
-	
-	<select id="listShop" resultMap="ShopMap">
-	select <include refid="sql_base"></include> from shop where 1=1
+	<select id="commentGrade">
+	select round(AVG(grade),1) from user_comment where shop_id=#{shopId}
+	</select>
+	<select id="listShop" resultMap="ShopMap" parameterType="com.ola.qh.vo.ShopDomain">
+	select id,user_id,shop_type,shop_name,leader_name,address,
+	door_head_url,shop_logo,isrecommend from shop where 1=1
 	<if test="shopName!=null and shopName!=''">
 	and shop_name LIKE CONCAT(CONCAT('%',#{shopName},'%'))
 	</if>
@@ -99,6 +107,9 @@
 	</if>
 	<if test="shopType!=0">
 	and shop_type=#{shopType}
+	</if>
+	<if test="serveDomain!=null">
+	and serve_domain LIKE CONCAT(CONCAT('%',#{serveDomain},'%'))
 	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

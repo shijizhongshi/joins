@@ -4,116 +4,203 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import com.ola.qh.entity.OrdersProduct;
 
-import org.hibernate.validator.constraints.NotEmpty;
+public class OrdersVo {
 
-import com.ola.qh.entity.Orders;
-
-public class OrdersVo{
-
-	private String oid;/////这个订单的ID
-	@NotEmpty(message="用户的标识不能为空")
+    private String id;
+	
 	private String userId;
-	@NotNull
-	private int ordersType;
-	@NotEmpty
-	private String address;
-	@NotEmpty
-	private String receiver;
-	@NotEmpty
-	private String mobile;
-	@Valid
-	@NotNull
-	@Size(min=1)
-	private List<Orders> ordersList = new ArrayList<Orders>();
 	
-	@NotNull
-	private BigDecimal totalPayout;////实际支付多少钱
+	private String muserId;////
 	
-	@NotEmpty(message="支付方式不能为空")
-	private String paytypeCode;////支付的类型ALIPAY(支付宝支付)   WXPAY(微信支付)
-	@NotEmpty(message="支付名称不能为空")
-	private String paytypeName;////支付名称
+	private String orderno;
 	
-	private String leaveMessage;////留言
+	private int ordersType;////0:药品订单  1:课程订单
 	
-	private String sex;////性别
+	private BigDecimal payaccount;/////实际支付金额
 	
+	private String ordersStatus;/////订单的状态
+	
+	private String expressNo;////快递单号
+	
+	private String deliveredtime;///发货时间
+	
+	private String paidtime;/////支付时间
+	
+	private List<OrdersProduct> product = new ArrayList<OrdersProduct>();
+	
+	private String shopLogo;////商家的头像////购物订单的展示
+	
+	private String shopName;/////商家的店名//购物订单的展示
+	
+	private String address;////收货地址店铺订单展示的
+	
+	private String mobile;/////
+	
+	private String receiver;////
+	
+	private int count;////总共多少件商品
+	
+	private String showtime;////时间的展示
+	
+	private BigDecimal freight;///运费
+
+	
+	public BigDecimal getFreight() {
+		return freight;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	public String getMuserId() {
+		return muserId;
+	}
+
+	public void setMuserId(String muserId) {
+		this.muserId = muserId;
+	}
+
+	public String getOrderno() {
+		return orderno;
+	}
+
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+
 	public int getOrdersType() {
 		return ordersType;
 	}
+
 	public void setOrdersType(int ordersType) {
 		this.ordersType = ordersType;
 	}
-	public List<Orders> getOrdersList() {
-		return ordersList;
+
+	public BigDecimal getPayaccount() {
+		return payaccount;
 	}
-	public void setOrdersList(List<Orders> ordersList) {
-		this.ordersList = ordersList;
+
+	public void setPayaccount(BigDecimal payaccount) {
+		this.payaccount = payaccount;
 	}
+
+	public String getOrdersStatus() {
+		return ordersStatus;
+	}
+
+	public void setOrdersStatus(String ordersStatus) {
+		this.ordersStatus = ordersStatus;
+	}
+
+	public String getExpressNo() {
+		return expressNo;
+	}
+
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
+	}
+
+	public String getDeliveredtime() {
+		return deliveredtime;
+	}
+
+	public void setDeliveredtime(String deliveredtime) {
+		this.deliveredtime = deliveredtime;
+	}
+
+	public String getPaidtime() {
+		return paidtime;
+	}
+
+	public void setPaidtime(String paidtime) {
+		this.paidtime = paidtime;
+	}
+
+	public List<OrdersProduct> getProduct() {
+		return product;
+	}
+
+	public void setProduct(List<OrdersProduct> product) {
+		this.product = product;
+	}
+
+	
+	public String getShopLogo() {
+		return shopLogo;
+	}
+
+	public void setShopLogo(String shopLogo) {
+		this.shopLogo = shopLogo;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
+
 	public String getMobile() {
 		return mobile;
 	}
+
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public BigDecimal getTotalPayout() {
-		return totalPayout;
+
+	public String getReceiver() {
+		return receiver;
 	}
-	public void setTotalPayout(BigDecimal totalPayout) {
-		this.totalPayout = totalPayout;
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
 	}
-	public String getPaytypeCode() {
-		return paytypeCode;
+
+	public String getShowtime() {
+		return showtime;
 	}
-	public void setPaytypeCode(String paytypeCode) {
-		this.paytypeCode = paytypeCode;
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
 	}
-	public String getPaytypeName() {
-		return paytypeName;
-	}
-	public void setPaytypeName(String paytypeName) {
-		this.paytypeName = paytypeName;
-	}
-	public String getOid() {
-		return oid;
-	}
-	public void setOid(String oid) {
-		this.oid = oid;
-	}
-	public String getLeaveMessage() {
-		return leaveMessage;
-	}
-	public void setLeaveMessage(String leaveMessage) {
-		this.leaveMessage = leaveMessage;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+
+	
 	
 	
 }

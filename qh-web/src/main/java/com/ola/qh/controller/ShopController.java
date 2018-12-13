@@ -17,6 +17,8 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopCountVo;
+import com.ola.qh.vo.ShopDomain;
 
 /**
  * 
@@ -96,20 +98,27 @@ public class ShopController {
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="shopName",required=false)String shopName,
 			@RequestParam(name="address",required=false)String address,
+			@RequestParam(name="serveDomain",required=false)String serveDomain,
 			@RequestParam(name="shopType",required=true)int shopType){
 		
 		
 		Results<List<Shop>> result = new Results<List<Shop>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<Shop> listShop = shopService.listShop(shopName, address, pageNo, pageSize, 0, shopType);
+		ShopDomain sd=new ShopDomain();
+		sd.setAddress(address);
+		sd.setPageNo(pageNo);
+		sd.setPageSize(pageSize);
+		sd.setServeDomain(serveDomain);
+		sd.setShopName(shopName);
+		sd.setShopType(shopType);
+		
+		
+		List<Shop> listShop = shopService.listShop(sd);
 		result.setData(listShop);
 		result.setStatus("0");
 		return result;
 		
-	}
-	
-	
-	
+	}	
 	
 }

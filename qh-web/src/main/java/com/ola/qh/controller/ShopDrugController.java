@@ -16,6 +16,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopCountVo;
 import com.ola.qh.vo.ShopDrugDomain;
 import com.ola.qh.vo.ShopDrugVo;
 /**
@@ -105,5 +106,16 @@ public class ShopDrugController {
 		sdd.setOrdersSales(ordersSales);
 		sdd.setOrdersstocks(ordersstocks);
 		return shopDrugService.selectDrugList(sdd);
+	}
+	/**
+	 * 店铺对应的商品的个数
+	 * <p>Title: countShop</p>  
+	 * <p>Description: </p>  
+	 * @param shopId
+	 * @return
+	 */
+	@RequestMapping("/count")
+	public Results<ShopCountVo> countShop(@RequestParam(name="shopId",required=true)String shopId){
+		return shopDrugService.shopCount(shopId);
 	}
 }

@@ -14,5 +14,4 @@ public interface UserCommentDao {
 	
 	public int deleteUserComment(@Param("id")String id,@Param("userId")String userId);
 	
-	public double selectAvgGrade(@Param("shopId")String shopId);
 }

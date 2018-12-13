@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Orders;
-import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
@@ -26,11 +25,14 @@ import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.OrdersCartDomain;
+import com.ola.qh.vo.OrdersCountVo;
+import com.ola.qh.vo.OrdersDomain;
 import com.ola.qh.vo.OrdersVo;
-import com.ola.qh.vo.ProductVo;
+import com.ola.qh.vo.ProductBuyDomain;
 
 /**
- * 订单的提交 订单的查询 订单的修改 
+ * 订单的提交 订单的查询 订单的修改
  * 
  * @ClassName: OrdersController
  * @Description: TODO(这里用一句话描述这个类的作用)
@@ -48,7 +50,7 @@ public class OrdersController {
 	private IPayService payService;
 
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public Results<Map<String, String>> submitOrders(@RequestBody @Valid OrdersVo ordersVo, BindingResult valid,
+	public Results<Map<String, String>> submitOrders(@RequestBody @Valid OrdersCartDomain ordersVo, BindingResult valid,
 			HttpServletRequest request) {
 		Results<Map<String, String>> result = new Results<Map<String, String>>();
 		if (ordersVo.getOid() == null || "".equals(ordersVo.getOid())) {
@@ -119,29 +121,28 @@ public class OrdersController {
 
 	}
 
-	
 	@RequestMapping(value = "/submitSingle", method = RequestMethod.POST)
-	public Results<Map<String, String>> submitSingle(@RequestBody @Valid ProductVo productVo, BindingResult valid,
-			HttpServletRequest request) throws Exception {
+	public Results<Map<String, String>> submitSingle(@RequestBody @Valid ProductBuyDomain productVo,
+			BindingResult valid, HttpServletRequest request) throws Exception {
 		Results<Map<String, String>> result = new Results<Map<String, String>>();
-		OrdersVo ordersVo=new OrdersVo();
-		
+		OrdersCartDomain ordersVo = new OrdersCartDomain();
+
 		List<Orders> olist = new ArrayList<Orders>();
-		Orders o=new Orders();
+		Orders o = new Orders();
 		o.setMuserId(productVo.getMuserId());
 		o.setLeaveMessage(productVo.getLeaveMessage());
 		o.setSex(productVo.getSex());
-		///////预定或者是购买
+		/////// 预定或者是购买
 		o.setPaymentType(productVo.getPaymentType());
-		if(productVo.getPresetTime()!=null && !"".equals(productVo.getPresetTime())){
-		    /////预约的时间(如果不是预定购买的话就没有这个字段)
+		if (productVo.getPresetTime() != null && !"".equals(productVo.getPresetTime())) {
+			///// 预约的时间(如果不是预定购买的话就没有这个字段)
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			o.setPresetTime(sf.parse(productVo.getPresetTime()));
 		}
-		
+
 		List<OrdersProduct> oplist = new ArrayList<OrdersProduct>();
 		OrdersProduct op = new OrdersProduct();
-		op.setProductId(productVo.getProductId());/////产品的id
+		op.setProductId(productVo.getProductId());///// 产品的id
 		op.setCount(productVo.getCount());
 		oplist.add(op);
 		o.setProduct(oplist);
@@ -154,7 +155,7 @@ public class OrdersController {
 		ordersVo.setUserId(productVo.getUserId());
 		ordersVo.setMobile(productVo.getMobile());
 		ordersVo.setReceiver(productVo.getReceiver());
-		
+
 		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 
 		if ("0".equals(results.getStatus())) {
@@ -196,9 +197,9 @@ public class OrdersController {
 		return result;
 
 	}
+
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public Results<String> updateOrders(
-			@RequestParam(name = "statusCode", required = true) String statusCode,
+	public Results<String> updateOrders(@RequestParam(name = "statusCode", required = true) String statusCode,
 			@RequestParam(name = "statusName", required = false) String statusName,
 			@RequestParam(name = "expressNo", required = false) String expressNo,
 			@RequestParam(name = "ordersId", required = true) String ordersId) {
@@ -216,15 +217,12 @@ public class OrdersController {
 		return orderService.updateOrders(statusCode, statusName, expressNo, ordersId);
 
 	}
-	
-	
-	
+
 	@RequestMapping("/updateServe")
-	public Results<String> updateServe(
-			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="ordersId",required=true)String ordersId,
-			@RequestParam(name="statusCode",required=true)String statusCode){
-		
+	public Results<String> updateServe(@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "ordersId", required = true) String ordersId,
+			@RequestParam(name = "statusCode", required = true) String statusCode) {
+
 		return orderService.updateServe(statusCode, ordersId, userId);
 	}
 
@@ -241,26 +239,36 @@ public class OrdersController {
 	 * @return
 	 */
 	@RequestMapping("/single")
-	public Results<OrdersDomain> singleOrders(@RequestParam(name = "ordersId", required = true) String ordersId) {
+	public Results<OrdersVo> singleOrders(@RequestParam(name = "ordersId", required = true) String ordersId) {
 
 		return orderService.singleOrders(ordersId);
 	}
-	
+
 	@RequestMapping("/list")
-	public Results<List<OrdersDomain>> listOrders(
-			@RequestParam(name="statusCode",required=true)String statusCode,
-			@RequestParam(name="page",required=true) int page,
-			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="muserId",required=false)String muserId,
-			@RequestParam(name="ordersType",required=false)int ordersType){
-		
-		Results<List<OrdersDomain>> result = new Results<List<OrdersDomain>>();
+	public Results<List<OrdersVo>> listOrders(@RequestParam(name = "statusCode", required = true) String statusCode,
+			@RequestParam(name = "page", required = true) int page,
+			@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "muserId", required = false) String muserId,
+			@RequestParam(name = "ordersType", required = false) int ordersType) {
+
+		Results<List<OrdersVo>> result = new Results<List<OrdersVo>>();
 		int pageSize = Patterns.zupageSize;
-		int pageNo=(page-1)*pageSize;
-		List<OrdersDomain> listDomain = orderService.listOrders(statusCode, pageNo, pageSize, userId, muserId, ordersType);
+		int pageNo = (page - 1) * pageSize;
+		OrdersDomain od = new OrdersDomain();
+		od.setPageNo(pageNo);
+		od.setPageSize(pageSize);
+		od.setOrdersType(ordersType);
+		od.setUserId(userId);
+		od.setMuserId(muserId);
+		od.setOrdersStatus(statusCode);
+		List<OrdersVo> listDomain = orderService.listOrders(od);
 		result.setStatus("0");
 		result.setData(listDomain);
 		return result;
 	}
 
+	@RequestMapping("/count")
+	public Results<OrdersCountVo> countOrders(@RequestParam(name = "muserId", required = true) String muserId) {
+		return orderService.countOrders(muserId);
+	}
 }
