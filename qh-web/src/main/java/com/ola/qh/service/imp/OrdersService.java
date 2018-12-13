@@ -34,6 +34,7 @@ import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
@@ -297,7 +298,11 @@ public class OrdersService implements IOrdersService {
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
 					/// 修改总账本
-					userBookDao.updateUserBook(orders.getMuserId(), money, new Date());
+					UserBook userbook=new UserBook();
+					userbook.setAccountMoney(money);
+					userbook.setUserId(orders.getMuserId());
+					userbook.setUpdatetime(new Date());
+					userBookDao.updateUserBook(userbook);
 
 				}
 				//////// 修改订单的状态~~~
@@ -402,7 +407,11 @@ public class OrdersService implements IOrdersService {
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
 					/// 修改总账本
-					userBookDao.updateUserBook(orders.getMuserId(), money, new Date());
+					UserBook userbook=new UserBook();
+					userbook.setAccountMoney(money);
+					userbook.setUserId(orders.getMuserId());
+					userbook.setUpdatetime(new Date());
+					userBookDao.updateUserBook(userbook);
 				}
 
 				//// 修改订单的状态

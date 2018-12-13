@@ -55,6 +55,9 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 
 			UserBook userBooks = userBookDao.selectUserBook(userwithdrawhistory.getUserId());
 			BigDecimal accountMoney = userBooks.getAccountMoney();
+			BigDecimal onmoney=userBooks.getOnMoney();
+			BigDecimal onMoney = onmoney.add(outMoney);
+			
 			int bigdecimal = accountMoney.compareTo(outMoney);
 			if (bigdecimal == -1) {
 				results.setMessage("账户余额不足");
@@ -63,7 +66,12 @@ public class UserWithdrawHistoryService implements IUserWithdrawHistoryService {
 			}
 			BigDecimal bookMoney = accountMoney.subtract(outMoney);
 			///////修改账本中的钱
-			userBookDao.updateUserBook(userwithdrawhistory.getUserId(), bookMoney, new Date());
+			UserBook userbook=new UserBook();
+			userbook.setAccountMoney(bookMoney);
+			userbook.setOnMoney(onMoney);
+			userbook.setUserId(userwithdrawhistory.getUserId());
+			userbook.setUpdatetime(new Date());
+			userBookDao.updateUserBook(userbook);
 			//////保存账本的提现记录~
 			userwithdrawhistory.setAddtime(new Date());
 			userwithdrawhistory.setMoney(outMoney);

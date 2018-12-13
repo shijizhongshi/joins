@@ -14,6 +14,12 @@ public class UserBook {
 	private Date addtime;
 
 	private Date updatetime;
+	
+	private BigDecimal finishMoney;//已提现金额
+	
+	private BigDecimal onMoney;//提现中金额
+	
+	private BigDecimal fortheMoney;//待结算金额
 
 	public String getId() {
 		return id;
@@ -55,4 +61,29 @@ public class UserBook {
 		this.updatetime = updatetime;
 	}
 
+	public BigDecimal getFinishMoney() {
+		return finishMoney;
+	}
+
+	public void setFinishMoney(BigDecimal finishMoney) {
+		this.finishMoney = finishMoney;
+	}
+
+	public BigDecimal getOnMoney() {
+		return onMoney;
+	}
+
+	public void setOnMoney(BigDecimal onMoney) {
+		this.onMoney = onMoney;
+	}
+
+	public BigDecimal getFortheMoney() {
+		return fortheMoney;
+	}
+
+	public void setFortheMoney(BigDecimal fortheMoney) {
+		this.fortheMoney = fortheMoney;
+	}
+
+	
 }
