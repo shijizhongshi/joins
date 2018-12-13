@@ -22,6 +22,8 @@ public class News {
 	
 	private String showtime;
 	
+	private int isFavorite;///1:已经收藏过了   0:没有收藏
+	
 
 	public String getShowtime() {
 		return showtime;
@@ -93,6 +95,14 @@ public class News {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getIsFavorite() {
+		return isFavorite;
+	}
+
+	public void setIsFavorite(int isFavorite) {
+		this.isFavorite = isFavorite;
 	}
 	
 	

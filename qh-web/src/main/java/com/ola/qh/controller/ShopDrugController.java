@@ -67,8 +67,10 @@ public class ShopDrugController {
 	 * @return
 	 */
 	@RequestMapping(value="/single",method=RequestMethod.GET)
-	public Results<ShopDrug> singleShopDrug(@RequestParam(name="drugId",required=true) String drugId){
-		return shopDrugService.selectById(drugId);
+	public Results<ShopDrug> singleShopDrug(
+			@RequestParam(name="drugId",required=true) String drugId,
+			@RequestParam(name="userId",required=true) String userId){
+		return shopDrugService.selectById(drugId,userId);
 	}
 	/**
 	 * 药品的集合

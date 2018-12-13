@@ -160,6 +160,9 @@ public class PayResultApi {
 					} else if (ordersPayment.get(0).getOrdersType() == 1) {
 						///// 调用课程的回调方法
 						payResultService.payCourseResults(ordersPayment);
+					}else if(ordersPayment.get(0).getOrdersType() == 2){
+						//////调用服务的回调
+						payResultService.payServeResults(ordersPayment);
 					}
 
 				}

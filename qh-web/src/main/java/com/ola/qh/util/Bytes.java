@@ -8,11 +8,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.Hashtable;
 import java.util.Objects;
 
@@ -60,7 +58,7 @@ public final class Bytes
 	}
     }
 
-    public final static String base64qrcode(String content, int w, int h, byte[] logo, int logow, int logoh) throws IOException
+    /*public final static String base64qrcode(String content, int w, int h, byte[] logo, int logow, int logoh) throws IOException
     {
 	try
 	{
@@ -71,7 +69,7 @@ public final class Bytes
 	    e.printStackTrace();
 	}
 	return "";
-    }
+    }*/
     private static BitMatrix deleteWhite(BitMatrix matrix) {
         int[] rec = matrix.getEnclosingRectangle();
         int resWidth = rec[2] + 1;
@@ -93,20 +91,20 @@ public final class Bytes
 	return qrcode(content, w, h, logo, w / 6, h / 6);
     }
 
-    public final static String base64qrcode(String content, int w, int h, byte[] logo) throws IOException
+    /*public final static String base64qrcode(String content, int w, int h, byte[] logo) throws IOException
     {
 	return base64qrcode(content, w, h, logo, w / 6, h / 6);
-    }
+    }*/
 
     public final static byte[] qrcode(String content, int w, int h) throws IOException
     {
 	return qrcode(content, w, h, null);
     }
 
-    public final static String base64qrcode(String content, int w, int h) throws IOException
+    /*public final static String base64qrcode(String content, int w, int h) throws IOException
     {
 	return base64qrcode(content, w, h, null);
-    }
+    }*/
 
     /**
      * read file content to a byte array.

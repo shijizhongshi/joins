@@ -20,6 +20,8 @@ import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.PayResult;
 import com.ola.qh.entity.UserBuyCourse;
 import com.ola.qh.service.IPayResultService;
+import com.ola.qh.service.IStoreService;
+import com.ola.qh.util.Bytes;
 import com.ola.qh.util.KeyGen;
 /**
  * 支付成功的回调
@@ -42,6 +44,9 @@ public class PayResultService implements IPayResultService{
 	
 	@Autowired
 	private CourseDao courseDao;
+	
+	@Autowired
+	private IStoreService storeService;
 	
 	/**
 	 * 店铺商品的购买
@@ -141,6 +146,10 @@ public class PayResultService implements IPayResultService{
 				ordersDao.updateOrdersPayment(op.getId(), 1, new Date(),null,null);
 				List<OrdersProduct> listOrdersProduct=ordersProductDao.selectByOid(op.getOrdersId(), orders.getOrdersStatus());
 				///服务已经购买但是没有使用~
+				byte[] bytes = Bytes.qrcode(op.getOrdersId(), 300, 300);
+				String fname = KeyGen.gen() + ".jpg";
+				String url  = storeService.storeUrl(fname, bytes);
+				ordersDao.updateQrcode(op.getOrdersId(), url);///将生成的带参数的二维码保存起来
 				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null,new Date(),null,null,null);
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.PAID, "支付成功未使用", orderproduct.getStatusCode(), new Date());

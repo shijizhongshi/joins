@@ -10,23 +10,31 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.ola.qh.service.IStoreService;
 import com.ola.qh.util.FileStorageException;
 import com.ola.qh.util.FileStore;
+
 /**
  * 
-* @ClassName: StoreService  
-* @Description: 用于阿里云oss上传图片用的  
-* @author guoyuxue  
-* @date 2018年11月14日  
-*
+ * @ClassName: StoreService
+ * @Description: 用于阿里云oss上传图片用的
+ * @author guoyuxue
+ * @date 2018年11月14日
+ *
  */
 @Service
 public class StoreService implements IStoreService {
 
-	private static String accesskey = "LTAIvYOv6NLHmNnA";
-	private static String accesskeysecret = "oVZqnj6eQqKIUkdLylp04PMIIzYP9Y";
+	/*
+	 * private static String accesskey = "LTAIvYOv6NLHmNnA"; 
+	 * 用户登录名称 ram_test@1022142261605093.onaliyun.com 
+	 * AccessKeyID LTAI41SWWK79DqP8
+	 * AccessKeySecret xI3xKCGvZLubv0ICOxlBfyyQQNSCIv 
+	 */
+	private static String accesskey = "LTAI41SWWK79DqP8";
+	private static String accesskeysecret = "xI3xKCGvZLubv0ICOxlBfyyQQNSCIv";
 	private static String endpoint = "oss-cn-qingdao.aliyuncs.com";
 	private static String bucketname = "shijizhongshi-image";
 	private static String domain = "https://shijizhongshi-image.oss-cn-qingdao.aliyuncs.com/";
 
+	/* */
 	@Override
 	public String storeUrl(String fname, byte[] content) throws FileStorageException {
 		// TODO Auto-generated method stub

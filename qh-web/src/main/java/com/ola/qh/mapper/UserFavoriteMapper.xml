@@ -31,7 +31,13 @@
 	</delete>
 	
 	<select id="existUserFavorite" resultType="int">
-		select count(id) from user_favorite where product_id=#{productId}
+		select count(id) from user_favorite where 
+		<if test="productId!=null">
+		product_id=#{productId}
+		</if>
+		<if test="userId!=null">
+		user_id=#{userId}
+		</if>
 	</select>
 	
 	<select id="selectSearchUserFavorite" resultMap="UserFavoriteMap">

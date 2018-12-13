@@ -104,6 +104,18 @@ public class ShopDrug {
 	private int salesNumber;////销量
 	
 	private BigDecimal freight;////运费
+	
+	private int isFavorite;///1:已经收藏   0:没有收藏
+	
+	
+
+	public int getIsFavorite() {
+		return isFavorite;
+	}
+
+	public void setIsFavorite(int isFavorite) {
+		this.isFavorite = isFavorite;
+	}
 
 	public BigDecimal getFreight() {
 		return freight;

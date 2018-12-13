@@ -7,6 +7,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.util.Results;
 
 public interface ICourseService {
 
@@ -16,7 +17,7 @@ public interface ICourseService {
 	
 	public List<Course> courseList(Course course);
 	
-	public Course singleCourse(String courseId);
+	public  Results<Course> singleCourse(String courseId,String userId);
 	
 	public List<CourseChapter> courseChapterList(String courseId);
 	

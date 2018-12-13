@@ -10,6 +10,11 @@ public class OrdersStatus {
     
     public static final String RECEIVED="RECEIVED";/////完成的订单
     
+    //////////////////////////////对于服务的退款=====================
+    public static final String CANCELSERVE="CANCELSERVE";///取消服务
+    
+    public static final String CLONSESERVE="CLONSESERVE";///关闭服务
+    
     ////////////////对于订单商品的退货===============================
     
     public static final String REFUNED="REFUNED";//////完成退货

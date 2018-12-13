@@ -50,7 +50,18 @@ public class Course {
 	
 	private int pageSize;
 	
+	private int isFavorite;///1:已经收藏   0:没有收藏
+	
 	private List<CourseChapter> cclist=new ArrayList<CourseChapter>();
+
+	
+	public int getIsFavorite() {
+		return isFavorite;
+	}
+
+	public void setIsFavorite(int isFavorite) {
+		this.isFavorite = isFavorite;
+	}
 
 	public String getCourseName() {
 		return courseName;
