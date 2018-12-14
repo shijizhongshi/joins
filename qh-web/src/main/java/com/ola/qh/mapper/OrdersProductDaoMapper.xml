@@ -77,6 +77,8 @@
 	limit #{pageNo},#{pageSize}
 	</select>
 	
+	
+	
 	<select id="listOrdersProductCount" resultType="int" >
 	select count(id) from orders_product 
 	where 1=1
@@ -87,6 +89,9 @@
 	</select>
 	
 	
+	<select id="ordersCount" resultType="int">
+	select count(id) from orders_product where product_id=#{productId}
+	</select>
 	<!-- <select id="salesCountByPid" resultType="int">
 	select count(id) from orders_product where product_id=#{productId} and status_code in("RECEIVED")
 	</select> -->

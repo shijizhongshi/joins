@@ -1,30 +1,33 @@
 package com.ola.qh.service.imp;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.ShopDao;
+import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.ShopServeTypeDao;
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
+import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.ShopServeType;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserComment;
 import com.ola.qh.service.IShopService;
+import com.ola.qh.service.IUserCommentService;
 import com.ola.qh.service.IUserService;
-import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ShopDomain;
+import com.ola.qh.vo.ShopServeDomain;
+import com.ola.qh.vo.ShopVo;
 
 @Service
 public class ShopService implements IShopService {
@@ -37,6 +40,11 @@ public class ShopService implements IShopService {
 	private UserDao userDao;
 	@Autowired
 	private ShopServeTypeDao shopTypeDao;
+	@Autowired
+	private ShopServeDao shopServeDao;
+	@Autowired
+	private IUserCommentService userCommentService;
+	
 	
 	
 	@Override
@@ -126,8 +134,8 @@ public class ShopService implements IShopService {
 				return userResult;
 			}
 			///////查用户时候有店铺
-			List<Shop> listshop = shopDao.selectShopByUserId(shop.getUserId(), null, shop.getShopType());
-			if(listshop.size()==1){
+			Shop listshop = shopDao.singleShop(shop.getUserId(), null, shop.getShopType());
+			if(listshop!=null){
 				result.setStatus("1");
 				result.setMessage("该用户已经开通过这种类型的店铺了");
 				return result;
@@ -216,9 +224,9 @@ public class ShopService implements IShopService {
 	}
 
 	@Override
-	public List<Shop> selectShopByUserId(String userId) {
+	public List<Shop> selectShopByUserId(String userId,String shopId,int shopType) {
 		// TODO Auto-generated method stub
-		List<Shop> shopList = shopDao.selectShopByUserId(userId, null,0);
+		List<Shop> shopList = shopDao.selectShopByUserId(userId, shopId,0);
 		for (Shop shop : shopList) {
 			List<ShopImg> imgList = shopDao.selectList(shop.getId(),1);
 			if(shop.getShopType()==1){
@@ -251,6 +259,42 @@ public class ShopService implements IShopService {
 			shop.setComments(comments);
 		}
 		return listshop;
+	}
+
+	/**
+	 * 服务店铺详情页的展示
+	 */
+	@Override
+	public Results<ShopVo> singleShop(String shopId) {
+		/////查用户的服务店铺的首页
+		Results<ShopVo> result=new Results<ShopVo>();
+		ShopVo vo=new ShopVo();
+		Shop shop = shopDao.singleShop(null, shopId, 1);
+		BeanUtils.copyProperties(shop, vo);////店铺的详情
+		double avgGrade = shopDao.commentGrade(shopId);////总的评分
+		vo.setAvgGrades(avgGrade);
+		int count=shopDao.commentCount(shopId);
+		vo.setCommentCount(count);
+		ShopServeDomain ssd=new ShopServeDomain();
+		ssd.setPageSize(0);
+		ssd.setShopId(shopId);
+		ssd.setServeStatus("1");
+		ssd.setPaymentType("团购");
+		List<ShopServe> groupList = shopServeDao.selectList(ssd);
+		vo.setGroupList(groupList);
+		ssd.setPaymentType("预约");
+		List<ShopServe> reserveList = shopServeDao.selectList(ssd);
+		vo.setReserveList(reserveList);
+		Results<List<UserComment>> commentresult  = userCommentService.selectShopUserComment(shopId, null, 1);
+		if("1".equals(commentresult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(commentresult.getMessage());
+			return result;
+		}
+		vo.setCommentList(commentresult.getData());
+		result.setData(vo);
+		result.setStatus("0");
+		return result;
 	}
 	
 

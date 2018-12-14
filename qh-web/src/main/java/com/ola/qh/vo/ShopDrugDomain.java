@@ -24,7 +24,7 @@ public class ShopDrugDomain {
 	
 	private int ordersSales;///按照销量排序
 	
-	private int ordersstocks;////按照库存排序
+	private int ordersprice;////按照价格排序
 	
 	private int orderstime;////按照时间排序
 	
@@ -116,12 +116,12 @@ public class ShopDrugDomain {
 		this.ordersSales = ordersSales;
 	}
 
-	public int getOrdersstocks() {
-		return ordersstocks;
+	public int getOrdersprice() {
+		return ordersprice;
 	}
 
-	public void setOrdersstocks(int ordersstocks) {
-		this.ordersstocks = ordersstocks;
+	public void setOrdersprice(int ordersprice) {
+		this.ordersprice = ordersprice;
 	}
 
 	public int getOrderstime() {

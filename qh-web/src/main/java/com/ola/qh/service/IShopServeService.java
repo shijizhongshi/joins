@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopServeDomain;
+import com.ola.qh.vo.ShopServeVo;
 
 public interface IShopServeService {
 
@@ -13,11 +15,7 @@ public interface IShopServeService {
 	
 	public Results<String> updateShopServe(ShopServe ss);
 	
-	public Results<ShopServe> singleShopServe(String id);
+	public Results<ShopServeVo> singleShopServe(String id);
 	
-	public Results<List<ShopServe>> selectServeList(
-			@Param("shopId")String shopId,
-			@Param("id")String id,
-			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize);
+	public Results<List<ShopServe>> selectServeList(ShopServeDomain sdd);
 }

@@ -31,6 +31,20 @@ public class UserComment {
 	private List<UserCommentImg> list=new ArrayList<UserCommentImg>();
 	
 	private List<String> textlist=new ArrayList<String>();
+	
+	private String showtime;///时间
+	
+	private String headImgUrl;////用户的头像
+	
+	private String nickname;////用户的昵称
+
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
+	}
 
 	public String getId() {
 		return id;
@@ -110,6 +124,22 @@ public class UserComment {
 
 	public void setTextlist(List<String> textlist) {
 		this.textlist = textlist;
+	}
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 	

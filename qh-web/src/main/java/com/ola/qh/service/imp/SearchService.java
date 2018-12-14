@@ -20,6 +20,7 @@ import com.ola.qh.util.Results;
 import com.ola.qh.vo.SearchProductVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
+import com.ola.qh.vo.ShopServeDomain;
 @Service
 public class SearchService implements ISearchService{
 
@@ -56,7 +57,12 @@ public class SearchService implements ISearchService{
 					vo.setTypeSearch(1);////将来跳转到药品的详情页
 					searchList.add(vo);
 				}
-				List<ShopServe> listServe = shopServeDao.selectList(null, null, pageNo, pageSize,searchName);
+				ShopServeDomain ssd=new ShopServeDomain();
+				ssd.setPageNo(pageNo);
+				ssd.setPageSize(pageSize);
+				ssd.setServeName(searchName);
+				List<ShopServe> listServe = shopServeDao.selectList(ssd);
+				
 				for (ShopServe shopServe : listServe) {
 					SearchProductVo vo=new SearchProductVo();
 					BeanUtils.copyProperties(shopServe, vo);
@@ -98,16 +104,20 @@ public class SearchService implements ISearchService{
 				for (ShopDrug shopDrug : litDrug) {
 					SearchProductVo vo=new SearchProductVo();
 					vo.setProductId(shopDrug.getShopId());
-					List<Shop> shop = shopDao.selectShopByUserId(null, shopDrug.getShopId(), 0);
-					vo.setAddress(shop.get(0).getAddress());
+					Shop shop = shopDao.singleShop(null, shopDrug.getShopId(), 0);
+					vo.setAddress(shop.getAddress());
 					////////还得加上评分
 					vo.setGrade(0);
-					vo.setProductName(shop.get(0).getShopName());
-					vo.setImgUrl(shop.get(0).getDoorHeadUrl());
+					vo.setProductName(shop.getShopName());
+					vo.setImgUrl(shop.getDoorHeadUrl());
 					vo.setTypeSearch(3);/////将来跳转店铺的详情页
 					searchList.add(vo);
 				}
-				List<ShopServe> listServe = shopServeDao.selectList(null, null, pageNo, pageSize,searchName);
+				ShopServeDomain ssd=new ShopServeDomain();
+				ssd.setPageNo(pageNo);
+				ssd.setPageSize(pageSize);
+				ssd.setServeName(searchName);
+				List<ShopServe> listServe = shopServeDao.selectList(ssd);
 				for (ShopServe shopServe : listServe) {
 					SearchProductVo vo=new SearchProductVo();
 					vo.setProductId(shopServe.getShopId());

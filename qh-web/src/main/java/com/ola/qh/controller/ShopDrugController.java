@@ -85,12 +85,12 @@ public class ShopDrugController {
 	public Results<ShopDrugVo> listShopDrug(
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="shopId",required=false)String shopId,
-			@RequestParam(name="ishot",required=false)int ishot,
 			@RequestParam(name="status",required=false)int status,
+			@RequestParam(name="drugName",required=false)String drugName,
 			@RequestParam(name="categorySubname",required=false)String categorySubname,
 			@RequestParam(name="categoryName",required=false)String categoryName,
 			@RequestParam(name="ordersSales",required=false)int ordersSales,
-			@RequestParam(name="ordersstocks",required=false)int ordersstocks,
+			@RequestParam(name="ordersprice",required=false)int ordersprice,
 			@RequestParam(name="orderstime",required=false)int orderstime){
 		
 		int pageSize = Patterns.zupageSize;
@@ -98,13 +98,13 @@ public class ShopDrugController {
 		ShopDrugDomain sdd = new ShopDrugDomain();
 		sdd.setCategoryName(categoryName);
 		sdd.setCategorySubname(categorySubname);
-		sdd.setIshot(ishot);
 		sdd.setPageNo(pageNo);
 		sdd.setPageSize(pageSize);
 		sdd.setShopId(shopId);
 		sdd.setStatus(status);
 		sdd.setOrdersSales(ordersSales);
-		sdd.setOrdersstocks(ordersstocks);
+		sdd.setOrdersprice(ordersprice);
+		sdd.setDrugName(drugName);
 		return shopDrugService.selectDrugList(sdd);
 	}
 	/**

@@ -14,19 +14,21 @@
 	<result column="img_url" property="imgUrl"/>
 	<result column="content" property="content"/>
 	<result column="serve_time" property="serveTime"/>
-	<result column="refund_rule" property="refundRule"/>
+	<result column="buy_rule" property="buyRule"/>
 	<result column="serve_status" property="serveStatus"/>
 	<result column="explains" property="explains"/>
+	<result column="payment_type" property="paymentType"/>
+	<result column="serve_contents" property="serveContents"/>
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,serve_name,price,discount_price,img_url
+	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
-	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,refund_rule,serve_status,explains,
-	addtime)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},
-	#{content},#{serveTime},#{refundRule},#{serveStatus},#{explains},#{addtime})
+	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,buy_rule,serve_status,explains,
+	addtime,serve_contents)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},#{paymentType}
+	#{content},#{serveTime},#{buyRule},#{serveStatus},#{explains},#{addtime},#{serveContents})
 	</insert>
 	<update id="updateServe" parameterType="com.ola.qh.entity.ShopServe">
 	update shop_serve set
@@ -48,8 +50,8 @@
 	<if test="serveTime!=null">
 	serve_time=#{serveTime},
 	</if>
-	<if test="refundRule!=null">
-	refund_rule=#{refundRule},
+	<if test="buyRule!=null">
+	buy_rule=#{buyRule},
 	</if>
 	<if test="serveStatus!=0">
 	serve_status=#{serveStatus},
@@ -61,10 +63,10 @@
 	where id=#{id}
 	</update>
 	<select id="selectSingle" resultMap="ShopServeMap">
-	select <include refid="sql_base"></include>,content,serve_time,refund_rule,explains from shop_serve where id=#{id}
+	select <include refid="sql_base"></include>,content,serve_time,buy_rule,explains,serve_contents from shop_serve where id=#{id}
 	</select>
 	
-	<select id="selectList" resultMap="ShopServeMap">
+	<select id="selectList" resultMap="ShopServeMap" resultType="com.ola.qh.vo.ShopServeDomain">
 	select <include refid="sql_base"></include> from shop_serve where 1=1
 	<if test="shopId!=null">
 	and shop_id=#{shopId}
@@ -79,8 +81,16 @@
 	<if test="serveName!=null">
 	and serve_name LIKE CONCAT(CONCAT('%',#{serveName},'%'))
 	</if>
+	<if test="paymentType!=null">
+	and payment_type=#{paymentType}
+	</if>
+	<if test="serveStatus!=null">
+	and serve_status=#{serveStatus}
+	</if>
 	order by addtime desc
+	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
+	</if>
 	</select>
 	
 	

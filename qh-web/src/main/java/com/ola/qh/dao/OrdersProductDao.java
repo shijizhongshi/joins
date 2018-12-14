@@ -26,5 +26,6 @@ public interface OrdersProductDao {
 	public List<OrdersProduct> listOrdersProduct(OrdersProductDomain opd);
 	
 	public int listOrdersProductCount(@Param("muserId")String muserId);
-	/*public int salesCountByPid(String productId);*/
+	
+	public int ordersCount(String productId);
 }

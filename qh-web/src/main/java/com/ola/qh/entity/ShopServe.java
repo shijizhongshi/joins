@@ -31,11 +31,13 @@ public class ShopServe {
 	
 	private String serveTime;////服务时间
 	
-	private String refundRule;///退款规则
+	private String buyRule;///退款规则
 	
 	private int serveStatus;///状态:0:没有审批   1:审批过了
 	
 	private String explains;///其他说明
+	
+	private String paymentType;////支持团购或者预约
 	
 	private Date addtime;
 	
@@ -44,6 +46,53 @@ public class ShopServe {
 	@NotNull
 	@Size(min=1)
 	public List<ShopServeImg> imglist=new ArrayList<ShopServeImg>();
+
+	private int buyCount;///预定多少人
+	
+	private String serveContents;
+	
+	private List<String> serveContent;////服务内容
+	
+	
+	public String getServeContents() {
+		return serveContents;
+	}
+
+	public void setServeContents(String serveContents) {
+		this.serveContents = serveContents;
+	}
+
+	public List<String> getServeContent() {
+		return serveContent;
+	}
+
+	public void setServeContent(List<String> serveContent) {
+		this.serveContent = serveContent;
+	}
+
+	public String getBuyRule() {
+		return buyRule;
+	}
+
+	public void setBuyRule(String buyRule) {
+		this.buyRule = buyRule;
+	}
+
+	public int getBuyCount() {
+		return buyCount;
+	}
+
+	public void setBuyCount(int buyCount) {
+		this.buyCount = buyCount;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
 
 	public String getId() {
 		return id;
@@ -117,13 +166,6 @@ public class ShopServe {
 		this.serveTime = serveTime;
 	}
 
-	public String getRefundRule() {
-		return refundRule;
-	}
-
-	public void setRefundRule(String refundRule) {
-		this.refundRule = refundRule;
-	}
 
 	public int getServeStatus() {
 		return serveStatus;

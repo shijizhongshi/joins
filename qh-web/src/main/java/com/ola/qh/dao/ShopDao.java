@@ -19,9 +19,16 @@ public interface ShopDao {
 			@Param("shopId")String shopId,
 			@Param("shopType")int shopType);
 	
+	
+	public Shop singleShop(
+			@Param("userId")String userId,
+			@Param("shopId")String shopId,
+			@Param("shopType")int shopType);
 	public List<Shop> listShop(ShopDomain sd);
 	
 	public double commentGrade(String shopId);
+	
+	public int commentCount(String shopId);
 	
 	public int insertImg(ShopImg img);
 	

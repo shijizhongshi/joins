@@ -89,9 +89,28 @@
 	and shop_type=#{shopType}
 	</if>
 	</select>
-	<select id="commentGrade">
+	<select id="commentGrade" resultType="double">
 	select round(AVG(grade),1) from user_comment where shop_id=#{shopId}
 	</select>
+	
+	<select id="commentCount" resultType="int">
+	select count(id) from user_comment where shop_id=#{shopId}
+	</select>
+	
+	<select id="singleShop" resultMap="ShopMap">
+	select id,user_id,shop_type,shop_name,leader_name,address,
+	door_head_url,shop_logo from shop where 1=1
+	<if test="userId!=null">
+	and user_id=#{userId}
+	</if>
+	<if test="shopId!=null">
+	and id=#{shopId}
+	</if>
+	<if test="shopType!=0">
+	and shop_type=#{shopType}
+	</if>
+	</select>
+	
 	<select id="listShop" resultMap="ShopMap" parameterType="com.ola.qh.vo.ShopDomain">
 	select id,user_id,shop_type,shop_name,leader_name,address,
 	door_head_url,shop_logo,isrecommend from shop where 1=1

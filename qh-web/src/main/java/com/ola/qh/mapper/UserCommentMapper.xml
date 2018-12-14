@@ -15,14 +15,16 @@
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
-		select id,shop_id,user_id,comment,comment_type,addtime,grade,text_name from user_comment where 1=1
+		select c.id,shop_id,user_id,comment,comment_type,c.addtime,grade,text_name,u.nickname nickname,
+		u.head_img_url headImgUrl from user_comment c left join user u on u.id=c.user_id where 1=1
 		<if test="shopId!=null">
 		and shop_id=#{shopId}
 		</if>
 		<if test="userId!=null">
 		and user_id=#{userId}
 		</if>
-		order by addtime desc limit #{pageNo},#{pageSize}
+		order by addtime desc 
+		limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="insertUserComment" parameterType="com.ola.qh.entity.UserComment">

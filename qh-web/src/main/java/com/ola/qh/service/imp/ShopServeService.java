@@ -1,13 +1,16 @@
 package com.ola.qh.service.imp;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.entity.Shop;
@@ -17,6 +20,8 @@ import com.ola.qh.service.IShopServeService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopServeDomain;
+import com.ola.qh.vo.ShopServeVo;
 
 @Service
 public class ShopServeService implements IShopServeService {
@@ -27,6 +32,9 @@ public class ShopServeService implements IShopServeService {
 	private IUserService userService;
 	@Autowired
 	private ShopDao shopDao;
+	
+	@Autowired
+	private OrdersProductDao ordersProductDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -37,9 +45,9 @@ public class ShopServeService implements IShopServeService {
 			if ("1".equals(result.getStatus())) {
 				return result;
 			}
-			List<Shop> shoplist = shopDao.selectShopByUserId(ss.getUserId(), ss.getShopId(), 0);
+			Shop shop = shopDao.singleShop(ss.getUserId(), ss.getShopId(), 0);
 			/////// 必须是1服务店铺才有上传
-			if (shoplist.get(0).getShopType() == 2) {
+			if (shop.getShopType() == 2) {
 				result.setStatus("1");
 				result.setMessage("店铺的类型不对");
 				return result;
@@ -48,6 +56,15 @@ public class ShopServeService implements IShopServeService {
 			ss.setId(id);
 			ss.setAddtime(new Date());
 			ss.setServeStatus(0);
+			String serveContent=null;
+			for (String content : ss.getServeContent()) {
+				if(serveContent==null){
+					serveContent=content;
+				}else{
+					serveContent=serveContent+","+content;
+				}
+			}
+			ss.setServeContents(serveContent);
 			for (ShopServeImg ssi : ss.getImglist()) {
 				ssi.setAddtime(new Date());
 				ssi.setId(KeyGen.uuid());
@@ -75,6 +92,18 @@ public class ShopServeService implements IShopServeService {
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
 		try {
+			if(ss.getServeContent()!=null){
+				
+				String serveContent=null;
+				for (String content : ss.getServeContent()) {
+					if(serveContent==null){
+						serveContent=content;
+					}else{
+						serveContent=serveContent+","+content;
+					}
+				}
+				ss.setServeContents(serveContent);
+			}
 			ss.setUpdatetime(new Date());
 			shopServeDao.updateServe(ss);
 			if (ss.getImglist() != null && ss.getImglist().size() > 0) {
@@ -94,6 +123,7 @@ public class ShopServeService implements IShopServeService {
 						shopServeDao.deleteServeImg(originalList.get(i).getId());
 					}
 				}
+				
 				for (ShopServeImg shopServeImg : ssiList) {
 					if (shopServeImg.getId() == null || "".equals(shopServeImg.getId())) {
 						shopServeImg.setAddtime(new Date());
@@ -102,6 +132,7 @@ public class ShopServeService implements IShopServeService {
 						shopServeDao.insertServeImg(shopServeImg);
 					}
 				}
+				
 
 			}
 			result.setStatus("0");
@@ -116,26 +147,59 @@ public class ShopServeService implements IShopServeService {
 	}
 
 	@Override
-	public Results<ShopServe> singleShopServe(String id) {
+	public Results<ShopServeVo> singleShopServe(String id) {
 		// TODO Auto-generated method stub
-		Results<ShopServe> result = new Results<ShopServe>();
+		Results<ShopServeVo> result = new Results<ShopServeVo>();
 		ShopServe ss = shopServeDao.selectSingle(id);
+		if(ss.getServeContents()!=null){
+			String sc = ss.getServeContents();
+			List<String> list = Arrays.asList(sc.split(","));
+			ss.setServeContent(list);
+		}
+		
 		List<ShopServeImg> listimg = shopServeDao.selectByServeId(id);
 		ss.setImglist(listimg);
+		String shopId = ss.getShopId();
+		ShopServeVo vo=new ShopServeVo();
+		BeanUtils.copyProperties(ss, vo);
+		/////查出相应的店铺信息
+		Shop shop = shopDao.singleShop(null, shopId, 1);
+		double avgGrade= shopDao.commentGrade(shopId);
+		vo.setAvgGrade(avgGrade);////平均分
+		vo.setAddress(shop.getAddress());
+		vo.setShopId(shopId);
+		vo.setShopMobile(shop.getLeaderMobile());
+		vo.setShopName(shop.getShopName());
+		int buyCount = ordersProductDao.ordersCount(id);
+		vo.setBuyCount(buyCount);///购买的数量
+		
+		ShopServeDomain ssd=new ShopServeDomain();
+		ssd.setPageSize(0);
+		ssd.setShopId(shopId);
+		ssd.setId(id);
+		ssd.setServeStatus("1");
+		ssd.setPaymentType(ss.getPaymentType());///
+		List<ShopServe> list = shopServeDao.selectList(ssd);
+		for (ShopServe shopServe : list) {
+			shopServe.setBuyCount(ordersProductDao.ordersCount(shopServe.getId()));
+		}
+		vo.setListserve(list);
+		
 		result.setStatus("0");
-		result.setData(ss);
+		result.setData(vo);
 		return result;
 	}
 
 	@Override
-	public Results<List<ShopServe>> selectServeList(String shopId, String id, int pageNo, int pageSize) {
+	public Results<List<ShopServe>> selectServeList(ShopServeDomain sdd) {
 		// TODO Auto-generated method stub
 		Results<List<ShopServe>> result = new Results<List<ShopServe>>();
-		List<ShopServe> list = shopServeDao.selectList(shopId, id, pageNo, pageSize,null);
-		for (ShopServe shopServe : list) {
+		
+		List<ShopServe> list = shopServeDao.selectList(sdd);
+		/*for (ShopServe shopServe : list) {
 			List<ShopServeImg> imgList = shopServeDao.selectByServeId(shopServe.getId());
 			shopServe.setImglist(imgList);
-		}
+		}*/
 		result.setStatus("0");
 		result.setData(list);
 		return result;

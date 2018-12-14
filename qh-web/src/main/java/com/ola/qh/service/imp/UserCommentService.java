@@ -39,6 +39,11 @@ public class UserCommentService implements IUserCommentService {
 
 			for (UserComment userComment : list) {
 
+				if(userComment.getAddtime()!=null){
+					String showtime = Patterns.sfTime(userComment.getAddtime());
+					userComment.setShowtime(showtime);
+				}
+				
 				List<UserCommentImg> imglist = userCommentImgDao.selectUserCommentImg(userComment.getId());
 				userComment.setList(imglist);
 			}

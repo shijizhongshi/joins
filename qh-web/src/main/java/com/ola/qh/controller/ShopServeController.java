@@ -17,6 +17,8 @@ import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.IShopServeService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopServeDomain;
+import com.ola.qh.vo.ShopServeVo;
 /**
  * 服务项目的操作增删改查
 * @ClassName: ShopServeController  
@@ -56,7 +58,7 @@ public class ShopServeController {
 	}
 	
 	@RequestMapping("/single")
-	public Results<ShopServe> singleServe(@RequestParam(name="id",required=true)String id){
+	public Results<ShopServeVo> singleServe(@RequestParam(name="id",required=true)String id){
 		return shopServeService.singleShopServe(id);
 	}
 	
@@ -69,7 +71,12 @@ public class ShopServeController {
 		Results<List<ShopServe>> result=new Results<List<ShopServe>>();
 		int pageSize = Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		result=shopServeService.selectServeList(shopId, serveId, pageNo, pageSize);
+		ShopServeDomain ssd=new ShopServeDomain();
+		ssd.setPageNo(pageNo);
+		ssd.setPageSize(pageSize);
+		ssd.setShopId(shopId);
+		ssd.setId(serveId);
+		result=shopServeService.selectServeList(ssd);
 		return result;
 	}
 	

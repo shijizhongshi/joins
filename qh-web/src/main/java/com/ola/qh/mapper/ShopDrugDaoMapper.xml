@@ -228,11 +228,11 @@
 			<!-- 按照销量排序 -->
 			order by sales_number asc
 		</if>
-		<if test="ordersstocks==1">
+		<if test="ordersprice==1">
 			<!-- 按照存库排序 -->
 			order by stocks desc
 		</if>
-		<if test="ordersstocks==2">
+		<if test="ordersprice==2">
 			<!-- 按照存库排序 -->
 			order by stocks asc
 		</if>

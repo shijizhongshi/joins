@@ -53,9 +53,9 @@ public class ShopDrugService implements IShopDrugService {
 		if ("1".equals(result.getStatus())) {
 			return result;
 		}
-		List<Shop> shoplist = shopDao.selectShopByUserId(shopDrug.getUserId(), shopDrug.getShopId(),0);
+		Shop shop = shopDao.singleShop(shopDrug.getUserId(), shopDrug.getShopId(),0);
 		/////// 必须是2商城店铺才有上传药品的权限
-		if (shoplist.get(0).getShopType()==1) {
+		if (shop.getShopType()==1) {
 			result.setStatus("1");
 			result.setMessage("店铺的类型不对");
 			return result;
@@ -218,13 +218,13 @@ public class ShopDrugService implements IShopDrugService {
 			list = shopDrugDao.selectDrugList(sdd);
 		}
 		if(list!=null && list.size()!=0){
-			List<Shop> shop = shopDao.selectShopByUserId(null, list.get(0).getShopId(), 2);
+			Shop shop = shopDao.singleShop(null, list.get(0).getShopId(), 2);
 			
-			vo.setShopId(shop.get(0).getId());
-			vo.setShopAddress(shop.get(0).getAddress());
-			vo.setShopDoorUrl(shop.get(0).getDoorHeadUrl());
-			vo.setShopLogo(shop.get(0).getShopLogo());
-			vo.setShopName(shop.get(0).getShopName());
+			vo.setShopId(shop.getId());
+			vo.setShopAddress(shop.getAddress());
+			vo.setShopDoorUrl(shop.getDoorHeadUrl());
+			vo.setShopLogo(shop.getShopLogo());
+			vo.setShopName(shop.getShopName());
 			vo.setList(list);
 			vo.setSalesList(list2);
 		}

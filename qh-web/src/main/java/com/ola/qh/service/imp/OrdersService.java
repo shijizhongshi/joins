@@ -565,9 +565,9 @@ public class OrdersService implements IOrdersService {
 		}
 		OrdersVo od = new OrdersVo();
 		if (shopType != 0) {
-			List<Shop> listshop = shopDao.selectShopByUserId(muserId, null, 2);
-			od.setShopLogo(listshop.get(0).getShopLogo());
-			od.setShopName(listshop.get(0).getShopName());
+			Shop shop = shopDao.singleShop(muserId, null, 2);
+			od.setShopLogo(shop.getShopLogo());
+			od.setShopName(shop.getShopName());
 		}
 		if (addtime != null) {
 			od.setShowtime(Patterns.sfDetailTime(addtime));

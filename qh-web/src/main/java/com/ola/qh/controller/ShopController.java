@@ -19,6 +19,7 @@ import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ShopCountVo;
 import com.ola.qh.vo.ShopDomain;
+import com.ola.qh.vo.ShopVo;
 
 /**
  * 
@@ -77,7 +78,7 @@ public class ShopController {
 	@RequestMapping("/selectByUserId")
 	public Results<List<Shop>> selectShopByUserId(@RequestParam(name="userId",required=true)String userId){
 		Results<List<Shop>> result= new Results<List<Shop>>();
-		List<Shop> shopList = shopService.selectShopByUserId(userId);
+		List<Shop> shopList = shopService.selectShopByUserId(userId,null,0);
 		result.setData(shopList);
 		result.setStatus("0");
 		result.setCount(shopList.size());//////如果他等于2的话说明两种店铺类型都有
@@ -120,5 +121,11 @@ public class ShopController {
 		return result;
 		
 	}	
+	
+	@RequestMapping("/single")
+	public Results<ShopVo> singleShop(@RequestParam(name="shopId",required=true)String shopId){
+		
+		return shopService.singleShop(shopId);
+	}
 	
 }
