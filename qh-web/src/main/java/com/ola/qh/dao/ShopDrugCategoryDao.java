@@ -13,5 +13,4 @@ public interface ShopDrugCategoryDao {
 
 	public List<ShopDrugCategory> drugSubcategoryList(@Param("categoryId")String categoryId);
 	
-	public List<ShopDrugCategory> drugSubsubcategoryList(@Param("categoryId")String categoryId);
 }
