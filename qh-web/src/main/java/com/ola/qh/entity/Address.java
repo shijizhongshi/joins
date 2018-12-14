@@ -23,7 +23,8 @@ public class Address {
 	@NotEmpty(message="性别不能为空")
 	private String sex;
 	
-	private int isdefault;//1为默认地址
+	@NotEmpty(message="是否默认不能为空")
+	private String isdefault;//1为默认地址
 	
 	private Date addtime;
 	
@@ -93,11 +94,11 @@ public class Address {
 		this.updatetime = updatetime;
 	}
 
-	public int getIsdefault() {
+	public String getIsdefault() {
 		return isdefault;
 	}
 
-	public void setIsdefault(int isdefault) {
+	public void setIsdefault(String isdefault) {
 		this.isdefault = isdefault;
 	}
 	
