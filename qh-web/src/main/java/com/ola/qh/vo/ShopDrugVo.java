@@ -16,13 +16,7 @@ public class ShopDrugVo{
 	private String shopLogo;
 	
 	private String shopDoorUrl;
-	
-	private int salesCount;////出售个数
-	
-	private int downCount;///下架的个数
-	
-	private int wlimitCount;///未审核的个数
-	
+
 	private List<ShopDrug> salesList=new ArrayList<ShopDrug>();///店家自己促销的集合
 	
 	private List<ShopDrug> list=new ArrayList<ShopDrug>();/////店家商品所有的集合
@@ -84,29 +78,7 @@ public class ShopDrugVo{
 		this.list = list;
 	}
 
-	public int getSalesCount() {
-		return salesCount;
-	}
 
-	public void setSalesCount(int salesCount) {
-		this.salesCount = salesCount;
-	}
-
-	public int getDownCount() {
-		return downCount;
-	}
-
-	public void setDownCount(int downCount) {
-		this.downCount = downCount;
-	}
-
-	public int getWlimitCount() {
-		return wlimitCount;
-	}
-
-	public void setWlimitCount(int wlimitCount) {
-		this.wlimitCount = wlimitCount;
-	}
 	
 	
 	

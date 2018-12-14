@@ -126,12 +126,5 @@ public class UserCommentService implements IUserCommentService {
 			return results;
 		}
 	}
-
-	@Override
-	public double selectAvgGrade(String shopId) {
-		
-		return userCommentDao.selectAvgGrade(shopId);
-	}
-
 	
 }

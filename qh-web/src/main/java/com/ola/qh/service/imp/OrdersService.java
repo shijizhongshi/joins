@@ -27,7 +27,6 @@ import com.ola.qh.dao.UserIntomoneyHistoryDao;
 import com.ola.qh.dao.UserWithdrawHistoryDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.Orders;
-import com.ola.qh.entity.OrdersDomain;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
@@ -42,6 +41,10 @@ import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.OrdersProductDomain;
+import com.ola.qh.vo.OrdersCartDomain;
+import com.ola.qh.vo.OrdersCountVo;
+import com.ola.qh.vo.OrdersDomain;
 import com.ola.qh.vo.OrdersVo;
 
 @Service
@@ -73,7 +76,7 @@ public class OrdersService implements IOrdersService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Results<List<OrdersPayment>> submitOrders(OrdersVo ordersVo) {
+	public Results<List<OrdersPayment>> submitOrders(OrdersCartDomain ordersVo) {
 		// TODO Auto-generated method stub
 		Results<List<OrdersPayment>> result = new Results<List<OrdersPayment>>();
 		try {
@@ -440,9 +443,9 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public Results<OrdersDomain> singleOrders(String ordersId) {
-		Results<OrdersDomain> result = new Results<OrdersDomain>();
-		OrdersDomain od = new OrdersDomain();
+	public Results<OrdersVo> singleOrders(String ordersId) {
+		Results<OrdersVo> result = new Results<OrdersVo>();
+		OrdersVo od = new OrdersVo();
 		Orders o = ordersDao.singleOrders(ordersId);
 
 		BeanUtils.copyProperties(o, od);
@@ -467,74 +470,80 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public List<OrdersDomain> listOrders(String statusCode, int pageNo, int pageSize, String userId, String muserId,
-			int ordersType) {
+	public List<OrdersVo> listOrders(OrdersDomain od) {
 		// TODO Auto-generated method stub
 		///// statusCode:AllStatus全部的订单
 		// statusCode:refundStatus退款售后
-		List<OrdersDomain> odmainList = new ArrayList<OrdersDomain>();
-		if ("AllStatus".equals(statusCode)) {
-			List<Orders> orderList = ordersDao.ordersList(null, pageNo, pageSize, userId, muserId, ordersType);
+		List<OrdersVo> odmainList = new ArrayList<OrdersVo>();
+		if ("AllStatus".equals(od.getOrdersStatus())) {
+			od.setOrdersStatus(null);
+			List<Orders> orderList = ordersDao.ordersList(od);
 
 			for (Orders orders : orderList) {
-				OrdersDomain od = new OrdersDomain();
-				BeanUtils.copyProperties(orders, od);
+				OrdersVo ovo = new OrdersVo();
+				BeanUtils.copyProperties(orders, ovo);
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
-				od.setProduct(listOrders);
-				OrdersDomain shopdomain = getShop(ordersType, orders.getMuserId(), orders.getAddtime());
+				ovo.setProduct(listOrders);
+				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
 				if (shopdomain != null) {
-					od.setShopLogo(shopdomain.getShopLogo());
-					od.setShopName(shopdomain.getShopName());
-					od.setShowtime(shopdomain.getShowtime());
+					ovo.setShopLogo(shopdomain.getShopLogo());
+					ovo.setShopName(shopdomain.getShopName());
+					ovo.setShowtime(shopdomain.getShowtime());
 				}
-				odmainList.add(od);
+				odmainList.add(ovo);
 			}
 			return odmainList;
-		} else if ("refundStatus".equals(statusCode)) {
+		} else if ("refundStatus".equals(od.getOrdersStatus())) {
 			////// 退款售后
-			List<OrdersProduct> listOrders = ordersProductDao.listOrdersProduct("refundStatus", pageNo, pageSize,
-					userId, muserId);
+			OrdersProductDomain opd=new OrdersProductDomain();
+			opd.setMuserId(od.getMuserId());
+			opd.setPageNo(od.getPageNo());
+			opd.setPageSize(od.getPageSize());
+			opd.setStatusCode(od.getOrdersStatus());
+			opd.setUserId(od.getUserId());
+			
+			List<OrdersProduct> listOrders = ordersProductDao.listOrdersProduct(opd);
 			for (OrdersProduct ordersProduct : listOrders) {
-				OrdersDomain od = new OrdersDomain();
+				OrdersVo ovo = new OrdersVo();
 				List<OrdersProduct> listOrdersp = new ArrayList<OrdersProduct>();
 				////// 查出商品所属的店铺的信息
-				OrdersDomain shopdomain = getShop(ordersType, ordersProduct.getMuserId(), null);
+				OrdersVo shopdomain = getShop(od.getOrdersType(), ordersProduct.getMuserId(), null);
 				if (shopdomain != null) {
-					od.setShopLogo(shopdomain.getShopLogo());
-					od.setShopName(shopdomain.getShopName());
+					ovo.setShopLogo(shopdomain.getShopLogo());
+					ovo.setShopName(shopdomain.getShopName());
 				}
 				listOrdersp.add(ordersProduct);
-				od.setProduct(listOrdersp);
-				odmainList.add(od);
+				ovo.setProduct(listOrdersp);
+				odmainList.add(ovo);
 			}
 			return odmainList;
 
 		} else {
 			//// 待付款(NEW) 待发货(PAID) 待收货(DELIVERED) 已完成(RECEIVED)
-			List<Orders> orderList = ordersDao.ordersList(statusCode, pageNo, pageSize, userId, muserId, ordersType);
+			List<Orders> orderList = ordersDao.ordersList(od);
 
 			for (Orders orders : orderList) {
-				OrdersDomain od = new OrdersDomain();
+				OrdersVo ovo = new OrdersVo();
 				////// 查出商品所属的店铺的信息
-				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), statusCode);
+				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), od.getOrdersStatus());
 				BigDecimal payaccount = BigDecimal.ZERO;
 				int count = 0;
 				BeanUtils.copyProperties(orders, od);
-				OrdersDomain shopdomain = getShop(ordersType, orders.getMuserId(), orders.getAddtime());
+				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
 				if (shopdomain != null) {
-					od.setShopLogo(shopdomain.getShopLogo());
-					od.setShopName(shopdomain.getShopName());
-					od.setShowtime(shopdomain.getShowtime());
+					ovo.setShopLogo(shopdomain.getShopLogo());
+					ovo.setShopName(shopdomain.getShopName());
+					ovo.setShowtime(shopdomain.getShowtime());
 				}
 				for (OrdersProduct ordersProduct : listOrders) {
 					payaccount = payaccount.add(ordersProduct.getPayout());
 					count += ordersProduct.getCount();
 				}
-				od.setPayaccount(payaccount);
-				od.setCount(count);
-				od.setProduct(listOrders);
+				ovo.setPayaccount(payaccount);
+				ovo.setCount(count);
+				ovo.setProduct(listOrders);
 
-				odmainList.add(od);
+				odmainList.add(ovo);
 			}
 			return odmainList;
 
@@ -542,7 +551,7 @@ public class OrdersService implements IOrdersService {
 
 	}
 
-	public OrdersDomain getShop(int ordersType, String muserId, Date addtime) {
+	public OrdersVo getShop(int ordersType, String muserId, Date addtime) {
 		int shopType = 0;
 		if (ordersType == 0) {
 			//// 药品的订单
@@ -554,7 +563,7 @@ public class OrdersService implements IOrdersService {
 			//// 服务店铺的订单
 			shopType = 1;
 		}
-		OrdersDomain od = new OrdersDomain();
+		OrdersVo od = new OrdersVo();
 		if (shopType != 0) {
 			List<Shop> listshop = shopDao.selectShopByUserId(muserId, null, 2);
 			od.setShopLogo(listshop.get(0).getShopLogo());
@@ -565,6 +574,24 @@ public class OrdersService implements IOrdersService {
 		}
 		return od;
 
+	}
+
+	@Override
+	public Results<OrdersCountVo> countOrders(String muserId) {
+		// TODO Auto-generated method stub
+		Results<OrdersCountVo> result=new Results<OrdersCountVo>();
+		OrdersCountVo vo =new OrdersCountVo();
+		int newCount = ordersDao.ordersListCount(muserId, OrdersStatus.NEW);
+		int paidCount = ordersDao.ordersListCount(muserId, OrdersStatus.PAID);
+		int deliveredCount = ordersDao.ordersListCount(muserId, OrdersStatus.DELIVERED);
+		int refundCount = ordersProductDao.listOrdersProductCount(muserId);
+		vo.setDeliveredCount(deliveredCount);
+		vo.setNewCount(newCount);
+		vo.setPaidCount(paidCount);
+		vo.setRefundCount(refundCount);
+		result.setData(vo);
+		result.setStatus("0");
+		return result;
 	}
 
 }

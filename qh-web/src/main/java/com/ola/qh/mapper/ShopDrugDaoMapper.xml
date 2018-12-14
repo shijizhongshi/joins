@@ -271,24 +271,7 @@
 			<!-- 审批失败 -->
 			and islimits=2
 		</if>
-		<if test="ishot!=0">
-			and ishot=#{ishot}
-		</if>
-		<if test="issales!=0">
-			and issales=1
-		</if>
-		<if test="isrecommend!=0">
-			and isrecommend=1
-		</if>
-		<if test="drugName!=null">
-			and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
-		</if>
-		<if test="categoryName!=null and categoryName!=''">
-			and category_name=#{categoryName}
-		</if>
-		<if test="categorySubname!=null and categorySubname!=''">
-			and category_subname=#{categorySubname}
-		</if>
+	
 	</select>
 
 	<update id="updateCount">

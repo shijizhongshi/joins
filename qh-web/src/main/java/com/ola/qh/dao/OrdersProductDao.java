@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.OrdersProduct;
+import com.ola.qh.vo.OrdersProductDomain;
 
 public interface OrdersProductDao {
 
@@ -22,12 +23,8 @@ public interface OrdersProductDao {
 	
 	public OrdersProduct singleOrdersProduct(String id);
 	
-	public List<OrdersProduct> listOrdersProduct(
-			@Param("statusCode")String statusCode,
-			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize,
-			@Param("userId")String userId,
-			@Param("muserId")String muserId);
+	public List<OrdersProduct> listOrdersProduct(OrdersProductDomain opd);
 	
+	public int listOrdersProductCount(@Param("muserId")String muserId);
 	/*public int salesCountByPid(String productId);*/
 }

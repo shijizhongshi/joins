@@ -22,6 +22,7 @@ import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopCountVo;
 import com.ola.qh.vo.ShopDrugDomain;
 import com.ola.qh.vo.ShopDrugVo;
 
@@ -203,18 +204,15 @@ public class ShopDrugService implements IShopDrugService {
 		}else if(sdd.getStatus()==0){
 			/////查全部的商品(按照类别查)正售中的
 			list = shopDrugDao.selectDrugList(sdd);
-			int salesCount = shopDrugDao.selectDrugListCount(sdd);
-			vo.setSalesCount(salesCount);
+			
 		}else if(sdd.getStatus()==2){
 			//////下架的商品
 			list = shopDrugDao.selectDrugList(sdd);
-			int downCount = shopDrugDao.selectDrugListCount(sdd);
-			vo.setDownCount(downCount);
+			
 		}else if(sdd.getStatus()==4){
 			////审批中的
 			list = shopDrugDao.selectDrugList(sdd);
-			int wlimitCount = shopDrugDao.selectDrugListCount(sdd);
-			vo.setWlimitCount(wlimitCount);
+			
 		}else if(sdd.getStatus()==5){
 			////审批失败的
 			list = shopDrugDao.selectDrugList(sdd);
@@ -233,6 +231,26 @@ public class ShopDrugService implements IShopDrugService {
 		
 		result.setData(vo);
 		result.setStatus("0");
+		return result;
+	}
+
+	@Override
+	public Results<ShopCountVo> shopCount(String shopId) {
+		// TODO Auto-generated method stub
+		Results<ShopCountVo> result=new Results<ShopCountVo>();
+		ShopCountVo vo=new ShopCountVo();
+		////正售的商品的个数
+		int salesCount = shopDrugDao.selectDrugListCount(shopId,0);
+		vo.setSalesCount(salesCount);
+		/////下架的商品
+		int downCount = shopDrugDao.selectDrugListCount(shopId,2);
+		vo.setDownCount(downCount);
+		////待审核的商品
+		int wlimitCount = shopDrugDao.selectDrugListCount(shopId,4);
+		vo.setWlimitCount(wlimitCount);
+		
+		result.setStatus("0");
+		result.setData(vo);
 		return result;
 	}
 

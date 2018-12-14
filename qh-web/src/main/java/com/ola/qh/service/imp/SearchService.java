@@ -18,6 +18,7 @@ import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.ISearchService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.SearchProductVo;
+import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
 @Service
 public class SearchService implements ISearchService{
@@ -70,7 +71,12 @@ public class SearchService implements ISearchService{
 			}
 			if("1".equals(status)){
 				/////通过店铺名查店铺
-				List<Shop> shopList = shopDao.listShop(searchName, null, pageNo, pageSize,0,0);
+				ShopDomain sd = new ShopDomain();
+				sd.setShopName(searchName);
+				sd.setPageNo(pageNo);
+				sd.setPageSize(pageSize);
+				sd.setIsrecommend(1);
+				List<Shop> shopList = shopDao.listShop(sd);
 				for (Shop shop : shopList) {
 					SearchProductVo vo=new SearchProductVo();
 					vo.setAddress(shop.getAddress());

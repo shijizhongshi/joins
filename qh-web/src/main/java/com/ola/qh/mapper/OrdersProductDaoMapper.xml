@@ -61,8 +61,8 @@
 	select <include refid="sql_base"></include>,old_status_code from orders_product op where id=#{id}
 	</select>
 	
-	<select id="listOrdersProduct" resultMap="OrdersProductMap">
-	select <include refid="sql_base"></include>,op.addtime from orders_product op 
+	<select id="listOrdersProduct" resultMap="OrdersProductMap" parameterType="com.ola.qh.vo.OrdersProductDomain">
+	select <include refid="sql_base"></include>,op.addtime from orders_product 
 	where 1=1
 	<if test="statusCode!=null">
 	and status_code in("APPLYREFUNED","AGREEREFUNED","REJECTREFUNED","REFUNED")
@@ -76,6 +76,16 @@
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
+	
+	<select id="listOrdersProductCount" resultType="int" >
+	select count(id) from orders_product 
+	where 1=1
+	and status_code in("APPLYREFUNED","AGREEREFUNED","REJECTREFUNED","REFUNED")
+	<if test="muserId!=null">
+	and muser_id=#{muserId}
+	</if>
+	</select>
+	
 	
 	<!-- <select id="salesCountByPid" resultType="int">
 	select count(id) from orders_product where product_id=#{productId} and status_code in("RECEIVED")

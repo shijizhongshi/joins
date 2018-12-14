@@ -10,6 +10,7 @@ import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.PayPipeline;
 import com.ola.qh.entity.PayResult;
+import com.ola.qh.vo.OrdersDomain;
 
 public interface OrdersDao {
 	
@@ -45,13 +46,9 @@ public interface OrdersDao {
 	
 	public OrdersPayment singlePayment(String ordersId);
 	
-	public List<Orders> ordersList(
-	@Param("ordersStatus")String ordersStatus,
-	@Param("pageNo")int pageNo,
-	@Param("pageSize")int pageSize,
-	@Param("userId")String userId,
-	@Param("muserId")String muserId,
-	@Param("ordersType")int  ordersType);
+	public List<Orders> ordersList(OrdersDomain od);
+	
+	public int ordersListCount(@Param("muserId")String muserId,@Param("ordersStatus")String ordersStatus);
 	
 	public int updateQrcode(
 			@Param("id")String id,

@@ -64,6 +64,47 @@ public class Shop {
 	
 	@NotEmpty(message="负责人姓名不能为空")
 	private String realname;////负责人的姓名
+	
+	private double commentGrade;////评价的评分
+	
+	private String comments;///评论内容
+
+	private String serveDomain;////服务领域(中医推拿   小儿推拿等)
+	
+	private List<String> serveDaomainList=new ArrayList<String>();
+	
+	
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public List<String> getServeDaomainList() {
+		return serveDaomainList;
+	}
+
+	public void setServeDaomainList(List<String> serveDaomainList) {
+		this.serveDaomainList = serveDaomainList;
+	}
+
+	public String getServeDomain() {
+		return serveDomain;
+	}
+
+	public void setServeDomain(String serveDomain) {
+		this.serveDomain = serveDomain;
+	}
+
+	public double getCommentGrade() {
+		return commentGrade;
+	}
+
+	public void setCommentGrade(double commentGrade) {
+		this.commentGrade = commentGrade;
+	}
 
 	public List<ShopImg> getImgList() {
 		return imgList;

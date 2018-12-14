@@ -71,7 +71,7 @@
 	select <include refid="sql_base"></include>,o.express_no,o.paidtime,o.deliveredtime from orders o where id=#{orderId}
 	</select>
 	
-	<select id="ordersList" resultMap="OrdersMap">
+	<select id="ordersList" resultMap="OrdersMap" parameterType="com.ola.qh.vo.OrdersDomain">
 	select <include refid="sql_base"></include>,o.addtime from orders o
 	 where 1=1
 	<if test="ordersStatus!=null">
@@ -86,8 +86,27 @@
 	<if test="ordersType!=0">
 	and orders_type=#{ordersType}
 	</if>
+	<if test="ordersno!=null">
+	and ordersno LIKE CONCAT(CONCAT('%',#{ordersno},'%')) 
+	</if>
+	<if test="expressNo!=null">
+	and orders_no LIKE CONCAT(CONCAT('%',#{expressNo},'%'))
+	</if>
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
+	</select>
+	
+	
+	
+	<select id="ordersListCount" resultType="int">
+	select count(id) from orders
+	 where 1=1 and orders_type=0
+	<if test="ordersStatus!=null">
+	and orders_status=#{ordersStatus}
+	</if>
+	<if test="muserId!=null and muserId!='' ">
+	and muser_id=#{muserId}
+	</if>
 	</select>
 	
 	<update id="updateQrcode">
