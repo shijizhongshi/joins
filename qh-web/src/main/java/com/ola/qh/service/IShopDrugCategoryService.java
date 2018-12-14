@@ -8,5 +8,7 @@ public interface IShopDrugCategoryService {
 	
 	public List<ShopDrugCategory> selectShopDrugCategory();
 	
+	public List<ShopDrugCategory> selectShopDrugSubcategory(String categoryId);
+	
 
 }

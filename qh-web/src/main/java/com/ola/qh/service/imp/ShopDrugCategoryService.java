@@ -17,7 +17,19 @@ public class ShopDrugCategoryService implements IShopDrugCategoryService{
 @Override
 	public List<ShopDrugCategory> selectShopDrugCategory() {
 		
-		return shopDrugCategoryDao.selectShopDrugCategory();
+		return shopDrugCategoryDao.drugCategoryList();
+	}
+
+	@Override
+	public List<ShopDrugCategory> selectShopDrugSubcategory(String categoryId) {
+		// TODO Auto-generated method stub
+		List<ShopDrugCategory> list = shopDrugCategoryDao.drugSubcategoryList(categoryId);
+		for (ShopDrugCategory shopDrugCategory : list) {
+			List<ShopDrugCategory> sublist = shopDrugCategoryDao.drugSubsubcategoryList(shopDrugCategory.getId());
+			shopDrugCategory.setList(sublist);
+		}
+		
+		return list;
 	}
 
 

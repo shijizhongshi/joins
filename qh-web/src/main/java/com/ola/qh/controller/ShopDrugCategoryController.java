@@ -26,20 +26,29 @@ public class ShopDrugCategoryController {
 
 	@Autowired
 	private IShopDrugCategoryService shopDrugCategoryService;
+	
 
-	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Results<List<ShopDrugCategory>> selectShopDrugCategory() {
 
 		Results<List<ShopDrugCategory>> results = new Results<List<ShopDrugCategory>>();
 
 		List<ShopDrugCategory> list = shopDrugCategoryService.selectShopDrugCategory();
 
-		if (list == null || list.size() == 0) {
+		results.setData(list);
+		results.setStatus("0");
+		return results;
 
-			results.setMessage("未添加药品分类");
-			results.setStatus("1");
-			return results;
-		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/sublist", method = RequestMethod.GET)
+	public Results<List<ShopDrugCategory>> selectShopDrugSubcategory(String categoryId) {
+
+		Results<List<ShopDrugCategory>> results = new Results<List<ShopDrugCategory>>();
+
+		List<ShopDrugCategory> list = shopDrugCategoryService.selectShopDrugSubcategory(categoryId);
 
 		results.setData(list);
 		results.setStatus("0");

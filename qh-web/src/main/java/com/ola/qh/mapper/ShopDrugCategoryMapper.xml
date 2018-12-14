@@ -7,12 +7,22 @@
 		<result column="id" property="id" />
 		<result column="category_name" property="categoryName" />
 		<result column="addtime" property="addtime" />
+		<result column="category_id" property="categoryId" />
+		<result column="sub_name" property="subName" />
 		<result column="updatetime" property="updatetime" />
+		<result column="img_url" property="imgUrl"/>
+		
 	</resultMap>
 	
-	<select id="selectShopDrugCategory" resultMap="ShopDrugCategoryMap">
+	<select id="drugCategoryList" resultMap="ShopDrugCategoryMap">
 		select id,category_name,addtime from shop_drug_category
 	</select>
+	
+	<select id="drugSubcategoryList" resultMap="ShopDrugCategoryMap">
+		select id,category_id,sub_name from shop_drug_subcategory where category_id=#{categoryId}
+	</select>
 
-
+    <select id="drugSubsubcategoryList" resultMap="ShopDrugCategoryMap">
+    select id,sub_id categoryId,name subName,img_url from shop_drug_subsubcategory where sub_id=#{categoryId}
+    </select>
 </mapper>
