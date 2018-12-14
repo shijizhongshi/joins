@@ -70,7 +70,7 @@ public class UserService implements IUserService {
 				UserBook userbook = new UserBook();
 				userbook.setId(KeyGen.uuid());
 				userbook.setUserId(user.getId());
-				userbook.setAccountMoney(BigDecimal.ZERO);
+				userbook.setCanWithdraw(BigDecimal.ZERO);
 				userbook.setAddtime(new Date());
 				userbookDao.saveUserBook(userbook);
 
