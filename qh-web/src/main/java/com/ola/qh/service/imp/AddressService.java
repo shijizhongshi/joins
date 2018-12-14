@@ -85,12 +85,12 @@ public class AddressService implements IAddressService {
 				addressDao.updateAddress(address);
 
 			} else {
-				if (address.getId().equals(address1.getId())) {
+				/*if (address.getId().equals(address1.getId())) {
 
 					addressDao.updateAddress(address);
 
-				} else {
-					if ("1".equals(address.getIsdefault())) {
+				} else {*/
+					if ("1".equals(address.getIsdefault()) && !address.getId().equals(address1.getId())) {
 
 						address1.setUpdatetime(new Date());
 						address1.setIsdefault("0");
@@ -99,7 +99,7 @@ public class AddressService implements IAddressService {
 					}
 					addressDao.updateAddress(address);
 
-				}
+				/*}*/
 			}
 			results.setStatus("0");
 			return results;
