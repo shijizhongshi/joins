@@ -86,11 +86,6 @@ public class AddressController {
 
 		Results<String> results = new Results<String>();
 
-		if (address.getId() == null || "".equals(address.getId())) {
-			results.setStatus("1");
-			return results;
-		}
-
 		if (address.getMobile() != null) {
 			Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
 			pattern.matcher(address.getMobile()).matches();
@@ -102,13 +97,23 @@ public class AddressController {
 			}
 		}
 
-		address.setUpdatetime(new Date());
-		int update = addressService.updateAddress(address);
-
-		if (update <= 0) {
-			results.setStatus("1");
+		if(address.getIsdefault()!=0){
+			
+			Address address1=new Address();
+			address1.setUpdatetime(new Date());
+			address1.setIsdefault(0);
+			address1.setUserId(address.getUserId());
+			addressService.updateAddress(address1);
+			
+			address.setUpdatetime(new Date());
+			addressService.updateAddress(address);
+			
+			results.setStatus("0");
 			return results;
 		}
+		address.setUpdatetime(new Date());
+		addressService.updateAddress(address);
+
 		results.setStatus("0");
 		return results;
 	}

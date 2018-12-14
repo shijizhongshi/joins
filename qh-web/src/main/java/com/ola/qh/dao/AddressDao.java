@@ -15,4 +15,5 @@ public interface AddressDao {
 	public int updateAddress(Address address);
 	
 	public int deleteAddress(@Param("id")String id);
+	
 }

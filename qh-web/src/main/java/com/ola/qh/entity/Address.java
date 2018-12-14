@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Address {
 
-	
 	private String id;
 	
 	@NotEmpty(message="用户ID不能为空")
@@ -23,6 +22,8 @@ public class Address {
 	
 	@NotEmpty(message="性别不能为空")
 	private String sex;
+	
+	private int isdefault;//1为默认地址
 	
 	private Date addtime;
 	
@@ -90,6 +91,14 @@ public class Address {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public int getIsdefault() {
+		return isdefault;
+	}
+
+	public void setIsdefault(int isdefault) {
+		this.isdefault = isdefault;
 	}
 	
 	
