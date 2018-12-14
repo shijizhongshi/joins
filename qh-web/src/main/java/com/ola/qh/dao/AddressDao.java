@@ -16,4 +16,5 @@ public interface AddressDao {
 	
 	public int deleteAddress(@Param("id")String id);
 	
+	public Address existAddress(@Param("userId")String userId);
 }

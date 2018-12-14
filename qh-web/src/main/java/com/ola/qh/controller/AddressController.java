@@ -1,6 +1,5 @@
 package com.ola.qh.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Address;
 import com.ola.qh.service.IAddressService;
-import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
@@ -69,16 +67,8 @@ public class AddressController {
 			results.setMessage("手机号格式有误");
 			return results;
 		}
-		address.setId(KeyGen.uuid());
-		address.setAddtime(new Date());
-		int save = addressService.saveAddress(address);
-
-		if (save <= 0) {
-			results.setStatus("1");
-			return results;
-		}
-		results.setStatus("0");
-		return results;
+		
+		return addressService.saveAddress(address);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -97,25 +87,7 @@ public class AddressController {
 			}
 		}
 
-		if(address.getIsdefault()!=0){
-			
-			Address address1=new Address();
-			address1.setUpdatetime(new Date());
-			address1.setIsdefault(0);
-			address1.setUserId(address.getUserId());
-			addressService.updateAddress(address1);
-			
-			address.setUpdatetime(new Date());
-			addressService.updateAddress(address);
-			
-			results.setStatus("0");
-			return results;
-		}
-		address.setUpdatetime(new Date());
-		addressService.updateAddress(address);
-
-		results.setStatus("0");
-		return results;
+		return addressService.updateAddress(address);
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

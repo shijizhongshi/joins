@@ -19,37 +19,39 @@
 	<select id="selectAddress"  resultMap="AddressMap">
 		select id,address,receiver,mobile,sex,isdefault from address  where user_id=#{userId} order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
+	
 	<insert id="saveAddress" parameterType="com.ola.qh.entity.Address" >
-	 	insert into address(id,user_id,receiver,mobile,address,sex,addtime,isdefault) values(#{id},#{userId},#{receiver},#{mobile},#{address},#{sex},#{addtime},0)
+	 	insert into address(id,user_id,receiver,mobile,address,sex,addtime,isdefault) values(#{id},#{userId},#{receiver},#{mobile},#{address},#{sex},#{addtime},#{isdefault})
 	</insert>
 	
 	<update id="updateAddress" parameterType="com.ola.qh.entity.Address" >
 		update address set 
-		<if test="receiver!=null and id!=null">
+		<if test="receiver!=null">
 		receiver=#{receiver},
 		</if>
-		<if test="mobile!=null and id!=null">
+		<if test="mobile!=null">
 		mobile=#{mobile},
 		</if>
-		<if test="address!=null and id!=null">
+		<if test="address!=null">
 		address=#{address},
 		</if>
-		<if test="sex!=null and id!=null">
+		<if test="sex!=null">
 		sex=#{sex},
 		</if>
 		<if test="isdefault!=null">
 		isdefault=#{isdefault},
 		</if>
-		updatetime=#{updatetime} where 1=1
-		<if test="id!=null">
-		and id=#{id} 
-		</if>
-		<if test="userId!=null and id==null">
-		and user_id=#{userId} 
-		</if>
+		
+		updatetime=#{updatetime} where id=#{id} 
+		
 	</update>
+	
 	<delete id="deleteAddress" >
 		delete from address where id=#{id}
 	</delete>
+	
+	<select id="existAddress"  resultType="com.ola.qh.entity.Address">
+		select id from address  where user_id=#{userId} and isdefault=1
+	</select>
 	
 </mapper>
