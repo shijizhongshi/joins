@@ -95,9 +95,9 @@ public class ShopDrug {
 	
 	private int ishot;////1"首页的热卖
 	
-	private int isrecommend;////1:店家推荐  0不
+	private String istimes;///1:审批过的限时抢购的商品  2:审批没有过的抢购商品   0:还没有审批的抢购商品
 	
-	private int issales;////1:是促销  0:不
+	private String deadlines;////限时规定的天数
 	
 	private int islimits;///1:审批过了   2:审批不过  0未审批
 	
@@ -107,7 +107,34 @@ public class ShopDrug {
 	
 	private int isFavorite;///1:已经收藏   0:没有收藏
 	
+	private String isrecommend;////1:店家推荐  0不
 	
+	private String issales;////1:是促销  0:不
+
+	public String getIstimes() {
+		return istimes;
+	}
+
+	public void setIstimes(String istimes) {
+		this.istimes = istimes;
+	}
+
+
+	public String getIsrecommend() {
+		return isrecommend;
+	}
+
+	public void setIsrecommend(String isrecommend) {
+		this.isrecommend = isrecommend;
+	}
+
+	public String getIssales() {
+		return issales;
+	}
+
+	public void setIssales(String issales) {
+		this.issales = issales;
+	}
 
 	public int getIsFavorite() {
 		return isFavorite;
@@ -446,23 +473,6 @@ public class ShopDrug {
 	public void setCategorySubname(String categorySubname) {
 		this.categorySubname = categorySubname;
 	}
-
-	public int getIsrecommend() {
-		return isrecommend;
-	}
-
-	public void setIsrecommend(int isrecommend) {
-		this.isrecommend = isrecommend;
-	}
-
-	public int getIssales() {
-		return issales;
-	}
-
-	public void setIssales(int issales) {
-		this.issales = issales;
-	}
-
 	public int getIslimits() {
 		return islimits;
 	}
@@ -477,6 +487,14 @@ public class ShopDrug {
 
 	public void setSalesNumber(int salesNumber) {
 		this.salesNumber = salesNumber;
+	}
+
+	public String getDeadlines() {
+		return deadlines;
+	}
+
+	public void setDeadlines(String deadlines) {
+		this.deadlines = deadlines;
 	}
 	
 }

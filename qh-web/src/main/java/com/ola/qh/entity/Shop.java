@@ -73,7 +73,7 @@ public class Shop {
 	
 	private List<String> serveDaomainList=new ArrayList<String>();
 	
-	
+
 	public String getComments() {
 		return comments;
 	}

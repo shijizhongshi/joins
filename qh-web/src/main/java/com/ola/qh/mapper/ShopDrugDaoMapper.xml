@@ -21,6 +21,8 @@
 		<result column="ishot" property="ishot" />
 		<result column="isrecommend" property="isrecommend" />
 		<result column="issales" property="issales" />
+		<result column="istimes" property="istimes"/>
+		<result column="deadlines" property="deadlines"/>
 		<result column="islimits" property="islimits" />
 		<result column="drug_detail" property="drugDetail" />
 		<result column="specification_params" property="specificationParams" />
@@ -51,7 +53,7 @@
 
 	<sql id="sql_base">
 		id,user_id,shop_id,drug_name,category_name,category_subname,healing_powers,specification,original_price,
-		discount_price,price,drug_detail,stocks,sales_number,freight
+		discount_price,price,drug_detail,stocks,sales_number,freight,istimes,ishot,isrecommend,issales,islimits
 	</sql>
 	<insert id="insertDrug" parameterType="com.ola.qh.entity.ShopDrug">
 		insert into shop_drug(
@@ -59,11 +61,11 @@
 		,specification_params,product_name,
 		manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
 		characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
-		drug_action,shap_code,friendly_hint,img_url,addtime,isrecommend,issales)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
-		#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{salesNumber},#{freight},#{specificationParams},
-		#{productName},#{manufacturer},#{drugSign},#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},
-		#{elements},#{characters},#{packagings},#{indication},#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},
-		#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime},#{isrecommend},#{issales})
+		drug_action,shap_code,friendly_hint,img_url,addtime,deadlines)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
+		#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{salesNumber},#{freight},
+		#{istimes},#{ishot},#{isrecommend},#{issales},#{islimits},#{specificationParams},#{productName},#{manufacturer},#{drugSign},
+		#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},#{elements},#{characters},#{packagings},#{indication},
+		#{dosage},#{badSymptom},#{taboo},#{attentionMatter},#{drugInteractions},#{drugAction},#{shapCode},#{friendlyHint},#{imgUrl},#{addtime},#{deadlines})
 	</insert>
 
 	<update id="updateDrug" parameterType="com.ola.qh.entity.ShopDrug">
@@ -162,6 +164,12 @@
 			<!-- 修改商品的状态 -->
 			status=#{status},
 		</if>
+		<if test="isrecommend!=null">
+		isrecommend=#{isrecommend},
+		</if>
+		<if test="issales!=null">
+		issales=#{issales},
+		</if>
 		updatetime=#{updatetime}
 		where id=#{id}
 	</update>
@@ -169,7 +177,7 @@
 	<!-- 通过产品的id查详情页 -->
 	<select id="selectById" resultMap="ShopDrugMap">
 		select
-		<include refid="sql_base"></include>
+		<include refid="sql_base"></include>,approval_time,deadlines
 		from shop_drug where id=#{id}
 	</select>
 
@@ -211,6 +219,9 @@
 		<if test="isrecommend!=0">
 			and isrecommend=1
 		</if>
+		<if test="istimes!=0">
+		and istimes=1
+		</if>
 		<if test="drugName!=null">
 			and drug_name LIKE CONCAT(CONCAT('%',#{drugName},'%'))
 		</if>
@@ -242,9 +253,30 @@
 		<if test="orderstime==2">
 			order by addtime asc
 		</if>
-
+	
+		<if test="pageSize!=0">
 		limit #{pageNo},#{pageSize}
+		</if>
+		
 	</select>
+	
+	<select id="selectList" resultMap="ShopDrugMap" parameterType="com.ola.qh.vo.ShopDrugDomain">
+	select <include refid="sql_base"></include> from shop_drug where 1=1
+	and status=0
+	and islimits=1
+	<!-- 还得加一个限购 -->
+	<if test="isrecommend!=0 or issales!=0 or ishot!=0 or istime!=0">
+	and (isrecommend=#{isrecommend} or issales=#{issales} or ishot=#{ishot} or istime=#{istime})
+	</if>
+	orders by addtime desc
+	<if test="pageSize>0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	
+	</select>
+	
+	
+	
 	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain"
 		resultType="int">
 		select count(id) from shop_drug

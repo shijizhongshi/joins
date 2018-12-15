@@ -22,12 +22,22 @@ public class ShopDrugDomain {
 	
 	private int issales;
 	
+	private int istimes;////限时特惠
+	
 	private int ordersSales;///按照销量排序
 	
 	private int ordersprice;////按照价格排序
 	
 	private int orderstime;////按照时间排序
 	
+	public int getIstimes() {
+		return istimes;
+	}
+
+	public void setIstimes(int istimes) {
+		this.istimes = istimes;
+	}
+
 	public int getStatus() {
 		return status;
 	}

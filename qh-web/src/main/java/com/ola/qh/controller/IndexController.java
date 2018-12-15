@@ -1,7 +1,6 @@
 package com.ola.qh.controller;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.DrugIndexVo;
 import com.ola.qh.vo.IndexVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
@@ -81,6 +81,49 @@ public class IndexController {
 		return result;
 	}
 
+
+	@RequestMapping("/drug")
+	public Results<DrugIndexVo> drugIndexs(){
+		
+		Results<DrugIndexVo> result=new Results<DrugIndexVo>();
+		DrugIndexVo vo=new DrugIndexVo();
+		List<Banner> bannerlist = bannerDao.selectBanner("3");
+		vo.setBannerList(bannerlist);
+		List<Banner> hotlist = bannerDao.selectBanner("4");
+		vo.setHotlist(hotlist);////品牌热卖的(两个固定的图片)
+		List<Banner> urllist = bannerDao.selectBanner("5");
+		vo.setBannerUrl(urllist.get(0).getImageurl());///一张图片
+		
+		/////限时特惠
+		ShopDrugDomain sdd = new ShopDrugDomain();
+		sdd.setStatus(0);
+		sdd.setPageNo(0);
+		sdd.setPageSize(8);
+		sdd.setIstimes(1);///审批过的限时特惠
+		List<ShopDrug> timelist = shopDrugDao.selectDrugList(sdd);
+		vo.setTimeList(timelist);
+		//////推荐店铺
+		ShopDomain shopDoamin = new ShopDomain();
+		shopDoamin.setPageNo(0);
+		shopDoamin.setPageSize(6);
+		shopDoamin.setShopType(2);///商城店铺
+		shopDoamin.setIsrecommend(1);////推荐店铺
+		List<Shop> shoplist = shopDao.listShop(shopDoamin);
+		vo.setShoplist(shoplist);
+		
+		////热卖商品列表
+		ShopDrugDomain drugDoamin = new ShopDrugDomain();
+		drugDoamin.setPageNo(0);
+		drugDoamin.setPageSize(6);
+		drugDoamin.setIsrecommend(1);////推荐店铺
+		List<ShopDrug> druglist = shopDrugDao.selectDrugList(sdd);
+		vo.setDruglist(druglist);
+		result.setData(vo);
+		result.setStatus("1");
+		return result;
+	}
+	
+	
 	/**
 	 * 
 	 * <p>Title: getTime</p>  
