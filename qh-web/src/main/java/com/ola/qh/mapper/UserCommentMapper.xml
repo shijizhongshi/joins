@@ -41,4 +41,7 @@
 		</if>
 	</delete>
 	
+	<select id="selectCommentText" resultType="java.lang.String">
+		select text_name from comment_text
+	</select>
 	</mapper>

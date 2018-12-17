@@ -60,5 +60,23 @@ public class UserCommentController {
 
 		return userCommentService.deleteUserComment(id,userId);
 	}
-
+	
+	@RequestMapping(value="/select", method = RequestMethod.GET)
+	public Results<List<String>> selectCommentText(){
+		
+		Results<List<String>> results=new Results<List<String>>();
+		
+		List<String> list=userCommentService.selectCommentText();
+		
+		if(list==null || "".equals(list)){
+			
+			results.setStatus("1");
+			return results;
+			
+		}
+		
+		results.setData(list);
+		results.setStatus("0");
+		return results;
+	}
 }

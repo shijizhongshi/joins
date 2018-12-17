@@ -1,6 +1,5 @@
 package com.ola.qh.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.UserFavorite;
 import com.ola.qh.service.IUserFavoriteService;
-import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 /**

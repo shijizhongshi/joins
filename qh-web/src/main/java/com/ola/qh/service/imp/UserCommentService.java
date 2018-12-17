@@ -42,11 +42,17 @@ public class UserCommentService implements IUserCommentService {
 				if(userComment.getAddtime()!=null){
 					String showtime = Patterns.sfTime(userComment.getAddtime());
 					userComment.setShowtime(showtime);
+					String textname=userComment.getTextName();
+					String[] textName = textname.split(",");
+					userComment.setTextname(textName);
+					
+					
 				}
 				
 				List<UserCommentImg> imglist = userCommentImgDao.selectUserCommentImg(userComment.getId());
 				userComment.setList(imglist);
 			}
+			
 
 			results.setStatus("0");
 			results.setData(list);
@@ -130,6 +136,11 @@ public class UserCommentService implements IUserCommentService {
 			results.setMessage("删除失败");
 			return results;
 		}
+	}
+	@Override
+	public List<String> selectCommentText() {
+		
+		return userCommentDao.selectCommentText();
 	}
 	
 }

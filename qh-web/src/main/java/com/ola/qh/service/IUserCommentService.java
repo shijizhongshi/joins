@@ -13,4 +13,5 @@ public interface IUserCommentService {
 	
 	public Results<String> deleteUserComment(String id,String userId);
 	
+	public List<String> selectCommentText();
 }

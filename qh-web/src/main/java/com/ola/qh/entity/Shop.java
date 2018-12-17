@@ -73,6 +73,8 @@ public class Shop {
 	
 	private List<String> serveDaomainList=new ArrayList<String>();
 	
+	private String servetypeName;
+	
 
 	public String getComments() {
 		return comments;
@@ -271,6 +273,14 @@ public class Shop {
 
 	public void setRealname(String realname) {
 		this.realname = realname;
+	}
+
+	public String getServetypeName() {
+		return servetypeName;
+	}
+
+	public void setServetypeName(String servetypeName) {
+		this.servetypeName = servetypeName;
 	}
 	
 	

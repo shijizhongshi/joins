@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,6 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.ShopCountVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopVo;
 
@@ -128,4 +128,29 @@ public class ShopController {
 		return shopService.singleShop(shopId);
 	}
 	
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	public Results<List<String>> selectShopServeType() {
+
+		Results<List<String>> results = new Results<List<String>>();
+
+		List<Shop> list = shopService.selectShopServeType();
+		if (list != null && list.size() != 0) {
+
+			List<String> List = new ArrayList<String>();
+			
+			for(int i = 0;i < list.size();i++){
+				Shop shop = list.get(i);
+			    String typeName=shop.getServetypeName();
+			    List.add(typeName);
+			}
+			
+			results.setData(List);
+			results.setStatus("0");
+			return results;
+
+		}
+
+		results.setStatus("1");
+		return results;
+	}
 }

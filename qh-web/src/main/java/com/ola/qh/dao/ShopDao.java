@@ -35,4 +35,6 @@ public interface ShopDao {
 	public int deleteImg(String id);
 	
 	public List<ShopImg> selectList(@Param("shopId")String shopId,@Param("subtype")int subtype);
+	
+	public List<Shop> selectShopServeType();
 }

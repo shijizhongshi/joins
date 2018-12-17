@@ -17,4 +17,5 @@ public interface IShopService {
 	
 	public Results<ShopVo> singleShop(String shopId);
 	
+	public List<Shop> selectShopServeType();
 }

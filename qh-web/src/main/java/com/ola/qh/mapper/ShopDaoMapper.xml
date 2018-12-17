@@ -152,4 +152,8 @@
 	<delete id="deleteImg">
 	delete from shop_img where id=#{id}
 	</delete>
+	
+	<select id="selectShopServeType" resultMap="ShopMap">
+		select name servetypeName from	shop_serve_type
+	</select>
 </mapper>

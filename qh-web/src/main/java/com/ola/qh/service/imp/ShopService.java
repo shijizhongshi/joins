@@ -12,12 +12,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopServeDao;
-import com.ola.qh.dao.ShopServeTypeDao;
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
-import com.ola.qh.entity.ShopServeType;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.service.IShopService;
@@ -38,8 +36,6 @@ public class ShopService implements IShopService {
 	private IUserService userService;
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private ShopServeTypeDao shopTypeDao;
 	@Autowired
 	private ShopServeDao shopServeDao;
 	@Autowired
@@ -245,15 +241,15 @@ public class ShopService implements IShopService {
 		List<Shop> listshop = shopDao.listShop(sd);
 		for (Shop shop : listshop) {
 			shopDao.commentGrade(shop.getId());
-			List<ShopServeType> typelist = shopTypeDao.selectShopServeType();
+			List<Shop> typelist = shopDao.selectShopServeType();
 			Random rand = new Random();
 			String comments="";
 			for(int i=0;i<2;i++){
 				int num = rand.nextInt(typelist.size())+0;
 				if("".equals(comments)){
-					comments=typelist.get(num).getName();
+					comments=typelist.get(num).getServetypeName();
 				}else{
-					comments=comments+typelist.get(num).getName();
+					comments=comments+typelist.get(num).getServetypeName();
 				}
 			}
 			shop.setComments(comments);
@@ -297,5 +293,9 @@ public class ShopService implements IShopService {
 		return result;
 	}
 	
+	@Override
+	public List<Shop> selectShopServeType() {
 
+		return shopDao.selectShopServeType();
+	}
 }

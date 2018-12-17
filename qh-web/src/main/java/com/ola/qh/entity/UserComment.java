@@ -37,6 +37,8 @@ public class UserComment {
 	private String headImgUrl;////用户的头像
 	
 	private String nickname;////用户的昵称
+	
+	private String[] textname;//返回的评论文本
 
 	public String getShowtime() {
 		return showtime;
@@ -140,6 +142,14 @@ public class UserComment {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public String[] getTextname() {
+		return textname;
+	}
+
+	public void setTextname(String[] textname) {
+		this.textname = textname;
 	}
 	
 	
