@@ -165,9 +165,9 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User existMobileUser(String mobile) {
+	public User sinleUser(String userId,String mobile) {
 
-		return userDao.singleUser(mobile, null);
+		return userDao.singleUser(userId, mobile);
 
 	}
 

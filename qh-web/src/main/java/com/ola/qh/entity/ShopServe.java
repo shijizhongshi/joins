@@ -49,25 +49,15 @@ public class ShopServe {
 
 	private int buyCount;///预定多少人
 	
-	private String serveContents;
-	
-	private List<String> serveContent;////服务内容
+	private String serveType;////服务类别(小儿推拿什么的)
 	
 	
-	public String getServeContents() {
-		return serveContents;
+	public String getServeType() {
+		return serveType;
 	}
 
-	public void setServeContents(String serveContents) {
-		this.serveContents = serveContents;
-	}
-
-	public List<String> getServeContent() {
-		return serveContent;
-	}
-
-	public void setServeContent(List<String> serveContent) {
-		this.serveContent = serveContent;
+	public void setServeType(String serveType) {
+		this.serveType = serveType;
 	}
 
 	public String getBuyRule() {

@@ -1,29 +1,40 @@
 package com.ola.qh.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.dao.BannerDao;
+import com.ola.qh.dao.CommentTextDao;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugDao;
+import com.ola.qh.dao.ShopServeDao;
+import com.ola.qh.dao.ShopServeTypeDao;
 import com.ola.qh.entity.Banner;
+import com.ola.qh.entity.CommentText;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.entity.ShopServe;
+import com.ola.qh.entity.ShopServeType;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DrugIndexVo;
 import com.ola.qh.vo.IndexVo;
+import com.ola.qh.vo.ServerIndexVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
+import com.ola.qh.vo.ShopServeDomain;
 
 @RestController
 @RequestMapping("/api/index")
@@ -39,6 +50,11 @@ public class IndexController {
 	private NewsDao newsDao;
 	@Autowired
 	private CourseDao courseDao;
+	@Autowired
+	private ShopServeDao shopServeDao;
+	@Autowired
+	private CommentTextDao commentTextDao;
+	
 
 	@RequestMapping("/select")
 	public Results<IndexVo> selectList() {
@@ -123,6 +139,51 @@ public class IndexController {
 		return result;
 	}
 	
+	/**
+	 * 中医院的首页
+	 * <p>Title: serveIndex</p>  
+	 * <p>Description: </p>  
+	 * @return
+	 */
+	@RequestMapping("/serve")
+	public Results<ServerIndexVo> serveIndex(
+			@RequestParam(name="address",required=true)String address){
+		Results<ServerIndexVo> result=new Results<ServerIndexVo>();
+		ServerIndexVo vo = new ServerIndexVo();
+		List<Banner> bannerlist = bannerDao.selectBanner("2");
+		vo.setBannerlist(bannerlist);
+		
+		ShopDomain sd=new ShopDomain();
+		sd.setAddress(address);
+		sd.setShopType(1);
+		sd.setPageNo(0);
+		sd.setPageSize(6);
+		List<Shop> nearbylist = shopDao.listShop(sd);
+		for (Shop shop : nearbylist) {
+			Patterns p=new Patterns();
+			shop.setComments(comments());
+		}
+		vo.setNearbylist(nearbylist);
+		
+		ShopServeDomain ssd=new ShopServeDomain();
+		ssd.setServeStatus("1");///后台审核过的服务项目
+		ssd.setIshot(1);
+		ssd.setPageNo(0);
+		ssd.setPageSize(6);
+		List<ShopServe> sslist = shopServeDao.selectList(ssd);
+		vo.setServelist(sslist);
+		
+		ShopDomain sd1=new ShopDomain();
+		sd1.setShopType(1);
+		sd1.setPageNo(0);
+		sd1.setPageSize(6);
+		List<Shop> shoplist = shopDao.listShop(sd1);
+		vo.setShopList(shoplist);////猜你喜欢服务店铺的集合
+
+		result.setStatus("0");
+		result.setData(vo);
+		return result;
+	}
 	
 	/**
 	 * 
@@ -146,5 +207,26 @@ public class IndexController {
 		}
 		return time1;
 	}
-
+	
+	  public List<String> comments(){
+	    	
+	    	List<CommentText> text = commentTextDao.selectCommentText();
+			Random rand = new Random();
+			List<String> comments=new ArrayList<String>();
+			for(int i=0;i<2;i++){
+				
+				if(text.size()!=0){
+					int num = rand.nextInt(text.size())+0;
+					if(comments==null || comments.size()==0){
+						comments.add(text.get(num).getTextName());
+						text.remove(num);////在集合中剔除已经有的对象
+					}else{
+						comments.add(text.get(num).getTextName());
+					}
+				}
+				
+			}
+			return comments;
+	    	
+	    }
 }

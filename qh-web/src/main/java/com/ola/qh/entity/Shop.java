@@ -67,18 +67,19 @@ public class Shop {
 	
 	private double commentGrade;////评价的评分
 	
-	private String comments;///评论内容
+	private List<String> comments;///评论内容
 
 	private String serveDomain;////服务领域(中医推拿   小儿推拿等)
 	
 	private List<String> serveDaomainList=new ArrayList<String>();
 	
 
-	public String getComments() {
+	
+	public List<String> getComments() {
 		return comments;
 	}
 
-	public void setComments(String comments) {
+	public void setComments(List<String> comments) {
 		this.comments = comments;
 	}
 

@@ -56,15 +56,6 @@ public class ShopServeService implements IShopServeService {
 			ss.setId(id);
 			ss.setAddtime(new Date());
 			ss.setServeStatus(0);
-			String serveContent=null;
-			for (String content : ss.getServeContent()) {
-				if(serveContent==null){
-					serveContent=content;
-				}else{
-					serveContent=serveContent+","+content;
-				}
-			}
-			ss.setServeContents(serveContent);
 			for (ShopServeImg ssi : ss.getImglist()) {
 				ssi.setAddtime(new Date());
 				ssi.setId(KeyGen.uuid());
@@ -92,18 +83,7 @@ public class ShopServeService implements IShopServeService {
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
 		try {
-			if(ss.getServeContent()!=null){
-				
-				String serveContent=null;
-				for (String content : ss.getServeContent()) {
-					if(serveContent==null){
-						serveContent=content;
-					}else{
-						serveContent=serveContent+","+content;
-					}
-				}
-				ss.setServeContents(serveContent);
-			}
+			
 			ss.setUpdatetime(new Date());
 			shopServeDao.updateServe(ss);
 			if (ss.getImglist() != null && ss.getImglist().size() > 0) {
@@ -151,12 +131,6 @@ public class ShopServeService implements IShopServeService {
 		// TODO Auto-generated method stub
 		Results<ShopServeVo> result = new Results<ShopServeVo>();
 		ShopServe ss = shopServeDao.selectSingle(id);
-		if(ss.getServeContents()!=null){
-			String sc = ss.getServeContents();
-			List<String> list = Arrays.asList(sc.split(","));
-			ss.setServeContent(list);
-		}
-		
 		List<ShopServeImg> listimg = shopServeDao.selectByServeId(id);
 		ss.setImglist(listimg);
 		String shopId = ss.getShopId();

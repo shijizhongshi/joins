@@ -14,7 +14,7 @@ public interface IUserService {
 
 	public Results<User> loginUser(UserLogin userlogin,HttpServletRequest request);
 
-	public User existMobileUser(String mobile);
+	public User sinleUser(String userId,String mobile);
 
 	public int updateUser(User user);
 	

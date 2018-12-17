@@ -18,17 +18,17 @@
 	<result column="serve_status" property="serveStatus"/>
 	<result column="explains" property="explains"/>
 	<result column="payment_type" property="paymentType"/>
-	<result column="serve_contents" property="serveContents"/>
+	<result column="serve_type" property="serveType"/>
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type
+	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
 	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,buy_rule,serve_status,explains,
-	addtime,serve_contents)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},#{paymentType}
-	#{content},#{serveTime},#{buyRule},#{serveStatus},#{explains},#{addtime},#{serveContents})
+	addtime)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},#{paymentType},
+	#{serveType},#{content},#{serveTime},#{buyRule},#{serveStatus},#{explains},#{addtime})
 	</insert>
 	<update id="updateServe" parameterType="com.ola.qh.entity.ShopServe">
 	update shop_serve set
@@ -59,11 +59,14 @@
 	<if test="explains!=null">
 	explains=#{explains},
 	</if>
+	<if test="serveType!=null">
+	serve_type=#{serveType},
+	</if>
 	updatetime=#{updatetime}
 	where id=#{id}
 	</update>
 	<select id="selectSingle" resultMap="ShopServeMap">
-	select <include refid="sql_base"></include>,content,serve_time,buy_rule,explains,serve_contents from shop_serve where id=#{id}
+	select <include refid="sql_base"></include>,content,serve_time,buy_rule,explains from shop_serve where id=#{id}
 	</select>
 	
 	<select id="selectList" resultMap="ShopServeMap" resultType="com.ola.qh.vo.ShopServeDomain">
@@ -86,6 +89,10 @@
 	</if>
 	<if test="serveStatus!=null">
 	and serve_status=#{serveStatus}
+	</if>
+	<if test="ishot!=0">
+	and ishot=#{ishot}
+	<!-- 后台设置的在首页展示热卖的 -->
 	</if>
 	order by addtime desc
 	<if test="pageSize!=0">

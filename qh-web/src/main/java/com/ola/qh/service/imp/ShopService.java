@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.controller.IndexController;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.ShopServeTypeDao;
@@ -25,6 +27,7 @@ import com.ola.qh.service.IUserCommentService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.IndexVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopServeDomain;
 import com.ola.qh.vo.ShopVo;
@@ -36,8 +39,6 @@ public class ShopService implements IShopService {
 	private ShopDao shopDao;
 	@Autowired
 	private IUserService userService;
-	@Autowired
-	private UserDao userDao;
 	@Autowired
 	private ShopServeTypeDao shopTypeDao;
 	@Autowired
@@ -186,11 +187,9 @@ public class ShopService implements IShopService {
 				shop.setServeDomain(servename);/////服务领域
 				
 			}
-			
-			
 			shopDao.insertShop(shop);
 			/////修改用户表的userrole 0:没有店铺   1:服务店铺   2:商城店铺  3:两种店铺都有
-			List<Shop> listshopss = shopDao.selectShopByUserId(shop.getUserId(), null, 0);
+			/*List<Shop> listshopss = shopDao.selectShopByUserId(shop.getUserId(), null, 0);
 			User user= new User();
 			user.setId(shop.getUserId());
 			if(listshopss.size()==1){
@@ -208,7 +207,8 @@ public class ShopService implements IShopService {
 				user.setUserrole(3);
 			}
 			
-			userDao.updateUser(user);
+			userDao.updateUser(user); 审核过了才会改这个用户的信息*/  
+			
 			
 			result.setStatus("0");
 			return result;
@@ -243,21 +243,17 @@ public class ShopService implements IShopService {
 	public List<Shop> listShop(ShopDomain sd) {
 		// TODO Auto-generated method stub
 		List<Shop> listshop = shopDao.listShop(sd);
-		for (Shop shop : listshop) {
-			shopDao.commentGrade(shop.getId());
-			List<ShopServeType> typelist = shopTypeDao.selectShopServeType();
-			Random rand = new Random();
-			String comments="";
-			for(int i=0;i<2;i++){
-				int num = rand.nextInt(typelist.size())+0;
-				if("".equals(comments)){
-					comments=typelist.get(num).getName();
-				}else{
-					comments=comments+typelist.get(num).getName();
-				}
+		if(sd.getShopType()==1){
+			/////只有服务店铺才会有评论信息
+			for (Shop shop : listshop) {
+				double avgGrade = shopDao.commentGrade(shop.getId());
+				shop.setCommentGrade(avgGrade);
+				IndexController ic = new IndexController();
+				shop.setComments(ic.comments());
+				
 			}
-			shop.setComments(comments);
 		}
+		
 		return listshop;
 	}
 
