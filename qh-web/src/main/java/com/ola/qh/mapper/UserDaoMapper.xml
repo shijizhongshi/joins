@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<sql id="sql_base">
-	id,mobile,password,nickname,head_img_url,userrole
+	id,mobile,nickname,head_img_url,userrole
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
@@ -23,7 +23,7 @@
 	</insert>
 	
 	<select id="loginUser"  resultMap="UserMap">
-		select <include refid="sql_base"></include> from user where mobile=#{mobile} and password=#{password}
+		select <include refid="sql_base"></include>,password from user where mobile=#{mobile} and password=#{password}
 	</select>
 	
 	<select id="singleUser" resultMap="UserMap">
@@ -46,9 +46,6 @@
 		</if>
 		<if test="password!=null and password!=''">
 		password=#{password},
-		</if>
-		<if test="userrole!=0">
-		userrole=#{userrole},
 		</if>
 		<if test="birthday!=null">
 		birthday=#{birthday},

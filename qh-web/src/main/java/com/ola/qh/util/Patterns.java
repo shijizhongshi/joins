@@ -3,7 +3,9 @@ package com.ola.qh.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Patterns {
+	
 
 	//////新闻分页的个数
     public static final int zupageSize = 8;
@@ -19,5 +21,6 @@ public class Patterns {
     	SimpleDateFormat sf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     	return sf.format(time);
     }
+    
     
 }

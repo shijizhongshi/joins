@@ -38,18 +38,12 @@ public class UserController {
 	
 	
 
-	@RequestMapping(value = "/existMobile", method = RequestMethod.GET)
-	public Results<User> existMobileUser(@RequestParam(name = "mobile", required = true) String mobile) {
+	@RequestMapping(value = "/single", method = RequestMethod.GET)
+	public Results<User> singleUser(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<User> results = new Results<User>();
-
-		User existMobile = userService.existMobileUser(mobile);
-		if (existMobile != null) {
-			results.setStatus("1");
-			results.setMessage("手机号重复");
-			return results;
-		}
-
+		User user = userService.sinleUser(userId,null);
+		results.setData(user);
 		results.setStatus("0");
 		return results;
 	}

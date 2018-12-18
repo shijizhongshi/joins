@@ -62,7 +62,7 @@ public class SendSmsController {
 			return result;
 		}
 		if("1".equals(types)){
-			User existMobile = userService.existMobileUser(mobile);
+			User existMobile = userService.sinleUser(null,mobile);
 			if (existMobile == null) {
 				Map<String, String> map = new HashMap<String, String>();
 

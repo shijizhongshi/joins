@@ -90,15 +90,13 @@ public class CourseController {
 	public Results<List<Course>> listCourse(
 			@RequestParam(name = "page", required = true) int page,
 			@RequestParam(name = "courseTypeName", required = false) String courseTypeName,
-			@RequestParam(name = "courseTypeSubclassName", required = false) String courseTypeSubclassName,
-			@RequestParam(name = "courseExcellent", required = false,defaultValue="0") int courseExcellent) {
+			@RequestParam(name = "courseTypeSubclassName", required = false) String courseTypeSubclassName) {
 
 		Results<List<Course>> result = new Results<List<Course>>();
 
 		Course course = new Course();
 		course.setCourseTypeName(courseTypeName);
 		course.setCourseTypeSubclassName(courseTypeSubclassName);
-		course.setCourseExcellent(courseExcellent);
 		int pageNo = (page - 1) * Patterns.zupageSize;
 		course.setPageNo(pageNo);
 		course.setPageSize(Patterns.zupageSize);

@@ -10,6 +10,22 @@ public class ShopServeDomain {
 	private String serveName;
 	private String paymentType;
 	private String serveStatus;
+	private int ishot;////后台设置可以在首页展示的服务项目
+	private String serveContents;
+	
+	
+	public String getServeContents() {
+		return serveContents;
+	}
+	public void setServeContents(String serveContents) {
+		this.serveContents = serveContents;
+	}
+	public int getIshot() {
+		return ishot;
+	}
+	public void setIshot(int ishot) {
+		this.ishot = ishot;
+	}
 	public String getShopId() {
 		return shopId;
 	}
