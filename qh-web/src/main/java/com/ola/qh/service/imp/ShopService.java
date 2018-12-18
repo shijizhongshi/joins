@@ -1,10 +1,7 @@
 package com.ola.qh.service.imp;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +15,12 @@ import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
-import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.service.IUserCommentService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.IndexVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopServeDomain;
 import com.ola.qh.vo.ShopVo;
