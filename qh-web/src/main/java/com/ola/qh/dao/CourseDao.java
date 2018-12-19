@@ -22,5 +22,5 @@ public interface CourseDao {
 	
 	public Course singleCourse(String courseId);
 	
-	public int sectionCount(String courseId);
+	public Integer sectionCount(String courseId);
 }

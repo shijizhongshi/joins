@@ -104,10 +104,11 @@
 	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
 	and course_type_subclass_name = #{courseTypeSubclassName}
 	</if>
+	order by addtime desc
 	<if test="pageSize>0">
 	limit #{pageNo},#{pageSize}
 	</if>
-	orders by addtime desc
+	
 	</select>
 	
 	<select id="nofreeSingle" resultMap="CourseNofreeMap">

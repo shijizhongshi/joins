@@ -62,9 +62,6 @@ public class Shop {
 	@NotEmpty(message="负责人身份证号不能为空")
 	private String idcard;////负责人的身份证号
 	
-	@NotEmpty(message="负责人姓名不能为空")
-	private String realname;////负责人的姓名
-	
 	private double commentGrade;////评价的评分
 	
 	private List<String> comments;///评论内容
@@ -268,13 +265,6 @@ public class Shop {
 		this.idcard = idcard;
 	}
 
-	public String getRealname() {
-		return realname;
-	}
-
-	public void setRealname(String realname) {
-		this.realname = realname;
-	}
 
 	public String getServetypeName() {
 		return servetypeName;

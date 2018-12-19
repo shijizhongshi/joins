@@ -23,20 +23,19 @@
 	<result column="addtime" property="addtime"/>
 	<result column="updatetime" property="updatetime"/>
 	<result column="idcard" property="idcard"/>
-	<result column="realname" property="realname"/>
 	<result column="serve_domain" property="serveDomain"/>
 	
 	</resultMap>
 
 	<sql id="sql_base">id,user_id,shop_type,shop_name,leader_name,leader_mobile,address,business_license_url,
 	door_head_url,shop_logo,licence_url,islimits,addtime,remarked,isrecommend,
-	business_hours,idcard,realname,serve_domain
+	business_hours,idcard,serve_domain
 	</sql>
 	<insert id="insertShop" parameterType="com.ola.qh.entity.Shop">
 	insert into shop(<include refid="sql_base"></include>)values(#{id},#{userId},#{shopType},#{shopName},
 	#{leaderName},#{leaderMobile},#{address},#{businessLicenseUrl},#{doorHeadUrl},
 	#{shopLogo},#{licenceUrl},#{islimits},#{addtime},#{remarked},#{isrecommend},#{businessHours},#{idcard},
-	#{realname},#{serveDomain})
+	#{serveDomain})
 	</insert>
 	
 	<update id="updateShop" parameterType="com.ola.qh.entity.Shop">
@@ -67,9 +66,6 @@
 	</if>
 	<if test="idcard!=null">
 	idcard=#{idcard},
-	</if>
-	<if test="realname!=null">
-	realname=#{realname},
 	</if>
 	<if test="serveDomain!=null">
 	serve_domain=#{serveDomain},

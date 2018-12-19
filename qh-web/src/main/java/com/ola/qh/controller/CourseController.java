@@ -3,6 +3,7 @@ package com.ola.qh.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,8 +90,8 @@ public class CourseController {
 	 * @param courseExcellent
 	 * @return
 	 */
-	@RequestMapping(value="courseList",method=RequestMethod.POST)
-	public Results<List<Course>> listCourse(CourseClassDomain ccd) {
+	@RequestMapping(value="/courseList",method=RequestMethod.POST)
+	public Results<List<Course>> listCourse(@RequestBody CourseClassDomain ccd) {
 
 		Results<List<Course>> result = new Results<List<Course>>();
 

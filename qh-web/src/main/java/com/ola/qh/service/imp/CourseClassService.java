@@ -62,7 +62,10 @@ public class CourseClassService implements ICourseClassService{
 		buycount = courseClassDao.ordersCount(classId);
 		for (Course course : clist) {
 		    ////总节数
-			sectionCount+=courseDao.sectionCount(course.getId());
+			if(courseDao.sectionCount(course.getId())!=null){
+				sectionCount+=courseDao.sectionCount(course.getId()).intValue();
+			}
+			
 			////总的购买人数
 			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}

@@ -16,6 +16,7 @@ public class CourseClassDomain {
 	
 	private String classId;///班级的id
 	
+
 	public String getClassId() {
 		return classId;
 	}
