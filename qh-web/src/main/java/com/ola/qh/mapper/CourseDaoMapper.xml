@@ -97,8 +97,15 @@
 	</select>
 	
 	<select id="sectionCount" resultType="java.lang.Integer">
-	select sum(course_section_size) from course_chapter where course_id=#{courseId}
+	select sum(course_section_size) from course_chapter where 1=1
+	<if test="courseId!=null">
+	and course_id=#{courseId}
+	</if>
+	<if test="lecturer!=null">
+	and course_lecturer=#{lecturer}
+	</if>
 	</select>
+	
 	
 	
 	<!-- 课程节的查询 -->

@@ -60,19 +60,30 @@ public class CourseClassService implements ICourseClassService{
 		int buycount=0;
 		int sectionCount=0;
 		buycount = courseClassDao.ordersCount(classId);
+		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
+		for (CourseTeacher courseTeacher : ctlist) {
+			int courseNumber=0;
+		for (Course course : clist) {
+		    ////这个教师对应的总节数
+			Integer num = courseDao.sectionCount(course.getId(),courseTeacher.getName());
+			if(num!=null){
+				courseNumber+=num.intValue();
+			}
+		}
+		courseTeacher.setCourseNumber(courseNumber);
+		}
 		for (Course course : clist) {
 		    ////总节数
-			if(courseDao.sectionCount(course.getId())!=null){
-				sectionCount+=courseDao.sectionCount(course.getId()).intValue();
+			if(courseDao.sectionCount(course.getId(),null)!=null){
+				sectionCount+=courseDao.sectionCount(course.getId(),null).intValue();
 			}
-			
 			////总的购买人数
 			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}
 		vo.setSectionCount(sectionCount);
 		vo.setBuyCount(buycount);
 		vo.setCourselist(clist);
-		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
+		
 		vo.setTeacherlist(ctlist);
 		////总的老师数
 		int teacherCount = courseClassDao.teacherCount(classId);

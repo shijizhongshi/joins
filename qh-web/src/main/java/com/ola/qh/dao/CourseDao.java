@@ -2,6 +2,8 @@ package com.ola.qh.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseSection;
@@ -22,5 +24,7 @@ public interface CourseDao {
 	
 	public Course singleCourse(String courseId);
 	
-	public Integer sectionCount(String courseId);
+	public Integer sectionCount(
+			@Param("courseId")String courseId,
+			@Param("lecturer")String lecturer);
 }
