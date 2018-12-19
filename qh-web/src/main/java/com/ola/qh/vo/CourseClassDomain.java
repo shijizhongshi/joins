@@ -14,7 +14,15 @@ public class CourseClassDomain {
 	
 	private int page;
 	
+	private String classId;///班级的id
 	
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
 
 	public int getPage() {
 		return page;

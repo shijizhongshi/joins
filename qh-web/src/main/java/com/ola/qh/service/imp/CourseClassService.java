@@ -54,9 +54,9 @@ public class CourseClassService implements ICourseClassService{
 		CourseClassVo vo=new CourseClassVo();
 		CourseClass cc = courseClassDao.classSingle(classId);
 		BeanUtils.copyProperties(cc, vo);
-		Course c=new Course();
-		c.setClassId(classId);
-		List<Course> clist = courseDao.courseList(c);
+		CourseClassDomain ccd =new CourseClassDomain();
+		ccd.setClassId(classId);
+		List<Course> clist = courseDao.courseList(ccd);
 		int buycount=0;
 		int sectionCount=0;
 		buycount = courseClassDao.ordersCount(classId);

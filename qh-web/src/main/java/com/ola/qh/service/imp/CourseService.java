@@ -15,6 +15,7 @@ import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.CourseClassDomain;
 
 /**
  * 
@@ -48,9 +49,9 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public List<Course> courseList(Course course) {
+	public List<Course> courseList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		return courseDao.courseList(course);
+		return courseDao.courseList(ccd);
 	}
 
 	@Override

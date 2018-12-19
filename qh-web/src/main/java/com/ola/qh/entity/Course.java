@@ -46,10 +46,6 @@ public class Course {
 	
 	private Date updatetime;
 	
-	private int pageNo;////分页用的
-	
-	private int pageSize;
-	
 	private int isFavorite;///1:已经收藏   0:没有收藏
 	
 	private String classId;///按照班级的ID查
@@ -195,21 +191,6 @@ public class Course {
 		this.id = id;
 	}
 
-	public int getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
 
 	public String getUserId() {
 		return userId;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.dao.BannerDao;
+import com.ola.qh.dao.CourseClassDao;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.ShopDao;
@@ -26,6 +27,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.CourseClassDomain;
 import com.ola.qh.vo.DrugIndexVo;
 import com.ola.qh.vo.IndexVo;
 import com.ola.qh.vo.ServerIndexVo;
@@ -46,7 +48,7 @@ public class IndexController {
 	@Autowired
 	private NewsDao newsDao;
 	@Autowired
-	private CourseDao courseDao;
+	private CourseClassDao courseClassDao;
 	@Autowired
 	private ShopServeDao shopServeDao;
 	@Autowired
@@ -72,12 +74,11 @@ public class IndexController {
 		sdd.setPageSize(6);
 		List<ShopDrug> druglist = shopDrugDao.selectDrugList(sdd);
 		vo.setDruglist(druglist);
-		Course course = new Course();
-		course.setCourseExcellent(1);
-		course.setPageNo(0);
-		course.setPageSize(6);
-		List<Course> courselist = courseDao.courseList(course);
-		vo.setCourselist(courselist);
+		CourseClassDomain ccd=new CourseClassDomain();
+		ccd.setIsremmend(1);
+		ccd.setPageNo(0);
+		ccd.setPageSize(6);
+		vo.setClasslist(courseClassDao.classList(ccd));
 		List<News> newlist = newsDao.selectNewList(0, 6,null);
 		for (News news : newlist) {
 			/// 封装这个对象的时间参数

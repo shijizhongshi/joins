@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 /**
@@ -25,6 +26,8 @@ import com.ola.qh.service.IUserFavoriteService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.CourseClassDomain;
+import com.ola.qh.vo.CourseClassVo;
 
 @RestController
 @RequestMapping("/api/course")
@@ -86,21 +89,15 @@ public class CourseController {
 	 * @param courseExcellent
 	 * @return
 	 */
-	@RequestMapping("/courseList")
-	public Results<List<Course>> listCourse(
-			@RequestParam(name = "page", required = true) int page,
-			@RequestParam(name = "courseTypeName", required = false) String courseTypeName,
-			@RequestParam(name = "courseTypeSubclassName", required = false) String courseTypeSubclassName) {
+	@RequestMapping(value="courseList",method=RequestMethod.POST)
+	public Results<List<Course>> listCourse(CourseClassDomain ccd) {
 
 		Results<List<Course>> result = new Results<List<Course>>();
 
-		Course course = new Course();
-		course.setCourseTypeName(courseTypeName);
-		course.setCourseTypeSubclassName(courseTypeSubclassName);
-		int pageNo = (page - 1) * Patterns.zupageSize;
-		course.setPageNo(pageNo);
-		course.setPageSize(Patterns.zupageSize);
-		result.setData(courseService.courseList(course));
+		int pageNo = (ccd.getPage() - 1) * Patterns.zupageSize;
+		ccd.setPageNo(pageNo);
+		ccd.setPageSize(Patterns.zupageSize);
+		result.setData(courseService.courseList(ccd));
 		result.setStatus("0");
 		return result;
 	}

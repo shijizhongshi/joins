@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ola.qh.entity.Banner;
 import com.ola.qh.entity.Course;
+import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
@@ -15,7 +16,7 @@ public class IndexVo {
 	
 	private List<News> newlist=new ArrayList<News>();
 	
-	private List<Course> courselist=new ArrayList<Course>(); 
+	private List<CourseClass> classlist=new ArrayList<CourseClass>(); 
 	
 	private List<ShopDrug> druglist=new ArrayList<ShopDrug>();
 	
@@ -37,12 +38,13 @@ public class IndexVo {
 		this.newlist = newlist;
 	}
 
-	public List<Course> getCourselist() {
-		return courselist;
+	
+	public List<CourseClass> getClasslist() {
+		return classlist;
 	}
 
-	public void setCourselist(List<Course> courselist) {
-		this.courselist = courselist;
+	public void setClasslist(List<CourseClass> classlist) {
+		this.classlist = classlist;
 	}
 
 	public List<ShopDrug> getDruglist() {

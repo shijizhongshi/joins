@@ -51,7 +51,7 @@ public class UserService implements IUserService {
 			
 			if (uc.getCode().equals(user.getVerification())) {
 
-				User existMobile = userDao.singleUser(user.getMobile(), null);
+				User existMobile = userDao.singleUser(null,user.getMobile());
 				User users = new User();
 
 				if (existMobile != null) {
@@ -109,7 +109,7 @@ public class UserService implements IUserService {
 
 			User user = new User();
 
-			user = userDao.singleUser(userlogin.getMobile(), null);
+			user = userDao.singleUser(null,userlogin.getMobile());
 			if (user == null) {
 				results.setMessage("该手机号未注册");
 				results.setStatus("1");
@@ -175,7 +175,7 @@ public class UserService implements IUserService {
 	public Results<String> existUser(String userId) {
 
 		Results<String> result = new Results<String>();
-		User user = userDao.singleUser(null, userId);
+		User user = userDao.singleUser(userId,null);
 		if (user != null) {
 			result.setStatus("0");
 			return result;
