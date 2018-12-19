@@ -1,8 +1,6 @@
 package com.ola.qh.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 
@@ -17,6 +15,8 @@ public class CourseChapter {
 	private String id;
 	
 	private String courseId;///课程的id
+	
+	private int courseSectionSize;///节总数
 	
 	private String courseChapterName;//课程章的名称
 	
@@ -34,7 +34,14 @@ public class CourseChapter {
 	
 	private Date updatetime;
 	
-	private List<CourseSection> cslist = new ArrayList<CourseSection>();
+	
+	public int getCourseSectionSize() {
+		return courseSectionSize;
+	}
+
+	public void setCourseSectionSize(int courseSectionSize) {
+		this.courseSectionSize = courseSectionSize;
+	}
 
 	public String getId() {
 		return id;
@@ -116,14 +123,6 @@ public class CourseChapter {
 		this.ispay = ispay;
 	}
 
-	public List<CourseSection> getCslist() {
-		return cslist;
-	}
-
-	public void setCslist(List<CourseSection> cslist) {
-		this.cslist = cslist;
-	}
-	
 	
 
 }

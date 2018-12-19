@@ -20,4 +20,6 @@ public interface CourseDao {
 	public List<CourseSection> courseSectionList(String courseChapterId);
 	
 	public Course singleCourse(String courseId);
+	
+	public int sectionCount(String courseId);
 }

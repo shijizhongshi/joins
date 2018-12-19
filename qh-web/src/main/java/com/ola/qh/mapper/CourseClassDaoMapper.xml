@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ola.qh.dao.CourseClassDao">
+	<!-- 班级课程开始 -->
+	<resultMap type="com.ola.qh.entity.CourseClass" id="CourseClassMap">
+	<result column="id" property="id"/>
+	<result column="course_type_name" property="courseTypeName"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="class_name" property="className"/>
+	<result column="class_price" property="classPrice"/>
+	<result column="class_discount_price" property="classDiscountPrice"/>
+	<result column="course_lecturer" property="courseLecturer"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="proper_people" property="properPeople"/>
+	<result column="promises" property="promises"/>
+	<result column="features" property="features"/>
+	<result column="introduce" property="introduce"/>
+	<result column="detail" property="detail"/>
+	</resultMap>
+	
+	<sql id="sql_base">
+	id,class_name,class_price,class_discount_price,course_lecturer,img_url
+	</sql>
+	
+	<select id="classList" resultMap="CourseClassMap" resultType="com.ola.qh.vo.CourseClassDomain">
+	select <include refid="sql_base"></include> from course_class where isshow=1
+	<if test="courseTypeName!=null and courseTypeName!='' ">
+	and course_type_name=#{courseTypeName}
+	</if>
+	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
+	and course_type_subclass_name = #{courseTypeSubclassName}
+	</if>
+	<if test="isremmend!=0">
+	and isremmend=#{isremmend}
+	</if>
+	<if test="pageSize!=0">
+	#{pageNo},#{pageSize}
+	</if>
+	</select>
+	
+	<select id="classSingle" resultMap="CourseClassMap">
+	select <include refid="sql_base"></include>,course_type_name,course_type_subclass_name,proper_people,
+	promises,features,introduce,detail from course_class where id=#{id} and isshow=1
+	</select>
+	<!-- 班级课程开始 -->
+	<!-- 查班级的所有老师开始************************* -->
+	
+	<resultMap type="com.ola.qh.entity.CourseTeacher" id="CourseTeacherMap">
+	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="img_url" property="imgUrl"/>
+	<result column="details" property="details"/>
+	</resultMap>
+	<select id="teacherList" resultMap="CourseTeacherMap">
+	select ct.id,ct.name,ct.img_url,ct.details from course_class_teacher cct left join course_teacher ct on cct.teacher_id=ct.id where isshow=1
+	<if test="classId!=null">
+	and cct.class_id=#{classId}
+	</if> 
+	</select>
+	
+	
+	<select id="teacherCount" resultType="int">
+	select count(ct.id) from course_class_teacher cct left join course_teacher ct on cct.teacher_id=ct.id where ct.isshow=1
+	<if test="classId!=null">
+	and cct.class_id=#{classId}
+	</if> 
+	
+	</select>
+	<!-- 查班级的所有老师结束************************* -->
+	<select id="ordersCount" resultType="int">
+	select count(id) from orders_product where product_id=#{productId} and status_code="RECEIVED"
+	</select>
+	
+	
+	
+	<!--免费试听课开始############-->
+	<resultMap type="com.ola.qh.entity.CourseNofree" id="CourseNofreeMap">
+	<result column="id" property="id"/>
+	<result column="course_type_name" property="courseTypeName"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="course_resource_type" property="courseResourceType"/>
+	<result column="course_use_difference" property="courseUseDifference"/>
+	<result column="course_name" property="courseName"/>
+	<result column="teachers" property="teachers"/>
+	<result column="describes" property="describes"/>
+	<result column="aliyunId" property="aliyunId"/>
+	<result column="img_url" property="imgUrl"/>
+	</resultMap>
+	<!--免费试听课开始############-->
+	<sql id="free_base">
+	id,course_name,teachers,img_url
+	</sql>
+	
+	<select id="nofreeList" resultMap="CourseNofreeMap" resultType="com.ola.qh.vo.CourseClassDomain">
+	select <include refid="free_base"></include> from course_nofree where 1=1
+	<if test="isremmend!=0">
+	and isremmend=#{isremmend}
+	</if>
+	<if test="courseTypeName!=null and courseTypeName!='' ">
+	and course_type_name=#{courseTypeName}
+	</if>
+	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
+	and course_type_subclass_name = #{courseTypeSubclassName}
+	</if>
+	<if test="pageSize>0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	orders by addtime desc
+	</select>
+	
+	<select id="nofreeSingle" resultMap="CourseNofreeMap">
+	select * from course_nofree where id=#{id}
+	</select>
+	<!--免费试听课结束############-->
+	
+	</mapper>

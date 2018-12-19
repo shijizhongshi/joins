@@ -52,9 +52,19 @@ public class Course {
 	
 	private int isFavorite;///1:已经收藏   0:没有收藏
 	
-	private List<CourseChapter> cclist=new ArrayList<CourseChapter>();
-
+	private String classId;///按照班级的ID查
 	
+	
+	
+
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+
 	public int getIsFavorite() {
 		return isFavorite;
 	}
@@ -209,14 +219,6 @@ public class Course {
 		this.userId = userId;
 	}
 
-	public List<CourseChapter> getCclist() {
-		return cclist;
-	}
-
-	public void setCclist(List<CourseChapter> cclist) {
-		this.cclist = cclist;
-	}
-	
 	
 	
 }

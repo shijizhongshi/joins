@@ -114,7 +114,6 @@ public class ShopController {
 		sd.setShopName(shopName);
 		sd.setShopType(shopType);
 		
-		
 		List<Shop> listShop = shopService.listShop(sd);
 		result.setData(listShop);
 		result.setStatus("0");
@@ -132,24 +131,18 @@ public class ShopController {
 	public Results<List<String>> selectShopServeType() {
 
 		Results<List<String>> results = new Results<List<String>>();
-
 		List<Shop> list = shopService.selectShopServeType();
 		if (list != null && list.size() != 0) {
-
 			List<String> List = new ArrayList<String>();
-			
 			for(int i = 0;i < list.size();i++){
 				Shop shop = list.get(i);
 			    String typeName=shop.getServetypeName();
 			    List.add(typeName);
 			}
-			
 			results.setData(List);
 			results.setStatus("0");
 			return results;
-
 		}
-
 		results.setStatus("1");
 		return results;
 	}

@@ -87,12 +87,6 @@ public class CourseService implements ICourseService {
 		if (count > 0) {
 			c.setIsFavorite(1);
 		}
-		List<CourseChapter> cclist = courseDao.courseChapterList(courseId);
-		for (CourseChapter courseChapter : cclist) {
-			List<CourseSection> cslist = courseDao.courseSectionList(courseChapter.getId());
-			courseChapter.setCslist(cslist);
-		}
-		c.setCclist(cclist);
 		result.setStatus("0");
 		result.setData(c);
 		return result;

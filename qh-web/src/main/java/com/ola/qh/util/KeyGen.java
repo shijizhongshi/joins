@@ -58,7 +58,4 @@ public class KeyGen {
 	}
 	
 	
-	public static void main(String[] args) {
-		System.out.println(gen());
-	}
 }
