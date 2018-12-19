@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserCourseHistoryDao">
+	<resultMap type="com.ola.qh.entity.UserCourseHistory" id="UserCourseHistoryMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="class_id" property="classId" />
+		<result column="class_name" property="className" />
+		<result column="class_img_url" property="classImgUrl" />
+		<result column="addtime" property="addtime" />
+	</resultMap>
+
+	<select id="selectUserCourseHistory" resultMap="UserCourseHistoryMap">
+		select id,user_id,class_id,class_name,class_img_url,addtime from user_course_history where user_id=#{userId}
+	</select>
+	
+	<insert id="insertUserCourseHistory" parameterType="com.ola.qh.entity.UserCourseHistory">
+		insert into user_course_history(id,user_id,class_id,class_name,class_img_url,addtime) values(#{id},#{userId},#{classId},#{className},#{classImgUrl},#{addtime})
+	</insert>
+	
+	<update id="updateUserCourseHistory" parameterType="com.ola.qh.entity.UserCourseHistory">
+		update user_course_history set addtime=#{addtime} where class_id=#{classId} and user_id=#{userId}
+	</update>
+	
+	<delete id="deleteUserCourseHistory" >
+		delete from user_course_history where 1=1
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="userId!=null">
+			and user_id=#{userId}
+		</if>
+	</delete>
+
+	<select id="existUserCourseHistory" resultType="com.ola.qh.entity.UserCourseHistory">
+		select * from user_course_history where user_id=#{userId} and class_id=#{classId}
+	</select>
+
+</mapper>
