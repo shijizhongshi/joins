@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.ola.qh.dao.DoctorsDao">
+
+<!-- 医生的信息开始********************** -->
+<resultMap type="com.ola.qh.entity.Doctors" id="DoctorsMap">
+<result column="id" property="id"/>
+<result column="name" property="name"/>
+<result column="user_id" property="userId"/>
+<result column="head_img" property="headImg"/>
+<result column="sexs" property="sexs"/>
+<result column="edu" property="edu"/>
+<result column="classes" property="classes"/>
+<result column="hospital" property="hospital"/>
+<result column="offices" property="offices"/>
+<result column="professional" property="professional"/>
+<result column="signs" property="signs"/>
+<result column="skilled" property="skilled"/>
+<result column="idcard" property="idcard"/>
+<result column="front_idcard_img" property="frontIdcardImg"/>
+<result column="reverse_idcard_img" property="reverseIdcardImg"/>
+<result column="professional_img" property="professionalImg"/>
+<result column="practice_img" property="practiceImg"/>
+<result column="else_img" property="elseImg"/>
+<result column="addtime" property="addtime"/>
+</resultMap>
+
+<sql id="sql_base">
+id,name,user_id,head_img,professional,offices,hospital,signs
+</sql>
+
+
+<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">
+insert into doctors(id,name,head_img,user_id,sexs,edu,classes,hospital,offices,professional,signs,
+skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime)
+values(#{id},#{name},#{headImg},#{userId},#{sexs},#{edu},#{classes},#{hospital},#{offices},#{professional},
+#{signs},#{skilled},#{idcard},#{frontIdcardImg},#{reverseIdcardImg},#{professionalImg},#{practiceImg},
+#{elseImg},#{addtime})
+</insert>
+<!-- 全查 -->
+<select id="listDoctor" resultMap="DoctorsMap">
+select <include refid="sql_base"></include> from doctors 
+<if test="pageSize!=0">
+limit #{pageNo},#{pageSize}
+</if>
+</select>
+<!-- update -->
+
+
+<!-- single -->
+<select id="singleDoctors" resultMap="DoctorsMap">
+select * from doctors where id=#{id}
+</select>
+
+<!-- 医生的信息结束********************** -->
+
+<!-- 患者的信息开始************************* -->
+	<resultMap type="com.ola.qh.entity.DoctorPatient" id="DoctorPatientMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="title" property="title"/>
+	<result column="describes" property="describes"/>
+	<result column="ages" property="ages"/>
+	<result column="sexs" property="sexs"/>
+	<result column="times" property="times"/>
+	<result column="issolve" property="issolve"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<sql id="sql_base">
+	id,user_id,title,describes,ages,sexs,times,issolve
+	</sql>
+	
+	<!-- 患者信息 -->
+	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
+	insert into doctor_patient(<include refid="sql_base"></include>,addtime)
+	values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime})
+	</insert>
+	
+	<!-- 我的问诊 -->
+	<select id="listPatient" resultMap="DoctorPatientMap">
+	select <include refid="sql_base"></include> from doctor_patient 
+	<if test="userId!=null">
+	user_id=#{userId}
+	</if>
+	<if test="pageSize!=0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	</select>
+	
+	<update id="updatePatient">
+	update doctor_patient set 
+	<if test="title!=null">
+	title=#{title},
+	</if>
+	<if test="describes!=null">
+	describes=#{describes},
+	</if>
+	<if test="ages!=null">
+	ages=#{ages},
+	</if>
+	<if test="sexs!=null">
+	sexs=#{sexs},
+	</if>
+	<if test="times!=null">
+	times=#{times},
+	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	</update>
+	
+<!-- 患者的信息结束************************* -->
+</mapper>
