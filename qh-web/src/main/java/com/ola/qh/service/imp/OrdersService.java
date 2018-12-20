@@ -23,6 +23,7 @@ import com.ola.qh.dao.ShopDrugCartDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
+import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.dao.UserIntomoneyHistoryDao;
 import com.ola.qh.dao.UserWithdrawHistoryDao;
 import com.ola.qh.entity.Course;
@@ -73,6 +74,11 @@ public class OrdersService implements IOrdersService {
 	private ShopDao shopDao;
 	@Autowired
 	private IPayService payService;
+	@Autowired
+	private UserFavoriteDao userFavoriteDao;
+	
+	
+	
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -589,21 +595,40 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public Results<OrdersCountVo> countOrders(String muserId) {
+	public Results<OrdersCountVo> countOrders(String muserId,String userId) {
 		// TODO Auto-generated method stub
 		Results<OrdersCountVo> result=new Results<OrdersCountVo>();
 		OrdersCountVo vo =new OrdersCountVo();
-		int newCount = ordersDao.ordersListCount(muserId, OrdersStatus.NEW);
-		int paidCount = ordersDao.ordersListCount(muserId, OrdersStatus.PAID);
-		int deliveredCount = ordersDao.ordersListCount(muserId, OrdersStatus.DELIVERED);
-		int refundCount = ordersProductDao.listOrdersProductCount(muserId);
-		vo.setDeliveredCount(deliveredCount);
-		vo.setNewCount(newCount);
-		vo.setPaidCount(paidCount);
-		vo.setRefundCount(refundCount);
+		if(muserId!=null && (userId==null || "".equals(userId))){
+			////销售订单的个数
+			int newCount = ordersDao.ordersListCount(muserId,null, OrdersStatus.NEW);
+			int paidCount = ordersDao.ordersListCount(muserId,null, OrdersStatus.PAID);
+			int deliveredCount = ordersDao.ordersListCount(muserId,null, OrdersStatus.DELIVERED);
+			int refundCount = ordersProductDao.listOrdersProductCount(muserId,null);
+			vo.setDeliveredCount(deliveredCount);
+			vo.setNewCount(newCount);
+			vo.setPaidCount(paidCount);
+			vo.setRefundCount(refundCount);
+		}
+		
+		if(userId!=null && (muserId==null || "".equals(muserId))){
+			//////这种情况下是指购物订单的个数
+			int newCount = ordersDao.ordersListCount(null,userId, OrdersStatus.NEW);
+			int paidCount = ordersDao.ordersListCount(null,userId, OrdersStatus.PAID);
+			int deliveredCount = ordersDao.ordersListCount(null,userId, OrdersStatus.DELIVERED);
+			int refundCount = ordersProductDao.listOrdersProductCount(null,userId);
+			vo.setDeliveredCount(deliveredCount);
+			vo.setNewCount(newCount);
+			vo.setPaidCount(paidCount);
+			vo.setRefundCount(refundCount);
+			int favoriteCount = userFavoriteDao.favoriteCount(userId);
+			vo.setFavoriteCount(favoriteCount);////收藏的个数
+			
+		}
 		result.setData(vo);
 		result.setStatus("0");
 		return result;
+		
 	}
 
 }

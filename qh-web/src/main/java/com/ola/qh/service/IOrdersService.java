@@ -21,7 +21,7 @@ public interface IOrdersService {
 	
 	public List<OrdersVo> listOrders(OrdersDomain od);
 	
-	public Results<OrdersCountVo> countOrders(String muserId);
+	public Results<OrdersCountVo> countOrders(String muserId,String userId);
 	
 	
 }

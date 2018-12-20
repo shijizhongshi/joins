@@ -22,5 +22,7 @@ public interface UserFavoriteDao {
 			@Param("productId")String productId,
 			@Param("userId")String userId);
 	
+	public int favoriteCount(String userId);
+	
 	public List<UserFavorite> selectSearchUserFavorite(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize,@Param("productName")String productName);
 }

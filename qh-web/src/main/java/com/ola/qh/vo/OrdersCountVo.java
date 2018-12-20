@@ -9,6 +9,16 @@ public class OrdersCountVo {
 	private int deliveredCount;////已发货的订单的个数
 	
 	private int refundCount;////退款订单的个数
+	
+	private int favoriteCount;///收藏的个数
+
+	public int getFavoriteCount() {
+		return favoriteCount;
+	}
+
+	public void setFavoriteCount(int favoriteCount) {
+		this.favoriteCount = favoriteCount;
+	}
 
 	public int getNewCount() {
 		return newCount;

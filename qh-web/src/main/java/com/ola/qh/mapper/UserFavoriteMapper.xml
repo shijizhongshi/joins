@@ -19,6 +19,9 @@
 		select id,user_id,product_id,product_name,product_img_url,addtime,status from user_favorite where user_id=#{userId} and product_type=#{productType} order by addtime DESC limit #{pageNo},#{pageSize}
 	</select>
 	
+	<select id="favoriteCount" resultType="int">
+		select count(id) from user_favorite where user_id=#{userId}
+	</select>
 	<insert id="insertUserFavorite" parameterType="com.ola.qh.entity.UserFavorite" >
 	 	insert into user_favorite(id,user_id,product_id,product_name,product_img_url,product_type,addtime) values(#{id},#{userId},#{productId},#{productName},#{productImgUrl},#{productType},#{addtime})
 	</insert>
