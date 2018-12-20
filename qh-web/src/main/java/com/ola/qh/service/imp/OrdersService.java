@@ -286,6 +286,13 @@ public class OrdersService implements IOrdersService {
 						result.setMessage("订单状态不符");
 						return result;
 					}
+					UserBook ub = userBookDao.singleUserBook(orders.getMuserId());
+					if(ub==null){
+						result.setStatus("1");
+						result.setMessage("商家的账本不能为空");
+						return result;
+					}
+					//////总的钱数 可提现的钱数
 					BigDecimal money = BigDecimal.ZERO;
 					for (OrdersProduct ordersProduct : listop) {
 						money = money.add(ordersProduct.getPayout());
@@ -300,16 +307,21 @@ public class OrdersService implements IOrdersService {
 					////// 往商家店铺里打钱~~~
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
+					
 					/// 修改总账本
+					BigDecimal accountMoney=ub.getAccountMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal canWithdraw=ub.getCanWithdraw().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal waitMoney=ub.getFortheMoney().subtract(money).setScale(2, BigDecimal.ROUND_DOWN);
 					UserBook userbook=new UserBook();
-					userbook.setAccountMoney(money);
+					userbook.setAccountMoney(accountMoney);////总的金额
+					userbook.setCanWithdraw(canWithdraw);///可提现金额
+					userbook.setFortheMoney(waitMoney);////待结算的金额
 					userbook.setUserId(orders.getMuserId());
 					userbook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userbook);
 
 				}
 				//////// 修改订单的状态~~~
-
 				ordersDao.updateOrders(ordersId, ordersStatus, orders.getOrdersStatus(), new Date(), expressNo, null,
 						deliveredtime, null, null);
 				////// 修改订单产品的属性

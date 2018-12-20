@@ -36,7 +36,7 @@
 	and isremmend=#{isremmend}
 	</if>
 	<if test="pageSize!=0">
-	#{pageNo},#{pageSize}
+	limit #{pageNo},#{pageSize}
 	</if>
 	</select>
 	

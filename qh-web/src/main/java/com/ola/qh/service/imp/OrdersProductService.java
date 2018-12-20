@@ -14,10 +14,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.OrdersProductRefundDao;
+import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersProductRefund;
 import com.ola.qh.entity.OrdersStatus;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IPayService;
 import com.ola.qh.service.IUserService;
@@ -44,6 +46,9 @@ public class OrdersProductService implements IOrdersProductService{
 	private OrdersDao ordersDao;
 	@Autowired
 	private IPayService payService;
+	@Autowired
+	private UserBookDao userBookDao;
+	
 	
 	@Override
 	@Transactional(rollbackFor=Exception.class)
@@ -147,6 +152,18 @@ public class OrdersProductService implements IOrdersProductService{
 					if("0".equals(map.get("status"))){
 						statusCode=OrdersStatus.REFUNED;/////退款成功的也就意味着退款工作已完成
 						statusName="退款成功~";
+						///////待结算的金额减少
+						UserBook ub = userBookDao.singleUserBook(op.getMuserId());
+						if(ub!=null){
+							BigDecimal waitMoney=ub.getFortheMoney().subtract(op.getPayout()).setScale(2, BigDecimal.ROUND_DOWN);
+							UserBook userBook=new UserBook();
+							userBook.setFortheMoney(waitMoney);///待结算金额
+							userBook.setUserId(op.getMuserId());////
+							userBook.setUpdatetime(new Date());
+							userBookDao.updateUserBook(userBook);
+						}
+						
+						
 					}else{
 						result.setStatus("1");
 						result.setMessage(map.get("error"));

@@ -43,6 +43,10 @@ public class UserController {
 
 		Results<User> results = new Results<User>();
 		User user = userService.sinleUser(userId,null);
+		if(user.getNickname()==null || "".equals(user.getNickname())){
+			user.setNickname(user.getMobile().substring(7));
+		}
+		user.setPassword(null);
 		results.setData(user);
 		results.setStatus("0");
 		return results;

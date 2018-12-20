@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
+import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserBuyCourseDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.Orders;
@@ -18,6 +20,7 @@ import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.PayResult;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserBuyCourse;
 import com.ola.qh.service.IPayResultService;
 import com.ola.qh.service.IStoreService;
@@ -48,6 +51,8 @@ public class PayResultService implements IPayResultService{
 	@Autowired
 	private IStoreService storeService;
 	
+	@Autowired
+	private UserBookDao userBookDao;
 	/**
 	 * 店铺商品的购买
 	 */
@@ -60,14 +65,27 @@ public class PayResultService implements IPayResultService{
 		pr.setExtransno(oplist.get(0).getExtransno());
 		pr.setId(KeyGen.uuid());
 		pr.setUserId(oplist.get(0).getUserId());
-		/*try {*/
+		try {
 			for (OrdersPayment op:oplist) {
 				Orders orders=ordersDao.singleOrders(op.getOrdersId());
+				//////修改商家的待结算金额(添加)
+				UserBook ub = userBookDao.singleUserBook(orders.getMuserId());
 				ordersDao.updateOrdersPayment(op.getId(), 1, new Date(),null,null);
 				List<OrdersProduct> listOrdersProduct=ordersProductDao.selectByOid(op.getOrdersId(), orders.getOrdersStatus());
 				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null,new Date(),null,null,null);
+				BigDecimal money=BigDecimal.ZERO;
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.PAID, "支付成功", orderproduct.getStatusCode(), new Date());
+					money=money.add(orderproduct.getPayout()).setScale(2, BigDecimal.ROUND_DOWN);
+				}
+				
+				if(ub!=null){
+					BigDecimal waitMoney=ub.getFortheMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					UserBook userBook=new UserBook();
+					userBook.setFortheMoney(waitMoney);///待结算金额
+					userBook.setUserId(orders.getMuserId());////
+					userBook.setUpdatetime(new Date());
+					userBookDao.updateUserBook(userBook);
 				}
 			}
 			/////保存回调成功的信息
@@ -75,14 +93,14 @@ public class PayResultService implements IPayResultService{
             pr.setPayStatus("Success");
 			ordersDao.insertPayResult(pr);
 			
-	/*	} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			//////保存回调失败的信息
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			pr.setComment("支付成功之后店铺商品的回调失败");
             pr.setPayStatus("failure");
 			ordersDao.insertPayResult(pr);
-		}*/
+		}
 	}
 
 	@Override

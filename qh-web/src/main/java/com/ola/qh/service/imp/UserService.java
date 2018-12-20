@@ -83,7 +83,8 @@ public class UserService implements IUserService {
 				userlogin.setDeviceType(user.getDeviceType());
 				userlogin.setAddtime(new Date());
 				userloginDao.saveUserLogin(userlogin);
-
+				String nickname=users.getMobile().substring(7);
+				users.setNickname(nickname);
 				result.setData(users);
 				result.setStatus("0");
 				return result;
@@ -146,10 +147,10 @@ public class UserService implements IUserService {
 			userlogin.setUpdatetime(new Date());
 			userloginDao.updateUserLogin(userlogin);
 
-			user.setDeviceId(userlogin.getDeviceId());
+			/*user.setDeviceId(userlogin.getDeviceId());
 			user.setDeviceName(userlogin.getDeviceName());
 			user.setDeviceToken(userlogin.getDeviceToken());
-			user.setDeviceType(userlogin.getDeviceType());
+			user.setDeviceType(userlogin.getDeviceType());*/
 
 			results.setStatus("0");
 			user.setPassword(null);

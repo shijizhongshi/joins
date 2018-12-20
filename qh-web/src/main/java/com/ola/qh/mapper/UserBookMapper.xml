@@ -16,7 +16,7 @@
 		<result column="can_withdraw"  property="canWithdraw" />
 	</resultMap>
 
-	<select id="selectUserBook" resultMap="UserBookMap">
+	<select id="singleUserBook" resultMap="UserBookMap">
 		select * from user_book where user_id=#{userId}
 	</select>
 	

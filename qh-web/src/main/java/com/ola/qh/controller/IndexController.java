@@ -27,6 +27,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ClassVo;
 import com.ola.qh.vo.CourseClassDomain;
 import com.ola.qh.vo.DrugIndexVo;
 import com.ola.qh.vo.IndexVo;
@@ -181,6 +182,27 @@ public class IndexController {
 		result.setData(vo);
 		return result;
 	}
+	
+	@RequestMapping("/class")
+	public Results<ClassVo> courseClass(){
+		Results<ClassVo> result=new Results<ClassVo>();
+		ClassVo vo =new ClassVo();
+		List<Banner> bannerlist =  bannerDao.selectBanner("6");
+		vo.setBannerlist(bannerlist);
+		CourseClassDomain ccd=new CourseClassDomain();
+		ccd.setIsremmend(1);
+		ccd.setPageNo(0);
+		ccd.setPageSize(4);
+		/////免费课程的集合
+		vo.setNofreelist(courseClassDao.nofreeList(ccd));
+		///推荐课程的集合
+		vo.setCourseClass(courseClassDao.classList(ccd));
+		result.setData(vo);
+		result.setStatus("0");
+		return result;
+		
+	}
+	
 	
 	/**
 	 * 

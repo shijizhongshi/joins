@@ -4,7 +4,7 @@ import com.ola.qh.entity.UserBook;
 
 public interface UserBookDao {
 
-	public UserBook selectUserBook(String userId);
+	public UserBook singleUserBook(String userId);
 	
 	public int saveUserBook(UserBook userbook);
 	
