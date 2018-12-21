@@ -61,7 +61,7 @@
 		,specification_params,product_name,
 		manufacturer,drug_sign,approval_number,period_validity,storages,units,proper_people,elements,
 		characters,packagings,indication,dosage,bad_symptom,taboo,attention_matter,drug_interactions,
-		drug_action,shap_code,friendly_hint,img_url,addtime,deadlines)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname}
+		drug_action,shap_code,friendly_hint,img_url,addtime,deadlines)values(#{id},#{userId},#{shopId},#{drugName},#{categoryName},#{categorySubname},
 		#{healingPowers},#{specification},#{originalPrice},#{discountPrice},#{price},#{drugDetail},#{stocks},#{salesNumber},#{freight},
 		#{istimes},#{ishot},#{isrecommend},#{issales},#{islimits},#{specificationParams},#{productName},#{manufacturer},#{drugSign},
 		#{approvalNumber},#{periodValidity},#{storages},#{units},#{properPeople},#{elements},#{characters},#{packagings},#{indication},

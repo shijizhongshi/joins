@@ -20,6 +20,8 @@ public interface DoctorsDao {
 	
 	public int updatePatient(DoctorPatient dp);
 	
+	public DoctorPatient singlePatient(String id);
+	
 	public int insertPatientImg(DoctorPatientImg dpi);
 	
 	public int deletePatientImg(String id);
@@ -34,5 +36,8 @@ public interface DoctorsDao {
 	
 	public int updateDoctors(Doctors d);////修改用户的基本信息
 	
-	public Doctors singleDoctors(String id,String userId,String islimit);/////查用户的详情
+	public Doctors singleDoctors(
+			@Param("id")String id,
+			@Param("userId")String userId,
+			@Param("islimit")String islimit);/////查用户的详情
 }

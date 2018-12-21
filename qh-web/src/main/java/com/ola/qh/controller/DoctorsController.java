@@ -104,6 +104,44 @@ public class DoctorsController {
 	public Results<String> patientSaveUpdate(@RequestBody @Valid DoctorPatient dp,BindingResult valid){
 		
 		Results<String> result=new Results<String>();
+		if(dp.getId()==null || "".equals(dp.getId())){
+			////说明是保存
+			if(valid.hasErrors()){
+				result.setStatus("0");
+				result.setMessage("患者信息填写不完整");
+			}
+		}
+		
+		return doctorsService.patientSaveUpdate(dp);
+	}
+	/**
+	 * 用户填写患者的集合
+	 * <p>Title: listPatient</p>  
+	 * <p>Description: </p>  
+	 * @param userId
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/listpatient")
+	public Results<List<DoctorPatient>> listPatient(
+			@RequestParam(name="userId",required=true)String userId,
+			@RequestParam(name="page",required=true)int page){
+		
+		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize);
+		result.setData(list);
+		result.setStatus("0");
+		return result;
+	}
+	
+	@RequestMapping("/singlepatient")
+	public Results<DoctorPatient> singlePatient(@RequestParam(name="id",required=true)String id){
+		Results<DoctorPatient> result=new Results<DoctorPatient>();
+		DoctorPatient dp = doctorsService.singlePatient(id);
+		result.setData(dp);
+		result.setStatus("0");
 		return result;
 	}
 	

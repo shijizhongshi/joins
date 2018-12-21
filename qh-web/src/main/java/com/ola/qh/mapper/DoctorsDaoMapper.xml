@@ -1,4 +1,4 @@
-	<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 	<!DOCTYPE mapper 
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -39,9 +39,9 @@
 
 	<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">
 		insert into
-		doctors(id,name,head_img,user_id,sexs,edu,classes,hospital,offices,professional,signs,
+		doctors(id,name,head_img,user_id,sexs,edu,school,hospital,offices,professional,signs,
 		skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime)
-		values(#{id},#{name},#{headImg},#{userId},#{sexs},#{edu},#{classes},#{hospital},#{offices},#{professional},
+		values(#{id},#{name},#{headImg},#{userId},#{sexs},#{edu},#{school},#{hospital},#{offices},#{professional},
 		#{signs},#{skilled},#{idcard},#{frontIdcardImg},#{reverseIdcardImg},#{professionalImg},#{practiceImg},
 		#{elseImg},#{addtime})
 	</insert>
@@ -138,25 +138,27 @@
 		<result column="addtime" property="addtime" />
 	</resultMap>
 
-	<sql id="sql_base">
+	<sql id="patientsql_base">
 		id,user_id,title,describes,ages,sexs,times,issolve
 	</sql>
 
 	<!-- 患者信息 -->
 	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		insert into doctor_patient(
-		<include refid="sql_base"></include>
+		<include refid="patientsql_base"></include>
 		,addtime)
 		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime})
 	</insert>
-
+	<select id="singlePatient" resultMap="DoctorPatientMap">
+	select <include refid="patientsql_base"></include> from doctor_patient where id=#{id}
+	</select>
 	<!-- 我的问诊 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
 		select
-		<include refid="sql_base"></include>
-		from doctor_patient
+		<include refid="patientsql_base"></include>
+		from doctor_patient  where 1=1
 		<if test="userId!=null">
-			user_id=#{userId}
+		and	user_id=#{userId}
 		</if>
 		<if test="pageSize!=0">
 			limit #{pageNo},#{pageSize}

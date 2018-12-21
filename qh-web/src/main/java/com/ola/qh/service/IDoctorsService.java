@@ -23,4 +23,6 @@ public interface IDoctorsService {
 			@Param("userId")String userId,
 			@Param("pageNo")int pageNo,
 			@Param("pageSize")int pageSize);
+	
+	public DoctorPatient singlePatient(String id);
 }

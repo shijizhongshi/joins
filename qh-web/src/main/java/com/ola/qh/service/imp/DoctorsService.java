@@ -34,7 +34,7 @@ public class DoctorsService implements IDoctorsService{
 		if("1".equals(resultuser.getStatus())){
 			return resultuser;
 		}
-		try {
+		/*try {*/
 			if(d.getId()!=null && !"".equals(d.getId())){
 				//////修改医生的信息
 				d.setUpdatetime(new Date());
@@ -54,14 +54,14 @@ public class DoctorsService implements IDoctorsService{
 			}
 			result.setStatus("0");
 			return result;
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("更新失败");
 			return result;
 		}
-		
+		*/
 	}
 
 	@Override
@@ -142,6 +142,15 @@ public class DoctorsService implements IDoctorsService{
 	public List<DoctorPatient> listPatient(String userId, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
 		return doctorsDao.listPatient(userId, pageNo, pageSize);
+	}
+
+	@Override
+	public DoctorPatient singlePatient(String id) {
+		// TODO Auto-generated method stub
+		DoctorPatient dp = doctorsDao.singlePatient(id);
+		List<DoctorPatientImg> imglist = doctorsDao.listPatientImg(id);
+		dp.setImglist(imglist);
+		return dp;
 	}
 
 }

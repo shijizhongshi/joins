@@ -3,13 +3,19 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="">
-	<resultMap type="" id="">
-	
+<mapper namespace="com.ola.qh.dao.DoctorOfficeDao">
+
+	<resultMap type="com.ola.qh.entity.DoctorInfo" id="DoctorInfoMap">
+	<result column="name" property="name"/>
+	<result column="types" property="types"/>
+	<result column="img_url" property="imgUrl"/>
 	</resultMap>
-
-
-	<select id="doctorInfoList" resultType="java.lang.String">
-	select name from doctor_info 
+	
+	<select id="officeList" resultMap="DoctorInfoMap">
+	select name,img_url from doctor_office
+	</select>
+	
+	<select id="doctorInfoList" resultMap="DoctorInfoMap">
+	select name,types from doctor_info
 	</select>
 </mapper> 

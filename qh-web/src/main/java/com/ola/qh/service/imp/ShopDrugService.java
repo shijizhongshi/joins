@@ -60,7 +60,7 @@ public class ShopDrugService implements IShopDrugService {
 			result.setMessage("店铺的类型不对");
 			return result;
 		}
-		try {
+		/*try {*/
 			String id = KeyGen.uuid();
 			if (shopDrug.getImgList() != null && shopDrug.getImgList().size() != 0) {
 				/////// 集合不等于空的话
@@ -80,12 +80,12 @@ public class ShopDrugService implements IShopDrugService {
 			shopDrugDao.insertDrug(shopDrug);
 			result.setStatus("0");
 			return result;
-		} catch (Exception e) {
+			/*} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("保存失败");
 			return result;
-		}
+		}*/
 
 	}
 
