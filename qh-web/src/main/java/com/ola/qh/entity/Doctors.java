@@ -2,45 +2,49 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Doctors {
 
 	private String id;
-	
+	@NotEmpty
 	private String userId;
-	
+	@NotEmpty
 	private String name;
-	
+	@NotEmpty
 	private String headImg;
 	
 	private String sexs;
 	
 	private String edu;
 	
-	private String classes;
+	private String school;
 	
 	private String hospital;
-	
+	@NotEmpty
 	private String offices;
-	
+	@NotEmpty
 	private String professional;////职称
 	
 	private String signs;
 	
 	private String skilled;
-	
+	@NotEmpty
 	private String idcard;
-	
+	@NotEmpty
 	private String frontIdcardImg;
-	
+	@NotEmpty
 	private String reverseIdcardImg;
-	
+	@NotEmpty
 	private String professionalImg;///职称的图片
-	
+	@NotEmpty
 	private String practiceImg;////执业医师证的图片
 	
 	private String elseImg;////其他的图片
 	
 	private Date addtime;
+	
+	private Date updatetime;
 
 	public String getId() {
 		return id;
@@ -90,12 +94,13 @@ public class Doctors {
 		this.edu = edu;
 	}
 
-	public String getClasses() {
-		return classes;
+	
+	public String getSchool() {
+		return school;
 	}
 
-	public void setClasses(String classes) {
-		this.classes = classes;
+	public void setSchool(String school) {
+		this.school = school;
 	}
 
 	public String getHospital() {
@@ -192,6 +197,14 @@ public class Doctors {
 
 	public void setAddtime(Date addtime) {
 		this.addtime = addtime;
+	}
+
+	public Date getUpdatetime() {
+		return updatetime;
+	}
+
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
 	}
 	
 	

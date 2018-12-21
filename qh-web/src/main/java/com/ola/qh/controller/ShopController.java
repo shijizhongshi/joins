@@ -56,7 +56,7 @@ public class ShopController {
 			}
 			
 			if(shop.getIdcard()!=null && !"".equals(shop.getIdcard())){
-				Pattern p=Pattern.compile("(^[1-8][0-7]{2}\\d{3}([12]\\d{3})(0[1-9]|1[012])(0[1-9]|[12]\\d|3[01])\\d{3}([0-9Xx])$)");
+				Pattern p=Pattern.compile(Patterns.IDCARD_PATTERN);
 				if(!p.matcher(shop.getIdcard()).matches()){
 					result.setStatus("1");
 					result.setMessage("身份证号格式不准确~");

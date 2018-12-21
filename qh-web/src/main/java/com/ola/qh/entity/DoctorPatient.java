@@ -1,13 +1,18 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class DoctorPatient {
 
 	private String id;
 	
+	@NotEmpty
 	private String userId;
-	
+	@NotEmpty
 	private String title;
 	
 	private String describes;
@@ -20,7 +25,21 @@ public class DoctorPatient {
 	
 	private int issolve;
 	
+	public List<DoctorPatientImg> imglist=new ArrayList<DoctorPatientImg>();
+	
 	private Date addtime;
+	
+	private Date updatetime;
+	
+	
+
+	public Date getUpdatetime() {
+		return updatetime;
+	}
+
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
+	}
 
 	public String getId() {
 		return id;
@@ -92,6 +111,14 @@ public class DoctorPatient {
 
 	public void setIssolve(int issolve) {
 		this.issolve = issolve;
+	}
+
+	public List<DoctorPatientImg> getImglist() {
+		return imglist;
+	}
+
+	public void setImglist(List<DoctorPatientImg> imglist) {
+		this.imglist = imglist;
 	}
 	
 	
