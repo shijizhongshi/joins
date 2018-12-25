@@ -7,6 +7,7 @@
 	<resultMap type="com.ola.qh.entity.News" id="NewsMap">
 		<result column="id" property="id" />
 		<result column="types" property="types" />
+		<result column="content_types" property="contentTypes" />
 		<result column="title" property="title" />
 		<result column="img_url" property="imgUrl" />
 		<result column="content" property="content" />
@@ -24,6 +25,9 @@
 		from news where 1=1
 		<if test="types!=null">
 			and types=#{types}
+		</if>
+		<if test="contentTypes!=0">
+			and content_types=#{contentTypes}
 		</if>
 		<if test="pageNo!=0">
 			where limit #{pageNo},#{pageSize}

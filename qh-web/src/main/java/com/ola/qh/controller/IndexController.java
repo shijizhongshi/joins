@@ -80,7 +80,7 @@ public class IndexController {
 		ccd.setPageNo(0);
 		ccd.setPageSize(6);
 		vo.setClasslist(courseClassDao.classList(ccd));
-		List<News> newlist = newsDao.selectNewList(0, 6,null);
+		List<News> newlist = newsDao.selectNewList(0, 6,0,null);
 		for (News news : newlist) {
 			/// 封装这个对象的时间参数
 			if (news.getAddtime() != null) {
