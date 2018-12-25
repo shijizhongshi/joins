@@ -28,6 +28,7 @@
 		<result column="practice_img" property="practiceImg" />
 		<result column="else_img" property="elseImg" />
 		<result column="addtime" property="addtime" />
+		<result column="doctor_id" property="doctorId" />
 	</resultMap>
 
 	<sql id="sql_base">
@@ -36,6 +37,10 @@
 
 	<select id="doctorsCount" resultType="int">
 		select count(id) from doctors where user_id=#{userId}
+	</select>
+	
+	<select id="doctorGrade" resultType="double">
+	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
 	</select>
 
 	<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">

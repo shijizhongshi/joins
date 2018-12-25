@@ -80,7 +80,7 @@ public class IndexController {
 		ccd.setPageNo(0);
 		ccd.setPageSize(6);
 		vo.setClasslist(courseClassDao.classList(ccd));
-		List<News> newlist = newsDao.selectNewList(0, 6,null);
+		List<News> newlist = newsDao.selectNewList(0, 6,0,null);
 		for (News news : newlist) {
 			/// 封装这个对象的时间参数
 			if (news.getAddtime() != null) {
@@ -159,7 +159,7 @@ public class IndexController {
 		List<Shop> nearbylist = shopDao.listShop(sd);
 		for (Shop shop : nearbylist) {
 			Patterns p=new Patterns();
-			shop.setComments(comments());
+			shop.setComments(comments(0));
 		}
 		vo.setNearbylist(nearbylist);
 		
@@ -227,9 +227,9 @@ public class IndexController {
 		return time1;
 	}
 	
-	  public List<String> comments(){
+	  public List<String> comments(int textStatus){
 	    	
-	    	List<String> text = userCommentDao.selectCommentText();
+	    	List<String> text = userCommentDao.selectCommentText(textStatus);
 			Random rand = new Random();
 			List<String> comments=new ArrayList<String>();
 			for(int i=0;i<2;i++){

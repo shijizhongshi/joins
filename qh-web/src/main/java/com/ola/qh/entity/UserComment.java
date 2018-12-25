@@ -10,8 +10,9 @@ public class UserComment {
 
 	private String id;
 	
-	@NotEmpty(message="店铺id不能为空")
 	private String shopId;
+	
+	private String doctorId;
 	
 	@NotEmpty(message="用户d不能为空")
 	private String userId;
@@ -150,6 +151,14 @@ public class UserComment {
 
 	public void setTextname(String[] textname) {
 		this.textname = textname;
+	}
+
+	public String getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
 	}
 	
 	

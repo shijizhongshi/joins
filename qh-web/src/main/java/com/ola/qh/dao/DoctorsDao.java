@@ -43,6 +43,8 @@ public interface DoctorsDao {
 	
 	public Double commentGrade(String doctorId);
 	
+	public Double doctorGrade(@Param("doctorId")String doctorId);
+	
 	public int updateDoctors(Doctors d);////修改用户的基本信息
 	
 	public Doctors singleDoctors(

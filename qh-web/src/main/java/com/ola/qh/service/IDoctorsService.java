@@ -13,7 +13,15 @@ public interface IDoctorsService {
 	public Results<String> doctorsSaveUpdate(Doctors d);/////医生的保存和修改
 	
 	/////医生的集合
-	public List<Doctors> listDoctors(int pageNo,int pageSize,String address,String professional,String offices,String name);
+
+	public List<Doctors> listDoctors(
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize,
+			@Param("address")String address,
+			@Param("professional")String professional,
+			@Param("offices")String offices,
+			@Param("name")String name);
+
 	
 	public Doctors singleDoctors(String id,String userId,String islimit,int page);
 	

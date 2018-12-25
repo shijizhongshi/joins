@@ -78,7 +78,7 @@ public class DoctorsService implements IDoctorsService{
 		for (Doctors doctors : list) {
 			Double d = doctorsDao.commentGrade(doctors.getId());
 			if(d!=null){
-				doctors.setConmentGrade(d.doubleValue());
+				doctors.setGrade(d.doubleValue());
 			}
 		}
 		return list;

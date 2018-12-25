@@ -35,13 +35,13 @@ public class UserCommentController {
 	@RequestMapping(value = "/selectshop", method = RequestMethod.GET)
 	public Results<List<UserComment>> selectShopUserComment(
 			@RequestParam(name = "shopId", required = false) String shopId,
-			@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "doctorId", required = false) String doctorId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		return userCommentService.selectShopUserComment(shopId,userId, page);
+		return userCommentService.selectShopUserComment(shopId,doctorId, page);
 	}
 
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertshop", method = RequestMethod.POST)
 	public Results<String> insertUserComment(@RequestBody @Valid UserComment usercomment, BindingResult valid) {
 
 		Results<String> results = new Results<String>();
@@ -50,23 +50,39 @@ public class UserCommentController {
 			results.setStatus("1");
 			return results;
 		}
+		if (usercomment.getShopId()==null) {
+			results.setMessage("信息填写不完整,请检查");
+			results.setStatus("1");
+			return results;
+		}
 
 		return userCommentService.insertUserComment(usercomment);
 	}
-
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteUserComment(@RequestParam(name = "id", required = false) String id
-			,@RequestParam(name = "userId", required = false) String userId) {
-
-		return userCommentService.deleteUserComment(id,userId);
-	}
 	
+	@RequestMapping(value = "/insertdoctor", method = RequestMethod.POST)
+	public Results<String> insertDoctorComment(@RequestBody @Valid UserComment usercomment, BindingResult valid) {
+
+		Results<String> results = new Results<String>();
+		if (valid.hasErrors()) {
+			results.setMessage("信息填写不完整,请检查");
+			results.setStatus("1");
+			return results;
+		}
+
+		if (usercomment.getDoctorId()==null) {
+			results.setMessage("信息填写不完整,请检查");
+			results.setStatus("1");
+			return results;
+		}
+		return userCommentService.insertDoctorComment(usercomment);
+	}
+
 	@RequestMapping(value="/select", method = RequestMethod.GET)
-	public Results<List<String>> selectCommentText(){
+	public Results<List<String>> selectCommentText(int textStatus){
 		
 		Results<List<String>> results=new Results<List<String>>();
 		
-		List<String> list=userCommentService.selectCommentText();
+		List<String> list=userCommentService.selectCommentText(textStatus);
 		
 		if(list==null || "".equals(list)){
 			

@@ -50,8 +50,6 @@ public class Doctors {
 	
 	private Date updatetime;
 	
-	private double conmentGrade;/////评分
-	
 	////医生回答的所有问题的集合
 	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 
@@ -59,11 +57,11 @@ public class Doctors {
 	public List<DoctorPatient> getList() {
 		return list;
 	}
+	private Double grade;
 
 	public void setList(List<DoctorPatient> list) {
 		this.list = list;
 	}
-
 	public String getId() {
 		return id;
 	}
@@ -233,12 +231,12 @@ public class Doctors {
 		this.address = address;
 	}
 
-	public double getConmentGrade() {
-		return conmentGrade;
+	public Double getGrade() {
+		return grade;
 	}
 
-	public void setConmentGrade(double conmentGrade) {
-		this.conmentGrade = conmentGrade;
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 	
 	

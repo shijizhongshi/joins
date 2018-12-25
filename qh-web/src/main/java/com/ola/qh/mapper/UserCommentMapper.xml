@@ -6,12 +6,15 @@
 	<resultMap type="com.ola.qh.entity.UserComment"  id="UserCommentMap">
 		<result column="id" property="id" />
 		<result column="shop_id" property="shopId" />
+		<result column="doctor_id" property="doctorId" />
 		<result column="user_id" property="userId" />
 		<result column="comment" property="comment" />
 		<result column="comment_type" property="commentType" />
 		<result column="addtime" property="addtime" />
 		<result column="grade" property="grade" />
 		<result column="text_name" property="textName" />
+		<result column="text_status" property="textStatus" />
+		
 	</resultMap>
 
 	<select id="selectShopUserComment" resultMap="UserCommentMap">
@@ -20,28 +23,22 @@
 		<if test="shopId!=null">
 		and shop_id=#{shopId}
 		</if>
-		<if test="userId!=null">
-		and user_id=#{userId}
+		<if test="doctorId!=null">
+		and doctor_id=#{doctorId}
 		</if>
 		order by addtime desc 
 		limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="insertUserComment" parameterType="com.ola.qh.entity.UserComment">
-		insert into user_comment(id,shop_id,user_id,comment,comment_type,addtime,grade,text_name) values(#{id},#{shopId},#{userId},#{comment},#{commentType},#{addtime},#{grade},#{textName})
+		insert into user_comment(id,shop_id,doctor_id,user_id,comment,comment_type,addtime,grade,text_name) values(#{id},#{shopId},null,#{userId},#{comment},#{commentType},#{addtime},#{grade},#{textName})
 	</insert>
 	
-	<delete id="deleteUserComment">
-		delete from user_comment where 1=1
-		<if test="id!=null">
-		and id=#{id}
-		</if>
-		<if test="userId!=null">
-		and user_id=#{userId}
-		</if>
-	</delete>
+	<insert id="insertDoctorComment" parameterType="com.ola.qh.entity.UserComment">
+		insert into user_comment(id,shop_id,doctor_id,user_id,comment,comment_type,addtime,grade,text_name) values(#{id},null,#{doctorId},#{userId},#{comment},#{commentType},#{addtime},#{grade},#{textName})
+	</insert>
 	
 	<select id="selectCommentText" resultType="java.lang.String">
-		select text_name from comment_text
+		select text_name from comment_text where text_status=#{textStatus}
 	</select>
 	</mapper>
