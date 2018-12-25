@@ -65,9 +65,21 @@ public class DoctorsService implements IDoctorsService{
 	}
 
 	@Override
-	public List<Doctors> listDoctors(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return doctorsDao.listDoctor(pageNo,pageSize);
+	public Results<List<Doctors>> listDoctors(int pageNo, int pageSize) {
+		
+		Results<List<Doctors>> result=new Results<List<Doctors>>();
+		
+		List<Doctors> list=doctorsDao.listDoctor(pageNo,pageSize);
+		
+		for (Doctors doctors : list) {
+			String doctorId=doctors.getId();
+			Double grade=doctorsDao.doctorGrade(doctorId);
+			doctors.setGrade(grade);
+		}
+		result.setData(list);
+		result.setStatus("0");
+		return result;
+		
 	}
 
 	@Override

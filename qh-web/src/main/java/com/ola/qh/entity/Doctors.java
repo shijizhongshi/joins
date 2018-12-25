@@ -45,6 +45,8 @@ public class Doctors {
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private Double grade;
 
 	public String getId() {
 		return id;
@@ -205,6 +207,14 @@ public class Doctors {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public Double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Double grade) {
+		this.grade = grade;
 	}
 	
 	

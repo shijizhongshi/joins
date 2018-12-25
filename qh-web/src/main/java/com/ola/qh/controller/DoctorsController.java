@@ -94,10 +94,8 @@ public class DoctorsController {
 		Results<List<Doctors>> result=new Results<List<Doctors>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<Doctors> list = doctorsService.listDoctors(pageNo, pageSize);
-		result.setData(list);
-		result.setStatus("0");
-		return result;
+		
+		return doctorsService.listDoctors(pageNo, pageSize);
 	}
 	
 	@RequestMapping(value="/patient/saveUpdate",method=RequestMethod.POST)

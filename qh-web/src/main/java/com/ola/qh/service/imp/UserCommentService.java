@@ -26,7 +26,7 @@ public class UserCommentService implements IUserCommentService {
 	private UserCommentImgDao userCommentImgDao;
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Results<List<UserComment>> selectShopUserComment(String shopId,String userId, int page) {
+	public Results<List<UserComment>> selectShopUserComment(String shopId,String doctorId, int page) {
 
 		Results<List<UserComment>> results = new Results<List<UserComment>>();
 
@@ -35,7 +35,7 @@ public class UserCommentService implements IUserCommentService {
 			int pageSize = Patterns.zupageSize;
 			int pageNo = (page - 1) * pageSize;
 
-			List<UserComment> list = userCommentDao.selectShopUserComment(shopId,userId, pageNo, pageSize);
+			List<UserComment> list = userCommentDao.selectShopUserComment(shopId,doctorId, pageNo, pageSize);
 
 			for (UserComment userComment : list) {
 
@@ -110,37 +110,49 @@ public class UserCommentService implements IUserCommentService {
 		}
 	}
 
-	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Results<String> deleteUserComment(String id,String userId) {
-
+	public Results<String> insertDoctorComment(UserComment usercomment) {
+		
 		Results<String> results = new Results<String>();
-
-		if(id==null && userId==null){
-			results.setStatus("1");
-			return results;
-		}
+		
 		try {
-
-			userCommentDao.deleteUserComment(id,userId);
-
-			String commentId = id;
-			userCommentImgDao.deleteUserCommentImg(commentId,userId);
 			
+			String textName=new String();
+			
+			for(int i=0;i<usercomment.getTextlist().size();i++){
+				
+				if(i==usercomment.getTextlist().size()-1){
+					textName=textName+usercomment.getTextlist().get(i);
+					
+				}
+				else{
+					textName=textName+usercomment.getTextlist().get(i)+",";
+					
+				}
+			}
+			
+			String commentId = KeyGen.uuid();
+			usercomment.setTextName(textName);
+			usercomment.setId(commentId);
+			usercomment.setAddtime(new Date());
+			userCommentDao.insertDoctorComment(usercomment);
 			results.setStatus("0");
 			return results;
-
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			results.setStatus("1");
-			results.setMessage("删除失败");
+			results.setMessage("保存失败");
 			return results;
 		}
-	}
-	@Override
-	public List<String> selectCommentText() {
 		
-		return userCommentDao.selectCommentText();
 	}
+	
+	@Override
+	public List<String> selectCommentText(int textStatus) {
+		
+		return userCommentDao.selectCommentText(textStatus);
+	}
+
+	
 	
 }

@@ -34,6 +34,8 @@ public interface DoctorsDao {
 	/////分页展示用户的信息
 	public List<Doctors> listDoctor(@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 	
+	public Double doctorGrade(@Param("doctorId")String doctorId);
+	
 	public int updateDoctors(Doctors d);////修改用户的基本信息
 	
 	public Doctors singleDoctors(

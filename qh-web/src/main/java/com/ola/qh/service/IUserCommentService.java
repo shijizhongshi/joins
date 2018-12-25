@@ -7,11 +7,11 @@ import com.ola.qh.util.Results;
 
 public interface IUserCommentService {
 
-	public Results<List<UserComment>> selectShopUserComment(String shopId,String userId,int page);
+	public Results<List<UserComment>> selectShopUserComment(String shopId,String doctorId,int page);
 	
 	public Results<String> insertUserComment(UserComment usercomment);
 	
-	public Results<String> deleteUserComment(String id,String userId);
+	public Results<String> insertDoctorComment(UserComment usercomment);
 	
-	public List<String> selectCommentText();
+	public List<String> selectCommentText(int textStatus);
 }

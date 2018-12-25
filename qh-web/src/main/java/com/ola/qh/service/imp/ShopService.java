@@ -245,7 +245,7 @@ public class ShopService implements IShopService {
 				double avgGrade = shopDao.commentGrade(shop1.getId());
 				shop1.setCommentGrade(avgGrade);
 				IndexController ic = new IndexController();
-				shop1.setComments(ic.comments());
+				shop1.setComments(ic.comments(0));
 
 			}
 		
