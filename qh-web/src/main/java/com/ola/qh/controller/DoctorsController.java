@@ -74,10 +74,11 @@ public class DoctorsController {
 	public Results<Doctors> singleDoctors(
 			@RequestParam(name="id",required=false)String id,
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="islimit",required=false)String islimit){
+			@RequestParam(name="islimit",required=false)String islimit,
+			@RequestParam(name="page",required=false)int page){
 		
 		Results<Doctors> result=new Results<Doctors>();
-		Doctors d = doctorsService.singleDoctors(id, userId, islimit);
+		Doctors d = doctorsService.singleDoctors(id, userId, islimit,page);
 		result.setData(d);
 		result.setStatus("0");
 		return  result;
@@ -90,11 +91,16 @@ public class DoctorsController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public Results<List<Doctors>> listDoctors(@RequestParam(name="page")int page){
+	public Results<List<Doctors>> listDoctors(
+			@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="address",required=true)String address,
+			@RequestParam(name="professional",required=true)String professional,
+			@RequestParam(name="offices",required=true)String offices,
+			@RequestParam(name="name",required=true)String name){
 		Results<List<Doctors>> result=new Results<List<Doctors>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<Doctors> list = doctorsService.listDoctors(pageNo, pageSize);
+		List<Doctors> list = doctorsService.listDoctors(pageNo, pageSize, address, professional,offices,name);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
@@ -125,12 +131,13 @@ public class DoctorsController {
 	@RequestMapping("/listpatient")
 	public Results<List<DoctorPatient>> listPatient(
 			@RequestParam(name="userId",required=true)String userId,
-			@RequestParam(name="page",required=true)int page){
+			@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="issolve",required=false)String issolve){
 		
 		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize);
+		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize,issolve);
 		result.setData(list);
 		result.setStatus("0");
 		return result;

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ola.qh.dao.DoctorOfficeDao">
+
+	<resultMap type="com.ola.qh.entity.DoctorInfo" id="DoctorInfoMap">
+		<result column="name" property="name" />
+		<result column="types" property="types" />
+		<result column="img_url" property="imgUrl" />
+	</resultMap>
+
+	<!-- 科室的集合 -->
+	<select id="officeList" resultMap="DoctorInfoMap">
+		select name,img_url from doctor_office
+	</select>
+
+	<!-- 标签和职称 -->
+	<select id="doctorInfoList" resultMap="DoctorInfoMap">
+		select name,types from doctor_info
+	</select>
+
+	
+
+	<insert id="insertReply" parameterType="com.ola.qh.entity.DoctorReply">
+	insert into	doctor_reply_patient(id,doctor_id,patient_id,reply_content,addtime)
+	values(#{id},#{doctorId},#{patientId},#{replyContent},#{addtime})
+	</insert>
+	
+	<select id="existDoctor" resultType="java.lang.Integer">
+	select count(id) from doctors where islimit=1 and id=#{doctorId}
+	</select>
+	<select id="existPatient" resultType="java.lang.Integer">
+	select count(id) from doctor_patient where id=#{patientId}
+	</select>
+	
+	<!-- 医生总共回答过的问题集合 -->
+	<select id="replyPatientList" resultType="com.ola.qh.entity.DoctorPatient">
+		select dp.title,dp.describes,drp.browse_count browseCount from
+		doctor_reply_patient drp 
+		left join doctor_patient dp on drp.patient_id=dp.id
+		where 1=1
+		<if test="doctorId!=null and doctorId!='' ">
+		and drp.doctor_id=#{doctorId}
+		</if>
+		group by drp.patient_id
+		<if test="pageSize!=0">
+			limit #{pageNo},#{pageSize}
+		</if>
+	</select>
+	
+	<!--问答详情医生的集合 -->
+	<select id="doctorReplyList" resultType="com.ola.qh.vo.DoctorsVo">
+		select d.name,d.head_img headImg,d.hospital,d.offices,d.professional,d.skilled,drp.doctor_id doctorId  from doctor_reply_patient drp
+		left join doctors d on d.id=drp.doctor_id
+		where 1=1
+		<if test="patientId!=null and patientId!='' ">
+		and drp.patient_id=#{patientId}
+		</if>
+		GROUP BY doctor_id
+	</select>
+	<!-- 查出医生对应的所有的回答集合 -->
+	<select id="listByIds" resultType="com.ola.qh.entity.DoctorReply">
+	select doctor_id doctorId,patient_id patientId,reply_content replyContent,addtime from doctor_reply_patient where 1=1
+		<if test="patientId!=null and patientId!='' ">
+		and patient_id=#{patientId}
+		</if>
+		<if test="doctorId!=null and doctorId!='' ">
+		and doctor_id=#{doctorId}
+		</if>
+	</select>
+	
+	<!-- 我的回复 -->
+	<select id="listPatient">
+	
+	
+	</select>
+</mapper> 

@@ -20,6 +20,7 @@
 		<result column="professional" property="professional" />
 		<result column="signs" property="signs" />
 		<result column="skilled" property="skilled" />
+		<result column="address" property="address" />
 		<result column="idcard" property="idcard" />
 		<result column="front_idcard_img" property="frontIdcardImg" />
 		<result column="reverse_idcard_img" property="reverseIdcardImg" />
@@ -40,19 +41,37 @@
 	<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">
 		insert into
 		doctors(id,name,head_img,user_id,sexs,edu,school,hospital,offices,professional,signs,
-		skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime)
+		skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime,address)
 		values(#{id},#{name},#{headImg},#{userId},#{sexs},#{edu},#{school},#{hospital},#{offices},#{professional},
 		#{signs},#{skilled},#{idcard},#{frontIdcardImg},#{reverseIdcardImg},#{professionalImg},#{practiceImg},
-		#{elseImg},#{addtime})
+		#{elseImg},#{addtime},#{address})
 	</insert>
 	<!-- 全查 -->
 	<select id="listDoctor" resultMap="DoctorsMap">
 		select
 		<include refid="sql_base"></include>
 		from doctors where islimit=1
+		<if test="professional!=null and professional!='' ">
+		and professional LIKE CONCAT(CONCAT('%',#{professional},'%'))
+		</if>
+		<if test="address!=null">
+		and address LIKE CONCAT(CONCAT('%',#{address},'%'))
+		</if>
+		<if test="offices!=null and offices!='' ">
+		and offices LIKE CONCAT(CONCAT('%',#{offices},'%'))
+		</if>
+		<if test="name!=null and name!='' ">
+		and name LIKE CONCAT(CONCAT('%',#{name},'%'))
+		</if>
+		order by addtime desc
 		<if test="pageSize!=0">
 			limit #{pageNo},#{pageSize}
 		</if>
+		
+	</select>
+	
+	<select id="commentGrade" resultType="java.lang.Double">
+	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
 	</select>
 	<!-- update -->
 	<update id="updateDoctors" parameterType="com.ola.qh.entity.Doctors">
@@ -160,11 +179,18 @@
 		<if test="userId!=null">
 		and	user_id=#{userId}
 		</if>
+		<if test="issolve!=null and issolve!='' ">
+		and issolve=#{issolve}
+		</if>
 		<if test="pageSize!=0">
 			limit #{pageNo},#{pageSize}
 		</if>
 	</select>
 
+	<!-- 写一个有没有读的dao -->
+	<select id="select">
+	
+	</select>
 	<update id="updatePatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		update doctor_patient set
 		<if test="title!=null">

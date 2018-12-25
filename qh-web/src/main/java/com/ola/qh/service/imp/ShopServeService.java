@@ -137,7 +137,10 @@ public class ShopServeService implements IShopServeService {
 		BeanUtils.copyProperties(ss, vo);
 		/////查出相应的店铺信息
 		Shop shop = shopDao.singleShop(null, shopId, 1);
-		double avgGrade= shopDao.commentGrade(shopId);
+		double avgGrade=0;
+		if(shopDao.commentGrade(shopId)!=null){
+			avgGrade=shopDao.commentGrade(shopId);
+		}
 		vo.setAvgGrade(avgGrade);////平均分
 		vo.setAddress(shop.getAddress());
 		vo.setShopId(shopId);

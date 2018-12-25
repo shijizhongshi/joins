@@ -31,7 +31,18 @@ public class DoctorPatient {
 	
 	private Date updatetime;
 	
+	private String publisher;////发布人的信息
 	
+	public int readStatus;////0:未读   1:已读
+	
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
 
 	public Date getUpdatetime() {
 		return updatetime;
@@ -119,6 +130,14 @@ public class DoctorPatient {
 
 	public void setImglist(List<DoctorPatientImg> imglist) {
 		this.imglist = imglist;
+	}
+
+	public int getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(int readStatus) {
+		this.readStatus = readStatus;
 	}
 	
 	

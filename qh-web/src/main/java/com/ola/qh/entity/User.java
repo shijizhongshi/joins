@@ -45,6 +45,8 @@ public class User {
 	
 	private Date birthday;
 	
+	private int isdoctor;//1是医生   0:不是医生
+	
 	public String getId() {
 		return id;
 	}
@@ -155,6 +157,14 @@ public class User {
 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+
+	public int getIsdoctor() {
+		return isdoctor;
+	}
+
+	public void setIsdoctor(int isdoctor) {
+		this.isdoctor = isdoctor;
 	}
 
 

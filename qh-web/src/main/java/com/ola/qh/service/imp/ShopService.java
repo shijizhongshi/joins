@@ -242,7 +242,11 @@ public class ShopService implements IShopService {
 		if(sd.getShopType()==1){
 			/////只有服务店铺才会有评论信息
 			for (Shop shop1 : listshop) {
-				double avgGrade = shopDao.commentGrade(shop1.getId());
+				double avgGrade = 0;
+				if(shopDao.commentGrade(shop1.getId())!=null){
+					avgGrade = shopDao.commentGrade(shop1.getId()).doubleValue();
+				}
+				
 				shop1.setCommentGrade(avgGrade);
 				IndexController ic = new IndexController();
 				shop1.setComments(ic.comments());
@@ -263,7 +267,12 @@ public class ShopService implements IShopService {
 		ShopVo vo=new ShopVo();
 		Shop shop = shopDao.singleShop(null, shopId, 1);
 		BeanUtils.copyProperties(shop, vo);////店铺的详情
-		double avgGrade = shopDao.commentGrade(shopId);////总的评分
+		double avgGrade=0;
+		if(shopDao.commentGrade(shopId)!=null){
+			avgGrade = shopDao.commentGrade(shopId);////总的评分
+		}
+		List<ShopImg> shopImg = shopDao.selectList(shopId, 2);
+		vo.setEnvironmentImgList(shopImg);
 		vo.setAvgGrades(avgGrade);
 		int count=shopDao.commentCount(shopId);
 		vo.setCommentCount(count);

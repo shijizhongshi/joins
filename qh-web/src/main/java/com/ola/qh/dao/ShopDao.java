@@ -26,7 +26,7 @@ public interface ShopDao {
 			@Param("shopType")int shopType);
 	public List<Shop> listShop(ShopDomain sd);
 	
-	public double commentGrade(String shopId);
+	public Double commentGrade(String shopId);
 	
 	public int commentCount(String shopId);
 	

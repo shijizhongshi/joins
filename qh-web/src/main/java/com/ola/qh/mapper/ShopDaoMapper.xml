@@ -85,7 +85,7 @@
 	and shop_type=#{shopType}
 	</if>
 	</select>
-	<select id="commentGrade" resultType="double">
+	<select id="commentGrade" resultType="java.lang.Double">
 	select round(AVG(grade),1) from user_comment where shop_id=#{shopId}
 	</select>
 	

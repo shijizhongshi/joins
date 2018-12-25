@@ -10,12 +10,13 @@
 		<result column="addtime" property="addtime" />
 		<result column="head_img_url" property="headimg" />
 		<result column="userrole" property="userrole" />
+		<result column="isdoctor" property="isdoctor"/>
 		<result column="mobile" property="mobile" />
 		<result column="birthday" property="birthday" />
 	</resultMap>
 
 	<sql id="sql_base">
-	id,mobile,nickname,head_img_url,userrole,birthday
+	id,mobile,nickname,head_img_url,userrole,birthday,isdoctor
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >

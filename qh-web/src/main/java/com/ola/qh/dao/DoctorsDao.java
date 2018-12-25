@@ -16,7 +16,8 @@ public interface DoctorsDao {
 	public List<DoctorPatient> listPatient(
 			@Param("userId")String userId,
 			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize);
+			@Param("pageSize")int pageSize,
+			@Param("issolve")String issolve);
 	
 	public int updatePatient(DoctorPatient dp);
 	
@@ -32,7 +33,15 @@ public interface DoctorsDao {
 	
 	public int doctorsInsert(Doctors d);
 	/////分页展示用户的信息
-	public List<Doctors> listDoctor(@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<Doctors> listDoctor(
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize,
+			@Param("address")String address,
+			@Param("professional")String professional,
+			@Param("offices")String offices,
+			@Param("name")String name);
+	
+	public Double commentGrade(String doctorId);
 	
 	public int updateDoctors(Doctors d);////修改用户的基本信息
 	

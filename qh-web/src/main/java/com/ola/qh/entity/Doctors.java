@@ -1,6 +1,8 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -42,9 +44,25 @@ public class Doctors {
 	
 	private String elseImg;////其他的图片
 	
+	private String address;///医生的详细地址
+	
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private double conmentGrade;/////评分
+	
+	////医生回答的所有问题的集合
+	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
+
+	
+	public List<DoctorPatient> getList() {
+		return list;
+	}
+
+	public void setList(List<DoctorPatient> list) {
+		this.list = list;
+	}
 
 	public String getId() {
 		return id;
@@ -205,6 +223,22 @@ public class Doctors {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public double getConmentGrade() {
+		return conmentGrade;
+	}
+
+	public void setConmentGrade(double conmentGrade) {
+		this.conmentGrade = conmentGrade;
 	}
 	
 	
