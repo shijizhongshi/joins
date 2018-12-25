@@ -178,7 +178,7 @@ public class DoctorsService implements IDoctorsService{
 		// TODO Auto-generated method stub
 		List<DoctorPatient> list = doctorsDao.listPatient(userId, pageNo, pageSize, issolve);
 		for (DoctorPatient doctorPatient : list) {
-			doctorReplyDao.
+			//doctorReplyDao.
 		}
 		return list;
 	}
