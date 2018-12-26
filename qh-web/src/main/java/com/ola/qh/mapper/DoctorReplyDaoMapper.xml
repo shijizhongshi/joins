@@ -3,7 +3,8 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ola.qh.dao.DoctorOfficeDao">
+<mapper namespace="com.ola.qh.dao.DoctorReplyDao">
+
 
 	<resultMap type="com.ola.qh.entity.DoctorInfo" id="DoctorInfoMap">
 		<result column="name" property="name" />
@@ -34,7 +35,20 @@
 	<select id="existPatient" resultType="java.lang.Integer">
 	select count(id) from doctor_patient where id=#{patientId}
 	</select>
-	
+	<update id="updateReadStatus">
+	update doctor_reply_patient set 
+	<if test="readStatus!=null">
+	read_status=#{readStatus},
+	</if>
+	<if test="browseCount!=0">
+	browse_count=#{browseCount},
+	</if>
+	patient_id=#{patientId}
+	where patient_id=#{patientId}
+	<if test="doctorId!=null">
+	and doctor_id=#{doctorId}
+	</if>
+	</update>
 	<!-- 医生总共回答过的问题集合 -->
 	<select id="replyPatientList" resultType="com.ola.qh.entity.DoctorPatient">
 		select dp.title,dp.describes,drp.browse_count browseCount from
@@ -62,7 +76,7 @@
 	</select>
 	<!-- 查出医生对应的所有的回答集合 -->
 	<select id="listByIds" resultType="com.ola.qh.entity.DoctorReply">
-	select doctor_id doctorId,patient_id patientId,reply_content replyContent,addtime from doctor_reply_patient where 1=1
+	select doctor_id doctorId,patient_id patientId,read_status readStatus,reply_content replyContent,browse_count browseCount,addtime from doctor_reply_patient where 1=1
 		<if test="patientId!=null and patientId!='' ">
 		and patient_id=#{patientId}
 		</if>

@@ -18,12 +18,22 @@ public class DoctorReply {
 	private Date addtime;
 
 
+	private int browseCount;
+	
 	private int readStatus;///1:已读
 	
 	
 	private String showtime;
 	
 	
+
+	public int getBrowseCount() {
+		return browseCount;
+	}
+
+	public void setBrowseCount(int browseCount) {
+		this.browseCount = browseCount;
+	}
 
 	public int getReadStatus() {
 		return readStatus;

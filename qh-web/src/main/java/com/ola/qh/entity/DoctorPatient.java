@@ -33,8 +33,20 @@ public class DoctorPatient {
 	
 	private String publisher;////发布人的信息
 	
-	public int readStatus;////0:未读   1:已读
+	public int readStatus;////读的状态1:患者已读    2:医生已读   3:都读了
 	
+
+	public int browseCount;/////浏览次数
+	
+	
+	
+	public int getBrowseCount() {
+		return browseCount;
+	}
+
+	public void setBrowseCount(int browseCount) {
+		this.browseCount = browseCount;
+	}
 
 	public String getPublisher() {
 		return publisher;
@@ -139,6 +151,7 @@ public class DoctorPatient {
 	public void setReadStatus(int readStatus) {
 		this.readStatus = readStatus;
 	}
-	
+
+
 	
 }

@@ -20,7 +20,7 @@ public interface DoctorReplyDao {
 			@Param("pageNo")int pageNo,
 			@Param("pageSize")int pageSize);
 	
-	public List<DoctorsVo> doctorReplyList(String patientId);
+	public List<DoctorsVo> doctorReplyList(@Param("patientId")String patientId);
 	
 	public List<DoctorReply> listByIds(
 			@Param("patientId") String patientId,
@@ -31,4 +31,10 @@ public interface DoctorReplyDao {
 	public Integer existDoctor(String doctorId);
 	
 	public Integer existPatient(String patientId);
+	
+	public int updateReadStatus(
+			@Param("readStatus")String readStatus,
+			@Param("patientId")String patientId,
+			@Param("doctorId")String doctorId,
+			@Param("browseCount") int browseCount);
 }

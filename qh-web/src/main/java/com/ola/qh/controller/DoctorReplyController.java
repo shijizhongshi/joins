@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,7 +69,7 @@ public class DoctorReplyController {
 		return doctorReplyService.singleReply(patientId,userId);////这个表示的是问答的详情(所有问答)
 	}
 	
-	@RequestMapping("/save/reply")
+	@RequestMapping(value="/save/reply",method=RequestMethod.POST)
 	public Results<String> insertReply(@RequestBody @Valid DoctorReply dr,BindingResult valid){
 		
 		Results<String> result=new Results<String>();

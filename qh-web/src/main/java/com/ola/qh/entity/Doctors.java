@@ -53,11 +53,11 @@ public class Doctors {
 	////医生回答的所有问题的集合
 	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 
-	
+	private double grade;
 	public List<DoctorPatient> getList() {
 		return list;
 	}
-	private Double grade;
+	
 
 	public void setList(List<DoctorPatient> list) {
 		this.list = list;
@@ -230,14 +230,13 @@ public class Doctors {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public Double getGrade() {
+	public double getGrade() {
 		return grade;
 	}
-
-	public void setGrade(Double grade) {
+	public void setGrade(double grade) {
 		this.grade = grade;
 	}
+
 	
 	
 }

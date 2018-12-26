@@ -130,14 +130,15 @@ public class DoctorsController {
 	 */
 	@RequestMapping("/listpatient")
 	public Results<List<DoctorPatient>> listPatient(
-			@RequestParam(name="userId",required=true)String userId,
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="doctorId",required=false)String doctorId,
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="issolve",required=false)String issolve){
 		
 		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize,issolve);
+		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize,issolve,doctorId);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
