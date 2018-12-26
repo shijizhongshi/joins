@@ -15,6 +15,8 @@ public interface NewsDao {
 			@Param("types")String types);
 	
 	public News singlenews(String id);
+	
+	public List<News> selectRecommendNews();
 
 
 }

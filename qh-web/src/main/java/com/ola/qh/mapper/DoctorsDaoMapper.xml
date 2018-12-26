@@ -75,6 +75,24 @@
 		
 	</select>
 	
+
+	<!-- 寻医问药专用查询 -->
+	<select id="listRecommendDoctor" resultMap="DoctorsMap">
+		select name,id,head_img,professional,hospital from doctors where isrecommend=1 limit 3
+	</select>
+	
+	<!-- 根据科室查医生 -->
+	
+	<select id="selectFromOffices" resultMap="DoctorsMap">
+		select id,name,head_img,professional from doctors 
+		<where>
+		<if test="offices!=null">
+		offices=#{offices}
+		</if>
+		</where>
+	</select>
+	
+	
 	<select id="commentGrade" resultType="java.lang.Double">
 	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
 	</select>

@@ -51,4 +51,10 @@ public interface DoctorsDao {
 			@Param("id")String id,
 			@Param("userId")String userId,
 			@Param("islimit")String islimit);/////查用户的详情
+	
+	
+	//寻医问药
+	public List<Doctors> listRecommendDoctor();
+	
+	public List<Doctors> selectFromOffices(String offices);
 }
