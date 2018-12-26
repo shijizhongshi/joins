@@ -181,39 +181,39 @@
 	</resultMap>
 
 	<sql id="patientsql_base">
-		id,user_id,title,describes,ages,sexs,times,issolve
+		user_id,title,describes,ages,sexs,times,issolve
 	</sql>
 
 	<!-- 患者信息 -->
 	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		insert into doctor_patient(
-		<include refid="patientsql_base"></include>
+		id,<include refid="patientsql_base"></include>
 		,addtime)
 		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime})
 	</insert>
 	<select id="singlePatient" resultMap="DoctorPatientMap">
-	select <include refid="patientsql_base"></include> from doctor_patient where id=#{id}
+	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
 	</select>
 	<!-- 我的问诊 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
-		select
-		<include refid="patientsql_base"></include>
-		from doctor_patient  where 1=1
+		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 
+		left join doctor_reply_patient drp on drp.patient_id=dp.id
+		where 1=1 
 		<if test="userId!=null">
-		and	user_id=#{userId}
+		and	dp.user_id=#{userId}
+		</if>
+		<if test="doctorId!=null and doctorId!='' ">
+		and drp.doctor_id=#{doctorId}
 		</if>
 		<if test="issolve!=null and issolve!='' ">
-		and issolve=#{issolve}
+		and dp.issolve=#{issolve}
 		</if>
+		group by drp.patient_id 
 		<if test="pageSize!=0">
 			limit #{pageNo},#{pageSize}
 		</if>
 	</select>
 
-	<!-- 写一个有没有读的dao -->
-	<select id="select">
-	
-	</select>
 	<update id="updatePatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		update doctor_patient set
 		<if test="title!=null">

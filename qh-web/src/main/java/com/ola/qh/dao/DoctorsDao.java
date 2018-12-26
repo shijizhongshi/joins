@@ -17,7 +17,8 @@ public interface DoctorsDao {
 			@Param("userId")String userId,
 			@Param("pageNo")int pageNo,
 			@Param("pageSize")int pageSize,
-			@Param("issolve")String issolve);
+			@Param("issolve")String issolve,
+			@Param("doctorId")String doctorId);
 	
 	public int updatePatient(DoctorPatient dp);
 	

@@ -174,12 +174,9 @@ public class DoctorsService implements IDoctorsService{
 	}
 
 	@Override
-	public List<DoctorPatient> listPatient(String userId, int pageNo, int pageSize,String issolve) {
+	public List<DoctorPatient> listPatient(String userId, int pageNo, int pageSize,String issolve,String doctorId) {
 		// TODO Auto-generated method stub
-		List<DoctorPatient> list = doctorsDao.listPatient(userId, pageNo, pageSize, issolve);
-		for (DoctorPatient doctorPatient : list) {
-			//doctorReplyDao.
-		}
+		List<DoctorPatient> list = doctorsDao.listPatient(userId, pageNo, pageSize, issolve,doctorId);
 		return list;
 	}
 
