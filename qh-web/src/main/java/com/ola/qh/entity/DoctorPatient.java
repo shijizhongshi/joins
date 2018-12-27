@@ -25,6 +25,8 @@ public class DoctorPatient {
 	
 	private int issolve;
 	
+	private String offices;
+	
 	public List<DoctorPatientImg> imglist=new ArrayList<DoctorPatientImg>();
 	
 	private Date addtime;
@@ -35,11 +37,16 @@ public class DoctorPatient {
 	
 	public int readStatus;////读的状态1:患者已读    2:医生已读   3:都读了
 	
-
 	public int browseCount;/////浏览次数
 	
-	
-	
+	public String getOffices() {
+		return offices;
+	}
+
+	public void setOffices(String offices) {
+		this.offices = offices;
+	}
+
 	public int getBrowseCount() {
 		return browseCount;
 	}

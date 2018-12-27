@@ -183,6 +183,7 @@
 		<result column="user_id" property="userId" />
 		<result column="title" property="title" />
 		<result column="describes" property="describes" />
+		<result column="offices" property="offices"/>
 		<result column="ages" property="ages" />
 		<result column="sexs" property="sexs" />
 		<result column="times" property="times" />
@@ -198,8 +199,8 @@
 	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		insert into doctor_patient(
 		id,<include refid="patientsql_base"></include>
-		,addtime)
-		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime})
+		,addtime,offices)
+		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime},#{offices})
 	</insert>
 	<select id="singlePatient" resultMap="DoctorPatientMap">
 	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
