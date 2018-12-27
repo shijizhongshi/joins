@@ -7,47 +7,46 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.ola.qh.dao.DoctorReplyDao;
-import com.ola.qh.dao.DoctorVisitsDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.entity.Doctors;
 import com.ola.qh.service.IDoctorVisitsService;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.DoctorAndPatient;
 import com.ola.qh.vo.DoctorVisitsVo;
 
 @Service
 public class DoctorVisitsService implements IDoctorVisitsService{
 
 	@Autowired
-	private DoctorVisitsDao doctorVisitsDao;
-	
-	@Autowired
 	private DoctorsDao doctorsDao;
 	
 	@Autowired
 	private NewsDao newsDao;
 
-	@Autowired
-	private DoctorReplyDao doctorReplyDao;
 	@Transactional
 	@Override
-	public Results<String> selectDoctorVisits(String offices) {
+	public Results<DoctorVisitsVo> selectDoctorVisits(String offices) {
 		
-		Results<String> results=new Results<String>();
+		Results<DoctorVisitsVo> results=new Results<DoctorVisitsVo>();
 		try {
 			
 			DoctorVisitsVo visits=new DoctorVisitsVo();
 			
+			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(offices);
+			
+			for (DoctorAndPatient doctorAndPatient : list) {
+				
+				List<Doctors> doctorList=doctorsDao.selectDoctorId(doctorAndPatient.getPatientId());
+					
+				doctorAndPatient.setList(doctorList);
+				}
+				
 			visits.setDoctor(doctorsDao.listRecommendDoctor());
 			visits.setNews(newsDao.selectRecommendNews());
+			visits.setPatient(list);
 			
-			List<Doctors> listfromoffices=doctorsDao.selectFromOffices(offices);
-			
-			for (Doctors doctors : listfromoffices) {
-				doctorReplyDao.replyPatientList(doctors.getId(), 0, 6);
-			}
-			
+			results.setData(visits);
 			results.setStatus("0");
 			return results;
 			

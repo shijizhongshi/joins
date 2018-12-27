@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.vo.DoctorAndPatient;
 
 public interface DoctorsDao {
 
@@ -57,5 +58,7 @@ public interface DoctorsDao {
 	//寻医问药
 	public List<Doctors> listRecommendDoctor();
 	
-	public List<Doctors> selectFromOffices(String offices);
+	public List<DoctorAndPatient> selectFromOffices(String offices);
+	
+	public List<Doctors> selectDoctorId(String patientId);
 }

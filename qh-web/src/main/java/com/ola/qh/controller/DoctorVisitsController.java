@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.service.IDoctorVisitsService;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.DoctorVisitsVo;
 
 @RestController
 @RequestMapping(value="/api/doctorvisits")
@@ -17,9 +18,7 @@ public class DoctorVisitsController {
 	private IDoctorVisitsService doctorVisitsService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<String> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices){
-		
-		
+	public Results<DoctorVisitsVo> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices){
 		
 		return doctorVisitsService.selectDoctorVisits(offices);
 	}

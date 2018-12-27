@@ -3,7 +3,6 @@ package com.ola.qh.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.Doctors;
 import com.ola.qh.entity.News;
 
@@ -11,7 +10,7 @@ public class DoctorVisitsVo {
 
 	private List<Doctors> doctor=new ArrayList<Doctors>();
 	
-	private List<DoctorPatient> patient=new ArrayList<DoctorPatient>();
+	private List<DoctorAndPatient> patient=new ArrayList<DoctorAndPatient>();
 	
 	private List<News> news=new ArrayList<News>();
 
@@ -23,11 +22,11 @@ public class DoctorVisitsVo {
 		this.doctor = doctor;
 	}
 
-	public List<DoctorPatient> getPatient() {
+	public List<DoctorAndPatient> getPatient() {
 		return patient;
 	}
 
-	public void setPatient(List<DoctorPatient> patient) {
+	public void setPatient(List<DoctorAndPatient> patient) {
 		this.patient = patient;
 	}
 

@@ -29,6 +29,7 @@
 		<result column="else_img" property="elseImg" />
 		<result column="addtime" property="addtime" />
 		<result column="doctor_id" property="doctorId" />
+		<result column="patient_id" property="patientId" />
 	</resultMap>
 
 	<sql id="sql_base">
@@ -82,16 +83,25 @@
 	</select>
 	
 	<!-- 根据科室查医生 -->
+	<resultMap type="com.ola.qh.vo.DoctorAndPatient" id="DoctorAndPatientMap">
+		<result column="title" property="title" />
+		<result column="addtime" property="addtime" />
+		<result column="patient_id" property="patientId" />
+		<result column="offices" property="offices" />
+	</resultMap>
 	
-	<select id="selectFromOffices" resultMap="DoctorsMap">
-		select id,name,head_img,professional from doctors 
-		<where>
-		<if test="offices!=null">
-		offices=#{offices}
+	<select id="selectFromOffices" resultMap="DoctorAndPatientMap" parameterType="String">
+		select drp.patient_id patientId,dp.title title,dp.addtime addtime from doctor_reply_patient drp 
+		left join doctor_patient dp on drp.patient_id=dp.id where dp.issolve=1
+		<if test="_parameter!=null">
+		and offices=#{offices}
 		</if>
-		</where>
+		group by drp.patient_id order by addtime desc
 	</select>
 	
+	<select id="selectDoctorId" resultMap="DoctorsMap">
+		select distinct d.id doctorId,d.name name,d.head_img headImg,d.professional from doctor_reply_patient drp left join doctors d on drp.doctor_id=d.id where patient_id=#{patientId}
+	</select>
 	
 	<select id="commentGrade" resultType="java.lang.Double">
 	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
