@@ -90,11 +90,14 @@
 		<result column="offices" property="offices" />
 	</resultMap>
 	
-	<select id="selectFromOffices" resultMap="DoctorAndPatientMap" parameterType="String">
+	<select id="selectFromOffices" resultMap="DoctorAndPatientMap"  parameterType="String">
 		select drp.patient_id patientId,dp.title title,dp.addtime addtime from doctor_reply_patient drp 
 		left join doctor_patient dp on drp.patient_id=dp.id where dp.issolve=1
-		<if test="_parameter!=null">
+		<if test="offices!=null">
 		and offices=#{offices}
+		</if>
+		<if test="title!=null">
+		and title like concat(concat('%',#{title},'%'))
 		</if>
 		group by drp.patient_id order by addtime desc
 	</select>

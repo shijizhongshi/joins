@@ -58,7 +58,7 @@ public interface DoctorsDao {
 	//寻医问药
 	public List<Doctors> listRecommendDoctor();
 	
-	public List<DoctorAndPatient> selectFromOffices(String offices);
+	public List<DoctorAndPatient> selectFromOffices(@Param("offices")String offices,@Param("title")String title);
 	
 	public List<Doctors> selectDoctorId(String patientId);
 	

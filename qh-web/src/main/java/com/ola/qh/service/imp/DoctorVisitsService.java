@@ -34,7 +34,7 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 				
 			DoctorVisitsVo visits=new DoctorVisitsVo();
 			
-			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(offices);
+			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(offices,null);
 			
 			for (DoctorAndPatient doctorAndPatient : list) {
 				
@@ -71,5 +71,30 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 		}
 	}
 
+	@Transactional
+	@Override
+	public Results<List<DoctorAndPatient>> DoctorPatientList(String title) {
+		
+		Results<List<DoctorAndPatient>> results=new Results<List<DoctorAndPatient>>();
+		
+		try {
+			
+			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(null,title);
+			
+			for (DoctorAndPatient doctorAndPatient : list) {
+				
+				List<Doctors> doctorList=doctorsDao.selectDoctorId(doctorAndPatient.getPatientId());
+					
+				doctorAndPatient.setList(doctorList);
+				}
+			results.setData(list);
+			results.setStatus("0");
+			return results;
+			} catch (Exception e) {
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				results.setStatus("1");
+				return results;
+			}
+	}
 	
 }
