@@ -205,6 +205,11 @@
 	<select id="singlePatient" resultMap="DoctorPatientMap">
 	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
 	</select>
+	
+	<select id="selectPatient" resultMap="DoctorPatientMap">
+	select id,<include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve}
+	</select>
+	
 	<!-- 我的问诊 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
 		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 

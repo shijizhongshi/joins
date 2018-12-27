@@ -5,5 +5,5 @@ import com.ola.qh.vo.DoctorVisitsVo;
 
 public interface IDoctorVisitsService {
 
-	public Results<DoctorVisitsVo> selectDoctorVisits(String offices);
+	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve);
 }

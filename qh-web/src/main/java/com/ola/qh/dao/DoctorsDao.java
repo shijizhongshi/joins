@@ -61,4 +61,6 @@ public interface DoctorsDao {
 	public List<DoctorAndPatient> selectFromOffices(String offices);
 	
 	public List<Doctors> selectDoctorId(String patientId);
+	
+	public List<DoctorAndPatient> selectPatient(int issolve);
 }

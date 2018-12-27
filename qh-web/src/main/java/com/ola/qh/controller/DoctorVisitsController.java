@@ -18,8 +18,9 @@ public class DoctorVisitsController {
 	private IDoctorVisitsService doctorVisitsService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<DoctorVisitsVo> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices){
+	public Results<DoctorVisitsVo> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices,
+			@RequestParam(name="issolve",required=true)int issolve){
 		
-		return doctorVisitsService.selectDoctorVisits(offices);
+		return doctorVisitsService.selectDoctorVisits(offices,issolve);
 	}
 }

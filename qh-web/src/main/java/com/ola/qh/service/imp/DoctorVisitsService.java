@@ -26,11 +26,12 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 
 	@Transactional
 	@Override
-	public Results<DoctorVisitsVo> selectDoctorVisits(String offices) {
+	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve) {
 		
 		Results<DoctorVisitsVo> results=new Results<DoctorVisitsVo>();
 		try {
-			
+			if(issolve==1){
+				
 			DoctorVisitsVo visits=new DoctorVisitsVo();
 			
 			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(offices);
@@ -49,7 +50,20 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			results.setData(visits);
 			results.setStatus("0");
 			return results;
-			
+			}
+			else {
+				DoctorVisitsVo visits=new DoctorVisitsVo();
+				
+				List<DoctorAndPatient> list=doctorsDao.selectPatient(issolve);
+				
+				visits.setDoctor(doctorsDao.listRecommendDoctor());
+				visits.setNews(newsDao.selectRecommendNews());
+				visits.setPatient(list);
+				
+				results.setData(visits);
+				results.setStatus("0");
+				return results;
+			}
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			results.setStatus("1");
