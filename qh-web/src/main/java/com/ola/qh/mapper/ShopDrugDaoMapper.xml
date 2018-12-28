@@ -177,7 +177,7 @@
 	<!-- 通过产品的id查详情页 -->
 	<select id="selectById" resultMap="ShopDrugMap">
 		select
-		<include refid="sql_base"></include>,approval_time,deadlines
+		<include refid="sql_base"></include>,approval_time,deadlines,approval_number,period_validity,manufacturer
 		from shop_drug where id=#{id}
 	</select>
 

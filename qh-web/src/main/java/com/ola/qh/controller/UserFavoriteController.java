@@ -70,11 +70,14 @@ public class UserFavoriteController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public Results<String> deleteUserFavorite(@RequestParam(name = "id", required = true) String id) {
+	public Results<String> deleteUserFavorite(
+			@RequestParam(name = "id", required = false) String id,
+			@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name = "productId", required = false) String productId) {
 
 		Results<String> results = new Results<String>();
 
-		int delete = userFavoriteService.deleteUserFavorite(id);
+		int delete = userFavoriteService.deleteUserFavorite(id, userId, productId);
 
 		if (delete <= 0) {
 			results.setMessage("删除失败");

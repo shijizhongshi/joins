@@ -15,7 +15,10 @@ public interface UserFavoriteDao {
 	public int update(@Param("productId")String productId,
 			@Param("status")int status);
 	
-	public int deleteUserFavorite(@Param("id")String id);
+	public int deleteUserFavorite(
+			@Param("id")String id,
+			@Param("userId")String userId,
+			@Param("productId")String productId);
 	
 
 	public int existUserFavorite(

@@ -2,6 +2,8 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class DoctorReply {
@@ -22,10 +24,19 @@ public class DoctorReply {
 	
 	private int readStatus;///1:已读
 	
-	
 	private String showtime;
+	@NotNull
+	private int types;///0:医生的回复   1:患者的回复
 	
 	
+
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
+	}
 
 	public int getBrowseCount() {
 		return browseCount;

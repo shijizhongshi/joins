@@ -56,9 +56,9 @@ public class UserFavoriteService implements IUserFavoriteService{
 	}
 
 	@Override
-	public int deleteUserFavorite(String id) {
+	public int deleteUserFavorite(String id,String userId,String productId) {
 		
-		return userFavoriteDao.deleteUserFavorite(id);
+		return userFavoriteDao.deleteUserFavorite(id, userId, productId);
 	}
 
 	@Override
