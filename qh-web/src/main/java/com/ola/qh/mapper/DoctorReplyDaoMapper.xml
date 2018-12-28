@@ -72,9 +72,6 @@
 		<if test="patientId!=null and patientId!='' ">
 		and drp.patient_id=#{patientId}
 		</if>
-		<if test="types!=null">
-		and types=#{types}
-		</if>
 		GROUP BY doctor_id
 	</select>
 	<!-- 查出医生对应的所有的回答集合 -->
