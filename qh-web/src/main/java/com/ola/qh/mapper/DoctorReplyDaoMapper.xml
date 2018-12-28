@@ -25,8 +25,8 @@
 	
 
 	<insert id="insertReply" parameterType="com.ola.qh.entity.DoctorReply">
-	insert into	doctor_reply_patient(id,doctor_id,patient_id,reply_content,addtime)
-	values(#{id},#{doctorId},#{patientId},#{replyContent},#{addtime})
+	insert into	doctor_reply_patient(id,doctor_id,patient_id,reply_content,types,addtime)
+	values(#{id},#{doctorId},#{patientId},#{replyContent},#{types},#{addtime})
 	</insert>
 	
 	<select id="existDoctor" resultType="java.lang.Integer">
@@ -72,11 +72,14 @@
 		<if test="patientId!=null and patientId!='' ">
 		and drp.patient_id=#{patientId}
 		</if>
+		<if test="types!=null">
+		and types=#{types}
+		</if>
 		GROUP BY doctor_id
 	</select>
 	<!-- 查出医生对应的所有的回答集合 -->
 	<select id="listByIds" resultType="com.ola.qh.entity.DoctorReply">
-	select doctor_id doctorId,patient_id patientId,read_status readStatus,reply_content replyContent,browse_count browseCount,addtime from doctor_reply_patient where 1=1
+	select doctor_id doctorId,patient_id patientId,read_status readStatus,reply_content replyContent,browse_count browseCount,addtime,types from doctor_reply_patient where 1=1
 		<if test="patientId!=null and patientId!='' ">
 		and patient_id=#{patientId}
 		</if>
@@ -85,9 +88,4 @@
 		</if>
 	</select>
 	
-	<!-- 我的回复 -->
-	<select id="listPatient">
-	
-	
-	</select>
 </mapper> 

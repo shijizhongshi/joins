@@ -9,7 +9,7 @@ import com.ola.qh.vo.CartVo;
 
 public interface IShopDrugCartService {
 
-	public List<CartVo> selectShopDrugCart(String userId,int pageNo,int pageSize);
+	public List<CartVo> selectShopDrugCart(String userId,int page);
 	
 	public Results<String> insertShopDrugCart(ShopDrugCart shopDrugCart);
 	

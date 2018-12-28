@@ -16,6 +16,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.service.IShopDrugCartService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CartVo;
 
@@ -29,7 +30,7 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	private ShopDrugDao shopDrugDao;
 	
 	@Override
-	public List<CartVo> selectShopDrugCart(String userId, int pageNo, int pageSize) {
+	public List<CartVo> selectShopDrugCart(String userId, int page) {
 		List<CartVo> volist = new ArrayList<CartVo>();
 		
 		List<ShopDrugCart> sdcList = shopDrugCartDao.selectShopDrugCart(userId, 0, 0);
@@ -53,8 +54,17 @@ public class ShopDrugCartService implements IShopDrugCartService{
 			volist.add(vo);
 		}
 				});
-		
-		return volist.subList(pageNo, pageSize);
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		if(volist!=null ){
+			if(volist.size()<=page*pageSize){
+				return volist.subList(pageNo, volist.size());
+			}else{
+				return volist.subList(pageNo, pageSize);
+			}
+			
+		}
+		return null;
 	}
 
 	@Override

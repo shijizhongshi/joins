@@ -30,16 +30,25 @@
 	update user_favorite set status=#{status} where product_id=#{productId}
 	</update>
 	<delete id="deleteUserFavorite" >
-		delete from user_favorite where id=#{id}
+		delete from user_favorite where 1=1
+		<if test="id!=null">
+		and id=#{id}
+		</if>
+		<if test="userId!=null">
+		and user_id=#{userId}
+		</if>
+		<if test="productId!=null">
+		and product_id=#{productId}
+		</if>
 	</delete>
 	
 	<select id="existUserFavorite" resultType="int">
-		select count(id) from user_favorite where 
+		select count(id) from user_favorite where 1=1
 		<if test="productId!=null">
-		product_id=#{productId}
+		and product_id=#{productId}
 		</if>
 		<if test="userId!=null">
-		user_id=#{userId}
+		and user_id=#{userId}
 		</if>
 	</select>
 	

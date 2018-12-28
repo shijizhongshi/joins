@@ -70,7 +70,7 @@ public class ShopDrugController {
 	@RequestMapping(value="/single",method=RequestMethod.GET)
 	public Results<ShopDrug> singleShopDrug(
 			@RequestParam(name="drugId",required=true) String drugId,
-			@RequestParam(name="userId",required=true) String userId){
+			@RequestParam(name="userId",required=false) String userId){
 		return shopDrugService.selectById(drugId,userId);
 	}
 	/**

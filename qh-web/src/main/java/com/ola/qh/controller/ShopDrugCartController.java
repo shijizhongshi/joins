@@ -43,7 +43,7 @@ public class ShopDrugCartController {
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<CartVo> list = shopDrugCartService.selectShopDrugCart(userId, pageNo, pageSize);
+		List<CartVo> list = shopDrugCartService.selectShopDrugCart(userId,page);
 		results.setData(list);
 		results.setStatus("0");
 		return results;

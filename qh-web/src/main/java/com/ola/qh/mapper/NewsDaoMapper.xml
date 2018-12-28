@@ -19,7 +19,7 @@
 	<sql id="sql_base">
 		id,types,title,img_url,addtime,isstick,status
 	</sql>
-	<select id="selectNewList" resultMap="NewsMap" parameterType="int">
+	<select id="selectNewList" resultMap="NewsMap">
 		select
 		<include refid="sql_base"></include>
 		from news where 1=1
