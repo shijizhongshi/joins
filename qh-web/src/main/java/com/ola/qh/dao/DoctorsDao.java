@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.vo.DoctorAndPatient;
 
 public interface DoctorsDao {
 
@@ -52,4 +53,14 @@ public interface DoctorsDao {
 			@Param("id")String id,
 			@Param("userId")String userId,
 			@Param("islimit")String islimit);/////查用户的详情
+	
+	
+	//寻医问药
+	public List<Doctors> listRecommendDoctor();
+	
+	public List<DoctorAndPatient> selectFromOffices(@Param("offices")String offices,@Param("title")String title);
+	
+	public List<Doctors> selectDoctorId(String patientId);
+	
+	public List<DoctorAndPatient> selectPatient(int issolve);
 }

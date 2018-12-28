@@ -40,5 +40,8 @@
 		where id=#{id}
 	</select>
 
+	<select id="selectRecommendNews"  resultMap="NewsMap">
+		select id,title,img_url from news where isrecommend=1 limit 4
+	</select>
 
 </mapper>

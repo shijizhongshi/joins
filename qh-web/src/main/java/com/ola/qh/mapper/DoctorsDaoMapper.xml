@@ -29,6 +29,7 @@
 		<result column="else_img" property="elseImg" />
 		<result column="addtime" property="addtime" />
 		<result column="doctor_id" property="doctorId" />
+		<result column="patient_id" property="patientId" />
 	</resultMap>
 
 	<sql id="sql_base">
@@ -73,6 +74,36 @@
 			limit #{pageNo},#{pageSize}
 		</if>
 		
+	</select>
+	
+
+	<!-- 寻医问药专用查询 -->
+	<select id="listRecommendDoctor" resultMap="DoctorsMap">
+		select name,id,head_img,professional,hospital from doctors where isrecommend=1 limit 3
+	</select>
+	
+	<!-- 根据科室查医生 -->
+	<resultMap type="com.ola.qh.vo.DoctorAndPatient" id="DoctorAndPatientMap">
+		<result column="title" property="title" />
+		<result column="addtime" property="addtime" />
+		<result column="patient_id" property="patientId" />
+		<result column="offices" property="offices" />
+	</resultMap>
+	
+	<select id="selectFromOffices" resultMap="DoctorAndPatientMap"  parameterType="String">
+		select drp.patient_id patientId,dp.title title,dp.addtime addtime from doctor_reply_patient drp 
+		left join doctor_patient dp on drp.patient_id=dp.id where dp.issolve=1
+		<if test="offices!=null">
+		and offices=#{offices}
+		</if>
+		<if test="title!=null">
+		and title like concat(concat('%',#{title},'%'))
+		</if>
+		group by drp.patient_id order by addtime desc
+	</select>
+	
+	<select id="selectDoctorId" resultMap="DoctorsMap">
+		select distinct d.id doctorId,d.name name,d.head_img headImg,d.professional from doctor_reply_patient drp left join doctors d on drp.doctor_id=d.id where patient_id=#{patientId}
 	</select>
 	
 	<select id="commentGrade" resultType="java.lang.Double">
@@ -177,6 +208,11 @@
 	<select id="singlePatient" resultMap="DoctorPatientMap">
 	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
 	</select>
+	
+	<select id="selectPatient" resultMap="DoctorPatientMap">
+	select id,<include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve}
+	</select>
+	
 	<!-- 我的问诊 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
 		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 
