@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.PromptMessageDao">
+	<resultMap type="com.ola.qh.entity.PromptMessage"  id="PromptMessageMap">
+		<result column="user_id" property="userId" />
+		<result column="issolve" property="issolve" />
+		
+	</resultMap>
+	<select id="existReadStatus" resultMap="PromptMessageMap">
+		select read_status from doctor_reply_patient drp left join doctor_patient dp on drp.patient_id=dp.id where user_id=#{userId}
+	</select>
+	
+	<select id="selectPatient" resultMap="PromptMessageMap">
+		select id,title,describes,ages,sexs,times,addtime from doctor_patient where user_id=#{userId} and issolve=#{issolve}
+	</select>
+	
+	<select id="selectDoctorReplyPatient" resultMap="PromptMessageMap">
+		select dp.id dpid,dp.title,dp.describes,dp.ages,dp.sexs,dp.times,dp.addtime,
+		drp.id drpid,drp.reply_content,
+		d.name,d.id did,d.hospital,d.head_img,d.professional,d.offices,d.skilled
+		from doctor_patient dp left join doctor_reply_patient drp on dp.id=drp.patient_id 
+		left join doctors d on d.id=drp.doctor_id
+		where dp.user_id=1
+	</select>
+</mapper>

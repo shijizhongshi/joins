@@ -8,7 +8,7 @@ import com.ola.qh.vo.DoctorVisitsVo;
 
 public interface IDoctorVisitsService {
 
-	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve);
+	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId);
 	
 	public Results<List<DoctorAndPatient>> DoctorPatientList(String title);
 }

@@ -13,6 +13,8 @@ public class DoctorVisitsVo {
 	private List<DoctorAndPatient> patient=new ArrayList<DoctorAndPatient>();
 	
 	private List<News> news=new ArrayList<News>();
+	
+	private int readStatus;
 
 	public List<Doctors> getDoctor() {
 		return doctor;
@@ -36,6 +38,14 @@ public class DoctorVisitsVo {
 
 	public void setNews(List<News> news) {
 		this.news = news;
+	}
+
+	public int getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(int readStatus) {
+		this.readStatus = readStatus;
 	}
 	
 	
