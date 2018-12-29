@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.entity.Doctors;
@@ -25,9 +24,6 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	@Autowired
 	private NewsDao newsDao;
 	
-	@Autowired
-	private DoctorReplyDao doctorReplyDao;
-
 	@Transactional
 	@Override
 	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
@@ -51,7 +47,7 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			visits.setNews(newsDao.selectRecommendNews());
 			visits.setPatient(list);
 			
-			List<DoctorAndPatient> exist=doctorReplyDao.existReadStatus(userId);
+			List<DoctorAndPatient> exist=doctorsDao.existReadStatus(userId);
 			for (DoctorAndPatient promptMessage : exist) {
 				
 				String isread=promptMessage.getReadStatus();
