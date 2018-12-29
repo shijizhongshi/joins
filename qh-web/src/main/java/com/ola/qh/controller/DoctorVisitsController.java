@@ -22,9 +22,9 @@ public class DoctorVisitsController {
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<DoctorVisitsVo> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices,
-			@RequestParam(name="issolve",required=true)int issolve){
+			@RequestParam(name="issolve",required=true)int issolve,@RequestParam(name="userId",required=true)String userId){
 		
-		return doctorVisitsService.selectDoctorVisits(offices,issolve);
+		return doctorVisitsService.selectDoctorVisits(offices,issolve,userId);
 	}
 	
 	@RequestMapping(value="/selectpatientlist",method=RequestMethod.GET)

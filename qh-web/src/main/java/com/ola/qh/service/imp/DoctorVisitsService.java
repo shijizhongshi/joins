@@ -9,7 +9,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
+import com.ola.qh.dao.PromptMessageDao;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.entity.PromptMessage;
 import com.ola.qh.service.IDoctorVisitsService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DoctorAndPatient;
@@ -23,10 +25,13 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	
 	@Autowired
 	private NewsDao newsDao;
+	
+	@Autowired
+	private PromptMessageDao promptMessageDao;
 
 	@Transactional
 	@Override
-	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve) {
+	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
 		
 		Results<DoctorVisitsVo> results=new Results<DoctorVisitsVo>();
 		try {
@@ -46,6 +51,20 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			visits.setDoctor(doctorsDao.listRecommendDoctor());
 			visits.setNews(newsDao.selectRecommendNews());
 			visits.setPatient(list);
+			
+			List<PromptMessage> exist=promptMessageDao.existReadStatus(userId);
+			for (PromptMessage promptMessage : exist) {
+				
+				int isread=promptMessage.getReadStatus();
+				
+				if(isread==0){
+					
+					visits.setReadStatus(isread);
+					break;
+				}
+				visits.setReadStatus(isread);
+			}
+			
 			
 			results.setData(visits);
 			results.setStatus("0");
