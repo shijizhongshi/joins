@@ -3,6 +3,7 @@ package com.ola.qh.service.imp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.service.IShopDrugCartService;
+import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -32,7 +34,7 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	@Override
 	public List<CartVo> selectShopDrugCart(String userId, int page) {
 		List<CartVo> volist = new ArrayList<CartVo>();
-		
+		List<CartVo> newvolist = new ArrayList<CartVo>();
 		List<ShopDrugCart> sdcList = shopDrugCartDao.selectShopDrugCart(userId, 0, 0);
 		sdcList.forEach(sdc -> {
 			String sname = sdc.getShopName();
@@ -40,12 +42,11 @@ public class ShopDrugCartService implements IShopDrugCartService{
 		Optional<CartVo> optionalvo = volist.stream()
 				.filter(vo -> {return sname.equals(vo.getShopName());})
 				.findAny();
-		
 		CartVo vo = new CartVo();
 		vo.setShopName(sname);
 	   /////如果muserId存在的话直接返回再次循环   
 		if(optionalvo.isPresent()){
-			vo = optionalvo.get();
+			vo =optionalvo.get();
 			vo.getCartlist().add(sdc);
 			volist.add(vo);
 		}else{
@@ -58,11 +59,11 @@ public class ShopDrugCartService implements IShopDrugCartService{
 		int pageNo=(page-1)*pageSize;
 		if(volist!=null ){
 			if(volist.size()<=page*pageSize){
-				return volist.subList(pageNo, volist.size());
+				newvolist= volist.subList(pageNo, volist.size());
 			}else{
-				return volist.subList(pageNo, pageSize);
+				newvolist= volist.subList(pageNo, pageSize);
 			}
-			
+			return newvolist.subList(0, newvolist.size()-1);
 		}
 		return null;
 	}
