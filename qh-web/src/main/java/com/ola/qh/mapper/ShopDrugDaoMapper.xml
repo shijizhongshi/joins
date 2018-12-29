@@ -203,12 +203,8 @@
 			and status=2
 		</if>
 		<if test="status==4">
-			<!-- 未审批 -->
-			and islimits=0
-		</if>
-		<if test="status==5">
-			<!-- 审批失败 -->
-			and islimits=2
+			<!-- 审批 -->
+			and islimits in(0,2)
 		</if>
 		<if test="ishot!=0">
 			and ishot=#{ishot}
@@ -277,8 +273,7 @@
 	
 	
 	
-	<select id="selectDrugListCount" parameterType="com.ola.qh.vo.ShopDrugDomain"
-		resultType="int">
+	<select id="selectDrugListCount" resultType="int">
 		select count(id) from shop_drug
 		where 1=1
 		<if test="shopId!=null">
@@ -297,11 +292,10 @@
 		</if>
 		<if test="status==4">
 			<!-- 未审批 -->
-			and islimits=0
+			and islimits in(0,2)
 		</if>
-		<if test="status==5">
-			<!-- 审批失败 -->
-			and islimits=2
+		<if test="istimes!=0">
+		and istimes=1
 		</if>
 	
 	</select>

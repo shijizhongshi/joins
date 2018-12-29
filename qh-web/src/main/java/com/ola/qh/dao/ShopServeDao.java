@@ -2,6 +2,7 @@ package com.ola.qh.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.ShopServeImg;
@@ -16,6 +17,8 @@ public interface ShopServeDao {
 	public ShopServe selectSingle(String id);
 	
 	public List<ShopServe> selectList(ShopServeDomain ssd);
+	
+	public int selectListCount(@Param("shopId")String shopId,@Param("serveStatus")int serveStatus);
 	
 	public int insertServeImg(ShopServeImg ssi);
 	

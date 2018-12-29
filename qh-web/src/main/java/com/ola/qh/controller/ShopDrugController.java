@@ -115,7 +115,9 @@ public class ShopDrugController {
 	 * @return
 	 */
 	@RequestMapping("/count")
-	public Results<ShopCountVo> countShop(@RequestParam(name="shopId",required=true)String shopId){
-		return shopDrugService.shopCount(shopId);
+	public Results<ShopCountVo> countShop(
+			@RequestParam(name="shopId",required=true)String shopId,
+			@RequestParam(name="types",required=true)int types){
+		return shopDrugService.shopCount(shopId,types);
 	}
 }

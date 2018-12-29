@@ -164,7 +164,7 @@ public class IndexController {
 		vo.setNearbylist(nearbylist);
 		
 		ShopServeDomain ssd=new ShopServeDomain();
-		ssd.setServeStatus("1");///后台审核过的服务项目
+		ssd.setServeStatus(1);///后台审核过的服务项目
 		ssd.setIshot(1);
 		ssd.setPageNo(0);
 		ssd.setPageSize(6);

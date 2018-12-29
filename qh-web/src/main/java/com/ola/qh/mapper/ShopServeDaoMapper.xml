@@ -69,7 +69,7 @@
 	select <include refid="sql_base"></include>,content,serve_time,buy_rule,explains from shop_serve where id=#{id}
 	</select>
 	
-	<select id="selectList" resultMap="ShopServeMap" resultType="com.ola.qh.vo.ShopServeDomain">
+	<select id="selectList" resultMap="ShopServeMap" parameterType="com.ola.qh.vo.ShopServeDomain">
 	select <include refid="sql_base"></include> from shop_serve where 1=1
 	<if test="shopId!=null">
 	and shop_id=#{shopId}
@@ -87,7 +87,13 @@
 	<if test="paymentType!=null">
 	and payment_type=#{paymentType}
 	</if>
-	<if test="serveStatus!=null">
+	<if test="serveStatus==3 ">
+	and serve_status in(0,4)
+	</if>
+	<if test="serveStatus==1 ">
+	and serve_status=#{serveStatus}
+	</if>
+	<if test="serveStatus==2 ">
 	and serve_status=#{serveStatus}
 	</if>
 	<if test="ishot!=0">
@@ -101,7 +107,21 @@
 	</select>
 	
 	
-	
+	<select id="selectListCount" resultType="int">
+	select count(id) from shop_serve where 1=1
+	<if test="shopId!=null">
+	and shop_id=#{shopId}
+	</if>
+	<if test="serveStatus==3 ">
+	and serve_status in(0,4)
+	</if>
+	<if test="serveStatus==1 ">
+	and serve_status=#{serveStatus}
+	</if>
+	<if test="serveStatus==2 ">
+	and serve_status=#{serveStatus}
+	</if>
+	</select>
 	
 	
 	<resultMap type="com.ola.qh.entity.ShopServeImg" id="ShopServeImgMap">
