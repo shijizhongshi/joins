@@ -12,4 +12,6 @@ public interface DoctorVisitsDao {
 	public DoctorVisitsVo selectDoctorVisits(@Param("offices")String offices);
 	
 	public List<DoctorAndPatient> DoctorPatientList(@Param("title")String title);
+	
+	
 }

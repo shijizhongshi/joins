@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
-import com.ola.qh.dao.PromptMessageDao;
 import com.ola.qh.entity.Doctors;
-import com.ola.qh.entity.PromptMessage;
 import com.ola.qh.service.IDoctorVisitsService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DoctorAndPatient;
@@ -27,14 +26,14 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	private NewsDao newsDao;
 	
 	@Autowired
-	private PromptMessageDao promptMessageDao;
+	private DoctorReplyDao doctorReplyDao;
 
 	@Transactional
 	@Override
 	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
 		
 		Results<DoctorVisitsVo> results=new Results<DoctorVisitsVo>();
-		try {
+		//try {
 			if(issolve==1){
 				
 			DoctorVisitsVo visits=new DoctorVisitsVo();
@@ -52,12 +51,12 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			visits.setNews(newsDao.selectRecommendNews());
 			visits.setPatient(list);
 			
-			List<PromptMessage> exist=promptMessageDao.existReadStatus(userId);
-			for (PromptMessage promptMessage : exist) {
+			List<DoctorAndPatient> exist=doctorReplyDao.existReadStatus(userId);
+			for (DoctorAndPatient promptMessage : exist) {
 				
-				int isread=promptMessage.getReadStatus();
+				String isread=promptMessage.getReadStatus();
 				
-				if(isread==0){
+				if(isread.equals(0)){
 					
 					visits.setReadStatus(isread);
 					break;
@@ -83,11 +82,11 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 				results.setStatus("0");
 				return results;
 			}
-		} catch (Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			results.setStatus("1");
-			return results;
-		}
+//		} catch (Exception e) {
+//			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//			results.setStatus("1");
+//			return results;
+//		}
 	}
 
 	@Transactional

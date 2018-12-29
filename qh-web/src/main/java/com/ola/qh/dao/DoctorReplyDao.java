@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ola.qh.entity.DoctorInfo;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorReply;
+import com.ola.qh.vo.DoctorAndPatient;
 import com.ola.qh.vo.DoctorsVo;
 
 public interface DoctorReplyDao {
@@ -37,4 +38,7 @@ public interface DoctorReplyDao {
 			@Param("patientId")String patientId,
 			@Param("doctorId")String doctorId,
 			@Param("browseCount") int browseCount);
+	
+	//铃铛
+	public List<DoctorAndPatient> existReadStatus(@Param("userId")String userId);
 }

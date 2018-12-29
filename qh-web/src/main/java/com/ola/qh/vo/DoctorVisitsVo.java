@@ -14,7 +14,7 @@ public class DoctorVisitsVo {
 	
 	private List<News> news=new ArrayList<News>();
 	
-	private int readStatus;
+	private String readStatus;
 
 	public List<Doctors> getDoctor() {
 		return doctor;
@@ -40,12 +40,12 @@ public class DoctorVisitsVo {
 		this.news = news;
 	}
 
-	public int getReadStatus() {
+	public String getReadStatus() {
 		return readStatus;
 	}
 
-	public void setReadStatus(int readStatus) {
-		this.readStatus = readStatus;
+	public void setReadStatus(String isread) {
+		this.readStatus = isread;
 	}
 	
 	

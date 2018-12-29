@@ -7,6 +7,8 @@ public class DoctorInfo {
 	private String types;
 	
 	private String imgUrl;
+	
+	private String readStatus;
 
 	public String getName() {
 		return name;
@@ -30,6 +32,14 @@ public class DoctorInfo {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public String getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(String readStatus) {
+		this.readStatus = readStatus;
 	}
 	
 	

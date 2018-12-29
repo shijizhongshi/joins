@@ -17,6 +17,8 @@ public class DoctorAndPatient {
 	
 	private String office;
 	
+	private String readStatus;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -55,6 +57,14 @@ public class DoctorAndPatient {
 
 	public void setList(List<Doctors> list) {
 		this.list = list;
+	}
+
+	public String getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(String readStatus) {
+		this.readStatus = readStatus;
 	}
 	
 	
