@@ -10,8 +10,6 @@
 		<result column="name" property="name" />
 		<result column="types" property="types" />
 		<result column="img_url" property="imgUrl" />
-		<result column="user_id" property="userId" />
-		<result column="read_status" property="readStatus" />
 	</resultMap>
 
 	<!-- 科室的集合 -->
@@ -24,11 +22,6 @@
 		select name,types from doctor_info
 	</select>
 
-
-	<!-- 小铃铛！！！ -->
-	<select id="existReadStatus" resultMap="DoctorInfoMap">
-		select read_status from doctor_reply_patient drp left join doctor_patient dp on drp.patient_id=dp.id where user_id=#{userId}
-	</select>
 	
 
 	<insert id="insertReply" parameterType="com.ola.qh.entity.DoctorReply">
