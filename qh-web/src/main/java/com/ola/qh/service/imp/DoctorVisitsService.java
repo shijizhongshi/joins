@@ -9,7 +9,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IDoctorVisitsService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DoctorAndPatient;
@@ -24,16 +26,24 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	@Autowired
 	private NewsDao newsDao;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	@Transactional
 	@Override
 	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
 		
 		Results<DoctorVisitsVo> results=new Results<DoctorVisitsVo>();
-		//try {
-			if(issolve==1){
-				
+		try {
+			
 			DoctorVisitsVo visits=new DoctorVisitsVo();
 			
+			User user=userDao.singleUser(userId, null);
+			
+			visits.setIsDoctor(user.getIsdoctor());
+			
+			if(issolve==1){
+				
 			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(offices,null);
 			
 			for (DoctorAndPatient doctorAndPatient : list) {
@@ -58,6 +68,7 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 					break;
 				}
 				visits.setReadStatus(isread);
+				break;
 			}
 			
 			
@@ -66,7 +77,6 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			return results;
 			}
 			else {
-				DoctorVisitsVo visits=new DoctorVisitsVo();
 				
 				List<DoctorAndPatient> list=doctorsDao.selectPatient(issolve);
 				
@@ -78,11 +88,11 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 				results.setStatus("0");
 				return results;
 			}
-//		} catch (Exception e) {
-//			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-//			results.setStatus("1");
-//			return results;
-//		}
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			results.setStatus("1");
+			return results;
+		}
 	}
 
 	@Transactional
