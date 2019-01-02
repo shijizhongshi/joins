@@ -17,6 +17,7 @@ import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.IShopServeService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.ShopCountVo;
 import com.ola.qh.vo.ShopServeDomain;
 import com.ola.qh.vo.ShopServeVo;
 /**
@@ -66,7 +67,8 @@ public class ShopServeController {
 	public Results<List<ShopServe>> listServe(
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="shopId",required=false)String shopId,
-			@RequestParam(name="serveId",required=false)String serveId){
+			@RequestParam(name="serveId",required=false)String serveId,
+			@RequestParam(name="serveStatus",required=false)int serveStatus){
 		
 		Results<List<ShopServe>> result=new Results<List<ShopServe>>();
 		int pageSize = Patterns.zupageSize;
@@ -76,10 +78,24 @@ public class ShopServeController {
 		ssd.setPageSize(pageSize);
 		ssd.setShopId(shopId);
 		ssd.setId(serveId);
+		ssd.setServeStatus(serveStatus);
 		result=shopServeService.selectServeList(ssd);
 		return result;
 	}
 	
+	@RequestMapping("/list/count")
+	public Results<ShopCountVo> listServeCount(
+			@RequestParam(name="shopId",required=true)String shopId){
+		
+		Results<ShopCountVo> result=new Results<ShopCountVo>();
+		ShopCountVo vo=new ShopCountVo();
+		vo.setDownCount(shopServeService.selectListCount(shopId,2));
+		vo.setSalesCount(shopServeService.selectListCount(shopId,1));
+		vo.setWlimitCount(shopServeService.selectListCount(shopId,3));
+		result.setData(vo);
+		result.setStatus("0");
+		return result;
+	}
 	
 	
 }

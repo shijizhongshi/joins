@@ -210,12 +210,9 @@ public class ShopDrugService implements IShopDrugService {
 			list = shopDrugDao.selectDrugList(sdd);
 			
 		}else if(sdd.getStatus()==4){
-			////审批中的
+			////审批中的  未审批的
 			list = shopDrugDao.selectDrugList(sdd);
 			
-		}else if(sdd.getStatus()==5){
-			////审批失败的
-			list = shopDrugDao.selectDrugList(sdd);
 		}
 		if(list!=null && list.size()!=0){
 			Shop shop = shopDao.singleShop(null, list.get(0).getShopId(), 2);
@@ -235,19 +232,19 @@ public class ShopDrugService implements IShopDrugService {
 	}
 
 	@Override
-	public Results<ShopCountVo> shopCount(String shopId) {
+	public Results<ShopCountVo> shopCount(String shopId,int types) {
 		// TODO Auto-generated method stub
 		Results<ShopCountVo> result=new Results<ShopCountVo>();
 		ShopCountVo vo=new ShopCountVo();
 		////正售的商品的个数
-		int salesCount = shopDrugDao.selectDrugListCount(shopId,0);
-		vo.setSalesCount(salesCount);
-		/////下架的商品
-		int downCount = shopDrugDao.selectDrugListCount(shopId,2);
-		vo.setDownCount(downCount);
-		////待审核的商品
-		int wlimitCount = shopDrugDao.selectDrugListCount(shopId,4);
-		vo.setWlimitCount(wlimitCount);
+			int salesCount = shopDrugDao.selectDrugListCount(shopId,0,types);
+			vo.setSalesCount(salesCount);
+			/////下架的商品
+			int downCount = shopDrugDao.selectDrugListCount(shopId,2,types);
+			vo.setDownCount(downCount);
+			////待审核的商品
+			int wlimitCount = shopDrugDao.selectDrugListCount(shopId,4,types);
+			vo.setWlimitCount(wlimitCount);
 		
 		result.setStatus("0");
 		result.setData(vo);

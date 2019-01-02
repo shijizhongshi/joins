@@ -87,6 +87,7 @@ public class ShopDrugController {
 			@RequestParam(name="shopId",required=false)String shopId,
 			@RequestParam(name="status",required=false)int status,
 			@RequestParam(name="drugName",required=false)String drugName,
+			@RequestParam(name="istimes",required=false)int istimes,
 			@RequestParam(name="categorySubname",required=false)String categorySubname,
 			@RequestParam(name="categoryName",required=false)String categoryName,
 			@RequestParam(name="ordersSales",required=false)int ordersSales,
@@ -105,6 +106,7 @@ public class ShopDrugController {
 		sdd.setOrdersSales(ordersSales);
 		sdd.setOrdersprice(ordersprice);
 		sdd.setDrugName(drugName);
+		sdd.setIstimes(istimes);
 		return shopDrugService.selectDrugList(sdd);
 	}
 	/**
@@ -115,7 +117,9 @@ public class ShopDrugController {
 	 * @return
 	 */
 	@RequestMapping("/count")
-	public Results<ShopCountVo> countShop(@RequestParam(name="shopId",required=true)String shopId){
-		return shopDrugService.shopCount(shopId);
+	public Results<ShopCountVo> countShop(
+			@RequestParam(name="shopId",required=true)String shopId,
+			@RequestParam(name="types",required=true)int types){
+		return shopDrugService.shopCount(shopId,types);
 	}
 }

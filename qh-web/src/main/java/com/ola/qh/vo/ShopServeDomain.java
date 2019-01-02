@@ -9,7 +9,7 @@ public class ShopServeDomain {
 	private int pageSize;
 	private String serveName;
 	private String paymentType;
-	private String serveStatus;
+	private int serveStatus;
 	private int ishot;////后台设置可以在首页展示的服务项目
 	private String serveContents;
 	
@@ -62,12 +62,13 @@ public class ShopServeDomain {
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
-	public String getServeStatus() {
+	public int getServeStatus() {
 		return serveStatus;
 	}
-	public void setServeStatus(String serveStatus) {
+	public void setServeStatus(int serveStatus) {
 		this.serveStatus = serveStatus;
 	}
+	
 	
 	
 }

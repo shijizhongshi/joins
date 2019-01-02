@@ -18,7 +18,10 @@ public interface ShopDrugDao {
 	
 	public List<ShopDrug> selectDrugList(ShopDrugDomain sdd);
 	
-	public int selectDrugListCount(@Param("shopId")String shopId,@Param("status")int status);
+	public int selectDrugListCount(
+			@Param("shopId")String shopId,
+			@Param("status")int status,
+			@Param("istimes")int istimes);
 	
 	public int updateCount(
 			@Param("stocks")int stocks,

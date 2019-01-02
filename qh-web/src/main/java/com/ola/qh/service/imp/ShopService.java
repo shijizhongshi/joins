@@ -279,7 +279,7 @@ public class ShopService implements IShopService {
 		ShopServeDomain ssd=new ShopServeDomain();
 		ssd.setPageSize(0);
 		ssd.setShopId(shopId);
-		ssd.setServeStatus("1");
+		ssd.setServeStatus(1);
 		ssd.setPaymentType("团购");
 		List<ShopServe> groupList = shopServeDao.selectList(ssd);
 		vo.setGroupList(groupList);

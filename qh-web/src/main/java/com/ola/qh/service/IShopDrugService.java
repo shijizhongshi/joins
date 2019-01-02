@@ -18,5 +18,5 @@ public interface IShopDrugService {
 	
 	public Results<ShopDrugVo> selectDrugList(ShopDrugDomain sdd);
 	
-	public Results<ShopCountVo> shopCount(String shopId);
+	public Results<ShopCountVo> shopCount(String shopId,int types);
 }

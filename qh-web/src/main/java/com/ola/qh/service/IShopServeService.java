@@ -20,5 +20,7 @@ public interface IShopServeService {
 	
 	public Results<List<ShopServe>> selectServeList(ShopServeDomain sdd);
 	
+	public int selectListCount(String shopId,int serveStatus);
+	
 	
 }

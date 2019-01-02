@@ -153,7 +153,7 @@ public class ShopServeService implements IShopServeService {
 		ssd.setPageSize(0);
 		ssd.setShopId(shopId);
 		ssd.setId(id);
-		ssd.setServeStatus("1");
+		ssd.setServeStatus(1);
 		ssd.setPaymentType(ss.getPaymentType());///
 		List<ShopServe> list = shopServeDao.selectList(ssd);
 		for (ShopServe shopServe : list) {
@@ -172,13 +172,18 @@ public class ShopServeService implements IShopServeService {
 		Results<List<ShopServe>> result = new Results<List<ShopServe>>();
 		
 		List<ShopServe> list = shopServeDao.selectList(sdd);
-		/*for (ShopServe shopServe : list) {
-			List<ShopServeImg> imgList = shopServeDao.selectByServeId(shopServe.getId());
-			shopServe.setImglist(imgList);
-		}*/
+		for (ShopServe shopServe : list) {
+			shopServe.setBuyCount(ordersProductDao.ordersCount(shopServe.getId()));
+		}
 		result.setStatus("0");
 		result.setData(list);
 		return result;
+	}
+
+	@Override
+	public int selectListCount(String shopId, int serveStatus) {
+		// TODO Auto-generated method stub
+		return shopServeDao.selectListCount(shopId, serveStatus);
 	}
 
 }

@@ -85,7 +85,7 @@ public class OrdersService implements IOrdersService {
 	public Results<List<OrdersPayment>> submitOrders(OrdersCartDomain ordersVo) {
 		// TODO Auto-generated method stub
 		Results<List<OrdersPayment>> result = new Results<List<OrdersPayment>>();
-		try {
+		/*try {*/
 			///// 校验用户的信息是否准确
 			if (ordersVo.getOid() == null || "".equals(ordersVo.getOid())) {
 				Results<String> userResult = userService.existUser(ordersVo.getUserId());
@@ -253,13 +253,13 @@ public class OrdersService implements IOrdersService {
 			result.setStatus("0");
 			return result;
 
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("提交信息处理有误~");
 			return result;
-		}
+		}*/
 	}
 
 	/**
