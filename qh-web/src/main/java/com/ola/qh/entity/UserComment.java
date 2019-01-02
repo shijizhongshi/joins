@@ -17,7 +17,6 @@ public class UserComment {
 	@NotEmpty(message="用户d不能为空")
 	private String userId;
 	
-	@NotEmpty(message="评论内容不能为空")
 	private String comment;
 	
 	@NotEmpty(message="评论类型不能为空")
