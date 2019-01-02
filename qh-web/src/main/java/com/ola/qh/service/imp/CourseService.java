@@ -9,6 +9,7 @@ import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -91,6 +92,13 @@ public class CourseService implements ICourseService {
 		result.setStatus("0");
 		result.setData(c);
 		return result;
+	}
+
+	@Override
+	public List<CourseLineShow> selectLiveList(String courseTypeName, String courseTypeSubclassName, String isremmend,
+			int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return courseDao.selectLiveList(courseTypeName, courseTypeSubclassName, isremmend, pageNo, pageSize);
 	}
 
 }

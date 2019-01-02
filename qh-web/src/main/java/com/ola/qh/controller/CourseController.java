@@ -2,6 +2,7 @@ package com.ola.qh.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -144,6 +146,23 @@ public class CourseController {
 		Results<List<CourseSection>> result = new Results<List<CourseSection>>();
 		
 		result.setData(courseService.courseSectionList(courseChapterId));
+		result.setStatus("0");
+		return result;
+	}
+	
+	
+	@RequestMapping("/lineShow")
+	public Results<List<CourseLineShow>> selectLiveList(
+			@RequestParam(name="courseTypeName")String courseTypeName,
+			@RequestParam(name="courseTypeSubclassName")String courseTypeSubclassName,
+			@RequestParam(name="isremmend")String isremmend,
+			@RequestParam(name="page")int page
+			){
+		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		List<CourseLineShow> list = courseService.selectLiveList(courseTypeName, courseTypeSubclassName, isremmend, pageNo, pageSize);
+		result.setData(list);
 		result.setStatus("0");
 		return result;
 	}
