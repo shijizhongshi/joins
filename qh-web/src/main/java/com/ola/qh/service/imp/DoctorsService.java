@@ -13,6 +13,7 @@ import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
+import com.ola.qh.entity.DoctorReply;
 import com.ola.qh.entity.Doctors;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.IDoctorsService;
@@ -102,7 +103,7 @@ public class DoctorsService implements IDoctorsService{
 		return d;
 	}
 
-	
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public Results<String> patientSaveUpdate(DoctorPatient dp) {
 		// TODO Auto-generated method stub
@@ -152,8 +153,6 @@ public class DoctorsService implements IDoctorsService{
 				}
 				
 			}
-			
-			
 			doctorsDao.updatePatient(dp);
 		}else{
 			/////保存患者的信息
@@ -168,8 +167,21 @@ public class DoctorsService implements IDoctorsService{
 					doctorsDao.insertPatientImg(imglist);
 				}
 			}
+			if(dp.getDoctorId()!=null && !"".equals(dp.getDoctorId())){
+				///////如果是向某个医生进行的提问
+				DoctorReply dr=new DoctorReply();
+				dr.setId(KeyGen.uuid());
+				dr.setPatientId(patientId);
+				dr.setDoctorId(dp.getDoctorId());
+				dr.setTypes(1);
+				dr.setAddtime(new Date());
+				dr.setReadStatus(0);
+				dr.setReplyContent(dp.getTitle());
+				doctorReplyDao.insertReply(dr);
+			}
 			doctorsDao.insertPatient(dp);
 		}
+		result.setStatus("0");
 		return result;
 	}
 

@@ -39,6 +39,16 @@ public class DoctorPatient {
 	
 	public int browseCount;/////浏览次数
 	
+	public String doctorId;////向某个医生的提问
+	
+	public String getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
+	}
+
 	public String getOffices() {
 		return offices;
 	}

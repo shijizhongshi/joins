@@ -21,6 +21,7 @@ import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.entity.Banner;
 import com.ola.qh.entity.Course;
+import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
@@ -54,6 +55,9 @@ public class IndexController {
 	private ShopServeDao shopServeDao;
 	@Autowired
 	private UserCommentDao userCommentDao;
+	@Autowired
+	private CourseDao courseDao;
+	
 	
 	@RequestMapping("/select")
 	public Results<IndexVo> selectList() {
@@ -197,6 +201,10 @@ public class IndexController {
 		vo.setNofreelist(courseClassDao.nofreeList(ccd));
 		///推荐课程的集合
 		vo.setCourseClass(courseClassDao.classList(ccd));
+		////直播的集合
+		List<CourseLineShow> livelist = courseDao.selectLiveList(null, null, "1", 0, 4);
+		vo.setLivelist(livelist);
+		
 		result.setData(vo);
 		result.setStatus("0");
 		return result;

@@ -199,6 +199,7 @@
 		<result column="sexs" property="sexs" />
 		<result column="times" property="times" />
 		<result column="issolve" property="issolve" />
+		<result column="doctor_id" property="doctorId"/>
 		<result column="addtime" property="addtime" />
 	</resultMap>
 
@@ -210,15 +211,15 @@
 	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		insert into doctor_patient(
 		id,<include refid="patientsql_base"></include>
-		,addtime,offices)
-		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime},#{offices})
+		,addtime,offices,doctor_id)
+		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime},#{offices},#{doctorId})
 	</insert>
 	<select id="singlePatient" resultMap="DoctorPatientMap">
-	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
+	select id,<include refid="patientsql_base"></include>,addtime from doctor_patient where id=#{id}
 	</select>
 	
 	<select id="selectPatient" resultMap="DoctorPatientMap">
-	select id,<include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve}
+	select id,<include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve} and doctor_id is null
 	</select>
 	
 	<!-- 我的问诊 -->
@@ -226,7 +227,7 @@
 		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 
 		left join doctor_reply_patient drp on drp.patient_id=dp.id
 		where 1=1 
-		<if test="userId!=null">
+		<if test="userId!=null and userId!=''">
 		and	dp.user_id=#{userId}
 		</if>
 		<if test="doctorId!=null and doctorId!='' ">

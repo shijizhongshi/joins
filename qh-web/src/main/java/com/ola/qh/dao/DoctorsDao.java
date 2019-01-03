@@ -62,7 +62,7 @@ public interface DoctorsDao {
 	
 	public List<Doctors> selectDoctorId(String patientId);
 	
-	public List<DoctorAndPatient> selectPatient(int issolve);
+	public List<DoctorAndPatient> selectPatient(@Param("issolve")int issolve);
 	
 	//铃铛
 	public List<DoctorAndPatient> existReadStatus(@Param("userId")String userId);

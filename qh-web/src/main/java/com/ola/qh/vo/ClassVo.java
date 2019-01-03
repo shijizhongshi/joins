@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.ola.qh.entity.Banner;
 import com.ola.qh.entity.CourseClass;
+import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseNofree;
-import com.ola.qh.entity.LiveShow;
 
 public class ClassVo {
 
@@ -18,7 +18,7 @@ public class ClassVo {
 	
 	private List<CourseClass> courseClass=new ArrayList<CourseClass>();///推荐课程
 	
-	private List<LiveShow> livelist=new ArrayList<LiveShow>();////直播的集合
+	private List<CourseLineShow> livelist=new ArrayList<CourseLineShow>();////直播的集合
 
 	public int getDays() {
 		return days;
@@ -52,13 +52,13 @@ public class ClassVo {
 		this.courseClass = courseClass;
 	}
 
-	public List<LiveShow> getLivelist() {
+	public List<CourseLineShow> getLivelist() {
 		return livelist;
 	}
 
-	public void setLivelist(List<LiveShow> livelist) {
+	public void setLivelist(List<CourseLineShow> livelist) {
 		this.livelist = livelist;
 	}
-	
+
 	
 }
