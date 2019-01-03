@@ -215,7 +215,7 @@
 		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime},#{offices},#{doctorId})
 	</insert>
 	<select id="singlePatient" resultMap="DoctorPatientMap">
-	select id,<include refid="patientsql_base"></include> from doctor_patient where id=#{id}
+	select id,<include refid="patientsql_base"></include>,addtime from doctor_patient where id=#{id}
 	</select>
 	
 	<select id="selectPatient" resultMap="DoctorPatientMap">
@@ -227,7 +227,7 @@
 		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 
 		left join doctor_reply_patient drp on drp.patient_id=dp.id
 		where 1=1 
-		<if test="userId!=null">
+		<if test="userId!=null and userId!=''">
 		and	dp.user_id=#{userId}
 		</if>
 		<if test="doctorId!=null and doctorId!='' ">

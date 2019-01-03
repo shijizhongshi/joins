@@ -66,41 +66,51 @@ public class DoctorReplyService implements IDoctorReplyService{
 			String readStatus="0";
 			String doctorId=null;
 			if(user.getIsdoctor()==1){
+				
 				vo.setRoles(3);
 				///////如果是医生的话(说明医生已经读了)
 				Doctors d = doctorDao.singleDoctors(null, userId, "1");
 				if(d!=null){
+					vo.setDoctorId(doctorId);
 					doctorId=d.getId();
 					List<DoctorReply> list = doctorReplyDao.listByIds(patientId, d.getId());
-					if(list.get(0).getReadStatus()==0){
-						readStatus="2";///医生已读
-					}else if(list.get(0).getReadStatus()==1){
-						readStatus="3";///都读了
-					}else{
-						////2没有新消息或者3是都读了
-						readStatus=String.valueOf(list.get(0).getReadStatus());
+					if(list!=null && list.size()!=0){
+						if(list.get(0).getReadStatus()==0){
+							readStatus="2";///医生已读
+						}else if(list.get(0).getReadStatus()==1){
+							readStatus="3";///都读了
+						}else{
+							////2没有新消息或者3是都读了
+							readStatus=String.valueOf(list.get(0).getReadStatus());
+						}
 					}
+					
 				}
 			}else{
 				vo.setRoles(2);
 				//////说明患者已经读了
 				List<DoctorReply> list = doctorReplyDao.listByIds(patientId, null);
-				if(list.get(0).getReadStatus()==0){
-					readStatus="1";///患者已读
-				}else if(list.get(0).getReadStatus()==2){
-					readStatus="3";///都读了
-				}else{
-					////1没有新消息或者3是都读了
-					readStatus=String.valueOf(list.get(0).getReadStatus());
+				if(list!=null && list.size()!=0){
+					if(list.get(0).getReadStatus()==0){
+						readStatus="1";///患者已读
+					}else if(list.get(0).getReadStatus()==2){
+						readStatus="3";///都读了
+					}else{
+						////1没有新消息或者3是都读了
+						readStatus=String.valueOf(list.get(0).getReadStatus());
+					}
 				}
+				
 			}
-			List<DoctorReply> list = doctorReplyDao.listByIds(patientId, null);
+			//List<DoctorReply> list = doctorReplyDao.listByIds(patientId, null);
 			doctorReplyDao.updateReadStatus(readStatus, patientId, doctorId,0);
 			////把图片拿出来(只有是医生的身份或者是用户自己看的时候才能看到图片)
 			vo.setImglist(doctorDao.listPatientImg(patientId));
 		}
 		List<DoctorReply> idslist = doctorReplyDao.listByIds(patientId, null);
-		doctorReplyDao.updateReadStatus(null, patientId, null,idslist.get(0).getBrowseCount()+1);
+		if(idslist!=null && idslist.size()!=0){
+			doctorReplyDao.updateReadStatus(null, patientId, null,idslist.get(0).getBrowseCount()+1);
+		}
 		List<DoctorsVo> list = doctorReplyDao.doctorReplyList(patientId);
 		for (DoctorsVo doctorsVo : list) {
 			List<DoctorReply> replyList = doctorReplyDao.listByIds(patientId, doctorsVo.getDoctorId());

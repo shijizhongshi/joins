@@ -153,10 +153,10 @@ public class CourseController {
 	
 	@RequestMapping("/lineShow")
 	public Results<List<CourseLineShow>> selectLiveList(
-			@RequestParam(name="courseTypeName")String courseTypeName,
-			@RequestParam(name="courseTypeSubclassName")String courseTypeSubclassName,
-			@RequestParam(name="isremmend")String isremmend,
-			@RequestParam(name="page")int page
+			@RequestParam(name="courseTypeName",required=false)String courseTypeName,
+			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
+			@RequestParam(name="isremmend",required=false)String isremmend,
+			@RequestParam(name="page",required=true)int page
 			){
 		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
 		int pageSize=Patterns.zupageSize;
