@@ -274,6 +274,10 @@
 	select id,img_url from doctor_patient_img where patient_id=#{patientId}
 	</select>
 	
+	<select id="selectId" resultType="java.lang.String">
+	select id from doctors where user_id=#{userId}
+	</select>
+	
 	<delete id="deletePatientImg">
 	delete from doctor_patient_img where id=#{id}
 	</delete>

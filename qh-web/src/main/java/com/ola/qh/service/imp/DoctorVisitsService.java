@@ -26,9 +26,6 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	@Autowired
 	private NewsDao newsDao;
 	
-	@Autowired
-	private UserDao userDao;
-	
 	@Transactional
 	@Override
 	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
@@ -38,9 +35,9 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 			
 			DoctorVisitsVo visits=new DoctorVisitsVo();
 			
-			User user=userDao.singleUser(userId, null);
+			String doctorid=doctorsDao.selectId(userId);
 			
-			visits.setIsDoctor(user.getIsdoctor());
+			visits.setDoctorId(doctorid);
 			
 			if(issolve==1){
 				
