@@ -51,17 +51,16 @@ public class DoctorReplyService implements IDoctorReplyService{
 	public Results<DoctorReplyVo> singleReply(String patientId,String userId) {
 		// TODO Auto-generated method stub
 		Results<DoctorReplyVo> result=new Results<DoctorReplyVo>();
-		User user = userService.sinleUser(userId, null);
-		if(user==null){
-			result.setStatus("1");
-			result.setMessage("用户标识不符");
-			return result;
+		User user=new User();
+		if(userId!=null){
+			user=userService.sinleUser(userId, null);
 		}
 		DoctorReplyVo vo=new DoctorReplyVo();
 		DoctorPatient dp=doctorDao.singlePatient(patientId);
 		
 		BeanUtils.copyProperties(dp, vo);
 		vo.setRoles(1);
+		if(userId!=null){
 		if(dp.getUserId().equals(userId) || user.getIsdoctor()==1){
 			String readStatus="0";
 			String doctorId=null;
@@ -107,9 +106,12 @@ public class DoctorReplyService implements IDoctorReplyService{
 			////把图片拿出来(只有是医生的身份或者是用户自己看的时候才能看到图片)
 			vo.setImglist(doctorDao.listPatientImg(patientId));
 		}
+	}
 		List<DoctorReply> idslist = doctorReplyDao.listByIds(patientId, null);
 		if(idslist!=null && idslist.size()!=0){
-			doctorReplyDao.updateReadStatus(null, patientId, null,idslist.get(0).getBrowseCount()+1);
+			for (DoctorReply doctorReply : idslist) {
+				doctorReplyDao.updateReadStatus(null, patientId, null,doctorReply.getBrowseCount()+1);
+			}
 		}
 		List<DoctorsVo> list = doctorReplyDao.doctorReplyList(patientId);
 		for (DoctorsVo doctorsVo : list) {

@@ -176,9 +176,7 @@
 
 	<!-- 通过产品的id查详情页 -->
 	<select id="selectById" resultMap="ShopDrugMap">
-		select
-		<include refid="sql_base"></include>,approval_time,deadlines,approval_number,period_validity,manufacturer
-		from shop_drug where id=#{id}
+		select * from shop_drug where id=#{id}
 	</select>
 
 	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~ -->

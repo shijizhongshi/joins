@@ -65,7 +65,7 @@ public class DoctorReplyController {
 	@RequestMapping("/reply/single")
 	public Results<DoctorReplyVo> singleReplyPatient(
 			@RequestParam(name="patientId",required=true)String patientId,
-			@RequestParam(name="userId",required=true)String userId){
+			@RequestParam(name="userId",required=false)String userId){
 		return doctorReplyService.singleReply(patientId,userId);////这个表示的是问答的详情(所有问答)
 	}
 	

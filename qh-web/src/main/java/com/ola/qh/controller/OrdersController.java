@@ -245,7 +245,8 @@ public class OrdersController {
 	}
 
 	@RequestMapping("/list")
-	public Results<List<OrdersVo>> listOrders(@RequestParam(name = "statusCode", required = true) String statusCode,
+	public Results<List<OrdersVo>> listOrders(
+			@RequestParam(name = "statusCode", required = true) String statusCode,
 			@RequestParam(name = "page", required = true) int page,
 			@RequestParam(name = "userId", required = false) String userId,
 			@RequestParam(name = "muserId", required = false) String muserId,

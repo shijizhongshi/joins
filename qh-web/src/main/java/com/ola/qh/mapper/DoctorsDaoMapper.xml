@@ -244,20 +244,8 @@
 
 	<update id="updatePatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		update doctor_patient set
-		<if test="title!=null">
-			title=#{title},
-		</if>
-		<if test="describes!=null">
-			describes=#{describes},
-		</if>
-		<if test="ages!=null">
-			ages=#{ages},
-		</if>
-		<if test="sexs!=null">
-			sexs=#{sexs},
-		</if>
-		<if test="times!=null">
-			times=#{times},
+		<if test="issolve">
+		issolve=#{issolve},
 		</if>
 		updatetime=#{updatetime}
 		where id=#{id}

@@ -123,36 +123,6 @@ public class DoctorsService implements IDoctorsService{
 		if(dp.getId()!=null && !"".equals(dp.getId())){
 			////修改患者的信息
 			dp.setUpdatetime(new Date());
-			if(dp.getImglist()!=null && dp.getImglist().size()!=0){
-				/////新进来图片集合
-				List<DoctorPatientImg> newimg = dp.getImglist();
-				////原有数据
-				List<DoctorPatientImg> listimg= doctorsDao.listPatientImg(dp.getId());
-				for (int i = 0; i < listimg.size(); i++) {
-					
-					int j = 0;
-					for (; j < newimg.size(); j++) {
-						if(listimg.get(i).getId().equals(newimg.get(j).getId())){
-							break;
-						}
-					}
-					if(newimg.size()==j){
-						/////
-						doctorsDao.deletePatientImg(listimg.get(i).getId());
-					}
-				}
-				
-				for (DoctorPatientImg doctorPatientImg : newimg) {
-					/////新增加的图片
-					if(doctorPatientImg.getId()==null || "".equals(doctorPatientImg.getId())){
-						doctorPatientImg.setAddtime(new Date());
-						doctorPatientImg.setPatientId(dp.getId());
-						doctorPatientImg.setId(KeyGen.uuid());
-						doctorsDao.insertPatientImg(doctorPatientImg);
-					}
-				}
-				
-			}
 			doctorsDao.updatePatient(dp);
 		}else{
 			/////保存患者的信息
