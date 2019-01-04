@@ -16,8 +16,8 @@ public class DoctorVisitsVo {
 	
 	private String readStatus;
 	
-	private int isDoctor;
-
+	private String doctorId;
+	
 	public List<Doctors> getDoctor() {
 		return doctor;
 	}
@@ -50,13 +50,14 @@ public class DoctorVisitsVo {
 		this.readStatus = isread;
 	}
 
-	public int getIsDoctor() {
-		return isDoctor;
+	public String getDoctorId() {
+		return doctorId;
 	}
 
-	public void setIsDoctor(int isDoctor) {
-		this.isDoctor = isDoctor;
+	public void setDoctorId(String doctorId) {
+		this.doctorId = doctorId;
 	}
+
 	
 	
 	
