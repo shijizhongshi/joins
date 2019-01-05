@@ -131,10 +131,10 @@
 			packagings=#{packagings},
 		</if>
 		<if test="indication!=null">
-			indication=#{indication}
+			indication=#{indication},
 		</if>
 		<if test="dosage!=null">
-			dosage=#{dosage}
+			dosage=#{dosage},
 		</if>
 		<if test="badSymptom!=null">
 			bad_symptom=#{badSymptom},

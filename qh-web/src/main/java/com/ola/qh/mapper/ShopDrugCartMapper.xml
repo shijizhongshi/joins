@@ -41,14 +41,14 @@
 		count=#{count},
 		</if>
 		<if test="status!=0">
-		status=#{status}
+		status=#{status},
 		</if>
 		updatetime=#{updatetime} where 1=1
 		<if test="id!=null">
 		and id=#{id}
 		</if>
 		<if test="drugId!=null">
-		drug_id=#{drugId}
+		and drug_id=#{drugId}
 		</if>
 	</update>
 	
@@ -63,6 +63,22 @@
 	</delete>
 	
 	<select id="singleShopDrugCart" resultType="com.ola.qh.entity.ShopDrugCart">
-		select id,count from shop_drug_cart where user_id=#{userId} and drug_id=#{drugId}
+		select id,count from shop_drug_cart where 1=1
+		<if test="userId!=null and userId!='' ">
+		and user_id=#{userId} 
+		</if>
+		<if test="drugId!=null and drugId!='' ">
+		and drug_id=#{drugId}
+		</if>
+	</select>
+	
+	
+	<select id="selectCartList" resultMap="ShopDrugCartDaoMap">
+		select c.id from shop_drug_cart c where 
+		1=1
+		<if test="drugId!=null and drugId!=''">
+		and drug_id=#{drugId}
+		</if>
+		
 	</select>
 </mapper>

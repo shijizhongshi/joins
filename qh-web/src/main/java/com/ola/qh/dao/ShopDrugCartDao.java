@@ -25,4 +25,6 @@ public interface ShopDrugCartDao {
 	public int deleteShopDrugCart(@Param("id")String id,@Param("userId")String userId);
 	
 	public ShopDrugCart singleShopDrugCart(@Param("drugId")String drugId,@Param("userId")String userId);
+	
+	public List<ShopDrugCart> selectCartList(@Param("drugId")String drugId);
 }

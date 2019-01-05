@@ -51,15 +51,15 @@ public class ShopServeService implements IShopServeService {
 				result.setMessage("店铺的类型不对");
 				return result;
 			}
-			String id = KeyGen.uuid();
-			ss.setId(id);
+			String sid = KeyGen.uuid();
+			ss.setId(sid);
 			ss.setAddtime(new Date());
 			ss.setServeStatus(0);
 			for (ShopServeImg ssi : ss.getImglist()) {
 				ssi.setAddtime(new Date());
 				ssi.setId(KeyGen.uuid());
 				ssi.setImgUrl(ssi.getImgUrl());
-				ssi.setServeId(id);
+				ssi.setServeId(sid);
 				shopServeDao.insertServeImg(ssi);
 			}
 			shopServeDao.insertServe(ss);
