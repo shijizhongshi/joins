@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.CourseClassDao;
 import com.ola.qh.dao.CourseDao;
+import com.ola.qh.dao.UserBuyCourseDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.CourseNofree;
@@ -22,7 +23,9 @@ public class CourseClassService implements ICourseClassService{
 	@Autowired
 	private CourseClassDao courseClassDao;
 	@Autowired
-	private CourseDao courseDao;
+	private CourseService courseService;
+	@Autowired
+	private UserBuyCourseDao userBuyCourseDao;
 	
 	@Override
 	public List<CourseNofree> nofreeList(CourseClassDomain ccd) {
@@ -48,20 +51,30 @@ public class CourseClassService implements ICourseClassService{
 	}
 
 	@Override
-	public Results<CourseClassVo> classSingle(String classId) {
+	public Results<CourseClassVo> classSingle(String classId,String userId) {
 		// TODO Auto-generated method stub
+		
 		Results<CourseClassVo> result=new Results<CourseClassVo>();
 		CourseClassVo vo=new CourseClassVo();
+		int count=0;
+		if(userId!=null && !"".equals(userId)){
+			count=userBuyCourseDao.selectUserBuyCourseCount(userId, classId, null);
+			if(count>0){
+				vo.setClassStatus(1);
+			}
+			
+		}
+		
 		CourseClass cc = courseClassDao.classSingle(classId);
 		BeanUtils.copyProperties(cc, vo);
 		CourseClassDomain ccd =new CourseClassDomain();
 		ccd.setClassId(classId);
-		List<Course> clist = courseDao.courseList(ccd);
+		List<Course> clist = courseService.courseList(ccd);
 		int buycount=0;
-		int sectionCount=0;
+		/*int sectionCount=0;*/
 		buycount = courseClassDao.ordersCount(classId);
 		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
-		for (CourseTeacher courseTeacher : ctlist) {
+		/*for (CourseTeacher courseTeacher : ctlist) {
 			int courseNumber=0;
 		for (Course course : clist) {
 		    ////这个教师对应的总节数
@@ -71,16 +84,28 @@ public class CourseClassService implements ICourseClassService{
 			}
 		}
 		courseTeacher.setCourseNumber(courseNumber);
-		}
+		}*/
 		for (Course course : clist) {
-		    ////总节数
+		    /*////总节数
 			if(courseDao.sectionCount(course.getId(),null)!=null){
 				sectionCount+=courseDao.sectionCount(course.getId(),null).intValue();
+			}*/
+			if(count>0){
+				course.setCourseStatus(1);
+			}else{
+				if(userId!=null && !"".equals(userId)){
+					int num = userBuyCourseDao.selectUserBuyCourseCount(userId, null, course.getId());
+					if(num>0){
+						course.setCourseStatus(1);
+					}
+				}
+				
 			}
+			
 			////总的购买人数
 			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}
-		vo.setSectionCount(sectionCount);
+		/*vo.setSectionCount(sectionCount);*/
 		vo.setBuyCount(buycount);
 		vo.setCourselist(clist);
 		

@@ -110,7 +110,9 @@ public class IndexController {
 		List<Banner> hotlist = bannerDao.selectBanner("4");
 		vo.setHotlist(hotlist);////品牌热卖的(两个固定的图片)
 		List<Banner> urllist = bannerDao.selectBanner("5");
-		vo.setBannerUrl(urllist.get(0).getImageurl());///一张图片
+		if(urllist!=null && urllist.size()!=0){
+			vo.setBannerUrl(urllist.get(0).getImageurl());///一张图片
+		}
 		
 		/////限时特惠
 		ShopDrugDomain sdd = new ShopDrugDomain();

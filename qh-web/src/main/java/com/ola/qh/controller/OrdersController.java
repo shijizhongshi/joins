@@ -125,6 +125,11 @@ public class OrdersController {
 	public Results<Map<String, String>> submitSingle(@RequestBody @Valid ProductBuyDomain productVo,
 			BindingResult valid, HttpServletRequest request) throws Exception {
 		Results<Map<String, String>> result = new Results<Map<String, String>>();
+		if(valid.hasErrors()){
+			result.setStatus("1");
+			result.setMessage("信息不完整");
+			return result;
+		}
 		OrdersCartDomain ordersVo = new OrdersCartDomain();
 
 		List<Orders> olist = new ArrayList<Orders>();
@@ -155,6 +160,7 @@ public class OrdersController {
 		ordersVo.setUserId(productVo.getUserId());
 		ordersVo.setMobile(productVo.getMobile());
 		ordersVo.setReceiver(productVo.getReceiver());
+		ordersVo.setClassStatus(productVo.getClassStatus());
 
 		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 

@@ -42,6 +42,17 @@ public class ProductBuyDomain {
 	
 	private String presetTime;////预定的时间
 	
+	private int classStatus;/////1:表示的是全套的课程 0:不处理
+	
+	
+	public int getClassStatus() {
+		return classStatus;
+	}
+
+	public void setClassStatus(int classStatus) {
+		this.classStatus = classStatus;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

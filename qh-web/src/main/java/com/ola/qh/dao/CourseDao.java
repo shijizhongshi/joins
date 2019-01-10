@@ -25,11 +25,9 @@ public interface CourseDao {
 	
 	public Course singleCourse(String courseId);
 	
-	public Integer sectionCount(
-			@Param("courseId")String courseId,
-			@Param("lecturer")String lecturer);
+	public int courseChapterCount(String courseId);
 	
-	
+	public int courseSectionCount(String chapterId);
 	
 	public List<CourseLineShow> selectLiveList(
 			@Param("courseTypeName")String courseTypeName,

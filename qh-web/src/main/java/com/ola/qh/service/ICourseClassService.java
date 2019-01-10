@@ -16,5 +16,5 @@ public interface ICourseClassService {
 	
 	public List<CourseClass> classList(CourseClassDomain ccd);
 	
-	public Results<CourseClassVo> classSingle(String classId);
+	public Results<CourseClassVo> classSingle(String classId,String userId);
 }

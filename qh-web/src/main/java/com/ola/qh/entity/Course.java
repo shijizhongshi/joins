@@ -24,7 +24,7 @@ public class Course {
 	
 	private String courseTypeSubclassName;////课程子类别的名称
 	
-	private String courseChapterSize;////课程的章节数
+	private int courseChapterSize;////课程的章节数
 	
 	private BigDecimal coursePrice;////课程的价格
 	
@@ -50,8 +50,16 @@ public class Course {
 	
 	private String classId;///按照班级的ID查
 	
+	private int courseStatus;////1:已经购买了
 	
-	
+
+	public int getCourseStatus() {
+		return courseStatus;
+	}
+
+	public void setCourseStatus(int courseStatus) {
+		this.courseStatus = courseStatus;
+	}
 
 	public String getClassId() {
 		return classId;
@@ -93,14 +101,14 @@ public class Course {
 		this.courseTypeSubclassName = courseTypeSubclassName;
 	}
 
-	public String getCourseChapterSize() {
+
+	public int getCourseChapterSize() {
 		return courseChapterSize;
 	}
 
-	public void setCourseChapterSize(String courseChapterSize) {
+	public void setCourseChapterSize(int courseChapterSize) {
 		this.courseChapterSize = courseChapterSize;
 	}
-
 
 	public BigDecimal getCoursePrice() {
 		return coursePrice;

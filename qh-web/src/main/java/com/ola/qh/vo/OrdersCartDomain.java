@@ -42,6 +42,15 @@ public class OrdersCartDomain{
 	
 	private String sex;////性别
 	
+	private int classStatus;/////1:表示的是全套的课程 0:不处理
+	
+	
+	public int getClassStatus() {
+		return classStatus;
+	}
+	public void setClassStatus(int classStatus) {
+		this.classStatus = classStatus;
+	}
 	public String getUserId() {
 		return userId;
 	}

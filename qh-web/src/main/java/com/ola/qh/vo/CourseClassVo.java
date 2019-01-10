@@ -18,6 +18,18 @@ public class CourseClassVo extends CourseClass{
 	private int buyCount;////购买的人数
 	
 	private int sectionCount;////总的章节数
+	
+	private int classStatus;///1;全套课程已经买了   0:没有权限看下边的视频
+	
+	
+	
+	public int getClassStatus() {
+		return classStatus;
+	}
+
+	public void setClassStatus(int classStatus) {
+		this.classStatus = classStatus;
+	}
 
 	public List<Course> getCourselist() {
 		return courselist;

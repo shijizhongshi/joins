@@ -11,7 +11,7 @@ public interface NewsDao {
 	public List<News> selectNewList(
 			@Param("pageNo") int pageNo,
 			@Param("pageSize") int pageSize,
-			@Param("pageSize") int contentTypes,
+			@Param("contentTypes") int contentTypes,
 			@Param("types")String types);
 	
 	public News singlenews(String id);
