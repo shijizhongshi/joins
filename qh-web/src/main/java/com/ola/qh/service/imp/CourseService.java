@@ -52,13 +52,24 @@ public class CourseService implements ICourseService {
 	@Override
 	public List<Course> courseList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		return courseDao.courseList(ccd);
+		List<Course> list= courseDao.courseList(ccd);
+		for (Course course : list) {
+			////总的章数
+			int num = courseDao.courseChapterCount(course.getId());
+			course.setCourseChapterSize(num);
+		}
+		return list;
 	}
 
 	@Override
 	public List<CourseChapter> courseChapterList(String courseId) {
 		// TODO Auto-generated method stub
-		return courseDao.courseChapterList(courseId);
+		List<CourseChapter> list = courseDao.courseChapterList(courseId);
+		for (CourseChapter courseChapter : list) {
+			int num = courseDao.courseSectionCount(courseChapter.getId());
+			courseChapter.setCourseSectionSize(num);
+		}
+		return list;
 	}
 
 	@Override

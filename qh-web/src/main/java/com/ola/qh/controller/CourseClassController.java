@@ -41,8 +41,9 @@ public class CourseClassController {
 	}
 	
 	@RequestMapping("/single")
-	public Results<CourseClassVo> single(@RequestParam(name="classId",required=true)String classId){
-		return courseClassService.classSingle(classId);
+	public Results<CourseClassVo> single(@RequestParam(name="classId",required=true)String classId,
+			@RequestParam(name="userId",required=false)String userId){
+		return courseClassService.classSingle(classId,userId);
 		
 	}	
 	////////免费课程的开始////////////////////////////

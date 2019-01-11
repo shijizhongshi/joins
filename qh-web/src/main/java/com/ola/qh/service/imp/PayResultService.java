@@ -120,16 +120,19 @@ public class PayResultService implements IPayResultService{
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.RECEIVED, "支付成功订单完成~", orderproduct.getStatusCode(), new Date());
 					///////课程的操作(形成我的课程的信息)
-					Course course  = courseDao.singleCourse(orderproduct.getProductId());
 					UserBuyCourse ubc = new UserBuyCourse();
 					ubc.setAddtime(new Date());
 					ubc.setId(KeyGen.uuid());
-					ubc.setCourseId(orderproduct.getProductId());
-					ubc.setCourseDiscountPrice(course.getCourseDiscountPrice());
-					ubc.setCourseImgUrl(course.getCourseImg());
-					ubc.setCourseName(course.getCourseName());
-					ubc.setCoursePrice(course.getCoursePrice());
-					ubc.setOrdersId(orderproduct.getOrdersId());
+					if(orders.getClassStatus()==1){
+						ubc.setClassId(orderproduct.getProductId());
+					}else{
+						ubc.setCourseId(orderproduct.getProductId());
+					}
+					
+					ubc.setCourseDiscountPrice(orderproduct.getProductPrice());
+					ubc.setCourseImgUrl(orderproduct.getProductImg());
+					ubc.setCourseName(orderproduct.getProductName());
+					ubc.setOrdersId(op.getOrdersId());
 					ubc.setUserId(orderproduct.getUserId());
 					ubcDao.insertUserCourse(ubc);
 				}

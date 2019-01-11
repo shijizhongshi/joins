@@ -23,12 +23,12 @@
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status
+	id,user_id,shop_id,serve_name,`price`,discount_price,img_url,payment_type,serve_type,serve_status
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
-	insert into shop_serve(<include refid="sql_base"></include>,content,serve_time,buy_rule,serve_status,explains,
+	insert into shop_serve(id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status,content,serve_time,buy_rule,explains,
 	addtime)values(#{id},#{userId},#{shopId},#{serveName},#{price},#{discountPrice},#{imgUrl},#{paymentType},
-	#{serveType},#{content},#{serveTime},#{buyRule},#{serveStatus},#{explains},#{addtime})
+	#{serveType},#{serveStatus},#{content},#{serveTime},#{buyRule},#{explains},#{addtime})
 	</insert>
 	<update id="updateServe" parameterType="com.ola.qh.entity.ShopServe">
 	update shop_serve set

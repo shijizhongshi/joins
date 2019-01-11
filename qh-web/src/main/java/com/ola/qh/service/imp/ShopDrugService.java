@@ -17,6 +17,7 @@ import com.ola.qh.dao.ShopDrugImgDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.entity.ShopDrugImg;
 import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.service.IUserService;
@@ -134,9 +135,15 @@ public class ShopDrugService implements IShopDrugService {
 			if(shopDrug.getStatus()!=0){
 				//////也就是说修改产品的状态
 				/////失效收藏的商品   失效购物车的商品
-				shopDrugCartDao.updateShopDrugCart(0, null, new Date(),1,shopDrug.getId());
+				List<ShopDrugCart> list = shopDrugCartDao.selectCartList(shopDrug.getId());
+				if(list!=null && list.size()!=0){
+					shopDrugCartDao.updateShopDrugCart(0, null, new Date(),1,shopDrug.getId());
+				}
+				int count=userFavoriteDao.existUserFavorite(shopDrug.getId(), null);
+				if(count!=0){
+					userFavoriteDao.update(shopDrug.getId(), 1);
+				}
 				
-				userFavoriteDao.update(shopDrug.getId(), 1);
 			}
 			shopDrugDao.updateDrug(shopDrug);
 			result.setStatus("0");

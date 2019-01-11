@@ -66,8 +66,18 @@ public class Orders {
 	private BigDecimal freight;////运费
 	
 	private String qrcodes;/////服务店铺的二维码
+	
+	private int classStatus;////1:购买的全套课程
 
 	
+	public int getClassStatus() {
+		return classStatus;
+	}
+
+	public void setClassStatus(int classStatus) {
+		this.classStatus = classStatus;
+	}
+
 	public String getQrcodes() {
 		return qrcodes;
 	}

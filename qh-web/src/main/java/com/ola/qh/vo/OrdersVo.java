@@ -45,8 +45,19 @@ public class OrdersVo {
 	private String showtime;////时间的展示
 	
 	private BigDecimal freight;///运费
-
 	
+	private String presetTime;///预定时间
+
+	private String qrcodes;/////服务店铺的二维码
+	
+	public String getPresetTime() {
+		return presetTime;
+	}
+
+	public void setPresetTime(String presetTime) {
+		this.presetTime = presetTime;
+	}
+
 	public BigDecimal getFreight() {
 		return freight;
 	}
@@ -198,6 +209,14 @@ public class OrdersVo {
 
 	public void setShowtime(String showtime) {
 		this.showtime = showtime;
+	}
+
+	public String getQrcodes() {
+		return qrcodes;
+	}
+
+	public void setQrcodes(String qrcodes) {
+		this.qrcodes = qrcodes;
 	}
 
 	

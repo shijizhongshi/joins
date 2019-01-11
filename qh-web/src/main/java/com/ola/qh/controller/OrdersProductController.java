@@ -57,6 +57,28 @@ public class OrdersProductController {
 		
 		return ordersproductService.updateRefund(ordersProductId, statusCode);
 	}
+	
+	
+	
+	/**
+	 * 买家取消服务的订单  商家的操作
+	 * 拒绝申请    同意申请
+	 * <p>Title: updateServeRefundOrders</p>  
+	 * <p>Description: </p>  
+	 * @param ordersId
+	 * @param statusCode
+	 * @return
+	 */
+	@RequestMapping("/updateServeRefund")
+	public Results<String> updateServeRefundOrders(
+			@RequestParam(name="ordersId",required=true)String ordersId,
+			@RequestParam(name="statusCode",required=true)String statusCode){
+		
+		
+		return ordersproductService.updateServeRefund(ordersId, statusCode);
+	}
+	
+	
 	/**
 	 * 修改退款的申请
 	 * <p>Title: alterRefund</p>  

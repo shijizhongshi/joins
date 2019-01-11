@@ -13,6 +13,12 @@ public class OrdersStatus {
     //////////////////////////////对于服务的退款=====================
     public static final String CANCELSERVE="CANCELSERVE";///取消服务
     
+    public static final String CANCELSERVEED="CANCELSERVEED";///已取消服务(钱已退订单已完成)
+    
+    public static final String REJECTCANCELSERVEED="REJECTCANCELSERVEED";///已拒绝取消服务
+    
+    public static final String CANCELAPPLY="CANCELAPPLY";///取消申请
+    
     public static final String CLONSESERVE="CLONSESERVE";///关闭服务
     
     ////////////////对于订单商品的退货===============================

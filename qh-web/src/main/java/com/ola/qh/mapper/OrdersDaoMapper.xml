@@ -26,18 +26,19 @@
 	<result column="deliveredtime" property="deliveredtime"/>
 	<result column="payment_type" property="paymentType"/>
 	<result column="preset_time" property="presetTime"/>
-	
+	<result column="class_status" property="classStatus"/>
 	</resultMap>
 
 	<sql id="sql_base">
 	o.id,o.user_id,o.muser_id,o.orderno,o.orders_type,o.payaccount,o.count,o.address,o.receiver,o.mobile,o.orders_status,
-	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type,o.freight,o.qrcodes
+	o.paytype,o.payname,o.leave_message,o.sex,o.preset_time,o.payment_type,o.freight,o.qrcodes,o.class_status
 	</sql>
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders(id,user_id,muser_id,orderno,orders_type,payaccount,count,address,receiver,mobile,orders_status,
-	paytype,payname,leave_message,sex,preset_time,payment_type,freight,orders_old_status,addtime)values(
+	paytype,payname,leave_message,sex,preset_time,payment_type,freight,orders_old_status,addtime,class_status)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{count},#{address},#{receiver},
-	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{freight},#{ordersOldStatus},#{addtime})
+	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{freight},#{ordersOldStatus},
+	#{addtime},#{classStatus})
 	</insert>
 	<update id="updateOrders">
 	update orders set 

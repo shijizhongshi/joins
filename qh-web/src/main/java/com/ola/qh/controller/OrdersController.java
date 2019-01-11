@@ -125,6 +125,11 @@ public class OrdersController {
 	public Results<Map<String, String>> submitSingle(@RequestBody @Valid ProductBuyDomain productVo,
 			BindingResult valid, HttpServletRequest request) throws Exception {
 		Results<Map<String, String>> result = new Results<Map<String, String>>();
+		if(valid.hasErrors()){
+			result.setStatus("1");
+			result.setMessage("信息不完整");
+			return result;
+		}
 		OrdersCartDomain ordersVo = new OrdersCartDomain();
 
 		List<Orders> olist = new ArrayList<Orders>();
@@ -141,11 +146,26 @@ public class OrdersController {
 		}
 
 		List<OrdersProduct> oplist = new ArrayList<OrdersProduct>();
-		OrdersProduct op = new OrdersProduct();
-		op.setProductId(productVo.getProductId());///// 产品的id
-		op.setCount(productVo.getCount());
-		oplist.add(op);
+		
+		if(productVo.getCourseId()!=null && productVo.getCourseId().size()!=0){
+			/////说明购买的是多个课程
+			for (String courseId : productVo.getCourseId()) {
+				OrdersProduct op1 = new OrdersProduct();
+				op1.setProductId(courseId);
+				op1.setCount(1);
+				oplist.add(op1);
+			}
+			
+			
+		}else{
+			OrdersProduct op = new OrdersProduct();
+			op.setProductId(productVo.getProductId());///// 产品的id
+			op.setCount(productVo.getCount());
+			oplist.add(op);
+			
+		}
 		o.setProduct(oplist);
+		
 		olist.add(o);
 		ordersVo.setOrdersList(olist);
 		ordersVo.setOrdersType(productVo.getOrdersType());
@@ -155,6 +175,7 @@ public class OrdersController {
 		ordersVo.setUserId(productVo.getUserId());
 		ordersVo.setMobile(productVo.getMobile());
 		ordersVo.setReceiver(productVo.getReceiver());
+		ordersVo.setClassStatus(productVo.getClassStatus());
 
 		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 

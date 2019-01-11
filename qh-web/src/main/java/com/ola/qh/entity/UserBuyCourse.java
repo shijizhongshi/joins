@@ -27,9 +27,21 @@ public class UserBuyCourse {
 	
 	private String courseImgUrl;////课程的图片
 	
+	private String classId;
+	
 	private String ordersId;
 	
 	private Date addtime;///
+	
+	
+
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
 
 	public String getUserId() {
 		return userId;

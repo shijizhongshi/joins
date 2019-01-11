@@ -168,21 +168,12 @@
 			<version>4.5.1</version>
 		</dependency>
 
-<dependency>
-   <groupId>com.google.zxing</groupId>
-   <artifactId>core</artifactId>
-   <version>3.0.0</version>
-   </dependency>
-   <dependency>
-   <groupId>com.google.zxing</groupId>
-   <artifactId>javase</artifactId>
-   <version>3.0.0</version>  
-</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+
 
 		<!-- test scope dependency -->
 		<dependency>
@@ -299,13 +290,6 @@
 						<includes>
 							<include>application.properties</include>
 							<include>config.properties</include>
-						</includes>
-					</resource>
-					<resource>
-						<directory>src/main/java</directory>
-						<includes>
-							<include>**/*.xml</include>
-
 						</includes>
 					</resource>
 				</resources>

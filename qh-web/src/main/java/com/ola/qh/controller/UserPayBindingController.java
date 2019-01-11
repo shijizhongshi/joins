@@ -2,6 +2,8 @@ package com.ola.qh.controller;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +49,27 @@ public class UserPayBindingController {
 
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	/**
+	 * 通过userId查用户是否已经绑定过了
+	 * <p>Title: weixinBinding</p>  
+	 * <p>Description: </p>  
+	 * @param userId
+	 */
+	@RequestMapping("/weixin")
+	public void weixinBinding(@RequestParam(name="userId",required=true)String userId){
+		
+	}
+	
+	
+	
+	/***
+	 * 支付宝的绑定
+	 * <p>Title: saveUserPayBinding</p>  
+	 * <p>Description: </p>  
+	 * @param userpaybinding
+	 * @return
+	 */
+	@RequestMapping(value = "/aliaccount", method = RequestMethod.POST)
 	public Results<String> saveUserPayBinding(@RequestBody UserPayBinding userpaybinding) {
 
 		Results<String> results = new Results<String>();
@@ -73,16 +95,16 @@ public class UserPayBindingController {
 			
 			
 		}
-		if(userpaybinding.getWeixin()==null && userpaybinding.getAliaccount()==null){
+		if(userpaybinding.getAliaccount()==null){
 			
 			results.setStatus("1");
-			results.setMessage("缺少支付账号");
+			results.setMessage("支付宝的账号不能为空");
 			return results;
 		}
-		if(userpaybinding.getRealname()==null ||userpaybinding.getIdnumber()==null){
+		if(userpaybinding.getRealname()==null){
 			
 			results.setStatus("1");
-			results.setMessage("缺少真实姓名和密码");
+			results.setMessage("缺少真实姓名");
 			return results;
 		}
 		userpaybinding.setId(KeyGen.uuid());

@@ -14,16 +14,31 @@
 		<result column="course_price" property="coursePrice" />
 		<result column="course_img_url" property="courseImgUrl" />
 		<result column="orders_id" property="ordersId" />
+		<result column="class_id" property="classId"/>
 		<result column="addtime" property="addtime" />
 	</resultMap>
-	<sql id="sql_base">id,user_id,course_id,course_name,orders_id,addtime</sql>
+	<sql id="sql_base">id,user_id,course_id,course_name,orders_id,class_id,addtime</sql>
 	<insert id="insertUserCourse" parameterType="com.ola.qh.entity.UserBuyCourse">
 	insert into user_buy_course(<include refid="sql_base"></include>,course_discount_price,course_price,course_img_url)values(
-	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{addtime},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
+	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{classId},#{addtime},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
 	</insert>
 	
 	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">
-	select id,user_id,course_id,course_name,course_discount_price,course_price,course_img_url,orders_id,addtime from user_buy_course where user_id=#{userId}
+	select id,user_id,course_id,course_name,course_discount_price,course_price,course_img_url,orders_id,class_id,addtime from user_buy_course where user_id=#{userId}
 	</select>
 	
+	
+	
+	<select id="selectUserBuyCourseCount" >
+	select count(id) from user_buy_course where 1=1
+	<if test="userId!=null">
+	and user_id=#{userId}
+	</if>
+	<if test="classId!=null">
+	and class_id=#{classId}
+	</if>
+	<if test="courseId!=null">
+	and course_id=#{courseId}
+	</if>
+	</select>
 </mapper>

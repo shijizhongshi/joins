@@ -1,6 +1,7 @@
 package com.ola.qh.vo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -24,12 +25,21 @@ public class ProductBuyDomain {
 	private String payTypeName;////支付方式的名称
 	@NotNull
 	private BigDecimal totalPayout;/////实际支付金额
-	@NotEmpty(message="产品的标识不能为空")
+	
 	private String productId;/////购买的产品(课程或者是服务)不能为空
 	@NotNull
 	private int count;////对于服务店铺的项目就不止一个了
+
+	private List<String> courseId;////一个订单里边有好几个课程的id
 	
-	
+	public List<String> getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(List<String> courseId) {
+		this.courseId = courseId;
+	}
+
 	private String mobile;
 	
 	private String receiver;
@@ -42,6 +52,17 @@ public class ProductBuyDomain {
 	
 	private String presetTime;////预定的时间
 	
+	private int classStatus;/////1:表示的是全套的课程 0:不处理
+	
+	
+	public int getClassStatus() {
+		return classStatus;
+	}
+
+	public void setClassStatus(int classStatus) {
+		this.classStatus = classStatus;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
