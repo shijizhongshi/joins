@@ -93,7 +93,7 @@
 	id,course_name,teachers,img_url
 	</sql>
 	
-	<select id="nofreeList" resultMap="CourseNofreeMap" resultType="com.ola.qh.vo.CourseClassDomain">
+	<select id="nofreeList" resultMap="CourseNofreeMap" parameterType="com.ola.qh.vo.CourseClassDomain">
 	select <include refid="free_base"></include> from course_nofree where 1=1
 	<if test="isremmend!=0">
 	and isremmend=#{isremmend}

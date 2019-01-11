@@ -146,11 +146,26 @@ public class OrdersController {
 		}
 
 		List<OrdersProduct> oplist = new ArrayList<OrdersProduct>();
-		OrdersProduct op = new OrdersProduct();
-		op.setProductId(productVo.getProductId());///// 产品的id
-		op.setCount(productVo.getCount());
-		oplist.add(op);
+		
+		if(productVo.getCourseId()!=null && productVo.getCourseId().size()!=0){
+			/////说明购买的是多个课程
+			for (String courseId : productVo.getCourseId()) {
+				OrdersProduct op1 = new OrdersProduct();
+				op1.setProductId(courseId);
+				op1.setCount(1);
+				oplist.add(op1);
+			}
+			
+			
+		}else{
+			OrdersProduct op = new OrdersProduct();
+			op.setProductId(productVo.getProductId());///// 产品的id
+			op.setCount(productVo.getCount());
+			oplist.add(op);
+			
+		}
 		o.setProduct(oplist);
+		
 		olist.add(o);
 		ordersVo.setOrdersList(olist);
 		ordersVo.setOrdersType(productVo.getOrdersType());

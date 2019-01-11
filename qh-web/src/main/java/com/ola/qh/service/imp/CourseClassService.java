@@ -23,7 +23,7 @@ public class CourseClassService implements ICourseClassService{
 	@Autowired
 	private CourseClassDao courseClassDao;
 	@Autowired
-	private CourseService courseService;
+	private CourseDao courseDao;
 	@Autowired
 	private UserBuyCourseDao userBuyCourseDao;
 	
@@ -69,7 +69,8 @@ public class CourseClassService implements ICourseClassService{
 		BeanUtils.copyProperties(cc, vo);
 		CourseClassDomain ccd =new CourseClassDomain();
 		ccd.setClassId(classId);
-		List<Course> clist = courseService.courseList(ccd);
+		
+		List<Course> clist = courseDao.courseList(ccd);
 		int buycount=0;
 		/*int sectionCount=0;*/
 		buycount = courseClassDao.ordersCount(classId);
@@ -90,6 +91,10 @@ public class CourseClassService implements ICourseClassService{
 			if(courseDao.sectionCount(course.getId(),null)!=null){
 				sectionCount+=courseDao.sectionCount(course.getId(),null).intValue();
 			}*/
+			
+			int num1 = courseDao.courseChapterCount(course.getId());
+			course.setCourseChapterSize(num1);
+			
 			if(count>0){
 				course.setCourseStatus(1);
 			}else{
