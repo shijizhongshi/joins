@@ -376,45 +376,67 @@ public class OrdersService implements IOrdersService {
 		try {
 			Orders orders = ordersDao.singleOrders(ordersId);
 			if (orders.getOrdersType() == 2) {
-				if (!OrdersStatus.PAID.equals(orders.getOrdersStatus())) {
-					result.setStatus("1");
-					result.setMessage("状态不符");
-					return result;
-				}
+				
 				String statusName = "";
 				///// 买家:CANCELSERVE 店铺商家操作的CLONSESERVE 已使用USESERVEE
-				if ("CANCELSERVE".equals(statusCode) || "CLONSESERVE".equals(statusCode)) {
-					///// 买家取消服务的时候订单生成的码失效钱退回给买家
-
-					OrdersPayment op = ordersDao.singlePayment(orders.getId());
-					Map<String, String> map = new HashMap<String, String>();
-					if ("ALIPAY".equals(op.getPaytypeCode())) {
-						///////
-						map = payService.aliOrdersRefund(op.getExtransno(),
-								op.getMoney().setScale(2, BigDecimal.ROUND_DOWN).doubleValue());
-					} else if ("WXPAY".equals(op.getPaytypeCode())) {
-						int freemoney = op.getMoney().multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_DOWN)
-								.intValue();
-						map = payService.wxOrderRefund(op.getExtransno(), freemoney, freemoney);
+				if("CANCELAPPLY".equals(statusCode)){
+					if(!OrdersStatus.REJECTCANCELSERVEED.equals(orders.getOrdersStatus())){
+						result.setStatus("1");
+						result.setMessage("状态不符");
+						return result;
 					}
-					if ("0".equals(map.get("status"))) {
+					statusCode=OrdersStatus.PAID;
+					statusName="取消了服务订单的申请,服务订单回复原来的样子";
+				}
+				if ("CANCELSERVE".equals(statusCode)) {
+					///// 买家取消服务的时候订单生成的码失效钱退回给买家
+					if (!OrdersStatus.PAID.equals(orders.getOrdersStatus()) || !OrdersStatus.REJECTCANCELSERVEED.equals(orders.getOrdersStatus())) {
+						result.setStatus("1");
+						result.setMessage("状态不符");
+						return result;
+					}
+					
 						if ("CANCELSERVE".equals(statusCode)) {
+							
 							statusCode = OrdersStatus.CANCELSERVE;///// 退款成功的也就意味着取消预约工作已完成
 							statusName = "成功取消预约";
 						}
-						if ("CLONSESERVE".equals(statusCode)) {
+						/*if ("CLONSESERVE".equals(statusCode)) {
+							OrdersPayment op = ordersDao.singlePayment(orders.getId());
+							Map<String, String> map = new HashMap<String, String>();
+							if ("ALIPAY".equals(op.getPaytypeCode())) {
+								///////
+								map = payService.aliOrdersRefund(op.getExtransno(),
+										op.getMoney().setScale(2, BigDecimal.ROUND_DOWN).doubleValue());
+							} else if ("WXPAY".equals(op.getPaytypeCode())) {
+								int freemoney = op.getMoney().multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_DOWN)
+										.intValue();
+								map = payService.wxOrderRefund(op.getExtransno(), freemoney, freemoney);
+							}
+							if(map.get("status")=="0"){
+							///////待结算的金额减少  这个事件现在不会走
+								
+								
+								
+								
 							statusCode = OrdersStatus.CLONSESERVE;///// 退款成功的也就意味着取消预约工作已完成
-							statusName = "商家已经关闭了交易";
+							statusName = "商家已经关闭了交易,钱已退回~";
+						} else {
+							result.setStatus("1");
+							result.setMessage(map.get("error"));
+							return result;
 						}
+						}*/
 
-					} else {
-						result.setStatus("1");
-						result.setMessage(map.get("error"));
-						return result;
-					}
+					
 				}
 				List<OrdersProduct> listop = ordersProductDao.selectByOid(orders.getId(), orders.getOrdersStatus());
 				if ("USESERVEE".equals(statusCode)) {
+					if (!OrdersStatus.PAID.equals(orders.getOrdersStatus()) ) {
+						result.setStatus("1");
+						result.setMessage("状态不符");
+						return result;
+					}
 					statusCode = OrdersStatus.RECEIVED;
 					statusName = "服务已经使用,订单完成";
 					if (userId == null || "".equals(userId)) {

@@ -48,6 +48,7 @@ public class OrdersVo {
 	
 	private String presetTime;///预定时间
 
+	private String qrcodes;/////服务店铺的二维码
 	
 	public String getPresetTime() {
 		return presetTime;
@@ -208,6 +209,14 @@ public class OrdersVo {
 
 	public void setShowtime(String showtime) {
 		this.showtime = showtime;
+	}
+
+	public String getQrcodes() {
+		return qrcodes;
+	}
+
+	public void setQrcodes(String qrcodes) {
+		this.qrcodes = qrcodes;
 	}
 
 	

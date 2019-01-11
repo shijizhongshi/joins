@@ -10,6 +10,8 @@ public interface IOrdersProductService {
 	
 	public Results<String> updateRefund(String ordersProductId,String statusCode);
 	
+	public Results<String> updateServeRefund(String ordersId,String statusCode);
+	
 	public Results<String> alterRefund(OrdersProductRefund opr);
 	
 	public Results<OrdersProduct> single(String ordersProductId);
