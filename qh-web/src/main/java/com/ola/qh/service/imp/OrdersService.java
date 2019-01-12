@@ -26,7 +26,7 @@ import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.dao.UserIntomoneyHistoryDao;
-import com.ola.qh.dao.UserWithdrawHistoryDao;
+import com.ola.qh.dao.UserWithdrawDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.Orders;

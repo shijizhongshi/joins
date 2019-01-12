@@ -24,5 +24,18 @@ public class Patterns {
     	return sf.format(time);
     }
     
+    public static final String appId="";
+    
+    public static final String appSecret="";
+    
+    
+    /////授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
+    ///////   http://api.zhongshicc.com/api/wx/web/auth/base
+    public static final String redirectUri="http%3a%2f%2fapi.zhongshicc.com%2fapi%2fwx%2fweb%2fauth%2fbase";/////回调地址
+    
+    public static final String getAccessToken="https://api.weixin.qq.com/sns/oauth2/access_token";
+    
+    public static final String userinfo="https://api.weixin.qq.com/sns/userinfo";
+    
     
 }

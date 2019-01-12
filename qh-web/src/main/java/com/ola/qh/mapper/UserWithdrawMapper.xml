@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="com.ola.qh.dao.UserWithdrawDao">
+	<resultMap type="com.ola.qh.entity.UserWithdraw" id="UserWithdrawMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="aliaccount" property="aliaccount" />
+		<result column="realname" property="realname" />
+		<result column="openId" property="openId" />
+		<result column="money" property="money" />
+		<result column="pay_status" property="payStatus" />
+		<result column="pay_message" property="payMessage" />
+		<result column="types" property="types"/>
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		<result column="status" property="status" />
+		
+	</resultMap>
+
+	<sql id="sql_base">
+	id,user_id,aliaccount,realname,money,pay_status,pay_message,types,addtime
+	</sql>
+
+	<select id="selectUserWithdraw" resultMap="UserWithdrawMap">
+		select <include refid="sql_base"></include> from user_withdraw where user_id=#{userId} and status=0 order by
+		addtime desc limit #{pageNo},#{pageSize}
+	</select>
+
+	<insert id="saveUserWithdraw" parameterType="com.ola.qh.entity.UserWithdraw">
+		insert into user_withdraw(<include refid="sql_base"></include>,openId)
+		values(#{id},#{userId},#{aliaccount},#{realname},#{money},#{payStatus},#{payMessage},#{types},#{addtime},#{openId})
+	</insert>
+
+
+	<update id="updateUserWithdrawstatus">
+		update user_withdraw set
+		status=1 where id=#{id}
+	</update>
+
+	<delete id="deleteUserWithdraw">
+		delete from user_withdraw where id=#{id}
+	</delete>
+
+	<select id="existUserWithdraw" resultType="int">
+		select count(id) from
+		user_withdraw where pay_status=#{payStatus} and id=#{id}
+	</select>
+</mapper>
