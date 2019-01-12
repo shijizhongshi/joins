@@ -26,10 +26,6 @@ import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
-import com.ola.qh.service.IBannerService;
-import com.ola.qh.service.ICourseClassService;
-import com.ola.qh.service.ICourseService;
-import com.ola.qh.service.imp.CourseClassService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ClassVo;
@@ -46,7 +42,7 @@ import com.ola.qh.vo.ShopServeDomain;
 public class IndexController {
 
 	@Autowired
-	private IBannerService bannerService;
+	private BannerDao bannerDao;
 	@Autowired
 	private ShopDrugDao shopDrugDao;
 	@Autowired
@@ -67,7 +63,7 @@ public class IndexController {
 	public Results<IndexVo> selectList() {
 		Results<IndexVo> result = new Results<IndexVo>();
 		IndexVo vo = new IndexVo();
-		List<Banner> bannerlist = bannerService.selectBanner("1");
+		List<Banner> bannerlist = bannerDao.selectBanner("1");
 		vo.setBannerlist(bannerlist);
 		ShopDomain shopDoamin = new ShopDomain();
 		shopDoamin.setPageNo(0);
@@ -109,11 +105,11 @@ public class IndexController {
 		
 		Results<DrugIndexVo> result=new Results<DrugIndexVo>();
 		DrugIndexVo vo=new DrugIndexVo();
-		List<Banner> bannerlist = bannerService.selectBanner("3");
+		List<Banner> bannerlist = bannerDao.selectBanner("3");
 		vo.setBannerList(bannerlist);
-		List<Banner> hotlist = bannerService.selectBanner("4");
+		List<Banner> hotlist = bannerDao.selectBanner("4");
 		vo.setHotlist(hotlist);////品牌热卖的(两个固定的图片)
-		List<Banner> urllist = bannerService.selectBanner("5");
+		List<Banner> urllist = bannerDao.selectBanner("5");
 		if(urllist!=null && urllist.size()!=0){
 			vo.setBannerUrl(urllist.get(0).getImageurl());///一张图片
 		}
@@ -158,7 +154,7 @@ public class IndexController {
 			@RequestParam(name="address",required=true)String address){
 		Results<ServerIndexVo> result=new Results<ServerIndexVo>();
 		ServerIndexVo vo = new ServerIndexVo();
-		List<Banner> bannerlist = bannerService.selectBanner("2");
+		List<Banner> bannerlist = bannerDao.selectBanner("2");
 		vo.setBannerlist(bannerlist);
 		
 		ShopDomain sd=new ShopDomain();
@@ -197,7 +193,7 @@ public class IndexController {
 	public Results<ClassVo> courseClass(){
 		Results<ClassVo> result=new Results<ClassVo>();
 		ClassVo vo =new ClassVo();
-		List<Banner> bannerlist =  bannerService.selectBanner("6");
+		List<Banner> bannerlist =  bannerDao.selectBanner("6");
 		vo.setBannerlist(bannerlist);
 		CourseClassDomain ccd=new CourseClassDomain();
 		ccd.setIsremmend(1);

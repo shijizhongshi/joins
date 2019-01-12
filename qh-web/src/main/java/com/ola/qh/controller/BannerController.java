@@ -34,7 +34,7 @@ public class BannerController {
 
 		List<Banner> bannerlist = bannerService.selectBanner(type);
 		if (bannerlist != null && bannerlist.size() != 0) {
-			results.setData(bannerService.selectBanner(type));
+			results.setData(bannerlist);
 			results.setStatus("0");
 			return results;
 		}

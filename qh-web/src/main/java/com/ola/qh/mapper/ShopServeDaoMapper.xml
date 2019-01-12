@@ -23,7 +23,7 @@
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,serve_name,`price`,discount_price,img_url,payment_type,serve_type,serve_status
+	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
 	insert into shop_serve(id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status,content,serve_time,buy_rule,explains,
@@ -69,7 +69,7 @@
 	select * from shop_serve where id=#{id}
 	</select>
 	
-	<select id="selectList" resultMap="ShopServeMap" parameterType="com.ola.qh.vo.ShopServeDomain">
+	<select id="selectList" parameterType="com.ola.qh.vo.ShopServeDomain" resultMap="ShopServeMap" >
 	select <include refid="sql_base"></include> from shop_serve where 1=1
 	<if test="shopId!=null">
 	and shop_id=#{shopId}

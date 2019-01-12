@@ -107,7 +107,7 @@
 	</if>
 	</select>
 	
-	<select id="listShop" resultMap="ShopMap" parameterType="com.ola.qh.vo.ShopDomain">
+	<select id="listShop" parameterType="com.ola.qh.vo.ShopDomain" resultMap="ShopMap">
 	select id,user_id,shop_type,shop_name,leader_name,address,
 	door_head_url,shop_logo,isrecommend from shop where 1=1
 	<if test="shopName!=null and shopName!=''">
