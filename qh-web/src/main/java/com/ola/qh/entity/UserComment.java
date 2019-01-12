@@ -19,7 +19,6 @@ public class UserComment {
 	
 	private String comment;
 	
-	@NotEmpty(message="评论类型不能为空")
 	private String commentType;
 	
 	private Date addtime;
