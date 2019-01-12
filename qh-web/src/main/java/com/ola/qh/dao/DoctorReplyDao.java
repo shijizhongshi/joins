@@ -28,9 +28,9 @@ public interface DoctorReplyDao {
 	
 	public int insertReply(DoctorReply dr);
 	
-	public Integer existDoctor(String doctorId);
+	public Integer existDoctor(@Param("doctorId") String doctorId);
 	
-	public Integer existPatient(String patientId);
+	public Integer existPatient(@Param("patientId") String patientId);
 	
 	public int updateReadStatus(
 			@Param("readStatus")String readStatus,

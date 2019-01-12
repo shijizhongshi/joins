@@ -23,15 +23,15 @@ public interface DoctorsDao {
 	
 	public int updatePatient(DoctorPatient dp);
 	
-	public DoctorPatient singlePatient(String id);
+	public DoctorPatient singlePatient(@Param("id") String id);
 	
 	public int insertPatientImg(DoctorPatientImg dpi);
 	
-	public int deletePatientImg(String id);
+	public int deletePatientImg(@Param("id")String id);
 	
-	public List<DoctorPatientImg> listPatientImg(String patientId);///数据库中的数据参数
+	public List<DoctorPatientImg> listPatientImg(@Param("patientId")String patientId);///数据库中的数据参数
 	
-	public int doctorsCount(String userId);
+	public int doctorsCount(@Param("userId") String userId);
 	
 	public int doctorsInsert(Doctors d);
 	/////分页展示用户的信息
@@ -43,9 +43,7 @@ public interface DoctorsDao {
 			@Param("offices")String offices,
 			@Param("name")String name);
 	
-	public Double commentGrade(String doctorId);
-	
-	public Double doctorGrade(@Param("doctorId")String doctorId);
+	public Double commentGrade(@Param("doctorId") String doctorId);
 	
 	public int updateDoctors(Doctors d);////修改用户的基本信息
 	
@@ -60,7 +58,7 @@ public interface DoctorsDao {
 	
 	public List<DoctorAndPatient> selectFromOffices(@Param("offices")String offices,@Param("title")String title);
 	
-	public List<Doctors> selectDoctorId(String patientId);
+	public List<Doctors> selectDoctorId(@Param("patientId")String patientId);
 	
 	public List<DoctorAndPatient> selectPatient(@Param("issolve")int issolve);
 	

@@ -33,10 +33,6 @@ public class ShopService implements IShopService {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-
-	private UserDao userDao;
-
-	@Autowired
 	private ShopServeDao shopServeDao;
 	@Autowired
 	private IUserCommentService userCommentService;

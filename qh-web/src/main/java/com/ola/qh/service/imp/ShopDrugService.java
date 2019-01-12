@@ -40,8 +40,6 @@ public class ShopDrugService implements IShopDrugService {
 	@Autowired
 	private ShopDao shopDao;
 	@Autowired
-	private OrdersProductDao ordersProductDao;
-	@Autowired
 	private UserFavoriteDao userFavoriteDao;
 	@Autowired
 	private ShopDrugCartDao shopDrugCartDao;

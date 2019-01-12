@@ -43,10 +43,7 @@ public class PayResultService implements IPayResultService{
 	private OrdersProductDao ordersProductDao;
 	
 	@Autowired
-	private UserBuyCourseDao ubcDao;
-	
-	@Autowired
-	private CourseDao courseDao;
+	private UserBuyCourseDao userBuyCourseDao;
 	
 	@Autowired
 	private IStoreService storeService;
@@ -134,7 +131,7 @@ public class PayResultService implements IPayResultService{
 					ubc.setCourseName(orderproduct.getProductName());
 					ubc.setOrdersId(op.getOrdersId());
 					ubc.setUserId(orderproduct.getUserId());
-					ubcDao.insertUserCourse(ubc);
+					userBuyCourseDao.insertUserCourse(ubc);
 				}
 			}
 			/////保存回调成功的信息
