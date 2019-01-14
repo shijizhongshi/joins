@@ -1,17 +1,18 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.ola.qh.controller.IndexController;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopServeDao;
-import com.ola.qh.dao.UserDao;
+import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
@@ -37,6 +38,8 @@ public class ShopService implements IShopService {
 	@Autowired
 	private IUserCommentService userCommentService;
 	
+	@Autowired
+	private UserCommentDao userCommentDao;
 	
 	
 	@Override
@@ -233,7 +236,14 @@ public class ShopService implements IShopService {
 	@Override
 	public List<Shop> listShop(ShopDomain sd) {
 		// TODO Auto-generated method stub
-		List<Shop> listshop = shopDao.listShop(sd);
+		List<Shop> listshop=new ArrayList<Shop>();
+		if((sd.getOrdersPrice()!=null && !"".equals(sd.getOrdersPrice()))|| (sd.getPayType()!=null && !"".equals(sd.getPayType())) || (sd.getLowprice()!=null && !"".equals(sd.getLowprice()))){
+			/////按照分组查店铺的项目
+			listshop=shopServeDao.selectShop(sd);
+			
+		}else{
+			listshop=shopDao.listShop(sd);
+		}
 
 		if(sd.getShopType()==1){
 			/////只有服务店铺才会有评论信息
@@ -244,8 +254,7 @@ public class ShopService implements IShopService {
 				}
 				
 				shop1.setCommentGrade(avgGrade);
-				IndexController ic = new IndexController();
-				shop1.setComments(ic.comments(0));
+				shop1.setComments(comments(0));
 
 			}
 		
@@ -299,4 +308,26 @@ public class ShopService implements IShopService {
 
 		return shopDao.selectShopServeType();
 	}
+	
+	  public List<String> comments(int textStatus){
+	    	
+	    	List<String> text = userCommentDao.selectCommentText(textStatus);
+			Random rand = new Random();
+			List<String> comments=new ArrayList<String>();
+			for(int i=0;i<2;i++){
+				
+				if(text.size()!=0){
+					int num = rand.nextInt(text.size())+0;
+					if(comments==null || comments.size()==0){
+						comments.add(text.get(num));
+						text.remove(num);////在集合中剔除已经有的对象
+					}else{
+						comments.add(text.get(num));
+					}
+				}
+				
+			}
+			return comments;
+	    	
+	    }
 }

@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.ola.qh.entity.UserWithdraw;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserWithdrawVo;
 
 public interface IUserWithdrawService {
 
-	public List<UserWithdraw> selectUserWithdraw(String userId,int pageNo,int pageSize);
+	public List<UserWithdrawVo> selectUserWithdraw(String userId,int pageNo,int pageSize);
 	
 	public Results<String> saveUserWithdraw(UserWithdraw userwithdrawhistory);
 	

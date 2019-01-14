@@ -16,6 +16,7 @@ import com.ola.qh.service.IUserWeixinBindingService;
 import com.ola.qh.service.IUserWithdrawService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserWithdrawVo;
 
 /**
  * 
@@ -37,23 +38,16 @@ public class UserWithdrawController {
 	
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<UserWithdraw>> selectUserWithdrawHistory(
+	public Results<List<UserWithdrawVo>> selectUserWithdrawHistory(
 			@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<UserWithdraw>> results = new Results<List<UserWithdraw>>();
+		Results<List<UserWithdrawVo>> results = new Results<List<UserWithdrawVo>>();
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<UserWithdraw> select = userWithdrawService.selectUserWithdraw(userId, pageNo,
+		List<UserWithdrawVo> select = userWithdrawService.selectUserWithdraw(userId, pageNo,
 				pageSize);
-
-		if (select == null) {
-			results.setMessage("显示错误");
-			results.setStatus("1");
-			return results;
-
-		}
 		results.setData(select);
 		results.setStatus("0");
 		return results;

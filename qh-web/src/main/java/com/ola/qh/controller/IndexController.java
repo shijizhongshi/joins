@@ -139,7 +139,7 @@ public class IndexController {
 		List<ShopDrug> druglist = shopDrugDao.selectDrugList(sdd);
 		vo.setDruglist(druglist);
 		result.setData(vo);
-		result.setStatus("1");
+		result.setStatus("0");
 		return result;
 	}
 	

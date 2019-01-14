@@ -463,9 +463,15 @@ public class OrdersService implements IOrdersService {
 					////// 往商家店铺里打钱~~~
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
+					UserBook ub = userBookDao.singleUserBook(userId);
 					/// 修改总账本
+					BigDecimal accountMoney = ub.getAccountMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal canWithdraw = ub.getCanWithdraw().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal waitMoney = ub.getFortheMoney().subtract(money).setScale(2, BigDecimal.ROUND_DOWN);
 					UserBook userbook = new UserBook();
-					userbook.setAccountMoney(money);
+					userbook.setAccountMoney(accountMoney);//// 总的金额
+					userbook.setCanWithdraw(canWithdraw);/// 可提现金额
+					userbook.setFortheMoney(waitMoney);//// 待结算的金额
 					userbook.setUserId(orders.getMuserId());
 					userbook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userbook);

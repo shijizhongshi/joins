@@ -1,6 +1,8 @@
 package com.ola.qh.service.imp;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +20,9 @@ import com.ola.qh.entity.UserWithdraw;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.service.IUserWithdrawService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserWithdrawVo;
 
 @Service
 public class UserWithdrawService implements IUserWithdrawService {
@@ -32,21 +36,55 @@ public class UserWithdrawService implements IUserWithdrawService {
 	@Autowired
 	private UserWeixinBindingDao userBindingDao;
 	
+	
+	
 
 	@Override
-	public List<UserWithdraw> selectUserWithdraw(String userId, int pageNo, int pageSize) {
+	public List<UserWithdrawVo> selectUserWithdraw(String userId, int pageNo, int pageSize) {
 
 		List<UserWithdraw> list = userWithdrawDao.selectUserWithdraw(userId, pageNo, pageSize);
+		List<UserWithdrawVo> listvo=new ArrayList<UserWithdrawVo>();
+		UserWithdrawVo vo=new UserWithdrawVo();
+		List<UserWithdraw> listnew=new ArrayList<UserWithdraw>();
+		String yearMonth=null;
 		for (UserWithdraw userWithdraw : list) {
+			
 			if(userWithdraw.getTypes()==2){
 				UserWeixinBinding userbinding = userBindingDao.selectUserBinding(userId);
 				userWithdraw.setWeixinnickname(userbinding.getNickname());
 				userWithdraw.setWeixinheadimg(userbinding.getHeadimgurl());
 			}
+			if(userWithdraw.getAddtime()!=null){
+				userWithdraw.setShowtime(Patterns.sfDetailTime(userWithdraw.getAddtime()));
+				String times = sfDetailTime(userWithdraw.getAddtime());
+				if(yearMonth!=null){
+					String timesub=times.substring(0, 8);
+					if(timesub.equals(yearMonth)){
+						//////如果相等的年月
+						listnew.add(userWithdraw);
+					}else{
+						listnew=new ArrayList<UserWithdraw>();
+						vo=new UserWithdrawVo();
+						yearMonth=times.substring(0, 8);
+						vo.setYearMonth(yearMonth);
+						listnew.add(userWithdraw);
+					}
+				}else{
+					yearMonth=times.substring(0, 8);
+					vo.setYearMonth(yearMonth);
+					listnew.add(userWithdraw);
+				}
+			}
 		}
-		return list;
+		vo.setList(listnew);
+		listvo.add(vo);
+		return listvo;
 	}
-
+	
+	public static String sfDetailTime(Date time){
+    	SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd HH:mm:ss");
+    	return sf.format(time);
+    }
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<String> saveUserWithdraw(UserWithdraw userwithdraw) {

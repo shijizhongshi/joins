@@ -39,8 +39,18 @@ public class UserWithdraw {
 	
 	private int status;
 	
+	private String showtime;
 	
 	
+	
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
+	}
+
 	public String getWeixinnickname() {
 		return weixinnickname;
 	}

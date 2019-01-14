@@ -109,7 +109,8 @@
 	
 	<select id="listShop" parameterType="com.ola.qh.vo.ShopDomain" resultMap="ShopMap">
 	select id,user_id,shop_type,shop_name,leader_name,address,
-	door_head_url,shop_logo,isrecommend from shop where 1=1
+	door_head_url,shop_logo,isrecommend from shop
+	where 1=1
 	<if test="shopName!=null and shopName!=''">
 	and shop_name LIKE CONCAT(CONCAT('%',#{shopName},'%'))
 	</if>
@@ -126,7 +127,6 @@
 	<if test="serveDomain!=null">
 	and serve_domain LIKE CONCAT(CONCAT('%',#{serveDomain},'%'))
 	</if>
-	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
 	

@@ -10,6 +10,40 @@ public class ShopDomain {
 	private int isrecommend;///1:推荐
 	private int shopType;///店铺的;类型  1;服务店铺   2:商城店铺
 	private String serveDomain;////服务领域
+	private String ordersPrice;//1:升序   2:降序
+	private String payType;////团购或或者是预定
+	private String lowprice;
+	
+	private String topprice;
+	
+	
+	
+	
+	
+	public String getOrdersPrice() {
+		return ordersPrice;
+	}
+	public void setOrdersPrice(String ordersPrice) {
+		this.ordersPrice = ordersPrice;
+	}
+	public String getPayType() {
+		return payType;
+	}
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+	public String getLowprice() {
+		return lowprice;
+	}
+	public void setLowprice(String lowprice) {
+		this.lowprice = lowprice;
+	}
+	public String getTopprice() {
+		return topprice;
+	}
+	public void setTopprice(String topprice) {
+		this.topprice = topprice;
+	}
 	public String getShopName() {
 		return shopName;
 	}
