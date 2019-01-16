@@ -156,22 +156,22 @@
 	s.door_head_url,s.shop_logo from shop_serve ss 
 	left join shop s on s.id=ss.shop_id
 	where 1=1 and s.shop_type=1
-	<if test="payType!=null">
+	<if test="payType!=null and payType!='' ">
 	and ss.payment_type=#{payType}
 	
 	</if>
-	<if test="lowprice!=null">
+	<if test="lowprice!=null and lowprice!='' ">
 	and ss.discount_price&gt;=#{lowprice}
 	
 	</if>
-	<if test="topprice!=null and topprice!=1">
+	<if test="topprice!=null and topprice!=1 andtopprice!='' ">
 	 and ss.discount_price &lt;#{topprice}
 	 
 	</if>
 	<if test="shopType!=0">
 	and s.shop_type=#{shopType}
 	</if>
-	<if test="serveDomain!=null">
+	<if test="serveDomain!=null and serveDomain!='' ">
 	and s.serve_domain LIKE CONCAT(CONCAT('%',#{serveDomain},'%'))
 	</if>
 	<if test="shopName!=null and shopName!=''">

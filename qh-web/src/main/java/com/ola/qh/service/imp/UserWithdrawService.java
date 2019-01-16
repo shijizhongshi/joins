@@ -40,9 +40,9 @@ public class UserWithdrawService implements IUserWithdrawService {
 	
 
 	@Override
-	public List<UserWithdrawVo> selectUserWithdraw(String userId, int pageNo, int pageSize) {
+	public List<UserWithdrawVo> selectUserWithdraw(String userId, int pageNo, int pageSize,String payStatus) {
 
-		List<UserWithdraw> list = userWithdrawDao.selectUserWithdraw(userId, pageNo, pageSize);
+		List<UserWithdraw> list = userWithdrawDao.selectUserWithdraw(userId, pageNo, pageSize,payStatus);
 		List<UserWithdrawVo> listvo=new ArrayList<UserWithdrawVo>();
 		UserWithdrawVo vo=new UserWithdrawVo();
 		List<UserWithdraw> listnew=new ArrayList<UserWithdraw>();
@@ -76,8 +76,11 @@ public class UserWithdrawService implements IUserWithdrawService {
 				}
 			}
 		}
-		vo.setList(listnew);
-		listvo.add(vo);
+		if(listnew!=null && listnew.size()>0){
+			vo.setList(listnew);
+			listvo.add(vo);
+		}
+		
 		return listvo;
 	}
 	

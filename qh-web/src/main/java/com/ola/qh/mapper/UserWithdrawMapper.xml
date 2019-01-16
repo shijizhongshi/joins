@@ -26,8 +26,12 @@
 	</sql>
 
 	<select id="selectUserWithdraw" resultMap="UserWithdrawMap">
-		select <include refid="sql_base"></include> from user_withdraw where user_id=#{userId} and status=0 order by
-		addtime desc limit #{pageNo},#{pageSize}
+		select <include refid="sql_base"></include> from user_withdraw where 
+		user_id=#{userId} and status=0
+		 <if test="payStatus!=null and payStatus!=''">
+		and  pay_status=#{payStatus}
+		 </if>
+		 order by addtime desc limit #{pageNo},#{pageSize}
 	</select>
 
 	<insert id="saveUserWithdraw" parameterType="com.ola.qh.entity.UserWithdraw">

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserCode;
 import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.IUserService;
@@ -125,4 +126,14 @@ public class UserController {
 
 		return userService.updatePassword(user);
 	}*/
+	@RequestMapping("/single/userbook")
+	public Results<UserBook> singleUserBook(@RequestParam(name="userId",required=true)String userId){
+		
+		Results<UserBook> result=new Results<UserBook>();
+		UserBook ub = userService.singleUserBook(userId);
+		result.setStatus("0");
+		result.setData(ub);
+		return result;
+	} 
+	
 }

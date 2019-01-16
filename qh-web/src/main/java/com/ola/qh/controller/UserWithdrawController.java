@@ -33,13 +33,12 @@ public class UserWithdrawController {
 
 	@Autowired
 	private IUserWithdrawService userWithdrawService;
-	@Autowired
-	private IUserWeixinBindingService userBindingService;
 	
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public Results<List<UserWithdrawVo>> selectUserWithdrawHistory(
 			@RequestParam(name = "userId", required = true) String userId,
+			@RequestParam(name="payStatus",required=false)String payStatus,
 			@RequestParam(name = "page", required = true) int page) {
 
 		Results<List<UserWithdrawVo>> results = new Results<List<UserWithdrawVo>>();
@@ -47,7 +46,7 @@ public class UserWithdrawController {
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
 		List<UserWithdrawVo> select = userWithdrawService.selectUserWithdraw(userId, pageNo,
-				pageSize);
+				pageSize,payStatus);
 		results.setData(select);
 		results.setStatus("0");
 		return results;

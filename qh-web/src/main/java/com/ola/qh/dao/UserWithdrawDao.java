@@ -8,7 +8,10 @@ import com.ola.qh.entity.UserWithdraw;
 
 public interface UserWithdrawDao {
 
-	public List<UserWithdraw> selectUserWithdraw(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<UserWithdraw> selectUserWithdraw(@Param("userId")String userId,
+			@Param("pageNo")int pageNo,
+			@Param("pageSize")int pageSize,
+			@Param("payStatus")String payStatus);
 	
 	public int saveUserWithdraw(UserWithdraw userwithdraw);
 	

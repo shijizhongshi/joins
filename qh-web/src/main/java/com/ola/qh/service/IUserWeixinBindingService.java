@@ -10,4 +10,5 @@ public interface IUserWeixinBindingService {
 	public int existUserBinding(String userId);
 	
 	
+	
 }

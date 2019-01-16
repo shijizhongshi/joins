@@ -594,7 +594,7 @@ public class OrdersService implements IOrdersService {
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), od.getOrdersStatus());
 				BigDecimal payaccount = BigDecimal.ZERO;
 				int count = 0;
-				BeanUtils.copyProperties(orders, od);
+				BeanUtils.copyProperties(orders, ovo);
 				if (orders.getPresetTime() != null) {
 
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
