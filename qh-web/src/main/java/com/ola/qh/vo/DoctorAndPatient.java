@@ -19,6 +19,8 @@ public class DoctorAndPatient {
 	
 	private String readStatus;
 	
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -66,6 +68,8 @@ public class DoctorAndPatient {
 	public void setReadStatus(String readStatus) {
 		this.readStatus = readStatus;
 	}
+
+	
 	
 	
 	

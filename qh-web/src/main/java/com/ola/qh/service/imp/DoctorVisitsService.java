@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
-import com.ola.qh.dao.UserDao;
+import com.ola.qh.entity.DoctorAndPatients;
 import com.ola.qh.entity.Doctors;
-import com.ola.qh.entity.User;
 import com.ola.qh.service.IDoctorVisitsService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DoctorAndPatient;
 import com.ola.qh.vo.DoctorVisitsVo;
@@ -94,21 +93,39 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 
 	@Transactional
 	@Override
-	public Results<List<DoctorAndPatient>> DoctorPatientList(String title) {
+	public Results<DoctorAndPatients> DoctorPatientList(String title,int page,String address,String professional,String offices,String name) {
 		
-		Results<List<DoctorAndPatient>> results=new Results<List<DoctorAndPatient>>();
+		Results<DoctorAndPatients> results=new Results<DoctorAndPatients>();
+		
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
 		
 		try {
+			
 			
 			List<DoctorAndPatient> list=doctorsDao.selectFromOffices(null,title);
 			
 			for (DoctorAndPatient doctorAndPatient : list) {
 				
+				
+				
 				List<Doctors> doctorList=doctorsDao.selectDoctorId(doctorAndPatient.getPatientId());
 					
 				doctorAndPatient.setList(doctorList);
+				
 				}
-			results.setData(list);
+			
+			List<Doctors> doctors= doctorsDao.listDoctor(pageNo, pageSize, address, professional, offices, name);
+			
+			DoctorAndPatients doctorAndPatients=new DoctorAndPatients();
+			
+			
+				
+				doctorAndPatients.setList(list);
+				doctorAndPatients.setListdoctor(doctors);
+			
+			
+			results.setData(doctorAndPatients);
 			results.setStatus("0");
 			return results;
 			} catch (Exception e) {
