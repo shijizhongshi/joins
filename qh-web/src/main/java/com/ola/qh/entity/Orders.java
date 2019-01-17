@@ -69,7 +69,17 @@ public class Orders {
 	
 	private int classStatus;////1:购买的全套课程
 
+	private String recommendTeacher;
 	
+	
+	public String getRecommendTeacher() {
+		return recommendTeacher;
+	}
+
+	public void setRecommendTeacher(String recommendTeacher) {
+		this.recommendTeacher = recommendTeacher;
+	}
+
 	public int getClassStatus() {
 		return classStatus;
 	}

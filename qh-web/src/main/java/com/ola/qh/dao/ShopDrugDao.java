@@ -28,5 +28,7 @@ public interface ShopDrugDao {
 			@Param("id")String id,
 			@Param("salesNumber")int salesNumber,
 			@Param("updatetime")Date updatetime);
-
+	
+	public List<ShopDrug> shopDrugByShopId(@Param("shopId")String shopId);
+ 
 }

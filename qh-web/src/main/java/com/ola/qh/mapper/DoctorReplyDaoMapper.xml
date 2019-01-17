@@ -83,6 +83,7 @@
 		<if test="doctorId!=null and doctorId!='' ">
 		and doctor_id=#{doctorId}
 		</if>
+		order by addtime asc
 	</select>
 	
 </mapper> 
