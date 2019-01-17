@@ -23,7 +23,7 @@
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,user_id,shop_id,serve_name,`price`,discount_price,img_url,payment_type,serve_type,serve_status
+	id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status
 	</sql>
 	<insert id="insertServe" parameterType="com.ola.qh.entity.ShopServe">
 	insert into shop_serve(id,user_id,shop_id,serve_name,price,discount_price,img_url,payment_type,serve_type,serve_status,content,serve_time,buy_rule,explains,
@@ -69,7 +69,7 @@
 	select * from shop_serve where id=#{id}
 	</select>
 	
-	<select id="selectList" resultMap="ShopServeMap" parameterType="com.ola.qh.vo.ShopServeDomain">
+	<select id="selectList" parameterType="com.ola.qh.vo.ShopServeDomain" resultMap="ShopServeMap" >
 	select <include refid="sql_base"></include> from shop_serve where 1=1
 	<if test="shopId!=null">
 	and shop_id=#{shopId}
@@ -139,5 +139,60 @@
 	<select id="selectByServeId" resultMap="ShopServeImgMap">
 	select id,serve_id,img_url from shop_serve_img where serve_id=#{serveId}
 	</select>
+	
+	<resultMap type="com.ola.qh.entity.Shop" id="ShopMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="shop_type" property="shopType"/>
+	<result column="shop_name" property="shopName"/>
+	<result column="leader_name" property="leaderName"/>
+	<result column="address" property="address"/>
+	<result column="door_head_url" property="doorHeadUrl"/>
+	<result column="shop_logo" property="shopLogo"/>
+	</resultMap>
+	
+	<select id="selectShop" parameterType="com.ola.qh.vo.ShopDomain" resultMap="ShopMap">
+	select s.id,s.user_id,s.shop_type,s.shop_name,s.leader_name,s.address,
+	s.door_head_url,s.shop_logo from shop_serve ss 
+	left join shop s on s.id=ss.shop_id
+	where 1=1 and s.shop_type=1
+	<if test="payType!=null and payType!='' ">
+	and ss.payment_type=#{payType}
+	
+	</if>
+	<if test="lowprice!=null and lowprice!='' ">
+	and ss.discount_price&gt;=#{lowprice}
+	
+	</if>
+	<if test="topprice!=null and topprice!=1 andtopprice!='' ">
+	 and ss.discount_price &lt;#{topprice}
+	 
+	</if>
+	<if test="shopType!=0">
+	and s.shop_type=#{shopType}
+	</if>
+	<if test="serveDomain!=null and serveDomain!='' ">
+	and s.serve_domain LIKE CONCAT(CONCAT('%',#{serveDomain},'%'))
+	</if>
+	<if test="shopName!=null and shopName!=''">
+	and s.shop_name LIKE CONCAT(CONCAT('%',#{shopName},'%'))
+	</if>
+	<if test="address!=null and address!=''">
+	and s.address LIKE CONCAT(CONCAT('%',#{address},'%'))
+	</if>
+	<if test="ordersPrice=='1' ">
+	order by ss.discount_price asc
+	
+	</if>
+	<if test="ordersPrice=='2' ">
+	
+	order by ss.discount_price desc
+	
+	</if>
+
+	 group by ss.shop_id
+	 limit #{pageNo},#{pageSize}
+	</select>
+
 	</mapper>
 

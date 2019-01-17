@@ -180,8 +180,7 @@
 	</select>
 
 	<!-- 查集合的时候记得展示店铺的信息(图片的集合) 添加不同条件的查询~ -->
-	<select id="selectDrugList" parameterType="com.ola.qh.vo.ShopDrugDomain"
-		resultMap="ShopDrugMap">
+	<select id="selectDrugList" parameterType="com.ola.qh.vo.ShopDrugDomain" resultMap="ShopDrugMap">
 		select
 		<include refid="sql_base"></include>
 		,img_url,islimits from shop_drug

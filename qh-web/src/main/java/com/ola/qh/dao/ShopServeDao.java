@@ -3,9 +3,12 @@ package com.ola.qh.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.ShopServeImg;
+import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopServeDomain;
 
 public interface ShopServeDao {
@@ -25,6 +28,9 @@ public interface ShopServeDao {
 	public int deleteServeImg(String id);
 	
 	public List<ShopServeImg> selectByServeId(String serveId);
+	
+	
+	public List<Shop> selectShop(ShopDomain sd);
 	
 	
 	

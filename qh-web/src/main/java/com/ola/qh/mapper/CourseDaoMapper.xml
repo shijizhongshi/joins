@@ -12,7 +12,6 @@
 	<result column="course_name" property="courseName"/>
 	<result column="course_type_name" property="courseTypeName"/>
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
-	<result column="course_chapter_size" property="courseChapterSize"/>
 	<result column="course_price" property="coursePrice"/>
 	<result column="course_discount_price" property="courseDiscountPrice"/>
 	<result column="course_year" property="courseYear"/>
@@ -21,6 +20,7 @@
 	<result column="course_img" property="courseImg"/>
 	<result column="course_resource_type" property="courseResourceType"/>
 	<result column="course_use_difference" property="courseUseDifference"/>
+	<result column="class_id" property="classId"/>
 	<result column="addtime" property="addtime" />
 	<result column="updatetime" property="updatetime"/>
 	</resultMap>
@@ -54,9 +54,9 @@
 	<!--查用户类别的结束#################### -->
 	
 	<!--课程按照不同的条件进行查询-->
-	<select id="courseList" resultMap="CourseMap" parameterType="com.ola.qh.vo.CourseClassDomain">
+	<select id="courseList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseMap" >
 	
-	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img,course_price,course_discount_price from course where course_show=1
+	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img,course_price,course_discount_price,class_id from course where course_show=1
 	<if test="courseTypeName!=null">
 	 and course_type_name=#{courseTypeName}
 	</if>
@@ -116,7 +116,7 @@
 	</resultMap>
 	<select id="courseSectionList" resultMap="CourseSectionMap">
 	select id,course_chapter_id,section_name,aliyunId,video_id,video_url,addtime from course_section
-	where  course_chapter_id=#{courseChapterId}
+	where course_chapter_id=#{courseChapterId}
 	</select>
 	
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow">

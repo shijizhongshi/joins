@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.CourseNofree;
+import com.ola.qh.service.ICourseClassService;
 import com.ola.qh.service.imp.CourseClassService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -29,7 +30,7 @@ import com.ola.qh.vo.CourseClassVo;
 public class CourseClassController {
 
 	@Autowired
-	private CourseClassService courseClassService;
+	private ICourseClassService courseClassService;
 	
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Results<List<CourseClass>> classList(@RequestBody CourseClassDomain ccd){

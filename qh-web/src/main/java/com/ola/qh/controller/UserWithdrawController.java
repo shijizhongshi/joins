@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.ola.qh.entity.UserWithdrawHistory;
-import com.ola.qh.service.IUserWithdrawHistoryService;
+import com.ola.qh.entity.UserWithdraw;
+import com.ola.qh.service.IUserWeixinBindingService;
+import com.ola.qh.service.IUserWithdrawService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserWithdrawVo;
 
 /**
  * 
@@ -27,36 +29,31 @@ import com.ola.qh.util.Results;
  */
 @RestController
 @RequestMapping(value = "/api/withdraw")
-public class UserWithdrawHistoryController {
+public class UserWithdrawController {
 
 	@Autowired
-	private IUserWithdrawHistoryService userWithdrawHistoryService;
+	private IUserWithdrawService userWithdrawService;
+	
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<UserWithdrawHistory>> selectUserWithdrawHistory(
+	public Results<List<UserWithdrawVo>> selectUserWithdrawHistory(
 			@RequestParam(name = "userId", required = true) String userId,
+			@RequestParam(name="payStatus",required=false)String payStatus,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<UserWithdrawHistory>> results = new Results<List<UserWithdrawHistory>>();
+		Results<List<UserWithdrawVo>> results = new Results<List<UserWithdrawVo>>();
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<UserWithdrawHistory> select = userWithdrawHistoryService.selectUserWithdrawHistory(userId, pageNo,
-				pageSize);
-
-		if (select == null) {
-			results.setMessage("显示错误");
-			results.setStatus("1");
-			return results;
-
-		}
+		List<UserWithdrawVo> select = userWithdrawService.selectUserWithdraw(userId, pageNo,
+				pageSize,payStatus);
 		results.setData(select);
 		results.setStatus("0");
 		return results;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdrawHistory userwithdrawhistory,
+	public Results<String> saveUserWithdrawHistory(@RequestBody @Valid UserWithdraw userwithdraw,
 			BindingResult valid) {
 
 		Results<String> results = new Results<String>();
@@ -65,16 +62,34 @@ public class UserWithdrawHistoryController {
 			results.setStatus("1");
 			return results;
 		}
-		return userWithdrawHistoryService.saveUserWithdrawHistory(userwithdrawhistory);
+		if(userwithdraw.getTypes()==1){
+			if(userwithdraw.getAliaccount()==null || "".equals(userwithdraw.getAliaccount())){
+				results.setMessage("支付宝的账号不能为空");
+				results.setStatus("1");
+				return results;
+			}
+			if(userwithdraw.getRealname()==null || "".equals(userwithdraw.getRealname())){
+				results.setMessage("真实姓名不能为空");
+				results.setStatus("1");
+				return results;
+			}
+		}
+		if(userwithdraw.getTypes()!=1 && userwithdraw.getTypes()!=2){
+			results.setMessage("请选择提现到微信或者支付宝");
+			results.setStatus("1");
+			return results;
+		}
+		return userWithdrawService.saveUserWithdraw(userwithdraw);
 	}
-
+	
+	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public Results<String> deleteUserWithdrawHistory(@RequestParam(name = "id", required = true) String id,
 			@RequestParam(name = "payStatus", required = true) int payStatus) {
 
 		Results<String> results = new Results<String>();
 
-		int exist = userWithdrawHistoryService.existUserWithdrawHistory(id, payStatus);
+		int exist = userWithdrawService.existUserWithdraw(id, payStatus);
 		if (exist==0) {
 			results.setMessage("账单信息不存在");
 			results.setStatus("1");
@@ -82,7 +97,7 @@ public class UserWithdrawHistoryController {
 
 		}
 		if (payStatus != 0) {
-			int update = userWithdrawHistoryService.updateUserWithdrawHistorystatus(id);
+			int update = userWithdrawService.updateUserWithdrawstatus(id);
 			if (update <= 0) {
 				results.setMessage("删除失败1");
 				results.setStatus("1");
@@ -92,7 +107,7 @@ public class UserWithdrawHistoryController {
 			return results;
 
 		}
-		int delete = userWithdrawHistoryService.deleteUserWithdrawHistory(id);
+		int delete = userWithdrawService.deleteUserWithdraw(id);
 		if (delete <= 0) {
 			results.setMessage("删除失败");
 			results.setStatus("1");

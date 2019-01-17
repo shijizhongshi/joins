@@ -100,7 +100,11 @@ public class ShopController {
 			@RequestParam(name="shopName",required=false)String shopName,
 			@RequestParam(name="address",required=false)String address,
 			@RequestParam(name="serveDomain",required=false)String serveDomain,
-			@RequestParam(name="shopType",required=true)int shopType){
+			@RequestParam(name="shopType",required=true)int shopType,
+			@RequestParam(name="ordersPrice",required=false)String ordersPrice,
+			@RequestParam(name="payType",required=false)String payType,
+			@RequestParam(name="lowprice",required=false)String lowprice,
+			@RequestParam(name="topprice",required=false)String topprice){
 		
 		
 		Results<List<Shop>> result = new Results<List<Shop>>();
@@ -113,7 +117,10 @@ public class ShopController {
 		sd.setServeDomain(serveDomain);
 		sd.setShopName(shopName);
 		sd.setShopType(shopType);
-		
+		sd.setOrdersPrice(ordersPrice);
+		sd.setPayType(payType);
+		sd.setLowprice(lowprice);
+		sd.setTopprice(topprice);
 		List<Shop> listShop = shopService.listShop(sd);
 		result.setData(listShop);
 		result.setStatus("0");

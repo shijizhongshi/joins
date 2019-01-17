@@ -239,4 +239,10 @@ public class UserService implements IUserService {
 		return userDao.updateCode(code, mobile);
 	}
 
+	@Override
+	public UserBook singleUserBook(String userId) {
+		// TODO Auto-generated method stub
+		return userbookDao.singleUserBook(userId);
+	}
+
 }

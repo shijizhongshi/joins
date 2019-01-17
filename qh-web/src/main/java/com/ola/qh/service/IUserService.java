@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserCode;
 import com.ola.qh.entity.UserLogin;
 import com.ola.qh.util.Results;
@@ -27,5 +28,7 @@ public interface IUserService {
 	public UserCode singleCode(String mobile);
 	
 	public int updateCode(String code,String mobile);
+	
+	public UserBook singleUserBook(String userId);
 	
 }

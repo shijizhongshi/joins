@@ -39,10 +39,6 @@
 	<select id="doctorsCount" resultType="int">
 		select count(id) from doctors where user_id=#{userId}
 	</select>
-	
-	<select id="doctorGrade" resultType="double">
-	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
-	</select>
 
 	<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">
 		insert into
@@ -91,7 +87,7 @@
 		<result column="read_status" property="readStatus" />
 	</resultMap>
 	
-	<select id="selectFromOffices" resultMap="DoctorAndPatientMap"  parameterType="String">
+	<select id="selectFromOffices" resultMap="DoctorAndPatientMap">
 		select drp.patient_id patientId,dp.title title,dp.addtime addtime from doctor_reply_patient drp 
 		left join doctor_patient dp on drp.patient_id=dp.id where dp.issolve=1
 		<if test="offices!=null">

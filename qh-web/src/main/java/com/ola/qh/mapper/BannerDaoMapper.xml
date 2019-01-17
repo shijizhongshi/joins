@@ -13,6 +13,6 @@
 
 
 	<select id="selectBanner"  resultMap="BannerMap">
-		select imageurl,out_links from banner  where type=#{type} and isshow=1
+		select imageurl,out_links from banner  where `type`=#{types} and isshow=1
 	</select>
 </mapper>

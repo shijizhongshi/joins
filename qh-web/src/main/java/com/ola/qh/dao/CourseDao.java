@@ -15,19 +15,19 @@ public interface CourseDao {
 
 	public List<CourseType> courseTypeList();
 	
-	public List<CourseTypeSubclass> courseTypeSubclassList(String courseTypeId);
+	public List<CourseTypeSubclass> courseTypeSubclassList(@Param("courseTypeId") String courseTypeId);
 	
 	public List<Course> courseList(CourseClassDomain ccd);///xml
 	
-	public List<CourseChapter> courseChapterList(String courseId);
+	public List<CourseChapter> courseChapterList(@Param("courseId")String courseId);
 	
-	public List<CourseSection> courseSectionList(String courseChapterId);
+	public List<CourseSection> courseSectionList(@Param("courseChapterId")String courseChapterId);
 	
-	public Course singleCourse(String courseId);
+	public Course singleCourse(@Param("courseId")String courseId);
 	
-	public int courseChapterCount(String courseId);
+	public int courseChapterCount(@Param("courseId")String courseId);
 	
-	public int courseSectionCount(String chapterId);
+	public int courseSectionCount(@Param("chapterId")String chapterId);
 	
 	public List<CourseLineShow> selectLiveList(
 			@Param("courseTypeName")String courseTypeName,

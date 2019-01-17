@@ -26,7 +26,7 @@ import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.dao.UserIntomoneyHistoryDao;
-import com.ola.qh.dao.UserWithdrawHistoryDao;
+import com.ola.qh.dao.UserWithdrawDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.Orders;
@@ -463,9 +463,15 @@ public class OrdersService implements IOrdersService {
 					////// 往商家店铺里打钱~~~
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
+					UserBook ub = userBookDao.singleUserBook(userId);
 					/// 修改总账本
+					BigDecimal accountMoney = ub.getAccountMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal canWithdraw = ub.getCanWithdraw().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					BigDecimal waitMoney = ub.getFortheMoney().subtract(money).setScale(2, BigDecimal.ROUND_DOWN);
 					UserBook userbook = new UserBook();
-					userbook.setAccountMoney(money);
+					userbook.setAccountMoney(accountMoney);//// 总的金额
+					userbook.setCanWithdraw(canWithdraw);/// 可提现金额
+					userbook.setFortheMoney(waitMoney);//// 待结算的金额
 					userbook.setUserId(orders.getMuserId());
 					userbook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userbook);
@@ -588,7 +594,7 @@ public class OrdersService implements IOrdersService {
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), od.getOrdersStatus());
 				BigDecimal payaccount = BigDecimal.ZERO;
 				int count = 0;
-				BeanUtils.copyProperties(orders, od);
+				BeanUtils.copyProperties(orders, ovo);
 				if (orders.getPresetTime() != null) {
 
 					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

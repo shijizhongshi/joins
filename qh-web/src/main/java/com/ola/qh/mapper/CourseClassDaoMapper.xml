@@ -24,7 +24,7 @@
 	id,class_name,class_price,class_discount_price,course_lecturer,img_url
 	</sql>
 	
-	<select id="classList" resultMap="CourseClassMap" resultType="com.ola.qh.vo.CourseClassDomain">
+	<select id="classList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseClassMap">
 	select <include refid="sql_base"></include> from course_class where isshow=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
@@ -93,7 +93,7 @@
 	id,course_name,teachers,img_url
 	</sql>
 	
-	<select id="nofreeList" resultMap="CourseNofreeMap" parameterType="com.ola.qh.vo.CourseClassDomain">
+	<select id="nofreeList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseNofreeMap">
 	select <include refid="free_base"></include> from course_nofree where 1=1
 	<if test="isremmend!=0">
 	and isremmend=#{isremmend}
