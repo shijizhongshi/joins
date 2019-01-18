@@ -85,6 +85,7 @@
 		<result column="patient_id" property="patientId" />
 		<result column="offices" property="offices" />
 		<result column="read_status" property="readStatus" />
+		<result column="newsId" property="newsId" />
 	</resultMap>
 	
 	<select id="selectFromOffices" resultMap="DoctorAndPatientMap">
@@ -100,6 +101,13 @@
 	</select>
 	
 	
+	<select id="DoctorPatientsList" resultMap="DoctorAndPatientMap">
+		select drp.patient_id patientId,dp.title title,dp.addtime addtime 
+		from doctor_reply_patient drp 
+		left join doctor_patient dp on drp.patient_id=dp.id 
+		where  newsId=#{newsId} 
+		group by drp.patient_id order by addtime desc
+	</select>
 	<!-- 小铃铛！！！ -->
 	<select id="existReadStatus" resultMap="DoctorAndPatientMap">
 		select read_status from doctor_reply_patient drp left join doctor_patient dp on drp.patient_id=dp.id where user_id=#{userId}

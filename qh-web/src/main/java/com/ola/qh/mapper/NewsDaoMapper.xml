@@ -43,5 +43,16 @@
 	<select id="selectRecommendNews"  resultMap="NewsMap">
 		select id,title,img_url from news where isrecommend=1 limit 4
 	</select>
+	
+	<resultMap type="com.ola.qh.entity.TopicSquare" id="TopicSquareMap">
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		
+	</resultMap>
+	<select id="topicSquare"  resultMap="TopicSquareMap">
+		select id,title,content from news where status=0 and content_types=2 limit #{pageNo},#{pageSize}
+		
+	</select>
 
 </mapper>
