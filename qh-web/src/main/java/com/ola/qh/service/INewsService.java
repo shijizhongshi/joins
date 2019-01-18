@@ -7,7 +7,7 @@ import com.ola.qh.util.Results;
 
 public interface INewsService {
 
-	public List<News> selectNewList(int pageNo,int pageSize,int contentTypes,String types);
+	public List<News> selectNewList(int pageNo,int pageSize,String contentTypes,String typename);
 	
 	public Results<News> singlenews(String id,String userId);
 }

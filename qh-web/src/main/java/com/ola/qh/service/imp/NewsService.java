@@ -32,9 +32,9 @@ public class NewsService implements INewsService {
 	private UserFavoriteDao userFavoriteDao;
 	
 	@Override
-	public List<News> selectNewList(int pageNo,int pageSize,int contentType,String types) {
+	public List<News> selectNewList(int pageNo,int pageSize,String contentType,String typename) {
 		// TODO Auto-generated method stub
-		return newsDao.selectNewList(pageNo,pageSize,contentType,types);
+		return newsDao.selectNewList(pageNo,pageSize,contentType,typename);
 	}
 
 

@@ -25,6 +25,28 @@ public class News {
 	private int isFavorite;///1:已经收藏过了   0:没有收藏
 	
 	private int contentTypes;
+	
+	private String simpleIntro;////一句话的介绍
+	
+	private String typename;////专业名称
+	
+	
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+
+	public String getSimpleIntro() {
+		return simpleIntro;
+	}
+
+	public void setSimpleIntro(String simpleIntro) {
+		this.simpleIntro = simpleIntro;
+	}
 
 	public String getShowtime() {
 		return showtime;

@@ -169,8 +169,19 @@ public class PayResultService implements IPayResultService{
 				String url  = storeService.storeUrl(fname, bytes);
 				ordersDao.updateQrcode(op.getOrdersId(), url);///将生成的带参数的二维码保存起来
 				ordersDao.updateOrders(op.getOrdersId(), OrdersStatus.PAID, orders.getOrdersStatus(), new Date(),null,new Date(),null,null,null);
+				BigDecimal money=BigDecimal.ZERO;
 				for (OrdersProduct orderproduct : listOrdersProduct) {
 					ordersProductDao.updateOrdersProduct(orderproduct.getId(), OrdersStatus.PAID, "支付成功未使用", orderproduct.getStatusCode(), new Date());
+					money=money.add(orderproduct.getPayout()).setScale(2, BigDecimal.ROUND_DOWN);
+				}
+				UserBook ub = userBookDao.singleUserBook(orders.getMuserId());
+				if(ub!=null){
+					BigDecimal waitMoney=ub.getFortheMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
+					UserBook userBook=new UserBook();
+					userBook.setFortheMoney(waitMoney);///待结算金额
+					userBook.setUserId(orders.getMuserId());////
+					userBook.setUpdatetime(new Date());
+					userBookDao.updateUserBook(userBook);
 				}
 			}
 			

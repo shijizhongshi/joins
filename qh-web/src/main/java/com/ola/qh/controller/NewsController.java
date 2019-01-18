@@ -39,13 +39,13 @@ public class NewsController {
 	@RequestMapping(value="/newLists")
 	public Results<List<News>> newsList(
 			@RequestParam(name = "page", required = true) int page,
-			@RequestParam(name = "contentType", required = false) int contentType,
-			@RequestParam(name = "types", required = false) String types){
+			@RequestParam(name = "contentType", required = false) String contentType,
+			@RequestParam(name = "typename", required = false) String typename){
 		
 		Results<List<News>> result = new Results<List<News>>();
 		int pageNo = (page - 1) * Patterns.zupageSize;
 		
-		List<News> lists = newsService.selectNewList(pageNo,Patterns.zupageSize,contentType,types);
+		List<News> lists = newsService.selectNewList(pageNo,Patterns.zupageSize,contentType,typename);
 		for (News news : lists) {
 			news.setShowtime(Patterns.sfTime(news.getAddtime()));
 		}

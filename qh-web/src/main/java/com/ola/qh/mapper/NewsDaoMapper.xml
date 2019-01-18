@@ -13,22 +13,25 @@
 		<result column="content" property="content" />
 		<result column="addtime" property="addtime" />
 		<result column="isstick" property="isstick" />
+		<result column="simple_intro" property="simpleIntro"/>
+	    <result column="typename" property="typename"/>
 	</resultMap>
 
 
 	<sql id="sql_base">
-		id,types,title,img_url,addtime,isstick,status
+		id,types,title,img_url,addtime,isstick,status,simple_intro,typename
 	</sql>
 	<select id="selectNewList" resultMap="NewsMap" >
 		select
 		<include refid="sql_base"></include>
 		from news where 1=1
-		<if test="types!=null">
-			and types=#{types}
-		</if>
-		<if test="contentTypes!=0">
+		<if test="contentTypes!=null">
 			and content_types=#{contentTypes}
 		</if>
+		<if test="typename!=null and typename!='' ">
+		   and typename=#{typename}
+		</if>
+		order by addtime desc
 		<if test="pageNo!=0">
 			 limit #{pageNo},#{pageSize}
 		</if>

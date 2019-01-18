@@ -153,7 +153,7 @@ public class OrdersProductService implements IOrdersProductService{
 					}
 					if("0".equals(map.get("status"))){
 						statusCode=OrdersStatus.REFUNED;/////退款成功的也就意味着退款工作已完成
-						statusName="退款成功~";
+						statusName="同意退款,退款成功~";
 						///////待结算的金额减少
 						UserBook ub = userBookDao.singleUserBook(op.getMuserId());
 						if(ub!=null){
@@ -240,8 +240,8 @@ public class OrdersProductService implements IOrdersProductService{
 						map=payService.wxOrderRefund(orderspayment.getExtransno(), totalfee, refundfee);
 					}
 					if("0".equals(map.get("status"))){
-						statusCode=OrdersStatus.REFUNED;/////退款成功的也就意味着退款工作已完成
-						statusName="退款成功~";
+						statusCode=OrdersStatus.CANCELSERVEED;
+						statusName="同意买家的取消申请,订单是已取消的状态";
 						///////待结算的金额减少
 						UserBook ub = userBookDao.singleUserBook(orders.getMuserId());
 						if(ub!=null){
