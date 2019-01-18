@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.News;
+import com.ola.qh.entity.TopicSquare;
 
 public interface NewsDao {
 	
@@ -18,5 +19,7 @@ public interface NewsDao {
 	
 	public List<News> selectRecommendNews();
 
-
+	//话题广场
+	public List<TopicSquare> topicSquare(@Param("pageNo") int pageNo,
+			@Param("pageSize") int pageSize);
 }

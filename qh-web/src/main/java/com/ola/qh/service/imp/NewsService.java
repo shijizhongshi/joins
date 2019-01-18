@@ -4,14 +4,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.DoctorVisitsDao;
+import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.UserFavoriteDao;
+import com.ola.qh.entity.Doctors;
 import com.ola.qh.entity.News;
+import com.ola.qh.entity.TopicSquare;
 import com.ola.qh.service.INewsService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.DoctorAndPatient;
 
 /**
  * 
@@ -30,7 +37,8 @@ public class NewsService implements INewsService {
 	private IUserService userService;
 	@Autowired
 	private UserFavoriteDao userFavoriteDao;
-	
+	@Autowired
+	private DoctorsDao doctorsDao;
 	@Override
 	public List<News> selectNewList(int pageNo,int pageSize,String contentType,String typename) {
 		// TODO Auto-generated method stub
@@ -71,4 +79,42 @@ public class NewsService implements INewsService {
 		return result;
 	}
 
+
+	@Transactional
+	@Override
+	public Results<List<TopicSquare>> topicSquare(int pageNo, int pageSize) {
+		
+		Results<List<TopicSquare>> results=new Results<List<TopicSquare>>();
+		try {
+		List<TopicSquare> TopicSquarelist=newsDao.topicSquare(pageNo, pageSize);
+		
+		
+		for (TopicSquare topicSquare : TopicSquarelist) {
+			
+			List<DoctorAndPatient> list=doctorsDao.DoctorPatientsList(topicSquare.getId());
+			
+			for (DoctorAndPatient doctorAndPatient : list) {
+				
+				
+				
+				List<Doctors> doctorList=doctorsDao.selectDoctorId(doctorAndPatient.getPatientId());
+					
+				doctorAndPatient.setList(doctorList);
+				
+				}
+			
+			topicSquare.setList(list);
+		}
+		results.setData(TopicSquarelist);
+		results.setStatus("0");
+		return results;
+		
+			
+		
+	}catch (Exception e) {
+		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		results.setStatus("1");
+		return results;
+	}
+	}
 }

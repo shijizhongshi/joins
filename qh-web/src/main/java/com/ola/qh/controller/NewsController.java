@@ -1,7 +1,5 @@
 package com.ola.qh.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.News;
+import com.ola.qh.entity.TopicSquare;
 import com.ola.qh.service.INewsService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -70,4 +69,14 @@ public class NewsController {
 		
 	}
 	
+	
+	@RequestMapping(value="/topic",method=RequestMethod.GET)
+	public Results<List<TopicSquare>> newSingle(@RequestParam(name = "page", required = true) int page){
+		
+		int pageSize = Patterns.zupageSize;
+		int pageNo = (page - 1) * pageSize;
+		
+		return newsService.topicSquare(pageNo, pageSize);
+		
+	}
 }

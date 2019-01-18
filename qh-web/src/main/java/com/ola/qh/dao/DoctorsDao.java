@@ -66,4 +66,6 @@ public interface DoctorsDao {
 	public List<DoctorAndPatient> existReadStatus(@Param("userId")String userId);
 	
 	public String selectId(@Param("userId")String userId);
+	
+	public List<DoctorAndPatient> DoctorPatientsList(@Param("newsId")String newsId);
 }
