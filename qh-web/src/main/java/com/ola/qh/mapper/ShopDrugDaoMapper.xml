@@ -308,4 +308,10 @@
 		updatetime=#{updatetime}
 		where id=#{id}
 	</update>
+	
+	
+	<select id="shopDrugByShopId" resultMap="ShopDrugMap">
+	   select id from shop_drug where shop_id=#{shopId} order by sales_number desc limit 0,3 
+	</select>
+	
 </mapper>

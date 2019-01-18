@@ -49,7 +49,7 @@
 	
 	<!--通过大类别的id查小类别-->
 	<select id="courseTypeSubclassList" resultMap="CourseTypeSubclassMap">
-	select course_type_subclass_name from course_type_subclass,course_chapter_size where course_type_id=#{courseTypeId}
+	select course_type_subclass_name from course_type_subclass where course_type_id=#{courseTypeId}
 	</select>
 	<!--查用户类别的结束#################### -->
 	
@@ -57,13 +57,13 @@
 	<select id="courseList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseMap" >
 	
 	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img,course_price,course_discount_price,class_id from course where course_show=1
-	<if test="courseTypeName!=null">
+	<if test="courseTypeName!=null and courseTypeName!='' ">
 	 and course_type_name=#{courseTypeName}
 	</if>
-	<if test="courseTypeSubclassName!=null">
+	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!=''">
 	 and course_type_subclass_name=#{courseTypeSubclassName}
 	</if>
-	<if test="classId!=null">
+	<if test="classId!=null and classId!='' ">
 	and class_id=#{classId}
 	</if>
 	

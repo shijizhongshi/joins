@@ -87,6 +87,8 @@
 	<result column="describes" property="describes"/>
 	<result column="aliyunId" property="aliyunId"/>
 	<result column="img_url" property="imgUrl"/>
+	<result column="video_id" property="videoId"/>
+	<result column="video_url" property="videoUrl"/>
 	</resultMap>
 	<!--免费试听课开始############-->
 	<sql id="free_base">
@@ -112,7 +114,7 @@
 	</select>
 	
 	<select id="nofreeSingle" resultMap="CourseNofreeMap">
-	select * from course_nofree where id=#{id}
+	select id,video_id from course_nofree where id=#{id}
 	</select>
 	<!--免费试听课结束############-->
 	

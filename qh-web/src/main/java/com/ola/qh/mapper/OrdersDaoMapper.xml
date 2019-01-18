@@ -16,6 +16,7 @@
 	<result column="address" property="address"/>
 	<result column="receiver" property="receiver"/>
 	<result column="mobile" property="mobile"/>
+	<result column="recommend_teacher" property="recommendTeacher"/>
 	<result column="orders_status" property="ordersStatus"/>
 	<result column="orders_old_status" property="ordersOldStatus"/>
 	<result column="express_no" property="expressNo"/>
@@ -35,10 +36,10 @@
 	</sql>
 	<insert id="insertOrders" parameterType="com.ola.qh.entity.Orders">
 	insert into orders(id,user_id,muser_id,orderno,orders_type,payaccount,count,address,receiver,mobile,orders_status,
-	paytype,payname,leave_message,sex,preset_time,payment_type,freight,orders_old_status,addtime,class_status)values(
+	paytype,payname,leave_message,sex,preset_time,payment_type,freight,orders_old_status,addtime,class_status,recommend_teacher)values(
 	#{id},#{userId},#{muserId},#{orderno},#{ordersType},#{payaccount},#{count},#{address},#{receiver},
 	#{mobile},#{ordersStatus},#{paytype},#{payname},#{leaveMessage},#{sex},#{presetTime},#{paymentType},#{freight},#{ordersOldStatus},
-	#{addtime},#{classStatus})
+	#{addtime},#{classStatus},#{recommendTeacher})
 	</insert>
 	<update id="updateOrders">
 	update orders set 

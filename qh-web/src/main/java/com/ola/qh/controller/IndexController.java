@@ -17,6 +17,7 @@ import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugDao;
+import com.ola.qh.dao.ShopDrugImgDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.entity.Banner;
@@ -25,6 +26,8 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
+import com.ola.qh.entity.ShopDrugImg;
+import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -57,6 +60,8 @@ public class IndexController {
 	private UserCommentDao userCommentDao;
 	@Autowired
 	private CourseDao courseDao;
+	@Autowired
+	private ShopDrugImgDao shopDrugImgDao;
 	
 	
 	@RequestMapping("/select")
@@ -129,6 +134,18 @@ public class IndexController {
 		shopDoamin.setShopType(2);///商城店铺
 		shopDoamin.setIsrecommend(1);////推荐店铺
 		List<Shop> shoplist = shopDao.listShop(shopDoamin);
+		for(Shop shop : shoplist) {
+			List<ShopImg> shopImgList=new ArrayList<ShopImg>();
+			
+			List<ShopDrug> sdlist = shopDrugDao.shopDrugByShopId(shop.getId());
+			for (ShopDrug shopDrug : sdlist) {
+				ShopImg img=new ShopImg();
+				List<ShopDrugImg> simg = shopDrugImgDao.listDrugImg(shopDrug.getId());
+				img.setImgUrl(simg.get(0).getImgUrl());
+				shopImgList.add(img);
+			}
+			shop.setImgList(shopImgList);
+		}
 		vo.setShoplist(shoplist);
 		
 		////热卖商品列表

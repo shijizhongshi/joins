@@ -25,6 +25,9 @@ public class OrdersCartDomain{
 	private String receiver;
 	@NotEmpty
 	private String mobile;
+	
+	private String recommendTeacher;
+	
 	@Valid
 	@NotNull
 	@Size(min=1)
@@ -45,6 +48,12 @@ public class OrdersCartDomain{
 	private int classStatus;/////1:表示的是全套的课程 0:不处理
 	
 	
+	public String getRecommendTeacher() {
+		return recommendTeacher;
+	}
+	public void setRecommendTeacher(String recommendTeacher) {
+		this.recommendTeacher = recommendTeacher;
+	}
 	public int getClassStatus() {
 		return classStatus;
 	}

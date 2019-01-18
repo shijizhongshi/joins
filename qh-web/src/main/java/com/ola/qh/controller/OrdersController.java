@@ -137,6 +137,7 @@ public class OrdersController {
 		o.setMuserId(productVo.getMuserId());
 		o.setLeaveMessage(productVo.getLeaveMessage());
 		o.setSex(productVo.getSex());
+		o.setRecommendTeacher(productVo.getRecommendTeacher());
 		/////// 预定或者是购买
 		o.setPaymentType(productVo.getPaymentType());
 		if (productVo.getPresetTime() != null && !"".equals(productVo.getPresetTime())) {
