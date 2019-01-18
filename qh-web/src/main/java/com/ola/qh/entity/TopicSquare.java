@@ -12,6 +12,8 @@ public class TopicSquare {
 	
 	private String title;
 	
+	private String imgUrl;
+	
 	private String content;
 	
 	private List<DoctorAndPatient> list=new ArrayList<DoctorAndPatient>();
@@ -46,6 +48,14 @@ public class TopicSquare {
 
 	public void setList(List<DoctorAndPatient> list) {
 		this.list = list;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 	
 	
