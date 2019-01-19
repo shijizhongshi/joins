@@ -46,7 +46,10 @@ public class NewsController {
 		
 		List<News> lists = newsService.selectNewList(pageNo,Patterns.zupageSize,contentType,typename);
 		for (News news : lists) {
-			news.setShowtime(Patterns.sfTime(news.getAddtime()));
+			if(news.getAddtime()!=null){
+				news.setShowtime(Patterns.sfTime(news.getAddtime()));
+			}
+			
 		}
 		
 		result.setData(lists);

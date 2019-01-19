@@ -8,10 +8,23 @@ public class CourseLineShow {
 	private String courseTypeSubclassName;
 	private String liveName;
 	private String imgUrl;
+	private String outLinks;/////直播跳转的连接
+	
+	
 	
 	private String isremmend;////1是推荐
 	
 	private String isshow;///1:可见
+	
+	
+
+	public String getOutLinks() {
+		return outLinks;
+	}
+
+	public void setOutLinks(String outLinks) {
+		this.outLinks = outLinks;
+	}
 
 	public String getId() {
 		return id;
