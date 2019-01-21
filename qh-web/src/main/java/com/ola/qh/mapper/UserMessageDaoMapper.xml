@@ -24,5 +24,43 @@
 		values(#{id},#{userId},#{types},#{title},#{describe},#{headStatus},#{ordersId},#{patientId},#{addtime},#{subType})
 		</insert>
 		
+		<!-- 按照大类别区分的 -->
+		<select id="listByType" resultMap="UserMessageMap">
+		select * from user_message where 1=1
+		<if test="userId!=null and userId!='' ">
+		and user_id=#{userId}
+		</if>
+		<if test="types==1">
+		<!-- 订单or提现消息 -->
+		and types in(1,2,3,4)
+		</if>
+		<if test="types==5">
+		<!-- 5;系统消息 -->
+		and types in(5)
+		</if>
+		order by addtime desc
+		limit 1;
+		</select>	
+		
+		<select id="list" resultMap="UserMessageMap">
+		select * from user_message where 1=1
+		<if test="userId!=null and userId!='' ">
+		and user_id=#{userId}
+		</if>
+		<if test="types==1">
+		<!-- 订单or提现消息 -->
+		and types in(1,2,3,4)
+		</if>
+		<if test="types==5">
+		<!-- 5;系统消息 -->
+		and types in(5)
+		</if>
+		order by addtime desc
+		<if test="pageSize!=0">
+		limit #{pageNo},#{pageSize}
+		</if>
+		
+		</select>	
+		
 		
 	</mapper>
