@@ -15,18 +15,20 @@ import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.OrdersProductRefundDao;
 import com.ola.qh.dao.UserBookDao;
+import com.ola.qh.dao.UserMessageDao;
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersProductRefund;
 import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.UserBook;
+import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IOrdersProductService;
 import com.ola.qh.service.IPayService;
+import com.ola.qh.service.IPushService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.OrdersProductDomain;
 /**
  * 申请退款 卖家的申请的处理   买家修改申请的操作
 * @ClassName: OrdersProductService  
@@ -50,6 +52,10 @@ public class OrdersProductService implements IOrdersProductService{
 	private IPayService payService;
 	@Autowired
 	private UserBookDao userBookDao;
+	@Autowired
+	private IPushService pushService;
+	@Autowired
+	private UserMessageDao messageDao;
 	
 	
 	@Override
@@ -57,7 +63,7 @@ public class OrdersProductService implements IOrdersProductService{
 	public Results<String> applyRefund(OrdersProductRefund or) {
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
-		/*try {*/
+		try {
 			Results<String> userResult = userService.existUser(or.getUserId());
 			if("1".equals(userResult.getStatus())){
 				return userResult;
@@ -90,15 +96,28 @@ public class OrdersProductService implements IOrdersProductService{
 			//////修改订单产品的状态
 			ordersProductDao.updateOrdersProduct(opid, OrdersStatus.APPLYREFUNED, "申请退款", op.getStatusCode(), new Date());
 			
+			pushService.send(op.getMuserId(), "商品订单","您的销售订单中"+op.getProductName()+"商品被申请退款,请及时处理");
+			/////////给商家保存一个消息
+			UserMessage um=new UserMessage();
+			um.setId(KeyGen.uuid());
+			um.setDescribe("您的销售订单中"+op.getProductName()+"商品被申请退款,请及时处理");
+			um.setHeadStatus(0);
+			um.setOrdersId(op.getOrdersId());
+			um.setTitle("商品订单");
+			um.setTypes(1);
+			um.setSubType(2);
+			um.setUserId(op.getMuserId());
+			messageDao.insert(um);
+			
 			result.setStatus("0");
 			return result;
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			result.setStatus("1");
 			result.setMessage("申请退款失败");
 			return result;
-		}*/
+		}
 		
 	}
 
@@ -164,6 +183,18 @@ public class OrdersProductService implements IOrdersProductService{
 							userBook.setUpdatetime(new Date());
 							userBookDao.updateUserBook(userBook);
 						}
+						pushService.send(op.getUserId(), "退款成功","您购物订单中"+op.getProductName()+"商品的退款申请已经同意了,请及时查看到账信息");
+						/////////给商家保存一个消息
+						UserMessage um=new UserMessage();
+						um.setId(KeyGen.uuid());
+						um.setDescribe("您购物订单中"+op.getProductName()+"商品的退款申请已经同意了,请及时查看到账信息");
+						um.setHeadStatus(0);
+						um.setOrdersId(op.getOrdersId());
+						um.setTitle("商品订单");
+						um.setTypes(1);
+						um.setSubType(1);
+						um.setUserId(op.getUserId());
+						messageDao.insert(um);
 						
 						
 					}else{
@@ -193,6 +224,18 @@ public class OrdersProductService implements IOrdersProductService{
 			if(ordersProductDao.selectByOid(op.getOrdersId(), null).size()==1){
 				ordersDao.updateOrders(op.getOrdersId(), statusCode, null, new Date(), null,null,null,null,null);
 			}
+			pushService.send(op.getUserId(), "商品订单","您购物订单中"+op.getProductName()+"商品的退款申请被拒绝,及时联系商家或者联系客服");
+			/////////给商家保存一个消息
+			UserMessage um=new UserMessage();
+			um.setId(KeyGen.uuid());
+			um.setDescribe("您购物订单中"+op.getProductName()+"商品的退款申请被拒绝,及时联系商家或者联系客服");
+			um.setHeadStatus(0);
+			um.setOrdersId(op.getOrdersId());
+			um.setTitle("商品订单");
+			um.setTypes(1);
+			um.setSubType(1);
+			um.setUserId(op.getUserId());
+			messageDao.insert(um);
 			result.setStatus("0");
 			return result;
 		} catch (Exception e) {
@@ -252,6 +295,18 @@ public class OrdersProductService implements IOrdersProductService{
 							userBook.setUpdatetime(new Date());
 							userBookDao.updateUserBook(userBook);
 						}
+						pushService.send(orders.getUserId(), "服务订单","您申请的取消服务已经被同意,请查看到账信息");
+						/////////给商家保存一个消息
+						UserMessage um=new UserMessage();
+						um.setId(KeyGen.uuid());
+						um.setDescribe("您申请的取消服务已经被同意,请查看到账信息");
+						um.setHeadStatus(0);
+						um.setOrdersId(ordersId);
+						um.setTitle("服务订单");
+						um.setTypes(2);
+						um.setSubType(1);
+						um.setUserId(orders.getUserId());
+						messageDao.insert(um);
 						
 						
 					}else{
@@ -277,6 +332,18 @@ public class OrdersProductService implements IOrdersProductService{
 			if(ordersProductDao.selectByOid(list.get(0).getOrdersId(), null).size()==1){
 				ordersDao.updateOrders(ordersId, statusCode, null, new Date(), null,null,null,null,null);
 			}
+			pushService.send(orders.getUserId(), "服务订单","您申请的取消服务已经被拒绝,请联系商家或者联系平台客服");
+			/////////给商家保存一个消息
+			UserMessage um=new UserMessage();
+			um.setId(KeyGen.uuid());
+			um.setDescribe("您申请的取消服务已经被拒绝,请联系商家或者联系平台客服");
+			um.setHeadStatus(0);
+			um.setOrdersId(ordersId);
+			um.setTitle("服务订单");
+			um.setTypes(2);
+			um.setSubType(1);
+			um.setUserId(orders.getUserId());
+			messageDao.insert(um);
 			result.setStatus("0");
 			return result;
 			

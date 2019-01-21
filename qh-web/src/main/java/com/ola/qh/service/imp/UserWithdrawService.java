@@ -151,7 +151,7 @@ public class UserWithdrawService implements IUserWithdrawService {
 			userwithdraw.setId(KeyGen.uuid());
 			userwithdraw.setPayStatus(0);
 			userWithdrawDao.saveUserWithdraw(userwithdraw);
-
+			
 			results.setStatus("0");
 			return results;
 

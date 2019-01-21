@@ -26,6 +26,7 @@ import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.dao.UserIntomoneyHistoryDao;
+import com.ola.qh.dao.UserMessageDao;
 import com.ola.qh.dao.UserWithdrawDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
@@ -38,8 +39,10 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserIntomoneyHistory;
+import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IOrdersService;
 import com.ola.qh.service.IPayService;
+import com.ola.qh.service.IPushService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
@@ -79,9 +82,11 @@ public class OrdersService implements IOrdersService {
 	@Autowired
 	private ShopDao shopDao;
 	@Autowired
-	private IPayService payService;
+	private IPushService pushService;
 	@Autowired
 	private UserFavoriteDao userFavoriteDao;
+	@Autowired
+	private UserMessageDao messageDao;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -338,6 +343,21 @@ public class OrdersService implements IOrdersService {
 					userbook.setUserId(orders.getMuserId());
 					userbook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userbook);
+					
+					pushService.send(orders.getMuserId(), "账本变更","您的商城中已经成功交易一笔订单,收益金额:"+money+"请及时查看");
+					/////////给商家保存一个消息
+					UserMessage um=new UserMessage();
+					um.setId(KeyGen.uuid());
+					um.setDescribe("您的商城中已经成功交易一笔订单,收益金额:"+money+"请及时查看");
+					um.setHeadStatus(0);
+					um.setOrdersId(orders.getId());
+					um.setTitle("账本变更");
+					um.setTypes(4);
+					um.setUserId(orders.getMuserId());
+					messageDao.insert(um);
+					
+					
+					
 
 				}
 				//////// 修改订单的状态~~~
@@ -401,6 +421,19 @@ public class OrdersService implements IOrdersService {
 							statusCode = OrdersStatus.CANCELSERVE;///// 退款成功的也就意味着取消预约工作已完成
 							statusName = "成功取消预约";
 						}
+						pushService.send(orders.getMuserId(), "服务订单","您的销售订单中有一个用户申请了取消服务的,请及时处理~");
+						/////////给商家保存一个消息
+						UserMessage um=new UserMessage();
+						um.setId(KeyGen.uuid());
+						um.setDescribe("您的销售订单中有一个用户申请了取消服务的,请及时处理~");
+						um.setHeadStatus(0);
+						um.setOrdersId(orders.getId());
+						um.setTitle("服务订单");
+						um.setTypes(2);
+						um.setSubType(2);
+						um.setUserId(orders.getMuserId());
+						messageDao.insert(um);
+						
 						/*if ("CLONSESERVE".equals(statusCode)) {
 							OrdersPayment op = ordersDao.singlePayment(orders.getId());
 							Map<String, String> map = new HashMap<String, String>();
@@ -475,7 +508,23 @@ public class OrdersService implements IOrdersService {
 					userbook.setUserId(orders.getMuserId());
 					userbook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userbook);
+					
+					
+					pushService.send(orders.getMuserId(), "账本变更","您销售的服务项目"+listop.get(0).getProductName()+"已经使用,到账金额:"+money+"元");
+					/////////给商家保存一个消息
+					UserMessage um=new UserMessage();
+					um.setId(KeyGen.uuid());
+					um.setDescribe("您销售的服务项目"+listop.get(0).getProductName()+"已经使用,到账金额:"+money+"元");
+					um.setHeadStatus(0);
+					um.setOrdersId(orders.getId());
+					um.setTitle("账本变更");
+					um.setTypes(4);
+					um.setUserId(orders.getMuserId());
+					messageDao.insert(um);
+					
+					
 				}
+				
 
 				//// 修改订单的状态
 				ordersDao.updateOrders(orders.getId(), statusCode, orders.getOrdersStatus(), new Date(), null, null,

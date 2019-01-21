@@ -14,6 +14,7 @@ import com.ola.qh.dao.OrdersDao;
 import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserBuyCourseDao;
+import com.ola.qh.dao.UserMessageDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.Orders;
 import com.ola.qh.entity.OrdersPayment;
@@ -22,7 +23,10 @@ import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.PayResult;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserBuyCourse;
+import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IPayResultService;
+import com.ola.qh.service.IPayService;
+import com.ola.qh.service.IPushService;
 import com.ola.qh.service.IStoreService;
 import com.ola.qh.util.Bytes;
 import com.ola.qh.util.KeyGen;
@@ -50,6 +54,13 @@ public class PayResultService implements IPayResultService{
 	
 	@Autowired
 	private UserBookDao userBookDao;
+	
+	@Autowired
+	private IPushService pushService;
+	
+	@Autowired
+	private UserMessageDao messageDao;
+	
 	/**
 	 * 店铺商品的购买
 	 */
@@ -84,6 +95,20 @@ public class PayResultService implements IPayResultService{
 					userBook.setUpdatetime(new Date());
 					userBookDao.updateUserBook(userBook);
 				}
+				//////////给商家推送一个发货的通知消息
+				pushService.send(orders.getMuserId(), "商品订单","您的销售订单中有一个新的订单请及时发货");
+				/////////给商家保存一个消息
+				UserMessage um=new UserMessage();
+				um.setId(KeyGen.uuid());
+				um.setDescribe("您的销售订单中有一个新的订单请及时发货");
+				um.setHeadStatus(0);
+				um.setOrdersId(orders.getId());
+				um.setTitle("商品订单");
+				um.setTypes(1);
+				um.setUserId(orders.getMuserId());
+				um.setSubType(2);
+				messageDao.insert(um);
+				
 			}
 			/////保存回调成功的信息
 			pr.setComment("支付成功之后店铺商品的回调成功");
@@ -133,6 +158,17 @@ public class PayResultService implements IPayResultService{
 					ubc.setUserId(orderproduct.getUserId());
 					userBuyCourseDao.insertUserCourse(ubc);
 				}
+				pushService.send(orders.getUserId(), "课程订单","购买成功,请及时到我的-我的课程及时学习");
+				/////////给商家保存一个消息
+				UserMessage um=new UserMessage();
+				um.setId(KeyGen.uuid());
+				um.setDescribe("购买成功,请及时到我的-我的课程及时学习");
+				um.setHeadStatus(0);
+				um.setOrdersId(orders.getId());
+				um.setTitle("课程订单");
+				um.setTypes(3);
+				um.setUserId(orders.getUserId());
+				messageDao.insert(um);
 			}
 			/////保存回调成功的信息
 			pr.setComment("支付成功之后的课程回调成功");
