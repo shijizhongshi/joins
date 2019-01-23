@@ -167,7 +167,12 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.1</version>
 		</dependency>
-
+ <dependency>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <version>7.2.11</version>
+      <scope>compile</scope>
+    </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>

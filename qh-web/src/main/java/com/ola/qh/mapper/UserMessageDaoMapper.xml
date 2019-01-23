@@ -31,12 +31,12 @@
 		and user_id=#{userId}
 		</if>
 		<if test="types==1">
-		<!-- 订单or提现消息 -->
-		and types in(1,2,3,4)
+		<!-- 订单消息通知 -->
+		and types in(1,2,3)
 		</if>
-		<if test="types==5">
-		<!-- 5;系统消息 -->
-		and types in(5)
+		<!-- 收益通知 -->
+		<if test="types==4">
+		and types in(4)
 		</if>
 		order by addtime desc
 		limit 1;
@@ -48,8 +48,12 @@
 		and user_id=#{userId}
 		</if>
 		<if test="types==1">
-		<!-- 订单or提现消息 -->
-		and types in(1,2,3,4)
+		<!--订单or提现消息-->
+		and types in(1,2,3)
+		</if>
+		<if test="types==4">
+		<!--收益消息-->
+		and types in(4)
 		</if>
 		<if test="types==5">
 		<!-- 5;系统消息 -->

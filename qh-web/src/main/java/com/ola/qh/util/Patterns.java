@@ -38,4 +38,15 @@ public class Patterns {
     public static final String userinfo="https://api.weixin.qq.com/sns/userinfo";
     
     
+    //////////////////七牛云短视频的参数
+    public static final String ACCESS_KEY="CvXk1F9bBZz8tmPz_d-r1yNUxNUPTc-r6Xa3jGny";
+    
+    public static final String SECRET_KEY="8Y27T80B8Q6hr-KtO_sSFJneI6uOg21CyhCp1LRA";
+    
+    public static final String BUCKET="video";
+    
+    //////回调的参数
+    public static final String callback="http://api.zhongshicc.com/api/qiniu/callbacked";
+    
+    
 }

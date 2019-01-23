@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.ola.qh.dao.UserVideoDao">
+	<resultMap type="com.ola.qh.entity.UserVideo" id="UserVideoMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="doctor_id" property="doctorId"/>
+	<result column="video_url" property="videoUrl"/>
+	<result column="key" property="key"/>
+	<result column="mime_type" property="mimeType"/>
+	<result column="hash" property="hash"/>
+	<result column="fsize" property="fsize"/>
+	<result column="bucket" property="bucket"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.ola.qh.entity.UserVideo">
+	insert into user_video(id,user_id,doctor_id,video_url,key,mime_type,hash,fsize,bucket,addtime)
+	values(#{id},#{userId},#{doctorId},#{videoUrl},#{key},#{mimeType},#{hash},#{fsize},#{bucket},#{addtime})
+	</insert>
+	
+	
+	
+	</mapper>

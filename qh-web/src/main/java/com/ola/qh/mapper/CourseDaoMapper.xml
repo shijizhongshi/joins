@@ -119,11 +119,6 @@
 	where course_chapter_id=#{courseChapterId}
 	</select>
 	
-	
-	
-	
-	
-	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks  from course_line_show

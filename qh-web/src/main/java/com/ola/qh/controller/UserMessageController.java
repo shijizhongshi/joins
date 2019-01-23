@@ -31,12 +31,10 @@ public class UserMessageController {
 
 		Results<List<UserMessage>> result = new Results<List<UserMessage>>();
 		List<UserMessage> list = new ArrayList<UserMessage>();
-		//////// 1:这个是订单和提现的消息
+		//////// 1:
 		List<UserMessage> list1 = userMessageService.listByType(userId, 1);
-		
 			//// 修改时间
-		
-		
+		//////订单消息通知
 		if (list1 != null && list1.size() != 0) {
 			UserMessage userMessage= list1.get(0);
 			Date date1 = userMessage.getAddtime();
@@ -54,14 +52,45 @@ public class UserMessageController {
 			}
 			list.add(userMessage);
 		}
+		/////收益消息通知()
+		List<UserMessage> list4 = userMessageService.listByType(userId, 4);
+		if (list4 != null && list4.size() != 0) {
+			UserMessage userMessage= list4.get(0);
+			Date date1 = userMessage.getAddtime();
+			Date date2 = new Date();
+			BigDecimal bdate2 = new BigDecimal(date2.getTime());
+			BigDecimal bdate1 = new BigDecimal(date1.getTime());
+			BigDecimal bd = new BigDecimal(24 * 60 * 60 * 1000);
+			BigDecimal b = bdate2.subtract(bdate1);
+			BigDecimal day = b.divide(bd).setScale(2, BigDecimal.ROUND_UP);
+			if (day.compareTo(new BigDecimal(1)) != 1) {
+				SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+				userMessage.setShowtime(sf.format(date1));
+			} else {
+				userMessage.setShowtime(Patterns.sfDetailTime(userMessage.getAddtime()));
+			}
+			list.add(userMessage);
+		}
 		/////// 5:这个是系统消息
 		List<UserMessage> list5 = userMessageService.list(userId, 0, 0, 5);
-		for (UserMessage userMessage : list5) {
-			userMessage.setShowtime(Patterns.sfDetailTime(userMessage.getAddtime()));
-		}
 		if (list5 != null && list5.size() != 0) {
-			list.addAll(list5);
+			UserMessage userMessage= list5.get(0);
+			Date date1 = userMessage.getAddtime();
+			Date date2 = new Date();
+			BigDecimal bdate2 = new BigDecimal(date2.getTime());
+			BigDecimal bdate1 = new BigDecimal(date1.getTime());
+			BigDecimal bd = new BigDecimal(24 * 60 * 60 * 1000);
+			BigDecimal b = bdate2.subtract(bdate1);
+			BigDecimal day = b.divide(bd).setScale(2, BigDecimal.ROUND_UP);
+			if (day.compareTo(new BigDecimal(1)) != 1) {
+				SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+				userMessage.setShowtime(sf.format(date1));
+			} else {
+				userMessage.setShowtime(Patterns.sfDetailTime(userMessage.getAddtime()));
+			}
+			list.add(userMessage);
 		}
+		
 		result.setStatus("0");
 		result.setData(list);
 		return result;
@@ -76,7 +105,8 @@ public class UserMessageController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public Results<List<UserMessage>> list(@RequestParam(name = "userId", required = true) String userId,
+	public Results<List<UserMessage>> list(
+			@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "types", required = true) int types,
 			@RequestParam(name = "page", required = true) int page) {
 
