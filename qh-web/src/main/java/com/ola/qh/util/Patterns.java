@@ -24,9 +24,9 @@ public class Patterns {
     	return sf.format(time);
     }
     
-    public static final String appId="";
+    public static final String appId="wxa13c67ede13ea9a7";
     
-    public static final String appSecret="";
+    public static final String appSecret="f59e578884a7c5992cf2074953610853";
     
     
     /////授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理

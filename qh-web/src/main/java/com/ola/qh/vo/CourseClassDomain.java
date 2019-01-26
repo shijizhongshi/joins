@@ -16,6 +16,26 @@ public class CourseClassDomain {
 	
 	private String classId;///班级的id
 	
+	private String teacherName;
+	
+	private String className;
+	
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
 
 	public String getClassId() {
 		return classId;

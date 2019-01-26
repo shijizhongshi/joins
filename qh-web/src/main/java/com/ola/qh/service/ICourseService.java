@@ -17,7 +17,7 @@ public interface ICourseService {
 
 	public List<CourseType> courseTypeList();
 	
-	public List<CourseTypeSubclass> courseTypeSubclassList(String courseTypeId);
+	public List<CourseType> courseTypeSubclassList(String courseTypeId);
 	
 	public List<Course> courseList(CourseClassDomain courseList);
 	
@@ -27,10 +27,5 @@ public interface ICourseService {
 	
 	public List<CourseSection> courseSectionList(String courseChapterId);
 	
-	public List<CourseLineShow> selectLiveList(
-			String courseTypeName,
-			String courseTypeSubclassName,
-			String isremmend,
-			int pageNo,
-		    int pageSize);
+	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
 }

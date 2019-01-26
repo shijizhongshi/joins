@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +40,28 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public List<CourseType> courseTypeList() {
-		// TODO Auto-generated method stub
-		return courseDao.courseTypeList();///// 大类别的查询
+		
+		return courseDao.courseTypeList(null);
 	}
 
 	@Override
-	public List<CourseTypeSubclass> courseTypeSubclassList(String courseTypeId) {
+	public List<CourseType> courseTypeSubclassList(String courseTypeId) {
 		// TODO Auto-generated method stub
-		return courseDao.courseTypeSubclassList(courseTypeId);//// 子类别的查询
+		// TODO Auto-generated method stub
+				List<CourseType> list=courseDao.courseTypeList(courseTypeId);
+					////////查出一个集合来
+					for (CourseType courseType : list) {
+						if(courseTypeId!=null && !"".equals(courseTypeId)){
+							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
+							courseType.setSublist(sublist);
+						}else{
+							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
+							courseType.setSublist(sublist);
+						}
+						
+					}
+				///通过大类别的查询
+				return list;///// 
 	}
 
 	@Override
@@ -106,10 +121,9 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public List<CourseLineShow> selectLiveList(String courseTypeName, String courseTypeSubclassName, String isremmend,
-			int pageNo, int pageSize) {
+	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		return courseDao.selectLiveList(courseTypeName, courseTypeSubclassName, isremmend, pageNo, pageSize);
+		return courseDao.selectLiveList(ccd);
 	}
 
 }

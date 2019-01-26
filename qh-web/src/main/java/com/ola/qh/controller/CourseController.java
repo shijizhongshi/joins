@@ -65,11 +65,11 @@ public class CourseController {
 	 * @return
 	 */
 	@RequestMapping("/courseTypeSubclassList")
-	public Results<List<CourseTypeSubclass>> listCourseTypeSubclass(
-			@RequestParam(name = "courseTypeId", required = true) String courseTypeId) {
+	public Results<List<CourseType>> listCourseTypeSubclass(
+			@RequestParam(name = "courseTypeId", required = false) String courseTypeId) {
 
-		Results<List<CourseTypeSubclass>> result = new Results<List<CourseTypeSubclass>>();
-		List<CourseTypeSubclass> list = courseService.courseTypeSubclassList(courseTypeId);
+		Results<List<CourseType>> result = new Results<List<CourseType>>();
+		List<CourseType> list = courseService.courseTypeSubclassList(courseTypeId);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
@@ -156,12 +156,19 @@ public class CourseController {
 			@RequestParam(name="courseTypeName",required=false)String courseTypeName,
 			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
 			@RequestParam(name="isremmend",required=false)String isremmend,
+			@RequestParam(name="className",required=false)String className,
 			@RequestParam(name="page",required=true)int page
 			){
 		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<CourseLineShow> list = courseService.selectLiveList(courseTypeName, courseTypeSubclassName, isremmend, pageNo, pageSize);
+		CourseClassDomain ccd=new CourseClassDomain();
+		ccd.setClassName(className);
+		ccd.setCourseTypeName(courseTypeName);
+		ccd.setCourseTypeSubclassName(courseTypeSubclassName);
+		ccd.setPageNo(pageNo);
+		ccd.setPageSize(pageSize);
+		List<CourseLineShow> list = courseService.selectLiveList(ccd);
 		result.setData(list);
 		result.setStatus("0");
 		return result;

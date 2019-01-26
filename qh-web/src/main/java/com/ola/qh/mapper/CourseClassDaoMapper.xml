@@ -35,6 +35,12 @@
 	<if test="isremmend!=0">
 	and isremmend=#{isremmend}
 	</if>
+	<if test="teacherName!=null and teacherName!='' ">
+	and course_lecturer=#{teacherName}
+	</if>
+	<if test="className!=null and className!='' ">
+	and class_name=#{className}
+	</if>
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
 	</if>
@@ -106,6 +112,13 @@
 	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
 	and course_type_subclass_name = #{courseTypeSubclassName}
 	</if>
+	<if test="teacherName!=null and teacherName!='' ">
+	and teachers=#{teacherName}
+	</if>
+	<if test="className!=null and className!='' ">
+	and course_name=#{className}
+	</if>
+	
 	order by addtime desc
 	<if test="pageSize>0">
 	limit #{pageNo},#{pageSize}

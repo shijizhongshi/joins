@@ -44,12 +44,19 @@
 	
 	<!--查用户类别的开始####################-->
 	<select id="courseTypeList" resultMap="CourseTypeMap">
-	select * from course_type
+	select * from course_type where 1=1
+	<if test="id!='' and id!=null ">
+	and id=#{id}
+	</if>
 	</select>
+	
 	
 	<!--通过大类别的id查小类别-->
 	<select id="courseTypeSubclassList" resultMap="CourseTypeSubclassMap">
-	select course_type_subclass_name from course_type_subclass where course_type_id=#{courseTypeId}
+	select * from course_type_subclass where 1=1
+	<if test="courseTypeId!='' and courseTypeId!=null ">
+	and course_type_id=#{courseTypeId}
+	</if>
 	</select>
 	<!--查用户类别的结束#################### -->
 	
@@ -120,7 +127,7 @@
 	</select>
 	
 	<!-- 直播课程的查询 -->
-	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow">
+	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks  from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null">
@@ -132,6 +139,10 @@
 	<if test="isremmend!=null">
 	and isremmend=#{isremmend}
 	</if>
+	<if test="className!=null and className!='' ">
+	and live_name=#{className}
+	</if>
+	
 	and isshow=1
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

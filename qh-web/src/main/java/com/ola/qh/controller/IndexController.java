@@ -207,22 +207,48 @@ public class IndexController {
 	}
 	
 	@RequestMapping("/class")
-	public Results<ClassVo> courseClass(){
+	public Results<ClassVo> courseClass(
+			@RequestParam(name="typeName",required=false)String typeName){
 		Results<ClassVo> result=new Results<ClassVo>();
 		ClassVo vo =new ClassVo();
 		List<Banner> bannerlist =  bannerDao.selectBanner("6");
 		vo.setBannerlist(bannerlist);
-		CourseClassDomain ccd=new CourseClassDomain();
-		ccd.setIsremmend(1);
-		ccd.setPageNo(0);
-		ccd.setPageSize(4);
-		/////免费课程的集合
-		vo.setNofreelist(courseClassDao.nofreeList(ccd));
-		///推荐课程的集合
-		vo.setCourseClass(courseClassDao.classList(ccd));
-		////直播的集合
-		List<CourseLineShow> livelist = courseDao.selectLiveList(null, null, "1", 0, 4);
-		vo.setLivelist(livelist);
+		
+		if(typeName==null || "".equals(typeName)){
+			CourseClassDomain ccd=new CourseClassDomain();
+			ccd.setIsremmend(1);
+			ccd.setPageNo(0);
+			ccd.setPageSize(4);
+			/////免费课程的集合
+			vo.setNofreelist(courseClassDao.nofreeList(ccd));
+			///推荐课程的集合
+			vo.setCourseClass(courseClassDao.classList(ccd));
+			////直播的集合
+			CourseClassDomain ccdlive=new CourseClassDomain();
+			ccdlive.setIsremmend(1);
+			ccdlive.setPageNo(0);
+			ccdlive.setPageSize(4);
+			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
+			vo.setLivelist(livelist);
+		}else{
+			CourseClassDomain ccd=new CourseClassDomain();
+			ccd.setCourseTypeName(typeName);
+			ccd.setPageNo(0);
+			ccd.setPageSize(4);
+			/////免费课程的集合
+			vo.setNofreelist(courseClassDao.nofreeList(ccd));
+			///推荐课程的集合
+			vo.setCourseClass(courseClassDao.classList(ccd));
+			////直播的集合
+			CourseClassDomain ccdlive=new CourseClassDomain();
+			ccdlive.setIsremmend(1);
+			ccdlive.setPageNo(0);
+			ccdlive.setPageSize(4);
+			ccd.setCourseTypeName(typeName);
+			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
+			vo.setLivelist(livelist);
+		}
+		
 		
 		result.setData(vo);
 		result.setStatus("0");
