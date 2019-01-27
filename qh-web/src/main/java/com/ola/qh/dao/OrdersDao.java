@@ -51,7 +51,8 @@ public interface OrdersDao {
 	public int ordersListCount(
 			@Param("muserId")String muserId,
 			@Param("userId")String userId,
-			@Param("ordersStatus")String ordersStatus);
+			@Param("ordersStatus")String ordersStatus,
+			@Param("ordersType")String ordersType);
 	
 	public int updateQrcode(
 			@Param("id")String id,

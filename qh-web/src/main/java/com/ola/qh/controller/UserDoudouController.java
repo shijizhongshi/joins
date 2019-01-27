@@ -57,6 +57,9 @@ public class UserDoudouController {
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
 		List<UserDouDou> list = userDoudouService.listDoudou(userId, pageNo, pageSize);
+		for (UserDouDou userDouDou : list) {
+			userDouDou.setShowtime(Patterns.sfDetailTime(userDouDou.getAddtime()));
+		}
 		result.setData(list);
 		result.setStatus("0");
 		return result;

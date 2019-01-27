@@ -76,9 +76,17 @@
 	<select id="ordersList" resultMap="OrdersMap" parameterType="com.ola.qh.vo.OrdersDomain">
 	select <include refid="sql_base"></include>,o.addtime from orders o
 	 where 1=1
-	<if test="ordersStatus!=null">
+	 <if test="ordersStatus!=null and ordersStatus!=''">
+	 <choose>
+	<when test="ordersStatus=='serveOrdersIng'">
+	and orders_status in ('PAID','CANCELSERVE','REJECTCANCELSERVEED')
+	</when>
+	<otherwise>
 	and orders_status=#{ordersStatus}
-	</if>
+	</otherwise>
+	</choose>
+	 </if>
+	
 	<if test="userId!=null and userId!='' ">
 	and user_id=#{userId}
 	</if>
@@ -110,6 +118,9 @@
 	</if>
 	<if test="muserId!=null and muserId!='' ">
 	and muser_id=#{muserId}
+	</if>
+	<if test="ordersType!=null and ordersType!=''">
+	and orders_type=#{ordersType}
 	</if>
 	</select>
 	

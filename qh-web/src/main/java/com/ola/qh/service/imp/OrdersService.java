@@ -682,8 +682,36 @@ public class OrdersService implements IOrdersService {
 			}
 			return odmainList;
 
+		}else if("serveOrdersIng".equals(od.getOrdersStatus())){
+			//////服务订单的销售订单进行中包括申请取消的 拒绝取消的  未使用的  (如果是已完成的话传RECEIVED  如果是已关闭的话传CANCELSERVEED(取消成功))
+			List<Orders> orderList = ordersDao.ordersList(od);
+
+			for (Orders orders : orderList) {
+				OrdersVo ovo = new OrdersVo();
+				BeanUtils.copyProperties(orders, ovo);
+				if (orders.getPresetTime() != null) {
+
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+					ovo.setPresetTime(sf.format(orders.getPresetTime()));
+				}
+				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
+				ovo.setProduct(listOrders);
+				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
+				if (shopdomain != null) {
+					ovo.setShopLogo(shopdomain.getShopLogo());
+					ovo.setShopName(shopdomain.getShopName());
+					ovo.setShowtime(shopdomain.getShowtime());
+				}
+				odmainList.add(ovo);
+			}
+			return odmainList;
+			
+			
+			
+			
 		} else {
-			//// 待付款(NEW) 待发货(PAID) 待收货(DELIVERED) 已完成(RECEIVED)
+			////商城 待付款(NEW) 待发货(PAID) 待收货(DELIVERED) 已完成(RECEIVED)   服务:(如果是已完成的话传RECEIVED  如果是已关闭的话传CANCELSERVEED(取消成功))
 			List<Orders> orderList = ordersDao.ordersList(od);
 
 			for (Orders orders : orderList) {
@@ -751,32 +779,32 @@ public class OrdersService implements IOrdersService {
 		// TODO Auto-generated method stub
 		Results<OrdersCountVo> result = new Results<OrdersCountVo>();
 		OrdersCountVo vo = new OrdersCountVo();
+		String newUserId=null;
 		if (muserId != null && (userId == null || "".equals(userId))) {
 			//// 销售订单的个数
-			int newCount = ordersDao.ordersListCount(muserId, null, OrdersStatus.NEW);
-			int paidCount = ordersDao.ordersListCount(muserId, null, OrdersStatus.PAID);
-			int deliveredCount = ordersDao.ordersListCount(muserId, null, OrdersStatus.DELIVERED);
-			int refundCount = ordersProductDao.listOrdersProductCount(muserId, null);
-			vo.setDeliveredCount(deliveredCount);
-			vo.setNewCount(newCount);
-			vo.setPaidCount(paidCount);
-			vo.setRefundCount(refundCount);
+			newUserId=muserId;
 		}
 
-		if (userId != null && (muserId == null || "".equals(muserId))) {
+		if (userId!=null && (muserId == null || "".equals(muserId))) {
 			////// 这种情况下是指购物订单的个数
-			int newCount = ordersDao.ordersListCount(null, userId, OrdersStatus.NEW);
-			int paidCount = ordersDao.ordersListCount(null, userId, OrdersStatus.PAID);
-			int deliveredCount = ordersDao.ordersListCount(null, userId, OrdersStatus.DELIVERED);
-			int refundCount = ordersProductDao.listOrdersProductCount(null, userId);
-			vo.setDeliveredCount(deliveredCount);
-			vo.setNewCount(newCount);
-			vo.setPaidCount(paidCount);
-			vo.setRefundCount(refundCount);
-			int favoriteCount = userFavoriteDao.favoriteCount(userId);
-			vo.setFavoriteCount(favoriteCount);//// 收藏的个数
+			newUserId=userId;
 
 		}
+		int newCount = ordersDao.ordersListCount(null, newUserId, OrdersStatus.NEW,null);
+		int paidCount = ordersDao.ordersListCount(null, newUserId, OrdersStatus.PAID,"1");
+		int wuseCount = ordersDao.ordersListCount(null, newUserId, OrdersStatus.PAID,"2");
+		int deliveredCount = ordersDao.ordersListCount(null, newUserId, OrdersStatus.DELIVERED,null);
+		//int refundCount = ordersProductDao.listOrdersProductCount(null, userId);
+		
+		vo.setDeliveredCount(deliveredCount);////待收货的个数
+		vo.setPaidCount(paidCount);////待发货的个数
+		vo.setNewCount(newCount);////代付款的个数
+		vo.setWuseCount(wuseCount);////待使用的个数
+		//vo.setRefundCount(refundCount);
+		int favoriteCount = userFavoriteDao.favoriteCount(newUserId);
+		UserBook ub = userBookDao.singleUserBook(newUserId);
+		vo.setFavoriteCount(favoriteCount);//// 收藏的个数
+		vo.setDoudouCount(Integer.valueOf(ub.getCanuseDoudou()));
 		result.setData(vo);
 		result.setStatus("0");
 		return result;

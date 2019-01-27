@@ -20,6 +20,18 @@ public class UserDouDou {
 	private String describe;
 	
 	private Date addtime;
+	
+	private String showtime;////展示的时间
+	
+	
+
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
+	}
 
 	public String getId() {
 		return id;

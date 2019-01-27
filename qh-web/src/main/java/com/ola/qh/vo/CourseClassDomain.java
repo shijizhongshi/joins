@@ -20,6 +20,15 @@ public class CourseClassDomain {
 	
 	private String className;
 	
+	private String maxdoudou;
+
+	public String getMaxdoudou() {
+		return maxdoudou;
+	}
+
+	public void setMaxdoudou(String maxdoudou) {
+		this.maxdoudou = maxdoudou;
+	}
 
 	public String getTeacherName() {
 		return teacherName;

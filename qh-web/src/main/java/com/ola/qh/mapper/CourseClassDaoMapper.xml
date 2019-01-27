@@ -22,7 +22,7 @@
 	</resultMap>
 	
 	<sql id="sql_base">
-	id,class_name,class_price,class_discount_price,course_lecturer,img_url
+	id,class_name,class_price,class_discount_price,course_lecturer,img_url,maxdoudou
 	</sql>
 	
 	<select id="classList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseClassMap">
@@ -42,6 +42,10 @@
 	<if test="className!=null and className!='' ">
 	and class_name=#{className}
 	</if>
+	<if test="maxdoudou!=null and maxdoudou!='' ">
+	and maxdoudou&gt;0
+	</if>
+	order by addtime desc
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
 	</if>
