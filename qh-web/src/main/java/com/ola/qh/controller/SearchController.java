@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.service.ISearchService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.SearchProductVo;
+import com.ola.qh.vo.SearchVo;
 
 @RestController
 @RequestMapping("/api/search")
@@ -19,8 +20,8 @@ public class SearchController {
 	private ISearchService searchService;
 	
 	@RequestMapping("/products")
-	public Results<List<SearchProductVo>> searchs(
-			@RequestParam(name="searchName",required=true)String searchName,
+	public Results<SearchVo> searchs(
+			@RequestParam(name="searchName",required=false)String searchName,
 			@RequestParam(name="status",required=true)String status,
 			@RequestParam(name="address",required=false)String address,
 			@RequestParam(name="page",required=true)int page){

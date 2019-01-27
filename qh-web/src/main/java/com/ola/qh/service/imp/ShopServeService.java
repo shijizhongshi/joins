@@ -44,7 +44,7 @@ public class ShopServeService implements IShopServeService {
 			if ("1".equals(result.getStatus())) {
 				return result;
 			}
-			Shop shop = shopDao.singleShop(ss.getUserId(), ss.getShopId(), 0);
+			Shop shop = shopDao.singleShop(ss.getUserId(), ss.getShopId(), 0,null);
 			/////// 必须是1服务店铺才有上传
 			if (shop.getShopType() == 2) {
 				result.setStatus("1");
@@ -136,7 +136,7 @@ public class ShopServeService implements IShopServeService {
 		ShopServeVo vo=new ShopServeVo();
 		BeanUtils.copyProperties(ss, vo);
 		/////查出相应的店铺信息
-		Shop shop = shopDao.singleShop(null, shopId, 1);
+		Shop shop = shopDao.singleShop(null, shopId, 1,null);
 		double avgGrade=0;
 		if(shopDao.commentGrade(shopId)!=null){
 			avgGrade=shopDao.commentGrade(shopId);

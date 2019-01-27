@@ -52,7 +52,7 @@ public class ShopDrugService implements IShopDrugService {
 		if ("1".equals(result.getStatus())) {
 			return result;
 		}
-		Shop shop = shopDao.singleShop(shopDrug.getUserId(), shopDrug.getShopId(),0);
+		Shop shop = shopDao.singleShop(shopDrug.getUserId(), shopDrug.getShopId(),0,null);
 		/////// 必须是2商城店铺才有上传药品的权限
 		if (shop.getShopType()==1) {
 			result.setStatus("1");
@@ -220,7 +220,7 @@ public class ShopDrugService implements IShopDrugService {
 			
 		}
 		if(list!=null && list.size()!=0){
-			Shop shop = shopDao.singleShop(null, list.get(0).getShopId(), 2);
+			Shop shop = shopDao.singleShop(null, list.get(0).getShopId(), 2,null);
 			
 			vo.setShopId(shop.getId());
 			vo.setShopAddress(shop.getAddress());

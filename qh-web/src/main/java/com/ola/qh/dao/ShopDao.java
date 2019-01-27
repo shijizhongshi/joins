@@ -23,7 +23,8 @@ public interface ShopDao {
 	public Shop singleShop(
 			@Param("userId")String userId,
 			@Param("shopId")String shopId,
-			@Param("shopType")int shopType);
+			@Param("shopType")int shopType,
+			@Param("address")String address);
 	
 	public List<Shop> listShop(ShopDomain sd);
 	

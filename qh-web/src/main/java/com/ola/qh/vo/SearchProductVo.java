@@ -1,6 +1,10 @@
 package com.ola.qh.vo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ola.qh.entity.Shop;
 
 public class SearchProductVo {
 
@@ -19,6 +23,17 @@ public class SearchProductVo {
 	private String address;////地址
 	
 	private int grade;/////评分
+	
+	private String shopType;
+	
+	
+	public String getShopType() {
+		return shopType;
+	}
+
+	public void setShopType(String shopType) {
+		this.shopType = shopType;
+	}
 
 	public String getProductId() {
 		return productId;

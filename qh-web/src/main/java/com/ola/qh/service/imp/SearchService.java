@@ -18,6 +18,7 @@ import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.ISearchService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.SearchProductVo;
+import com.ola.qh.vo.SearchVo;
 import com.ola.qh.vo.ShopDomain;
 import com.ola.qh.vo.ShopDrugDomain;
 import com.ola.qh.vo.ShopServeDomain;
@@ -26,22 +27,26 @@ public class SearchService implements ISearchService{
 
 	@Autowired
 	private ShopDrugDao shopDrugDao;
+	
 	@Autowired
 	private ShopServeDao shopServeDao;
+	
 	@Autowired
 	private ShopDao shopDao;
 	
 	@Override
 	@Transactional(rollbackFor=Exception.class)
-	public Results<List<SearchProductVo>> searchs(String searchName,String address,String status,int page) {
+	public Results<SearchVo> searchs(String searchName,String address,String status,int page) {
 		// TODO Auto-generated method stub
-		Results<List<SearchProductVo>> result=new Results<List<SearchProductVo>>();
+		Results<SearchVo> result=new Results<SearchVo>();
 		try {
 			int pageSize=5;
 			int pageNo=(page-1)*pageSize;
+			SearchVo searchVo=new SearchVo();
 			List<SearchProductVo> searchList=new ArrayList<SearchProductVo>();
 			
 			if("0".equals(status)){
+				List<SearchProductVo> shoplist=new ArrayList<SearchProductVo>();
 				////如果状态是0的话标识查商品
 				ShopDrugDomain sdd = new ShopDrugDomain();
 				sdd.setPageNo(pageNo);
@@ -55,7 +60,22 @@ public class SearchService implements ISearchService{
 					vo.setProductId(shopDrug.getId());
 					vo.setProductName(shopDrug.getDrugName());
 					vo.setTypeSearch(1);////将来跳转到药品的详情页
+					Shop shop = shopDao.singleShop(null, shopDrug.getShopId(), 0,address);
+					if(shop!=null){
+						SearchProductVo vo1=new SearchProductVo();
+						vo1.setAddress(shop.getAddress());
+						vo1.setImgUrl(shop.getDoorHeadUrl());
+						vo1.setProductId(shop.getId());
+						vo1.setProductName(shop.getShopName());
+						vo1.setGrade(0);
+						vo1.setTypeSearch(3);/////将来跳转店铺的详情页
+						vo1.setShopType("2");
+						shoplist.add(vo1);
+					}
+					
 					searchList.add(vo);
+					
+					
 				}
 				ShopServeDomain ssd=new ShopServeDomain();
 				ssd.setPageNo(pageNo);
@@ -69,19 +89,60 @@ public class SearchService implements ISearchService{
 					vo.setProductId(shopServe.getId());
 					vo.setProductName(shopServe.getServeName());
 					vo.setTypeSearch(2);////将来跳转到服务项目的详情页
+					Shop shop = shopDao.singleShop(null, shopServe.getShopId(), 0,address);
+					if(shop!=null){
+						SearchProductVo vo1=new SearchProductVo();
+						vo1.setAddress(shop.getAddress());
+						vo1.setImgUrl(shop.getDoorHeadUrl());
+						vo1.setProductId(shop.getId());
+						vo1.setProductName(shop.getShopName());
+						vo1.setGrade(0);
+						vo1.setTypeSearch(3);/////将来跳转店铺的详情页
+						vo1.setShopType("1");
+						shoplist.add(vo1);
+					}
 					searchList.add(vo);
+					
 				}
-				result.setData(searchList);
+				
+				ShopDomain sd = new ShopDomain();
+				sd.setShopName(searchName);
+				sd.setPageNo(pageNo);
+				sd.setPageSize(pageSize);
+				sd.setAddress(address);
+				List<Shop> shopList = shopDao.listShop(sd);
+				for (Shop shop : shopList) {
+					SearchProductVo vo1=new SearchProductVo();
+					vo1.setAddress(shop.getAddress());
+					vo1.setImgUrl(shop.getDoorHeadUrl());
+					vo1.setProductId(shop.getId());
+					vo1.setProductName(shop.getShopName());
+					vo1.setGrade(0);
+					vo1.setTypeSearch(3);/////将来跳转店铺的详情页
+					vo1.setShopType(String.valueOf(shop.getShopType()));
+					shoplist.add(vo1);
+				}
+				searchVo.setProductVo(searchList);
+				searchVo.setShopVo(shoplist);
+				result.setData(searchVo);
 				result.setStatus("0");
 				return result;
 			}
 			if("1".equals(status)){
 				/////通过店铺名查店铺
+				/////status==2的时候是商城店铺   status==3的时候是服务店铺
 				ShopDomain sd = new ShopDomain();
 				sd.setShopName(searchName);
 				sd.setPageNo(pageNo);
 				sd.setPageSize(pageSize);
-				sd.setIsrecommend(1);
+				sd.setAddress(address);
+				if("2".equals(status)){
+					sd.setShopType(2);
+					
+				}else if("3".equals(status)){
+					sd.setShopType(1);
+					
+				}
 				List<Shop> shopList = shopDao.listShop(sd);
 				for (Shop shop : shopList) {
 					SearchProductVo vo=new SearchProductVo();
@@ -91,6 +152,7 @@ public class SearchService implements ISearchService{
 					vo.setProductName(shop.getShopName());
 					vo.setGrade(0);
 					vo.setTypeSearch(3);/////将来跳转店铺的详情页
+					vo.setShopType(String.valueOf(shop.getShopType()));
 					searchList.add(vo);
 				}
 				pageSize=2;
@@ -104,14 +166,18 @@ public class SearchService implements ISearchService{
 				for (ShopDrug shopDrug : litDrug) {
 					SearchProductVo vo=new SearchProductVo();
 					vo.setProductId(shopDrug.getShopId());
-					Shop shop = shopDao.singleShop(null, shopDrug.getShopId(), 0);
-					vo.setAddress(shop.getAddress());
-					////////还得加上评分
-					vo.setGrade(0);
-					vo.setProductName(shop.getShopName());
-					vo.setImgUrl(shop.getDoorHeadUrl());
-					vo.setTypeSearch(3);/////将来跳转店铺的详情页
-					searchList.add(vo);
+					Shop shop = shopDao.singleShop(null, shopDrug.getShopId(), 0,null);
+					if(shop!=null){
+						vo.setAddress(shop.getAddress());
+						////////还得加上评分
+						vo.setGrade(0);
+						vo.setProductName(shop.getShopName());
+						vo.setImgUrl(shop.getDoorHeadUrl());
+						vo.setTypeSearch(3);/////将来跳转店铺的详情页
+						vo.setShopType(String.valueOf(shop.getShopType()));
+						searchList.add(vo);
+					}
+					
 				}
 				ShopServeDomain ssd=new ShopServeDomain();
 				ssd.setPageNo(pageNo);
@@ -122,17 +188,22 @@ public class SearchService implements ISearchService{
 					SearchProductVo vo=new SearchProductVo();
 					vo.setProductId(shopServe.getShopId());
 					List<Shop> shop = shopDao.selectShopByUserId(null, shopServe.getShopId(), 0);
-					vo.setAddress(shop.get(0).getAddress());
-					////////还得加上评分
-					vo.setGrade(0);
-					vo.setProductName(shop.get(0).getShopName());
-					vo.setImgUrl(shop.get(0).getDoorHeadUrl());
-					vo.setTypeSearch(3);/////将来跳转店铺的详情页
-					searchList.add(vo);
+					if(shop!=null){
+						vo.setAddress(shop.get(0).getAddress());
+						////////还得加上评分
+						vo.setGrade(0);
+						vo.setProductName(shop.get(0).getShopName());
+						vo.setImgUrl(shop.get(0).getDoorHeadUrl());
+						vo.setTypeSearch(3);/////将来跳转店铺的详情页
+						vo.setShopType(String.valueOf(shop.get(0).getShopType()));
+						searchList.add(vo);
+					}
+					
 				}
 			}
-			
-			result.setData(searchList);
+			/////展示店铺信息
+			searchVo.setProductVo(searchList);
+			result.setData(searchVo);
 			result.setStatus("0");
 			return result;
 			

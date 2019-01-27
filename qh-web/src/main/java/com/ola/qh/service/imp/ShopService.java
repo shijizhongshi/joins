@@ -129,7 +129,7 @@ public class ShopService implements IShopService {
 				return userResult;
 			}
 			///////查用户时候有店铺
-			Shop listshop = shopDao.singleShop(shop.getUserId(), null, shop.getShopType());
+			Shop listshop = shopDao.singleShop(shop.getUserId(), null, shop.getShopType(),null);
 			if(listshop!=null){
 				result.setStatus("1");
 				result.setMessage("该用户已经开通过这种类型的店铺了");
@@ -270,7 +270,7 @@ public class ShopService implements IShopService {
 		/////查用户的服务店铺的首页
 		Results<ShopVo> result=new Results<ShopVo>();
 		ShopVo vo=new ShopVo();
-		Shop shop = shopDao.singleShop(null, shopId, 1);
+		Shop shop = shopDao.singleShop(null, shopId, 1,null);
 		BeanUtils.copyProperties(shop, vo);////店铺的详情
 		double avgGrade=0;
 		if(shopDao.commentGrade(shopId)!=null){

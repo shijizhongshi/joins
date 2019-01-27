@@ -105,6 +105,9 @@
 	<if test="shopType!=0">
 	and shop_type=#{shopType}
 	</if>
+	<if test="address!=null and address!=''">
+	and address like concat(concat('%',#{address},'%'))
+	</if>
 	</select>
 	
 	<select id="listShop" parameterType="com.ola.qh.vo.ShopDomain" resultMap="ShopMap">

@@ -232,7 +232,7 @@ public class IndexController {
 			vo.setLivelist(livelist);
 		}else{
 			CourseClassDomain ccd=new CourseClassDomain();
-			ccd.setCourseTypeName(typeName);
+			ccd.setCourseTypeSubclassName(typeName);
 			ccd.setPageNo(0);
 			ccd.setPageSize(4);
 			/////免费课程的集合

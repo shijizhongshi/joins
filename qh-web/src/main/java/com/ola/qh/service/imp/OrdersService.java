@@ -683,7 +683,7 @@ public class OrdersService implements IOrdersService {
 		}
 		OrdersVo od = new OrdersVo();
 		if (shopType != 0) {
-			Shop shop = shopDao.singleShop(muserId, null, 2);
+			Shop shop = shopDao.singleShop(muserId, null, 2,null);
 			od.setShopLogo(shop.getShopLogo());
 			od.setShopName(shop.getShopName());
 		}
