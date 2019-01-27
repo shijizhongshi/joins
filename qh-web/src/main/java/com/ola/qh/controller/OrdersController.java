@@ -177,7 +177,7 @@ public class OrdersController {
 		ordersVo.setMobile(productVo.getMobile());
 		ordersVo.setReceiver(productVo.getReceiver());
 		ordersVo.setClassStatus(productVo.getClassStatus());
-
+		ordersVo.setUsedoudou(productVo.getUsedoudou());//////使用豆豆的个数
 		Results<List<OrdersPayment>> results = orderService.submitOrders(ordersVo);
 
 		if ("0".equals(results.getStatus())) {

@@ -30,6 +30,8 @@ public class Course {
 	
 	private BigDecimal courseDiscountPrice;////课程折扣价格
 	
+	private int maxdoudou;////购买整个课程最多的豆豆数
+	
 	private String courseYear;////课程年限
 	
 	private int courseShow;////课程是否展示
@@ -52,6 +54,14 @@ public class Course {
 	
 	private int courseStatus;////1:已经购买了
 	
+
+	public int getMaxdoudou() {
+		return maxdoudou;
+	}
+
+	public void setMaxdoudou(int maxdoudou) {
+		this.maxdoudou = maxdoudou;
+	}
 
 	public int getCourseStatus() {
 		return courseStatus;

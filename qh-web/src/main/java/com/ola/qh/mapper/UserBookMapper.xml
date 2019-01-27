@@ -10,10 +10,21 @@
 		<result column="account_money"  property="accountMoney" />
 		<result column="addtime"  property="addtime" />
 		<result column="updatetime"  property="updatetime" />
+		
+		<!-- 已到账的金额 -->
 		<result column="finish_money"  property="finishMoney" />
+		<!-- 提现中金额(待审核) -->
 		<result column="on_money"  property="onMoney" />
+		<!-- 待结算的金额 -->
 		<result column="forthe_money"  property="fortheMoney" />
+		<!-- 可提现的金额 -->
 		<result column="can_withdraw"  property="canWithdraw" />
+		<!-- 总的豆豆数 -->
+		<result column="account_doudou" property="accountDoudou"/>
+		<!-- 可用的豆豆数 -->
+		<result column="canuse_doudou" property="canuseDoudou"/>
+		<!-- 已经用的豆豆数 -->
+		<result column="usered_doudou" property="useredDoudou"/>
 	</resultMap>
 
 	<select id="singleUserBook" resultMap="UserBookMap">
@@ -41,8 +52,46 @@
 		<if test="canWithdraw!=null">
 		can_withdraw=#{canWithdraw},
 		</if>
+		<if test="accountDoudou!=null">
+		account_doudou=#{account_doudou},
+		</if>	
+		<if test="canuseDoudou!=null">
+		canuse_doudou=#{canuseDoudou},
+		</if>
+		<if test="useredDoudou!=null">
+		usered_doudou=#{useredDoudou},
+		</if>
 		updatetime=#{updatetime} where user_id=#{userId}
 	</update>
 
 
+
+
+
+
+<!-- 豆豆的操作开始####################################################### -->
+<resultMap type="com.ola.qh.entity.UserDouDou" id="UserDouDouMap">
+<result column="id" property="id"/>
+<result column="user_id" property="userId"/>
+<result column="status" property="status"/>
+<result column="doudou" property="doudou"/>
+<result column="describe" property="describe"/>
+<result column="addtime" property="addtime"/>
+
+</resultMap>
+<insert id="insertDoudou" parameterType="com.ola.qh.entity.UserDouDou">
+insert into user_doudou(id,user_id,status,doudou,describe,addtime)
+values(#{id},#{userId},#{status},#{doudou},#{describe},#{addtime})
+</insert>
+
+<select id="listDoudou" resultMap="UserDouDouMap">
+select * from user_doudou where user_id=#{userId}
+order by addtime desc
+<if test="pageSize!=0">
+limit #{pageNo},#{pageSize}
+</if>
+
+</select>
+
+<!-- 豆豆的操作结束####################################################### -->
 </mapper>

@@ -22,6 +22,40 @@ public class UserBook {
 	private BigDecimal fortheMoney;//待结算金额
 	
 	private BigDecimal canWithdraw;//可提现金额
+	
+	private String  accountDoudou;////豆豆的总数
+	
+	private String canuseDoudou;////可用的豆豆数
+	
+	private String useredDoudou;////已经用的豆豆数
+	
+	
+
+	
+
+	public String getAccountDoudou() {
+		return accountDoudou;
+	}
+
+	public void setAccountDoudou(String accountDoudou) {
+		this.accountDoudou = accountDoudou;
+	}
+
+	public String getCanuseDoudou() {
+		return canuseDoudou;
+	}
+
+	public void setCanuseDoudou(String canuseDoudou) {
+		this.canuseDoudou = canuseDoudou;
+	}
+
+	public String getUseredDoudou() {
+		return useredDoudou;
+	}
+
+	public void setUseredDoudou(String useredDoudou) {
+		this.useredDoudou = useredDoudou;
+	}
 
 	public String getId() {
 		return id;

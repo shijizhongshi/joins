@@ -56,4 +56,6 @@ public interface OrdersDao {
 	public int updateQrcode(
 			@Param("id")String id,
 			@Param("qrcode")String qrcode);
+	
+	public int deleteOrders(@Param("id")String id);
 }

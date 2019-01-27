@@ -47,7 +47,16 @@ public class OrdersCartDomain{
 	
 	private int classStatus;/////1:表示的是全套的课程 0:不处理
 	
+	private int usedoudou;////使用豆豆的个数
 	
+	
+	
+	public int getUsedoudou() {
+		return usedoudou;
+	}
+	public void setUsedoudou(int usedoudou) {
+		this.usedoudou = usedoudou;
+	}
 	public String getRecommendTeacher() {
 		return recommendTeacher;
 	}

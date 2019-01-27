@@ -32,6 +32,18 @@ public class ProductBuyDomain {
 
 	private List<String> courseId;////一个订单里边有好几个课程的id
 	
+	private int usedoudou;////使用的豆豆数量
+	
+	
+	
+	public int getUsedoudou() {
+		return usedoudou;
+	}
+
+	public void setUsedoudou(int usedoudou) {
+		this.usedoudou = usedoudou;
+	}
+
 	public List<String> getCourseId() {
 		return courseId;
 	}

@@ -35,6 +35,7 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.UserBook;
+import com.ola.qh.entity.UserDouDou;
 import com.ola.qh.entity.UserIntomoneyHistory;
 import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IOrdersService;
@@ -102,6 +103,7 @@ public class OrdersService implements IOrdersService {
 			List<Orders> ordersList = ordersVo.getOrdersList();
 			BigDecimal totalPrice = BigDecimal.ZERO;
 			int count = 0;
+			int totaldoudou=0;
 			List<OrdersPayment> oplist = new ArrayList<OrdersPayment>();
 			String extransno = String.valueOf(KeyGen.next18());
 			for (Orders orders : ordersList) {
@@ -182,6 +184,7 @@ public class OrdersService implements IOrdersService {
 								ordersProduct.setProductPrice(classs.getClassDiscountPrice());
 								prices = prices.add(classs.getClassDiscountPrice()).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(classs.getClassDiscountPrice());
+								totaldoudou=totaldoudou+classs.getMaxdoudou();
 							}else{
 								Course course = courseDao.singleCourse(ordersProduct.getProductId());
 								ordersProduct.setProductImg(course.getCourseImg());
@@ -189,6 +192,7 @@ public class OrdersService implements IOrdersService {
 								ordersProduct.setProductPrice(course.getCourseDiscountPrice());
 								prices = prices.add(course.getCourseDiscountPrice()).setScale(2, BigDecimal.ROUND_DOWN);
 								ordersProduct.setPayout(course.getCourseDiscountPrice());
+								totaldoudou=totaldoudou+course.getMaxdoudou();
 							}
 							
 							////// count 记得传1
@@ -243,9 +247,57 @@ public class OrdersService implements IOrdersService {
 					oplist.add(op);/////
 				}
 			}
+			OrdersDomain od=new OrdersDomain();
+			od.setUserId(ordersVo.getUserId());
+			od.setOrdersType(ordersVo.getOrdersType());
+			od.setPageNo(0);
+			od.setPageSize(1);
+			if(ordersVo.getUsedoudou()>0 ){
+				UserBook ub = userBookDao.singleUserBook(ordersVo.getUserId());
+				//////用户用的doudou /////允许使用豆豆的上限
+				//////删除订单的信息
+				List<Orders> orders = ordersDao.ordersList(od);
+				///////上传刚刚保存的订单信息
+				ordersDao.deleteOrders(orders.get(0).getId());
+				if(ordersVo.getUsedoudou()>totaldoudou){
+					result.setStatus("1");
+					result.setMessage("使用豆豆的数量超过豆豆可使用豆豆的上~");
+					return result;
+				}
+				if(ordersVo.getUsedoudou()>Integer.valueOf(ub.getCanuseDoudou())){
+					result.setStatus("1");
+					result.setMessage("使用豆豆的数量超过豆豆可使用豆豆的上~");
+					return result;
+				}
+				if(ordersVo.getUsedoudou()<=totaldoudou && ordersVo.getUsedoudou()<=Integer.valueOf(ub.getCanuseDoudou())){
+				/////动豆豆的兑换记录
+					UserDouDou udd=new UserDouDou();
+					udd.setId(KeyGen.uuid());
+					udd.setAddtime(new Date());
+					udd.setDoudou(ordersVo.getUsedoudou());
+					udd.setStatus(2);////2兑换的
+					udd.setDescribe("兑换课程使用豆豆");
+					udd.setUserId(ordersVo.getUserId());
+					userBookDao.insertDoudou(udd);
+					
+					UserBook ubnew=new UserBook();
+					ubnew.setUserId(ordersVo.getUserId());
+					ubnew.setUseredDoudou(String.valueOf(ordersVo.getUsedoudou()+Integer.valueOf(ub.getUseredDoudou())));
+					ubnew.setCanuseDoudou(String.valueOf(Integer.valueOf(ub.getCanuseDoudou())-ordersVo.getUsedoudou()));
+					ubnew.setUpdatetime(new Date());
+					userBookDao.updateUserBook(ubnew);
+					
+				}
+				
+				
+			}
 			int r = totalPrice.compareTo(ordersVo.getTotalPayout());
 			if (r != 0) {
-				/////// 前端传过来的订单总金额和实际计算的不符
+				 /////// 前端传过来的订单总金额和实际计算的不符
+			    //////删除订单的信息
+				List<Orders> orders = ordersDao.ordersList(od);
+				///////上传刚刚保存的订单信息
+				ordersDao.deleteOrders(orders.get(0).getId());
 				result.setStatus("1");
 				result.setMessage("订单总金额和实际计算的金额不符");
 				return result;

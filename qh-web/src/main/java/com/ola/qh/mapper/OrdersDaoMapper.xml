@@ -98,7 +98,9 @@
 	limit #{pageNo},#{pageSize}
 	</select>
 	
-	
+	<delete id="deleteOrders">
+	delete from orders where id=#{id}
+	</delete>
 	
 	<select id="ordersListCount" resultType="int">
 	select count(id) from orders

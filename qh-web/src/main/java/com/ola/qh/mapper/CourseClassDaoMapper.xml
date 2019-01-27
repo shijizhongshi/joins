@@ -18,6 +18,7 @@
 	<result column="features" property="features"/>
 	<result column="introduce" property="introduce"/>
 	<result column="detail" property="detail"/>
+	<result column="maxdoudou" property="maxdoudou"/>
 	</resultMap>
 	
 	<sql id="sql_base">
@@ -47,7 +48,7 @@
 	</select>
 	
 	<select id="classSingle" resultMap="CourseClassMap">
-	select <include refid="sql_base"></include>,course_type_name,course_type_subclass_name,proper_people,
+	select <include refid="sql_base"></include>,maxdoudou,course_type_name,course_type_subclass_name,proper_people,
 	promises,features,introduce,detail from course_class where id=#{id} and isshow=1
 	</select>
 	<!-- 班级课程开始 -->

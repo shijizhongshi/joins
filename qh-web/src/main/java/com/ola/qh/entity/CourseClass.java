@@ -29,6 +29,17 @@ public class CourseClass {
 	private String introduce;////介绍
 	
 	private String detail;///详情
+	
+	private int maxdoudou;////购买整个课程最多的豆豆数
+	
+
+	public int getMaxdoudou() {
+		return maxdoudou;
+	}
+
+	public void setMaxdoudou(int maxdoudou) {
+		this.maxdoudou = maxdoudou;
+	}
 
 	public String getId() {
 		return id;
