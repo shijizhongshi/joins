@@ -105,6 +105,7 @@ public class UserWithdrawService implements IUserWithdrawService {
 					UserWeixinBinding userBinding=userBindingDao.selectUserBinding(userwithdraw.getUserId());
 					if(userBinding.getOpenId()!=null && !"".equals(userBinding.getOpenId())){
 						userwithdraw.setOpenId(userBinding.getOpenId());
+						userwithdraw.setWeixinnickname(userBinding.getNickname());
 					}else{
 						results.setMessage("微信没有被绑定~");
 						results.setStatus("1");
@@ -151,7 +152,11 @@ public class UserWithdrawService implements IUserWithdrawService {
 			userwithdraw.setId(KeyGen.uuid());
 			userwithdraw.setPayStatus(0);
 			userWithdrawDao.saveUserWithdraw(userwithdraw);
-			
+			if(userwithdraw.getTypes()==1){
+				results.setMessage(userwithdraw.getAliaccount());
+			}else if(userwithdraw.getTypes()==2){
+				results.setMessage(userwithdraw.getWeixinnickname());
+			}
 			results.setStatus("0");
 			return results;
 

@@ -54,6 +54,21 @@ public class Doctors {
 	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 
 	private double grade;
+	@NotEmpty(message="请选择入驻的类别")
+	private String category;/////医师or护士or医师
+	
+	
+	
+	public String getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
 	public List<DoctorPatient> getList() {
 		return list;
 	}

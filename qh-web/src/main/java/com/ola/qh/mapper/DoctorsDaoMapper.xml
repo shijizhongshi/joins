@@ -30,10 +30,11 @@
 		<result column="addtime" property="addtime" />
 		<result column="doctor_id" property="doctorId" />
 		<result column="patient_id" property="patientId" />
+		<result column="category" property="category"/>
 	</resultMap>
 
 	<sql id="sql_base">
-		id,name,user_id,head_img,professional,offices,hospital,signs
+		id,name,user_id,head_img,professional,offices,hospital,signs,category
 	</sql>
 
 	<select id="doctorsCount" resultType="int">
@@ -43,10 +44,10 @@
 	<insert id="doctorsInsert" parameterType="com.ola.qh.entity.Doctors">
 		insert into
 		doctors(id,name,head_img,user_id,sexs,edu,school,hospital,offices,professional,signs,
-		skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime,address)
+		skilled,idcard,front_idcard_img,reverse_idcard_img,professional_img,practice_img,else_img,addtime,address,category)
 		values(#{id},#{name},#{headImg},#{userId},#{sexs},#{edu},#{school},#{hospital},#{offices},#{professional},
 		#{signs},#{skilled},#{idcard},#{frontIdcardImg},#{reverseIdcardImg},#{professionalImg},#{practiceImg},
-		#{elseImg},#{addtime},#{address})
+		#{elseImg},#{addtime},#{address},#{category})
 	</insert>
 	<!-- 全查 -->
 	<select id="listDoctor" resultMap="DoctorsMap">
