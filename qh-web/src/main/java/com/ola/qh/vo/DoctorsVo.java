@@ -3,7 +3,7 @@ package com.ola.qh.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ola.qh.entity.DoctorReply;
+import com.ola.qh.entity.Reply;
 
 public class DoctorsVo {
 
@@ -22,7 +22,7 @@ public class DoctorsVo {
 	private String skilled;///擅长技能
 	
 
-	private List<DoctorReply> list=new ArrayList<DoctorReply>();
+	private List<Reply> list=new ArrayList<Reply>();
 
 
 	public String getDoctorId() {
@@ -95,12 +95,12 @@ public class DoctorsVo {
 	}
 
 
-	public List<DoctorReply> getList() {
+	public List<Reply> getList() {
 		return list;
 	}
 
 
-	public void setList(List<DoctorReply> list) {
+	public void setList(List<Reply> list) {
 		this.list = list;
 	}
 	

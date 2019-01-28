@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.DoctorInfo;
-import com.ola.qh.entity.DoctorReply;
+import com.ola.qh.entity.Reply;
 import com.ola.qh.service.IDoctorReplyService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.DoctorReplyVo;
 
@@ -62,15 +63,15 @@ public class DoctorReplyController {
 	 * @param patientId
 	 * @return
 	 */
-	@RequestMapping("/reply/single")
+	/*@RequestMapping("/reply/single")
 	public Results<DoctorReplyVo> singleReplyPatient(
 			@RequestParam(name="patientId",required=true)String patientId,
 			@RequestParam(name="userId",required=false)String userId){
 		return doctorReplyService.singleReply(patientId,userId);////这个表示的是问答的详情(所有问答)
-	}
+	}*/
 	
 	@RequestMapping(value="/save/reply",method=RequestMethod.POST)
-	public Results<String> insertReply(@RequestBody @Valid DoctorReply dr,BindingResult valid){
+	public Results<String> insertReply(@RequestBody @Valid Reply dr,BindingResult valid){
 		
 		Results<String> result=new Results<String>();
 		if(valid.hasErrors()){
@@ -80,6 +81,36 @@ public class DoctorReplyController {
 		}
 		return doctorReplyService.insertReply(dr);
 		
+	}
+	
+	@RequestMapping(value="/reply/list",method=RequestMethod.GET)
+	public Results<List<Reply>> listReply(@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="patientId",required=true)String patientId,
+			@RequestParam(name="userId",required=false)String userId){
+		
+		Results<List<Reply>> result=new Results<List<Reply>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
+		List<Reply> list=doctorReplyService.listReply(patientId, pageNo, pageSize, userId);
+		result.setStatus("0");
+		result.setData(list);
+		return result;
+		
+	}
+	/**
+	 * 
+	 * @param id
+	 * @param likes 1:增加   其他:减少
+	 * @return
+	 */
+	@RequestMapping(value="/reply/update",method=RequestMethod.GET)
+	public Results<String> updateReply(
+			@RequestParam(name="id",required=true)String id,
+			@RequestParam(name="userId",required=true)String userId){
+		Results<String> result=new Results<String>();
+		doctorReplyService.updateReply(id, userId);
+		result.setStatus("0");
+		return result;
 	}
 	
 	

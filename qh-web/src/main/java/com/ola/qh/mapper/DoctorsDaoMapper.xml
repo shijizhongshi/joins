@@ -74,17 +74,16 @@
 	</select>
 	
 
-	<!-- 寻医问药专用查询 -->
+	<!-- 寻医问药专用查询 
 	<select id="listRecommendDoctor" resultMap="DoctorsMap">
 		select name,id,head_img,professional,hospital from doctors where isrecommend=1 limit 3
 	</select>
 	
-	<!-- 根据科室查医生 -->
+	 根据科室查医生
 	<resultMap type="com.ola.qh.vo.DoctorAndPatient" id="DoctorAndPatientMap">
 		<result column="title" property="title" />
 		<result column="addtime" property="addtime" />
 		<result column="patient_id" property="patientId" />
-		<result column="offices" property="offices" />
 		<result column="read_status" property="readStatus" />
 		<result column="newsId" property="newsId" />
 	</resultMap>
@@ -100,16 +99,17 @@
 		</if>
 		group by drp.patient_id order by addtime desc
 	</select>
+	-->
 	
-	
-	<select id="DoctorPatientsList" resultMap="DoctorAndPatientMap">
-		select drp.patient_id patientId,dp.title title,dp.addtime addtime 
-		from doctor_reply_patient drp 
-		left join doctor_patient dp on drp.patient_id=dp.id 
-		where  newsId=#{newsId} 
-		group by drp.patient_id order by addtime desc
+	 <select id="DoctorPatientsList" resultMap="DoctorPatientMap">
+		select * from doctor_patient 
+		where 1=1
+		<if test="topSearch!=null and topSearch!=''">
+		and (title LIKE CONCAT(CONCAT('%',#{topSearch},'%')) or describes LIKE CONCAT(CONCAT('%',#{topSearch},'%')))
+		</if>	
+		order by addtime desc
 	</select>
-	<!-- 小铃铛！！！ -->
+	<!--小铃铛！！！ 
 	<select id="existReadStatus" resultMap="DoctorAndPatientMap">
 		select read_status from doctor_reply_patient drp left join doctor_patient dp on drp.patient_id=dp.id where user_id=#{userId}
 	</select>
@@ -122,6 +122,7 @@
 	<select id="commentGrade" resultType="java.lang.Double">
 	select round(AVG(grade),1) from user_comment where doctor_id=#{doctorId}
 	</select>
+	 -->
 	<!-- update -->
 	<update id="updateDoctors" parameterType="com.ola.qh.entity.Doctors">
 		update doctors set
@@ -199,58 +200,52 @@
 		<result column="user_id" property="userId" />
 		<result column="title" property="title" />
 		<result column="describes" property="describes" />
-		<result column="offices" property="offices"/>
-		<result column="ages" property="ages" />
-		<result column="sexs" property="sexs" />
-		<result column="times" property="times" />
-		<result column="issolve" property="issolve" />
-		<result column="doctor_id" property="doctorId"/>
 		<result column="addtime" property="addtime" />
+		<result column="category" property="category"/>
+		<result column="likes" property="likes"/><!-- 点赞个数 -->
+		<result column="publisher" property="publisher"/>
+		<result column="publisher_head_img" property="publisherHeadImgUrl"/>
+		<result column="publisher_position" property="publisherPosition"/>
 	</resultMap>
 
 	<sql id="patientsql_base">
-		user_id,title,describes,ages,sexs,times,issolve
+		id,user_id,title,describes,category,likes,publisher,publisher_head_img,publisher_position,addtime
 	</sql>
 
 	<!-- 患者信息 -->
 	<insert id="insertPatient" parameterType="com.ola.qh.entity.DoctorPatient">
 		insert into doctor_patient(
-		id,<include refid="patientsql_base"></include>
-		,addtime,offices,doctor_id)
-		values(#{id},#{userId},#{title},#{describes},#{ages},#{sexs},#{times},#{issolve},#{addtime},#{offices},#{doctorId})
+		<include refid="patientsql_base"></include>)
+		values(#{id},#{userId},#{title},#{describes},#{category},#{likes},#{publisher},#{publisherHeadImgUrl},#{publisherPosition},#{addtime})
 	</insert>
 	<select id="singlePatient" resultMap="DoctorPatientMap">
-	select id,<include refid="patientsql_base"></include>,addtime from doctor_patient where id=#{id}
+	select <include refid="patientsql_base"></include> from doctor_patient where id=#{id}
 	</select>
 	
-	<select id="selectPatient" resultMap="DoctorPatientMap">
-	select id,<include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve} and doctor_id is null
-	</select>
+	<!--  <select id="selectPatient" resultMap="DoctorPatientMap">
+	select <include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve} and doctor_id is null
+	</select>-->
 	
 	<!-- 我的问诊 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
-		select dp.id,<include refid="patientsql_base"></include>,drp.read_status readStatus from doctor_patient dp 
-		left join doctor_reply_patient drp on drp.patient_id=dp.id
+		select <include refid="patientsql_base"></include> from doctor_patient dp 
 		where 1=1 
 		<if test="userId!=null and userId!=''">
 		and	dp.user_id=#{userId}
 		</if>
-		<if test="doctorId!=null and doctorId!='' ">
-		and drp.doctor_id=#{doctorId}
+		<if test="category!=null and category!='' ">
+		and category=#{category}
 		</if>
-		<if test="issolve!=null and issolve!='' ">
-		and dp.issolve=#{issolve}
-		</if>
-		group by drp.patient_id 
+		order by addtime desc
 		<if test="pageSize!=0">
-			limit #{pageNo},#{pageSize}
+		limit #{pageNo},#{pageSize}
 		</if>
 	</select>
 
-	<update id="updatePatient" parameterType="com.ola.qh.entity.DoctorPatient">
+	<update id="updatePatient">
 		update doctor_patient set
-		<if test="issolve">
-		issolve=#{issolve},
+		<if test="likes!=0">
+		likes=#{likes},
 		</if>
 		updatetime=#{updatetime}
 		where id=#{id}

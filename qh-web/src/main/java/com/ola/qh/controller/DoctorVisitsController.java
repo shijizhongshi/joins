@@ -18,14 +18,14 @@ public class DoctorVisitsController {
 	@Autowired
 	private IDoctorVisitsService doctorVisitsService;
 	
-	@RequestMapping(value="/select",method=RequestMethod.GET)
+	/*@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<DoctorVisitsVo> selectDoctorVisits(@RequestParam(name="offices",required=false)String offices,
 			@RequestParam(name="issolve",required=true)int issolve,@RequestParam(name="userId",required=true)String userId){
 		
 		return doctorVisitsService.selectDoctorVisits(offices,issolve,userId);
 	}
-	
-	@RequestMapping(value="/selectpatientlist",method=RequestMethod.GET)
+	*/
+	/*@RequestMapping(value="/selectpatientlist",method=RequestMethod.GET)
 	public Results<DoctorAndPatients> DoctorPatientList(@RequestParam(name="title",required=false)String title,
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="address",required=false)String address,
@@ -35,5 +35,5 @@ public class DoctorVisitsController {
 		
 		
 		return doctorVisitsService.DoctorPatientList(title, page, address, professional, offices, name);
-	}
+	}*/
 }

@@ -16,7 +16,7 @@ public class TopicSquare {
 	
 	private String content;
 	
-	private List<DoctorAndPatient> list=new ArrayList<DoctorAndPatient>();
+	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 
 	public String getId() {
 		return id;
@@ -42,20 +42,21 @@ public class TopicSquare {
 		this.content = content;
 	}
 
-	public List<DoctorAndPatient> getList() {
-		return list;
-	}
-
-	public void setList(List<DoctorAndPatient> list) {
-		this.list = list;
-	}
-
+	
 	public String getImgUrl() {
 		return imgUrl;
 	}
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public List<DoctorPatient> getList() {
+		return list;
+	}
+
+	public void setList(List<DoctorPatient> list) {
+		this.list = list;
 	}
 	
 	

@@ -1,13 +1,13 @@
 package com.ola.qh.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.DoctorInfo;
-import com.ola.qh.entity.DoctorPatient;
-import com.ola.qh.entity.DoctorReply;
-import com.ola.qh.vo.DoctorsVo;
+import com.ola.qh.entity.Reply;
+import com.ola.qh.entity.UserLikes;
 
 public interface DoctorReplyDao {
 	
@@ -15,26 +15,39 @@ public interface DoctorReplyDao {
 
 	public List<DoctorInfo> doctorInfoList();
 	
-	public List<DoctorPatient> replyPatientList(
-			@Param("doctorId")String doctorId,
+	public int insertLikes(
+			@Param("id")String id,
+			@Param("userId")String userId,
+			@Param("productId")String productId,
+			@Param("addtime")Date addtime);
+	
+	
+	public UserLikes singleLikes(@Param("userId")String userId,
+			@Param("productId")String productId);
+	
+	public List<Reply> replyList(
+			@Param("patientId")String patientId,
 			@Param("pageNo")int pageNo,
 			@Param("pageSize")int pageSize);
 	
-	public List<DoctorsVo> doctorReplyList(@Param("patientId")String patientId);
+	public int replyListCount(@Param("patientId")String patientId);
 	
-	public List<DoctorReply> listByIds(
+	public Reply replySingle(@Param("id")String id);
+	
+	/*public List<DoctorsVo> doctorReplyList(@Param("patientId")String patientId);
+	
+	public List<Reply> listByIds(
 			@Param("patientId") String patientId,
-			@Param("doctorId") String doctorId);
+			@Param("doctorId") String doctorId);*/
 	
-	public int insertReply(DoctorReply dr);
+	public int insertReply(Reply dr);
 	
-	public Integer existDoctor(@Param("doctorId") String doctorId);
+/*	public Integer existDoctor(@Param("doctorId") String doctorId);
 	
-	public Integer existPatient(@Param("patientId") String patientId);
+	public Integer existPatient(@Param("patientId") String patientId);*/
 	
-	public int updateReadStatus(
-			@Param("readStatus")String readStatus,
-			@Param("patientId")String patientId,
-			@Param("doctorId")String doctorId,
-			@Param("browseCount") int browseCount);
+	public int updateReply(
+			@Param("likes")int likes,
+			@Param("updatetime")Date updatetime,
+			@Param("id")String id);
 }

@@ -6,12 +6,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class DoctorReply {
+public class Reply {
 
 	private String id;
 	
 	@NotEmpty
-	private String doctorId;
+	private String userId;
 	@NotEmpty
 	private String patientId;
 	@NotEmpty
@@ -19,39 +19,67 @@ public class DoctorReply {
 	
 	private Date addtime;
 
-
-	private int browseCount;
+	private int likes;////点赞个数
 	
-	private int readStatus;///1:已读
+	@NotNull
+	private int type;///1:评论 2;回复
 	
 	private String showtime;
-	@NotNull
-	private int types;///0:医生的回复   1:患者的回复
+
+	public String replyName;
+	
+	private String replyHeadImg;
+	
+	private int islikes;///1:点过赞   0:没有
 	
 	
 
-	public int getTypes() {
-		return types;
+	public int getIslikes() {
+		return islikes;
 	}
 
-	public void setTypes(int types) {
-		this.types = types;
+	public void setIslikes(int islikes) {
+		this.islikes = islikes;
 	}
 
-	public int getBrowseCount() {
-		return browseCount;
+	public String getReplyName() {
+		return replyName;
 	}
 
-	public void setBrowseCount(int browseCount) {
-		this.browseCount = browseCount;
+	public void setReplyName(String replyName) {
+		this.replyName = replyName;
 	}
 
-	public int getReadStatus() {
-		return readStatus;
+	public String getReplyHeadImg() {
+		return replyHeadImg;
 	}
 
-	public void setReadStatus(int readStatus) {
-		this.readStatus = readStatus;
+	public void setReplyHeadImg(String replyHeadImg) {
+		this.replyHeadImg = replyHeadImg;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 
 	public String getShowtime() {
@@ -78,13 +106,6 @@ public class DoctorReply {
 		this.id = id;
 	}
 
-	public String getDoctorId() {
-		return doctorId;
-	}
-
-	public void setDoctorId(String doctorId) {
-		this.doctorId = doctorId;
-	}
 
 	public String getPatientId() {
 		return patientId;

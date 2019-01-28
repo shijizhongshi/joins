@@ -11,6 +11,7 @@ import com.ola.qh.dao.DoctorVisitsDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.UserFavoriteDao;
+import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.Doctors;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.TopicSquare;
@@ -88,20 +89,9 @@ public class NewsService implements INewsService {
 		try {
 		List<TopicSquare> TopicSquarelist=newsDao.topicSquare(pageNo, pageSize);
 		
-		
 		for (TopicSquare topicSquare : TopicSquarelist) {
 			
-			List<DoctorAndPatient> list=doctorsDao.DoctorPatientsList(topicSquare.getId());
-			
-			for (DoctorAndPatient doctorAndPatient : list) {
-				
-				
-				
-				List<Doctors> doctorList=doctorsDao.selectDoctorId(doctorAndPatient.getPatientId());
-					
-				doctorAndPatient.setList(doctorList);
-				
-				}
+			List<DoctorPatient> list=doctorsDao.DoctorPatientsList(topicSquare.getTitle());
 			
 			topicSquare.setList(list);
 		}
