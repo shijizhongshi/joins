@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.JobFairDao">
+	<resultMap type="com.ola.qh.entity.JobFair" id="JobFairMap">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="company" property="company"/>
+		<result column="position" property="position"/>
+		<result column="skill" property="skill"/>
+		<result column="education" property="education"/>
+		<result column="experience" property="experience"/>
+		<result column="salary_range" property="salaryRange"/>
+		<result column="welfare" property="welfare"/>
+		<result column="mobile" property="mobile"/>
+		<result column="address" property="address"/>
+		<result column="position_info" property="positionInfo"/>
+		<result column="addtime" property="addtime"/>
+		<result column="updatetime" property="updatetime"/>
+	</resultMap>
+	
+	<select id="selectJob" resultMap="JobFairMap">
+		select id,user_id,company,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime from job_fair
+		where 1=1 
+		<if test="id!=null and id!=''">
+		and id=#{id}
+		</if>
+		<if test="userId!=null and userId!=''">
+		and user_id=#{userId}
+		</if>
+		<if test="company!=null and company!=''">
+		and company LIKE CONCAT(CONCAT('%',#{company},'%'))
+		</if>
+		<if test="education!=null and education!=''">
+		and education=#{education}
+		</if>
+		<if test="experience!=null and experience!=''">
+		and experience=#{experience}
+		</if>
+		<if test="salaryRange!=null and salaryRange!=''">
+		and salary_range=#{salaryRange}
+		</if>
+		<if test="position!=null and position!=''">
+		and position LIKE CONCAT(CONCAT('%',#{position},'%'))
+		</if>
+		order by addtime desc
+		limit #{pageNo},#{pageSize}
+		
+	</select>
+
+	<insert id="insertJobFair" parameterType="com.ola.qh.entity.JobFair">
+		insert into job_fair(id,user_id,company,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime) 
+		values(#{id},#{userId},#{company},#{position},#{skill},#{education},#{experience},#{salaryRange},#{welfare},#{mobile},#{address},#{positionInfo},#{addtime})
+	</insert>
+	
+	<update id="updateJobFair" parameterType="com.ola.qh.entity.JobFair">
+		update job_fair set 
+		<if test="company!=null and company!=''">
+		company=#{company},
+		</if>
+		<if test="position!=null and position!=''">
+		position=#{position},
+		</if>
+		<if test="skill!=null and skill!=''">
+		skill=#{skill},
+		</if>
+		<if test="education!=null and education!=''">
+		education=#{education},
+		</if>
+		<if test="experience!=null and experience!=''">
+		experience=#{experience},
+		</if>
+		<if test="salaryRange!=null and salaryRange!=''">
+		salary_range=#{salaryRange},
+		</if>
+		<if test="welfare!=null and welfare!=''">
+		welfare=#{welfare},
+		</if>
+		<if test="mobile!=null and mobile!=''">
+		mobile=#{mobile},
+		</if>
+		<if test="address!=null and address!=''">
+		address=#{address},
+		</if>
+		<if test="positionInfo!=null and positionInfo!=''">
+		position_info=#{positionInfo},
+		</if>
+		updatetime=#{updatetime} where id=#{id}
+	</update>
+	
+	<delete id="deleteJobFair">
+		delete from job_fair where id=#{id}
+	</delete>
+</mapper>
