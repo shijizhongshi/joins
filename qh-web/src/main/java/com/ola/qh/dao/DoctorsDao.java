@@ -18,6 +18,7 @@ public interface DoctorsDao {
 	public List<DoctorPatient> listPatient(
 			@Param("userId")String userId,
 			@Param("category")String category,
+			@Param("searchName")String searchName,
 			@Param("pageNo")int pageNo,
 			@Param("pageSize")int pageSize);
 	

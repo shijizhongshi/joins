@@ -27,7 +27,7 @@ public interface IDoctorsService {
 	
 	public Results<String> patientSaveUpdate(DoctorPatient dp);
 	
-	public List<DoctorPatient> listPatient(String userId,String category,int pageNo,int pageSize);
+	public List<DoctorPatient> listPatient(String userId,String category,String searchName,int pageNo,int pageSize);
 	
 	public DoctorPatient singlePatient(String id);
 	
