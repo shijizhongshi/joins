@@ -120,9 +120,14 @@ public class DoctorsService implements IDoctorsService{
 			UserLikes ul = doctorReplyDao.singleLikes(dp.getUserId(), dp.getId());
 			
 			if(ul==null){
+				
+				
 				doctorsDao.updatePatient(dpnew.getLikes()+1, new Date(), dp.getId());
+				doctorReplyDao.insertLikes(KeyGen.uuid(), dp.getUserId(), dp.getId(), new Date());
 			}else{
+				
 				doctorsDao.updatePatient(dpnew.getLikes()-1, new Date(), dp.getId());
+				doctorReplyDao.deleteLikes(ul.getId());
 			}
 			
 			
@@ -163,9 +168,9 @@ public class DoctorsService implements IDoctorsService{
 		
 
 	@Override
-	public List<DoctorPatient> listPatient(String userId,String category, int pageNo, int pageSize) {
+	public List<DoctorPatient> listPatient(String userId,String category,String searchName, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		List<DoctorPatient> list = doctorsDao.listPatient(userId,category, pageNo, pageSize);
+		List<DoctorPatient> list = doctorsDao.listPatient(userId,category,searchName,pageNo,pageSize);
 		for (DoctorPatient doctorPatient : list) {
 			UserLikes ul = doctorReplyDao.singleLikes(userId, doctorPatient.getId());
 			if(ul==null){

@@ -111,7 +111,6 @@ public class DoctorReplyController {
 		doctorReplyService.updateReply(id, userId);
 		result.setStatus("0");
 		return result;
-	}
-	
+	}	
 	
 }

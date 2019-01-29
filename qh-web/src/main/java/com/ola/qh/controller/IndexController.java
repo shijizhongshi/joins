@@ -21,7 +21,6 @@ import com.ola.qh.dao.ShopDrugImgDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.entity.Banner;
-import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
@@ -244,7 +243,7 @@ public class IndexController {
 			ccdlive.setIsremmend(1);
 			ccdlive.setPageNo(0);
 			ccdlive.setPageSize(4);
-			ccd.setCourseTypeName(typeName);
+			/*ccd.setCourseTypeSubclassName(typeName);*/
 			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
 			vo.setLivelist(livelist);
 		}
@@ -255,8 +254,6 @@ public class IndexController {
 		return result;
 		
 	}
-	
-	
 	/**
 	 * 
 	 * <p>Title: getTime</p>  

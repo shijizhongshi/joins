@@ -226,7 +226,7 @@
 	select <include refid="patientsql_base"></include> from doctor_patient where issolve=#{issolve} and doctor_id is null
 	</select>-->
 	
-	<!-- 我的问诊 -->
+	<!-- 问题的集合 -->
 	<select id="listPatient" resultMap="DoctorPatientMap">
 		select <include refid="patientsql_base"></include> from doctor_patient dp 
 		where 1=1 
@@ -236,6 +236,9 @@
 		<if test="category!=null and category!='' ">
 		and category=#{category}
 		</if>
+		<if test="searchName!=null and searchName!='' ">
+		and (title like CONCAT(CONCAT('%',#{searchName},'%')) or describes like CONCAT(CONCAT('%',#{searchName},'%')))
+		</if>	
 		order by addtime desc
 		<if test="pageSize!=0">
 		limit #{pageNo},#{pageSize}

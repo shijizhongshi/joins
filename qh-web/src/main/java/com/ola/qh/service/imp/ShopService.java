@@ -244,7 +244,6 @@ public class ShopService implements IShopService {
 		}else{
 			listshop=shopDao.listShop(sd);
 		}
-
 		if(sd.getShopType()==1){
 			/////只有服务店铺才会有评论信息
 			for (Shop shop1 : listshop) {

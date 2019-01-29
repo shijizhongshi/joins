@@ -85,7 +85,7 @@ public class ShopController {
 		return result;
 	}
 	/**
-	 * 一般都是服务店铺的查询
+	 * 所有店铺的查询
 	 * <p>Title: listShop</p>  
 	 * <p>Description: </p>  
 	 * @param page
