@@ -40,4 +40,10 @@ public class JobFairService implements IJobFairService{
 		return jobFairDao.deleteJobFair(id);
 	}
 
+	@Override
+	public int insertJobApply(JobFair jobFair) {
+		
+		return jobFairDao.insertJobApply(jobFair);
+	}
+
 }

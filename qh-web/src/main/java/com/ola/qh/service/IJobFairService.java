@@ -10,6 +10,8 @@ public interface IJobFairService {
 	public List<JobFair> selectJob(String id,String userId,String company,String education,
 			String experience,String salaryRange,String position,int pageNo,int pageSize);
 	
+	public int insertJobApply(JobFair jobFair);
+	
 	public int insertJobFair(JobFair jobFair);
 	
 	public int updateJobFair(JobFair jobFair);
