@@ -12,20 +12,10 @@ public class DoctorPatient {
 	
 	@NotEmpty
 	private String userId;
-	@NotEmpty
+	
 	private String title;
-	
+	@NotEmpty
 	private String describes;
-	
-	private String ages;
-	
-	private String sexs;
-	
-	private String times;
-	
-	private int issolve;
-	
-	private String offices;
 	
 	public List<DoctorPatientImg> imglist=new ArrayList<DoctorPatientImg>();
 	
@@ -35,34 +25,81 @@ public class DoctorPatient {
 	
 	private String publisher;////发布人的信息
 	
+	private String publisherHeadImgUrl;////发布人的信息
+	
+	private String publisherPosition;////发布者的职位
+	
 	public int readStatus;////读的状态1:患者已读    2:医生已读   3:都读了
 	
-	public int browseCount;/////浏览次数
+	public int replyCount;/////回复的个数
+		
+	@NotEmpty
+	private String category;/////经验分享,问题解答
 	
-	public String doctorId;////向某个医生的提问
+	private int likes;////点赞个数
 	
-	public String getDoctorId() {
-		return doctorId;
+	private String showtime;
+	
+	private List<Reply> replylist=new ArrayList<Reply>();
+	
+	
+	private int islikes;
+	
+	
+	
+	public int getIslikes() {
+		return islikes;
 	}
 
-	public void setDoctorId(String doctorId) {
-		this.doctorId = doctorId;
+	public void setIslikes(int islikes) {
+		this.islikes = islikes;
 	}
 
-	public String getOffices() {
-		return offices;
+	public List<Reply> getReplylist() {
+		return replylist;
 	}
 
-	public void setOffices(String offices) {
-		this.offices = offices;
+	public void setReplylist(List<Reply> replylist) {
+		this.replylist = replylist;
 	}
 
-	public int getBrowseCount() {
-		return browseCount;
+	public String getShowtime() {
+		return showtime;
 	}
 
-	public void setBrowseCount(int browseCount) {
-		this.browseCount = browseCount;
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
+	}
+
+	public String getPublisherPosition() {
+		return publisherPosition;
+	}
+
+	public void setPublisherPosition(String publisherPosition) {
+		this.publisherPosition = publisherPosition;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 
 	public String getPublisher() {
@@ -113,29 +150,6 @@ public class DoctorPatient {
 		this.describes = describes;
 	}
 
-	public String getAges() {
-		return ages;
-	}
-
-	public void setAges(String ages) {
-		this.ages = ages;
-	}
-
-	public String getSexs() {
-		return sexs;
-	}
-
-	public void setSexs(String sexs) {
-		this.sexs = sexs;
-	}
-
-	public String getTimes() {
-		return times;
-	}
-
-	public void setTimes(String times) {
-		this.times = times;
-	}
 
 	public Date getAddtime() {
 		return addtime;
@@ -144,15 +158,6 @@ public class DoctorPatient {
 	public void setAddtime(Date addtime) {
 		this.addtime = addtime;
 	}
-
-	public int getIssolve() {
-		return issolve;
-	}
-
-	public void setIssolve(int issolve) {
-		this.issolve = issolve;
-	}
-
 	public List<DoctorPatientImg> getImglist() {
 		return imglist;
 	}
@@ -167,6 +172,14 @@ public class DoctorPatient {
 
 	public void setReadStatus(int readStatus) {
 		this.readStatus = readStatus;
+	}
+
+	public String getPublisherHeadImgUrl() {
+		return publisherHeadImgUrl;
+	}
+
+	public void setPublisherHeadImgUrl(String publisherHeadImgUrl) {
+		this.publisherHeadImgUrl = publisherHeadImgUrl;
 	}
 
 

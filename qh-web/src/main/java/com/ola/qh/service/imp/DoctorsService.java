@@ -13,9 +13,10 @@ import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
-import com.ola.qh.entity.DoctorReply;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.entity.Reply;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLikes;
 import com.ola.qh.service.IDoctorsService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -76,12 +77,12 @@ public class DoctorsService implements IDoctorsService{
 	public List<Doctors> listDoctors(int pageNo, int pageSize,String address,String professional,String offices,String name) {
 		// TODO Auto-generated method stub
 		List<Doctors> list=doctorsDao.listDoctor(pageNo, pageSize, address, professional,offices,name);
-		for (Doctors doctors : list) {
+		/*for (Doctors doctors : list) {
 			Double d = doctorsDao.commentGrade(doctors.getId());
 			if(d!=null){
 				doctors.setGrade(d.doubleValue());
 			}
-		}
+		}*/
 		return list;
 	}
 
@@ -89,17 +90,17 @@ public class DoctorsService implements IDoctorsService{
 	public Doctors singleDoctors(String id,String userId,String islimit,int page) {
 		// TODO Auto-generated method stub
 		Doctors d=  doctorsDao.singleDoctors(id,userId,islimit);
-		int pageSize=Patterns.zupageSize;
+		/*int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list =doctorReplyDao.replyPatientList(d.getId(),pageNo, pageSize);
+		//List<DoctorPatient> list =doctorReplyDao.replyList(patientId, pageNo, pageSize);
 		for (DoctorPatient dp : list) {
 			/////赛一个匿名用户
 			String name="匿名用户";
 			Random rand = new Random();
 			int num= rand.nextInt(10000)+0;
 			dp.setPublisher(name+num);
-		}
-		d.setList(list);
+		}*/
+		//d.setList(list);
 		return d;
 	}
 
@@ -108,24 +109,25 @@ public class DoctorsService implements IDoctorsService{
 	public Results<String> patientSaveUpdate(DoctorPatient dp) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		User user = userService.sinleUser(dp.getUserId(), null);
-		if(user==null){
-			result.setStatus("1");
-			result.setMessage("用户的标识不存在");
-		    return result;
-		}else{
-			if(user.getIsdoctor()==1){
-				result.setStatus("1");
-				result.setMessage("您的身份是医生~");
-			    return result;
-			}
+		result = userService.existUser(dp.getUserId());
+		if("1".equals(result.getStatus())){
+			return result;
 		}
 		if(dp.getId()!=null && !"".equals(dp.getId())){
 			////修改患者的信息
 			dp.setUpdatetime(new Date());
-			doctorsDao.updatePatient(dp);
+			DoctorPatient dpnew = doctorsDao.singlePatient(dp.getId());
+			UserLikes ul = doctorReplyDao.singleLikes(dp.getUserId(), dp.getId());
+			
+			if(ul==null){
+				doctorsDao.updatePatient(dpnew.getLikes()+1, new Date(), dp.getId());
+			}else{
+				doctorsDao.updatePatient(dpnew.getLikes()-1, new Date(), dp.getId());
+			}
+			
+			
 		}else{
-			/////保存患者的信息
+			/////保存问题的信息
 			String patientId=KeyGen.uuid();
 			dp.setId(patientId);
 			dp.setAddtime(new Date());
@@ -137,28 +139,46 @@ public class DoctorsService implements IDoctorsService{
 					doctorsDao.insertPatientImg(imglist);
 				}
 			}
-			if(dp.getDoctorId()!=null && !"".equals(dp.getDoctorId())){
-				///////如果是向某个医生进行的提问
-				DoctorReply dr=new DoctorReply();
-				dr.setId(KeyGen.uuid());
-				dr.setPatientId(patientId);
-				dr.setDoctorId(dp.getDoctorId());
-				dr.setTypes(1);
-				dr.setAddtime(new Date());
-				dr.setReadStatus(0);
-				dr.setReplyContent(dp.getTitle());
-				doctorReplyDao.insertReply(dr);
+			User user=userService.sinleUser(dp.getUserId(), null);
+			if(user!=null){
+				dp.setPublisher(user.getNickname());
+				dp.setPublisherHeadImgUrl(user.getHeadimg());
+				if(user.getIsdoctor()==1){
+					Doctors d = doctorsDao.singleDoctors(null, dp.getUserId(), "1");
+					if(d!=null){
+						dp.setPublisher(d.getName());
+						dp.setPublisherHeadImgUrl(d.getHeadImg());
+						dp.setPublisherPosition(d.getProfessional());
+					}
+				}
+					
+				
 			}
+			
 			doctorsDao.insertPatient(dp);
 		}
 		result.setStatus("0");
 		return result;
 	}
+		
 
 	@Override
-	public List<DoctorPatient> listPatient(String userId, int pageNo, int pageSize,String issolve,String doctorId) {
+	public List<DoctorPatient> listPatient(String userId,String category, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		List<DoctorPatient> list = doctorsDao.listPatient(userId, pageNo, pageSize, issolve,doctorId);
+		List<DoctorPatient> list = doctorsDao.listPatient(userId,category, pageNo, pageSize);
+		for (DoctorPatient doctorPatient : list) {
+			UserLikes ul = doctorReplyDao.singleLikes(userId, doctorPatient.getId());
+			if(ul==null){
+				/////没有点赞
+				doctorPatient.setIslikes(0);
+			}else{
+				doctorPatient.setIslikes(1);
+			}
+			doctorPatient.setShowtime(Patterns.sfDetailTime(doctorPatient.getAddtime()));
+			//////回复的个数
+			int replyCount = doctorReplyDao.replyListCount(doctorPatient.getId());
+			doctorPatient.setReplyCount(replyCount);
+		}
 		return list;
 	}
 
@@ -166,6 +186,7 @@ public class DoctorsService implements IDoctorsService{
 	public DoctorPatient singlePatient(String id) {
 		// TODO Auto-generated method stub
 		DoctorPatient dp = doctorsDao.singlePatient(id);
+		
 		List<DoctorPatientImg> imglist = doctorsDao.listPatientImg(id);
 		dp.setImglist(imglist);
 		return dp;

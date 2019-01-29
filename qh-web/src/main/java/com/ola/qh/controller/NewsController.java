@@ -82,4 +82,5 @@ public class NewsController {
 		return newsService.topicSquare(pageNo, pageSize);
 		
 	}
+	
 }

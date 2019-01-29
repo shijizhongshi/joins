@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +12,10 @@ import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.entity.DoctorInfo;
 import com.ola.qh.entity.DoctorPatient;
-import com.ola.qh.entity.DoctorReply;
+import com.ola.qh.entity.Reply;
 import com.ola.qh.entity.Doctors;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLikes;
 import com.ola.qh.service.IDoctorReplyService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -28,9 +30,9 @@ public class DoctorReplyService implements IDoctorReplyService{
 	@Autowired
 	private DoctorReplyDao doctorReplyDao;
 	@Autowired
-	private DoctorsDao doctorDao;
-	@Autowired
 	private IUserService userService;
+	@Autowired
+	private DoctorsDao doctorDao;
 	
 	@Override
 	public List<DoctorInfo> officeList() {
@@ -44,10 +46,12 @@ public class DoctorReplyService implements IDoctorReplyService{
 	@Override
 	public List<DoctorInfo> doctorInfoList() {
 		// TODO Auto-generated method stub
-		return doctorReplyDao.doctorInfoList();
+		List<DoctorInfo> list=doctorReplyDao.doctorInfoList();
+		
+		return list;
 	}
 
-	@Override
+	/*@Override
 	public Results<DoctorReplyVo> singleReply(String patientId,String userId) {
 		// TODO Auto-generated method stub
 		Results<DoctorReplyVo> result=new Results<DoctorReplyVo>();
@@ -72,7 +76,7 @@ public class DoctorReplyService implements IDoctorReplyService{
 				if(d!=null){
 					vo.setDoctorId(doctorId);
 					doctorId=d.getId();
-					List<DoctorReply> list = doctorReplyDao.listByIds(patientId, d.getId());
+					List<Reply> list = doctorReplyDao.listByIds(patientId, d.getId());
 					if(list!=null && list.size()!=0){
 						if(list.get(0).getReadStatus()==0){
 							readStatus="2";///医生已读
@@ -88,7 +92,7 @@ public class DoctorReplyService implements IDoctorReplyService{
 			}else{
 				vo.setRoles(2);
 				//////说明患者已经读了
-				List<DoctorReply> list = doctorReplyDao.listByIds(patientId, null);
+				List<Reply> list = doctorReplyDao.listByIds(patientId, null);
 				if(list!=null && list.size()!=0){
 					if(list.get(0).getReadStatus()==0){
 						readStatus="1";///患者已读
@@ -107,16 +111,16 @@ public class DoctorReplyService implements IDoctorReplyService{
 			vo.setImglist(doctorDao.listPatientImg(patientId));
 		}
 	}
-		List<DoctorReply> idslist = doctorReplyDao.listByIds(patientId, null);
+		List<Reply> idslist = doctorReplyDao.listByIds(patientId, null);
 		if(idslist!=null && idslist.size()!=0){
-			for (DoctorReply doctorReply : idslist) {
+			for (Reply doctorReply : idslist) {
 				doctorReplyDao.updateReadStatus(null, patientId, null,doctorReply.getBrowseCount()+1);
 			}
 		}
 		List<DoctorsVo> list = doctorReplyDao.doctorReplyList(patientId);
 		for (DoctorsVo doctorsVo : list) {
-			List<DoctorReply> replyList = doctorReplyDao.listByIds(patientId, doctorsVo.getDoctorId());
-			for (DoctorReply doctorReply : replyList) {
+			List<Reply> replyList = doctorReplyDao.listByIds(patientId, doctorsVo.getDoctorId());
+			for (Reply doctorReply : replyList) {
 				if(doctorReply.getAddtime()!=null){
 					doctorReply.setShowtime(Patterns.sfDetailTime(doctorReply.getAddtime()));
 				}
@@ -130,13 +134,13 @@ public class DoctorReplyService implements IDoctorReplyService{
 		result.setData(vo);
 		result.setStatus("0");
 		return result;
-	}
+	}*/
 
 	@Override
-	public Results<String> insertReply(DoctorReply dr) {
+	public Results<String> insertReply(Reply dr) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		DoctorPatient dp=doctorDao.singlePatient(dr.getPatientId());
+		/*DoctorPatient dp=doctorDao.singlePatient(dr.getPatientId());
 		if(dp==null){
 			result.setStatus("1");
 			result.setMessage("患者信息标识不符");
@@ -147,18 +151,68 @@ public class DoctorReplyService implements IDoctorReplyService{
 			result.setMessage("该患者信息已解决");
 			return result;
 		}
+		*/
 		
-		Integer num = doctorReplyDao.existDoctor(dr.getDoctorId());
-		if(num==null){
-			result.setStatus("1");
-			result.setMessage("医生信息标识不符");
+		result = userService.existUser(dr.getUserId());
+		if("1".equals(result.getStatus())){
 			return result;
+		}
+		if(dr.getType()==2){
+			Reply r = doctorReplyDao.replySingle(dr.getId());
+			if(r.getUserId().equals(dr.getUserId())){
+				result.setStatus("1");
+				result.setMessage("不能回复自己的评论");
+				return result;
+			}
+		}
+		User user=userService.sinleUser(dr.getUserId(), null);
+		if(user!=null){
+			dr.setReplyName(user.getNickname());
+			dr.setReplyHeadImg(user.getHeadimg());
+			if(user.getIsdoctor()==1){
+				Doctors d = doctorDao.singleDoctors(null, dr.getUserId(), "1");
+				if(d!=null){
+					dr.setReplyName(d.getName());
+					dr.setReplyHeadImg(d.getHeadImg());
+				}
+			}
+				
+			
 		}
 		dr.setId(KeyGen.uuid());
 		dr.setAddtime(new Date());
 		doctorReplyDao.insertReply(dr);
 		result.setStatus("0");
 		return result;
+	}
+
+	@Override
+	public List<Reply> listReply(String patientId, int pageNo, int pageSize,String userId) {
+		// TODO Auto-generated method stub
+		List<Reply> list = doctorReplyDao.replyList(patientId, pageNo, pageSize);
+		for (Reply reply : list) {
+			UserLikes ul = doctorReplyDao.singleLikes(reply.getUserId(), reply.getId());
+			if(ul!=null){
+				reply.setIslikes(1);
+			}else{
+				reply.setIslikes(0);
+			}
+			reply.setShowtime(Patterns.sfDetailTime(reply.getAddtime()));
+		}
+		return list;
+	}
+
+	@Override
+	public int updateReply(String id,String userId) {
+		
+		Reply reply = doctorReplyDao.replySingle(id);
+		UserLikes ul = doctorReplyDao.singleLikes(userId, id);
+		if(ul==null){
+			return	doctorReplyDao.updateReply(reply.getLikes()+1, new Date(), id);
+		}else{
+			return doctorReplyDao.updateReply(reply.getLikes()-1, new Date(), id);
+		}
+		
 	}
 
 }

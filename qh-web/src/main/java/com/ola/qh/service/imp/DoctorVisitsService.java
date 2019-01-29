@@ -25,7 +25,7 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 	@Autowired
 	private NewsDao newsDao;
 	
-	@Transactional
+	/*@Transactional
 	@Override
 	public Results<DoctorVisitsVo> selectDoctorVisits(String offices,int issolve,String userId) {
 		
@@ -134,5 +134,5 @@ public class DoctorVisitsService implements IDoctorVisitsService{
 				return results;
 			}
 	}
-	
+	*/
 }

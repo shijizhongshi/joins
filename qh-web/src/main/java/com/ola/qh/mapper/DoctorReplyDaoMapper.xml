@@ -22,49 +22,75 @@
 		select name,types from doctor_info
 	</select>
 
+	<insert id="insertLikes">
+	insert into user_likes(id,user_id,product_id,addtime)
+	values(#{id},#{userId},#{productId},#{addtime})
+	</insert>
+	<select id="singleLikes" resultType="com.ola.qh.entity.UserLikes">
+	select id,addtime from user_likes where user_id=#{userId} and product_id=#{productId}
+	</select>
 	
-
-	<insert id="insertReply" parameterType="com.ola.qh.entity.DoctorReply">
-	insert into	doctor_reply_patient(id,doctor_id,patient_id,reply_content,types,addtime)
-	values(#{id},#{doctorId},#{patientId},#{replyContent},#{types},#{addtime})
+	
+	
+	<resultMap type="com.ola.qh.entity.Reply" id="ReplyMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="patient_id" property="patientId"/>
+	<result column="reply_content" property="replyContent"/>
+	<result column="likes" property="likes"/>
+	<result column="addtime" property="addtime"/>
+	<result column="reply_name" property="replyName"/>
+	<result column="reply_head_img" property="replyHeadImg"/>
+	
+	</resultMap>
+	<insert id="insertReply" parameterType="com.ola.qh.entity.Reply">
+	insert into	doctor_reply_patient(id,user_id,patient_id,reply_content,likes,addtime,reply_name,reply_head_img)
+	values(#{id},#{userId},#{patientId},#{replyContent},#{likes},#{addtime},#{replyName},#{replyHeadImg})
 	</insert>
 	
-	<select id="existDoctor" resultType="java.lang.Integer">
+	<!-- <select id="existDoctor" resultType="java.lang.Integer">
 	select count(id) from doctors where islimit=1 and id=#{doctorId}
 	</select>
 	<select id="existPatient" resultType="java.lang.Integer">
 	select count(id) from doctor_patient where id=#{patientId}
-	</select>
-	<update id="updateReadStatus">
+	</select> -->
+	<update id="updateReply">
 	update doctor_reply_patient set 
-	<if test="readStatus!=null">
-	read_status=#{readStatus},
+	<if test="likes!=0">
+	likes=#{likes},
 	</if>
-	<if test="browseCount!=0">
-	browse_count=#{browseCount},
-	</if>
-	patient_id=#{patientId}
-	where patient_id=#{patientId}
-	<if test="doctorId!=null">
-	and doctor_id=#{doctorId}
-	</if>
+	updatetime=#{updatetime}
+	where id=#{id}
+	
 	</update>
 	<!-- 医生总共回答过的问题集合 -->
-	<select id="replyPatientList" resultType="com.ola.qh.entity.DoctorPatient">
-		select dp.title,dp.describes,drp.browse_count browseCount from
-		doctor_reply_patient drp 
-		left join doctor_patient dp on drp.patient_id=dp.id
+	<select id="replyList" resultMap="ReplyMap">
+		select * from doctor_reply_patient
 		where 1=1
-		<if test="doctorId!=null and doctorId!='' ">
-		and drp.doctor_id=#{doctorId}
+		<if test="patientId!=null and patientId!='' ">
+		patient_id=#{patientId}
 		</if>
-		group by drp.patient_id
+		order by addtime desc
 		<if test="pageSize!=0">
 			limit #{pageNo},#{pageSize}
 		</if>
 	</select>
 	
-	<!--问答详情医生的集合 -->
+	<select id="replyListCount">
+		select count(id) from doctor_reply_patient
+		where 1=1
+		<if test="patientId!=null and patientId!='' ">
+		patient_id=#{patientId}
+		</if>
+	</select>
+	
+	<select id="replySingle" resultMap="ReplyMap">
+		select id,user_id,likes from doctor_reply_patient
+		where id=#{id}
+		
+	</select>
+	
+	<!--问答详情医生的集合 
 	<select id="doctorReplyList" resultType="com.ola.qh.vo.DoctorsVo">
 		select d.name,d.head_img headImg,d.hospital,d.offices,d.professional,d.skilled,drp.doctor_id doctorId  from doctor_reply_patient drp
 		left join doctors d on d.id=drp.doctor_id
@@ -73,8 +99,8 @@
 		and drp.patient_id=#{patientId}
 		</if>
 		GROUP BY doctor_id
-	</select>
-	<!-- 查出医生对应的所有的回答集合 -->
+	</select>-->
+	<!-- 查出医生对应的所有的回答集合 
 	<select id="listByIds" resultType="com.ola.qh.entity.DoctorReply">
 	select doctor_id doctorId,patient_id patientId,read_status readStatus,reply_content replyContent,browse_count browseCount,addtime,types from doctor_reply_patient where 1=1
 		<if test="patientId!=null and patientId!='' ">
@@ -84,6 +110,6 @@
 		and doctor_id=#{doctorId}
 		</if>
 		order by addtime asc
-	</select>
+	</select>-->
 	
 </mapper> 

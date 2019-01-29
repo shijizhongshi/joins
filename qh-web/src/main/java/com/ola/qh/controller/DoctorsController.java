@@ -121,7 +121,7 @@ public class DoctorsController {
 		return doctorsService.patientSaveUpdate(dp);
 	}
 	/**
-	 * 用户填写患者的集合
+	 * 用户医学圈的集合(也是我的发布的列表,类别分类的集合)
 	 * <p>Title: listPatient</p>  
 	 * <p>Description: </p>  
 	 * @param userId
@@ -131,18 +131,19 @@ public class DoctorsController {
 	@RequestMapping("/listpatient")
 	public Results<List<DoctorPatient>> listPatient(
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="doctorId",required=false)String doctorId,
-			@RequestParam(name="page",required=true)int page,
-			@RequestParam(name="issolve",required=false)String issolve){
+			@RequestParam(name="category",required=false)String category,
+			@RequestParam(name="page",required=true)int page){
 		
 		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list = doctorsService.listPatient(userId, pageNo, pageSize,issolve,doctorId);
+		List<DoctorPatient> list = doctorsService.listPatient(userId,category, pageNo, pageSize);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
 	}
+	
+	
 	
 	@RequestMapping("/singlepatient")
 	public Results<DoctorPatient> singlePatient(@RequestParam(name="id",required=true)String id){

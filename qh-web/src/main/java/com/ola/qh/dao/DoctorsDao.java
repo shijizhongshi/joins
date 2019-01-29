@@ -1,5 +1,6 @@
 package com.ola.qh.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -16,12 +17,15 @@ public interface DoctorsDao {
 	//////患者信息的集合
 	public List<DoctorPatient> listPatient(
 			@Param("userId")String userId,
+			@Param("category")String category,
 			@Param("pageNo")int pageNo,
-			@Param("pageSize")int pageSize,
-			@Param("issolve")String issolve,
-			@Param("doctorId")String doctorId);
+			@Param("pageSize")int pageSize);
 	
-	public int updatePatient(DoctorPatient dp);
+	//////修改问题的点赞量
+	public int updatePatient(
+			@Param("likes")int likes,
+			@Param("updatetime")Date updatetime,
+			@Param("id")String id);
 	
 	public DoctorPatient singlePatient(@Param("id") String id);
 	
@@ -54,7 +58,7 @@ public interface DoctorsDao {
 	
 	
 	//寻医问药
-	public List<Doctors> listRecommendDoctor();
+	/*public List<Doctors> listRecommendDoctor();
 	
 	public List<DoctorAndPatient> selectFromOffices(@Param("offices")String offices,@Param("title")String title);
 	
@@ -63,9 +67,9 @@ public interface DoctorsDao {
 	public List<DoctorAndPatient> selectPatient(@Param("issolve")int issolve);
 	
 	//铃铛
-	public List<DoctorAndPatient> existReadStatus(@Param("userId")String userId);
+	public List<DoctorAndPatient> existReadStatus(@Param("userId")String userId);*/
 	
 	public String selectId(@Param("userId")String userId);
 	
-	public List<DoctorAndPatient> DoctorPatientsList(@Param("newsId")String newsId);
+	public List<DoctorPatient> DoctorPatientsList(@Param("topSearch")String topSearch);
 }
