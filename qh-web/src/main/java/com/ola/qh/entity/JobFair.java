@@ -47,6 +47,8 @@ public class JobFair {
 	private String experienceDescribe;
 	
 	private List<String> welfares=new ArrayList<String>();
+	
+	private String category;
 
 	public String getId() {
 		return id;
@@ -182,6 +184,14 @@ public class JobFair {
 
 	public void setExperienceDescribe(String experienceDescribe) {
 		this.experienceDescribe = experienceDescribe;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	

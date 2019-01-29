@@ -16,10 +16,10 @@ public class JobFairService implements IJobFairService{
 	private JobFairDao jobFairDao;
 	
 	@Override
-	public List<JobFair> selectJob(String id, String userId, String company, String education, String experience,
+	public List<JobFair> selectJob(String id, String userId, String company,String category, String education, String experience,
 			String salaryRange, String position,int pageNo,int pageSize) {
 		
-		return jobFairDao.selectJob(id, userId, company, education, experience, salaryRange, position, pageNo, pageSize);
+		return jobFairDao.selectJob(id, userId, company, category, education, experience, salaryRange, position, pageNo, pageSize);
 	}
 
 	@Override

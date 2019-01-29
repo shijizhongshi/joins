@@ -7,6 +7,7 @@
 		<result column="id" property="id"/>
 		<result column="user_id" property="userId"/>
 		<result column="company" property="company"/>
+		<result column="category" property="category"/>
 		<result column="position" property="position"/>
 		<result column="skill" property="skill"/>
 		<result column="education" property="education"/>
@@ -23,7 +24,7 @@
 	</resultMap>
 	
 	<select id="selectJob" resultMap="JobFairMap">
-		select id,user_id,company,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime from job_fair
+		select id,user_id,company,category,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime,name,experience_describe from job_fair
 		where 1=1 
 		<if test="id!=null and id!=''">
 		and id=#{id}
@@ -46,19 +47,22 @@
 		<if test="position!=null and position!=''">
 		and position LIKE CONCAT(CONCAT('%',#{position},'%'))
 		</if>
+		<if test="category!=null and category!=''">
+		and category=#{category]
+		</if>
 		order by addtime desc
 		limit #{pageNo},#{pageSize}
 		
 	</select>
 
 	<insert id="insertJobFair" parameterType="com.ola.qh.entity.JobFair">
-		insert into job_fair(id,user_id,company,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime) 
-		values(#{id},#{userId},#{company},#{position},#{skill},#{education},#{experience},#{salaryRange},#{welfare},#{mobile},#{address},#{positionInfo},#{addtime})
+		insert into job_fair(id,user_id,company,category,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime) 
+		values(#{id},#{userId},#{company},#{category},#{position},#{skill},#{education},#{experience},#{salaryRange},#{welfare},#{mobile},#{address},#{positionInfo},#{addtime})
 	</insert>
 	
 	<insert id="insertJobApply" parameterType="com.ola.qh.entity.JobFair">
-		insert into job_fair(id,user_id,position,mobile,name,experience_describe,addtime) 
-		values(#{id},#{userId},#{position},#{mobile},#{name},#{experienceDescribe},#{addtime})
+		insert into job_fair(id,user_id,category,position,mobile,name,experience_describe,addtime) 
+		values(#{id},#{userId},#{category},#{position},#{mobile},#{name},#{experienceDescribe},#{addtime})
 	</insert>
 	
 	<update id="updateJobFair" parameterType="com.ola.qh.entity.JobFair">
@@ -93,6 +97,13 @@
 		<if test="positionInfo!=null and positionInfo!=''">
 		position_info=#{positionInfo},
 		</if>
+		<if test="name!=null and name!=''">
+		name=#{name},
+		</if>
+		<if test="experienceDescribe!=null and experienceDescribe!=''">
+		experience_describe=#{experienceDescribe},
+		</if>
+		
 		updatetime=#{updatetime} where id=#{id}
 	</update>
 	

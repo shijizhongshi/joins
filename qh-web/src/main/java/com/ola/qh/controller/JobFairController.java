@@ -30,6 +30,7 @@ public class JobFairController {
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<List<JobFair>> selectJob(@RequestParam(name="id",required=false)String id,
 			@RequestParam(name="userId",required=false)String userId,@RequestParam(name="company",required=false)String company,
+			@RequestParam(name="category",required=false)String category,
 			@RequestParam(name="education",required=false)String education,@RequestParam(name="experience",required=false)String experience,
 			@RequestParam(name="salaryRange",required=false)String salaryRange,@RequestParam(name="position",required=false)String position,
 			@RequestParam(name="page",required=true)int page){
@@ -40,13 +41,17 @@ public class JobFairController {
 				int pageNo=(page-1)*pageSize;
 				
 				
-				List<JobFair> list=jobFairService.selectJob(id, userId, company, education, experience, salaryRange, position, pageNo, pageSize);
+				List<JobFair> list=jobFairService.selectJob(id, userId, company, category,education, experience, salaryRange, position, pageNo, pageSize);
 					
 				for (JobFair jobFair : list) {
+					if(jobFair.getWelfare()!=null){
 					String welfare=jobFair.getWelfare();
 					String[] welfares = welfare.split(",");
 					jobFair.setWelfares(Arrays.asList(welfares));
-					
+					}
+					else{
+						jobFair.setWelfares(null);
+					}
 				}
 				
 				results.setData(list);
@@ -67,6 +72,7 @@ public class JobFairController {
 					
 				}
 				jobFair.setId(KeyGen.uuid());
+				jobFair.setCategory("招聘");
 				jobFair.setAddtime(new Date());
 				jobFairService.insertJobFair(jobFair);
 				
@@ -86,6 +92,7 @@ public class JobFairController {
 					
 				}
 				jobFair.setId(KeyGen.uuid());
+				jobFair.setCategory("求职");
 				jobFair.setAddtime(new Date());
 				jobFairService.insertJobApply(jobFair);
 				
