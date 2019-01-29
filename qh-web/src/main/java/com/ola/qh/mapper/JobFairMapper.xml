@@ -18,6 +18,8 @@
 		<result column="position_info" property="positionInfo"/>
 		<result column="addtime" property="addtime"/>
 		<result column="updatetime" property="updatetime"/>
+		<result column="name" property="name"/>
+		<result column="experience_describe" property="experienceDescribe"/>
 	</resultMap>
 	
 	<select id="selectJob" resultMap="JobFairMap">
@@ -52,6 +54,11 @@
 	<insert id="insertJobFair" parameterType="com.ola.qh.entity.JobFair">
 		insert into job_fair(id,user_id,company,position,skill,education,experience,salary_range,welfare,mobile,address,position_info,addtime) 
 		values(#{id},#{userId},#{company},#{position},#{skill},#{education},#{experience},#{salaryRange},#{welfare},#{mobile},#{address},#{positionInfo},#{addtime})
+	</insert>
+	
+	<insert id="insertJobApply" parameterType="com.ola.qh.entity.JobFair">
+		insert into job_fair(id,user_id,position,mobile,name,experience_describe,addtime) 
+		values(#{id},#{userId},#{position},#{mobile},#{name},#{experienceDescribe},#{addtime})
 	</insert>
 	
 	<update id="updateJobFair" parameterType="com.ola.qh.entity.JobFair">

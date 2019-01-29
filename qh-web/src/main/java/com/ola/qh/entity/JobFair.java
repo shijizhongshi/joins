@@ -1,6 +1,8 @@
 package com.ola.qh.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -40,7 +42,11 @@ public class JobFair {
 	
 	private Date updatetime;
 	
-	private String[] welfares;
+	private String name;
+	
+	private String experienceDescribe;
+	
+	private List<String> welfares=new ArrayList<String>();
 
 	public String getId() {
 		return id;
@@ -154,13 +160,31 @@ public class JobFair {
 		this.updatetime = updatetime;
 	}
 
-	public String[] getwelfares() {
+	public List<String> getWelfares() {
 		return welfares;
 	}
 
-	public void setwelfares(String[] welfares) {
+	public void setWelfares(List<String> welfares) {
 		this.welfares = welfares;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getExperienceDescribe() {
+		return experienceDescribe;
+	}
+
+	public void setExperienceDescribe(String experienceDescribe) {
+		this.experienceDescribe = experienceDescribe;
+	}
+
+	
 	
 	
 }

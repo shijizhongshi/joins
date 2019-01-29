@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,8 @@ public class JobFairController {
 				for (JobFair jobFair : list) {
 					String welfare=jobFair.getWelfare();
 					String[] welfares = welfare.split(",");
-					jobFair.setwelfares(welfares);
+					jobFair.setWelfares(Arrays.asList(welfares));
+					
 				}
 				
 				results.setData(list);
@@ -67,6 +69,25 @@ public class JobFairController {
 				jobFair.setId(KeyGen.uuid());
 				jobFair.setAddtime(new Date());
 				jobFairService.insertJobFair(jobFair);
+				
+				results.setStatus("0");
+				return results;
+		
+	}
+	@RequestMapping(value="/insertapply",method=RequestMethod.POST)
+	public Results<String> insertJobApply(@RequestBody JobFair jobFair){
+		
+				Results<String> results=new Results<String>();
+				if(jobFair.getUserId()==null || jobFair.getPosition()==null || jobFair.getMobile()==null || jobFair.getName()==null || jobFair.getExperienceDescribe()==null){
+					
+					results.setData("1");
+					results.setMessage("信息填写不完整，请检查");
+					return results;
+					
+				}
+				jobFair.setId(KeyGen.uuid());
+				jobFair.setAddtime(new Date());
+				jobFairService.insertJobApply(jobFair);
 				
 				results.setStatus("0");
 				return results;
