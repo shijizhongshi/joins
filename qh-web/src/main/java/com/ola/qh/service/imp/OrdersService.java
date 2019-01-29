@@ -804,7 +804,10 @@ public class OrdersService implements IOrdersService {
 		int favoriteCount = userFavoriteDao.favoriteCount(newUserId);
 		UserBook ub = userBookDao.singleUserBook(newUserId);
 		vo.setFavoriteCount(favoriteCount);//// 收藏的个数
-		vo.setDoudouCount(Integer.valueOf(ub.getCanuseDoudou()));
+		if(ub!=null){
+			vo.setDoudouCount(Integer.valueOf(ub.getCanuseDoudou()));
+		}
+		
 		result.setData(vo);
 		result.setStatus("0");
 		return result;

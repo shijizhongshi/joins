@@ -244,7 +244,7 @@ public class IndexController {
 			ccdlive.setIsremmend(1);
 			ccdlive.setPageNo(0);
 			ccdlive.setPageSize(4);
-			ccd.setCourseTypeName(typeName);
+			/*ccd.setCourseTypeSubclassName(typeName);*/
 			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
 			vo.setLivelist(livelist);
 		}

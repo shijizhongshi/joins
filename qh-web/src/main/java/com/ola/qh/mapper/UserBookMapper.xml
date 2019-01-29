@@ -53,7 +53,7 @@
 		can_withdraw=#{canWithdraw},
 		</if>
 		<if test="accountDoudou!=null">
-		account_doudou=#{account_doudou},
+		account_doudou=#{accountDoudou},
 		</if>	
 		<if test="canuseDoudou!=null">
 		canuse_doudou=#{canuseDoudou},
@@ -80,7 +80,7 @@
 
 </resultMap>
 <insert id="insertDoudou" parameterType="com.ola.qh.entity.UserDouDou">
-insert into user_doudou(id,user_id,status,doudou,describe,addtime)
+insert into user_doudou(id,user_id,`status`,doudou,`describe`,addtime)
 values(#{id},#{userId},#{status},#{doudou},#{describe},#{addtime})
 </insert>
 

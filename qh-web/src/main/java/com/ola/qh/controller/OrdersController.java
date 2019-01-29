@@ -292,8 +292,8 @@ public class OrdersController {
 
 	@RequestMapping("/count")
 	public Results<OrdersCountVo> countOrders(
-			@RequestParam(name = "muserId", required = true) String muserId,
-			@RequestParam(name = "userId", required = true) String userId) {
+			@RequestParam(name = "muserId", required = false) String muserId,
+			@RequestParam(name = "userId", required = false) String userId) {
 		return orderService.countOrders(muserId,userId);
 	}
 }

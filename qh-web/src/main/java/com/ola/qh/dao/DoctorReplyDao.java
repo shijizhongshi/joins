@@ -25,6 +25,8 @@ public interface DoctorReplyDao {
 	public UserLikes singleLikes(@Param("userId")String userId,
 			@Param("productId")String productId);
 	
+	public int deleteLikes(@Param("id")String id);
+	
 	public List<Reply> replyList(
 			@Param("patientId")String patientId,
 			@Param("pageNo")int pageNo,

@@ -30,7 +30,9 @@
 	select id,addtime from user_likes where user_id=#{userId} and product_id=#{productId}
 	</select>
 	
-	
+	<delete id="deleteLikes">
+	delete from user_likes where id=#{id}
+	</delete>
 	
 	<resultMap type="com.ola.qh.entity.Reply" id="ReplyMap">
 	<result column="id" property="id"/>
@@ -68,7 +70,7 @@
 		select * from doctor_reply_patient
 		where 1=1
 		<if test="patientId!=null and patientId!='' ">
-		patient_id=#{patientId}
+		and patient_id=#{patientId}
 		</if>
 		order by addtime desc
 		<if test="pageSize!=0">
@@ -76,11 +78,11 @@
 		</if>
 	</select>
 	
-	<select id="replyListCount">
+	<select id="replyListCount" resultType="int">
 		select count(id) from doctor_reply_patient
 		where 1=1
 		<if test="patientId!=null and patientId!='' ">
-		patient_id=#{patientId}
+		and patient_id=#{patientId}
 		</if>
 	</select>
 	

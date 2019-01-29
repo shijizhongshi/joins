@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
@@ -203,15 +204,20 @@ public class DoctorReplyService implements IDoctorReplyService{
 	}
 
 	@Override
+	@Transactional
 	public int updateReply(String id,String userId) {
 		
 		Reply reply = doctorReplyDao.replySingle(id);
 		UserLikes ul = doctorReplyDao.singleLikes(userId, id);
 		if(ul==null){
-			return	doctorReplyDao.updateReply(reply.getLikes()+1, new Date(), id);
+			doctorReplyDao.updateReply(reply.getLikes()+1, new Date(), id);
+			doctorReplyDao.insertLikes(KeyGen.uuid(), userId, id, new Date());
 		}else{
-			return doctorReplyDao.updateReply(reply.getLikes()-1, new Date(), id);
+			 doctorReplyDao.updateReply(reply.getLikes()-1, new Date(), id);
+			 doctorReplyDao.deleteLikes(id);
+			 
 		}
+		return 0;
 		
 	}
 

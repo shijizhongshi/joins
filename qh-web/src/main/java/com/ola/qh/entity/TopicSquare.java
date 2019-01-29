@@ -16,7 +16,20 @@ public class TopicSquare {
 	
 	private String content;
 	
+	private String simpleIntro;
+	
+	
+	
 	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
+
+	
+	public String getSimpleIntro() {
+		return simpleIntro;
+	}
+
+	public void setSimpleIntro(String simpleIntro) {
+		this.simpleIntro = simpleIntro;
+	}
 
 	public String getId() {
 		return id;
