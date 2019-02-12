@@ -21,6 +21,18 @@ public class WeixinInfo {
 	private List<String> privilege;
 	
 	private String unionid;
+	
+	private String language;
+	
+	
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	public String getOpenid() {
 		return openid;

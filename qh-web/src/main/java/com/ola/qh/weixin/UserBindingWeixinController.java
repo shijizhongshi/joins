@@ -1,6 +1,5 @@
 package com.ola.qh.weixin;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,20 +46,19 @@ public class UserBindingWeixinController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/api/wx/web/auth/base")
-	public void getWeiXinInfo(HttpServletRequest request, 
+	public Results<String> getWeiXinInfo(HttpServletRequest request, 
 			HttpServletResponse resp, 
 			HttpSession session,
 			@RequestParam(name = "code") String code,
 			@RequestParam(name = "state") String state) throws Exception{
 		
-		
 		 request.setCharacterEncoding("utf-8");
 		 resp.setCharacterEncoding("utf-8");
-		
+		 Results<String> result=new Results<String>();
 		String userId=state;////把用户的id
 		Map<String,String> mapss=new HashMap<String,String>();		
-		mapss.put("appId", Patterns.appId);
-		mapss.put("appSecret", Patterns.appSecret);
+		mapss.put("appid", Patterns.appId);
+		mapss.put("secret", Patterns.appSecret);
 		mapss.put("code",code);
 		mapss.put("grant_type", "authorization_code");
 		Results<byte[]> rbody = Requests.get(Patterns.getAccessToken, null, mapss);
@@ -78,7 +75,6 @@ public class UserBindingWeixinController {
 		byte[] byteuser = userinfobody.getData();
 		String bodyuser = new String(byteuser);
 		WeixinInfo userInfo = Json.from(bodyuser, WeixinInfo.class);
-		
 		if(userInfo!=null){
 			
 			int count = userBindingService.existUserBinding(userId);
@@ -92,16 +88,15 @@ public class UserBindingWeixinController {
 				userbinding.setAddtime(new Date());
 				userBindingService.saveUserBinding(userbinding);
 			}
+			result.setStatus("0");
+			return result;
 			
 		}
-		
-		
-		
-		
-		
-		
-		
+		result.setStatus("1");
+		result.setMessage("请稍后重试~");
+		return result;
 		
 	}
+	
 	
 }

@@ -50,19 +50,19 @@ public class QiniuController {
 	 * @return
 	 */
 	@RequestMapping(value="/uploadToken",method=RequestMethod.GET)
-	public Results<String> uploadToken(@RequestParam(name="userId",required=true)String userId){
+	public Results<String> uploadToken(){
 		Results<String> result=new Results<String>();
 		    Auth auth = Auth.create(Patterns.ACCESS_KEY, Patterns.SECRET_KEY);
 	        StringMap putPolicy = new StringMap();
 	        //设置回调地址
 	        putPolicy.put("callbackUrl",Patterns.callback);
 	        //设置回调参数,android最终从七牛云得到的数据的格式就是这里设置的回调参数
-	        putPolicy.put("callbackBody", "{\"mimeType\":\"$(mimeType)\",\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$(fsize),\"userId\":"+userId+"}");
+	        putPolicy.put("callbackBody", "{\"mimeType\":\"$(mimeType)\",\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$(fsize),\"userId\":\"$(x:userId)\"}");
 	        //设置回调返回类型
 	        putPolicy.put("callbackBodyType", "application/json");
 	        //设置超时
 	        long expireSeconds = 3600;
-		 String token = auth.uploadToken(Patterns.BUCKET, null, expireSeconds,putPolicy);
+		 String token = auth.uploadToken(Patterns.BUCKET,null, expireSeconds,putPolicy);
 		 result.setStatus("0");
 		 result.setData(token);
 		 return result;

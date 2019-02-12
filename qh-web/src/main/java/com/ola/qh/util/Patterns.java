@@ -24,15 +24,35 @@ public class Patterns {
     	return sf.format(time);
     }
     
+    
+    
+    
+    
+    
     public static final String appId="wxa13c67ede13ea9a7";
     
     public static final String appSecret="f59e578884a7c5992cf2074953610853";
     
     
-    /////授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
-    ///////   http://api.zhongshicc.com/api/wx/web/auth/base
-    public static final String redirectUri="http%3a%2f%2fapi.zhongshicc.com%2fapi%2fwx%2fweb%2fauth%2fbase";/////回调地址
+    /*
+     * 本地测试账号
+     * public static final String appId="wx3c4c8650c28b1ee2";
     
+    public static final String appSecret="f4e9dab1e3144932581382c1de4a7a1f";*/
+    
+    /////授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
+   ////    http://api.zhongshicc.com/api/wx/web/auth/base  urlEncode 
+   public static final String redirectUri="http%3a%2f%2fapi.zhongshicc.com%2fapi%2fwx%2fweb%2fauth%2fbase";/////回调地址
+    
+    
+    
+    
+    ///////测试  http://995c0ae3.ngrok.io/api/wx/web/auth/base
+    
+  ///  public static final String redirectUri="http%3a%2f%2f045e5193.ngrok.io%2fapi%2fwx%2fweb%2fauth%2fbase";/////回调地址
+    
+    
+
     public static final String getAccessToken="https://api.weixin.qq.com/sns/oauth2/access_token";
     
     public static final String userinfo="https://api.weixin.qq.com/sns/userinfo";
