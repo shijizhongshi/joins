@@ -8,20 +8,106 @@
 	<result column="id" property="id"/>
 	<result column="user_id" property="userId"/>
 	<result column="doctor_id" property="doctorId"/>
-	<result column="video_url" property="videoUrl"/>
-	<result column="key" property="key"/>
-	<result column="mime_type" property="mimeType"/>
-	<result column="hash" property="hash"/>
-	<result column="fsize" property="fsize"/>
-	<result column="bucket" property="bucket"/>
+	<result column="video_id" property="videoId"/>
+	<result column="head_img_url" property="headImgUrl"/>
+	<result column="nickname" property="nickname"/>
+	<result column="professional" property="professional"/>
+	<result column="title" property="title"/>
+	<result column="shopname" property="shopname"/>
+	<result column="shop_id" property="shopId"/>
+	<result column="status" property="status"/>
+	<result column="like_number" property="likeNumber"/>
+	<result column="comment_number" property="commentNumber"/>
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.ola.qh.entity.UserVideo">
-	insert into user_video(id,user_id,doctor_id,video_url,key,mime_type,hash,fsize,bucket,addtime)
-	values(#{id},#{userId},#{doctorId},#{videoUrl},#{key},#{mimeType},#{hash},#{fsize},#{bucket},#{addtime})
+	insert into user_video(id,user_id,doctor_id,video_id,head_img_url,nickname,professional,title,shopname,shop_id,addtime)
+	values(#{id},#{userId},#{doctorId},#{videoId},#{headImgUrl},#{nickname},#{professional},#{title},#{shopname},#{shopId},#{addtime})
 	</insert>
 	
 	
+	<select id="list" resultMap="UserVideoMap">
+	select * from user_video where 1=1
+	<if test="userId!=null and userId!='' ">
+	and user_id=#{userId}
+	</if>
+	order by addtime desc
+	<if test="pageSize!=0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	</select>
 	
+	
+	<update id="update" parameterType="com.ola.qh.entity.UserVideo">
+	update user_video set 
+	<if test="likeNumber!=null and likeNumber!='' ">
+	like_number=#{likeNumber},
+	</if>
+	<if test="commentNumber!=null and commentNumber!='' ">
+	comment_number=#{commentNumber},
+	</if>
+	<if test="status!=null and status!='' ">
+	status=#{status},
+	</if>
+	updatetime=#{updatetime}
+	
+	where id=#{id}
+	</update>
+	
+	
+	
+	<select id="single" resultMap="UserVideoMap">
+	select id,user_id,doctor_id,shop_id,status,like_number,comment_number from user_video
+	where id=#{id}
+	</select>
+	
+	
+	
+	<!-- 视频的评论和回复开始 -->
+	<resultMap type="com.ola.qh.entity.UserVideoComment" id="UserVideoCommenMap">
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="vid" property="vid"/>
+	<result column="types" property="types"/>
+	<result column="commentid" property="commentid"/>
+	<result column="comments" property="comments"/>
+	<result column="likes_number" property="likesNumber"/>
+	<result column="addtime" property="addtime"/>
+	</resultMap>
+	<insert id="insertComment" parameterType="com.ola.qh.entity.UserVideoComment">
+	insert into user_video_comment(id,user_id,vid,types,commentid,comments,likes_number,addtime)
+	values(#{id},#{userId},#{vid},#{types},#{commentid},#{comments},#{likesNumber},#{addtime})
+	</insert>
+	
+	
+	<select id="listComment" resultMap="UserVideoCommenMap">
+	
+	select vc.*,u.nickname nickname,u.head_img_url headImgUrl from user_video_comment vc left join user u on vc.user_id=u.id
+	 where 1=1
+	<if test="vid!=null and vid!='' ">
+	and vc.vid=#{vid}
+	</if>
+	<if test="commentid!=null and commentid!='' ">
+	and vc.commentid=#{commentid}
+	</if>
+	order by vc.addtime desc
+	<if test="pageSize!=0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	
+	</select>
+	
+	<update id="updateComment">
+	update user_video_comment set
+	<if test="likesNumber!=null and likesNumber!='' ">
+	likes_number=#{likesNumber},
+	</if>
+	updatetime=#{updatetime}
+	
+	where id=#{id}
+	
+	</update>
+	
+	<!-- 视频的评论和回复结束 -->
 	</mapper>

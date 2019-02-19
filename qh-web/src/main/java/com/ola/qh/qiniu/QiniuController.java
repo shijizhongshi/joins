@@ -103,8 +103,7 @@ public class QiniuController {
 		        System.out.println(obj);
 		        uv.setId(KeyGen.uuid());
 		        uv.setAddtime(new Date());
-		        uv.setVideoUrl(callbackBodyStr);
-		        uv.setUrl(callbackBodyStr);
+		    /*    uv.setVideoUrl(callbackBodyStr);*/
 		        /////////只有doctorId医生才可以去上传小视频
 		        //uv.setDoctorId(doctorId);
 	        	userVideoDao.insert(uv);
