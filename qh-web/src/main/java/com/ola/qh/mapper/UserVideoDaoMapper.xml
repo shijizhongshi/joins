@@ -91,6 +91,9 @@
 	<if test="commentid!=null and commentid!='' ">
 	and vc.commentid=#{commentid}
 	</if>
+	<if test="types!=0">
+	and vc.types=#{types}
+	</if>
 	order by vc.addtime desc
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
@@ -109,5 +112,8 @@
 	
 	</update>
 	
+	<select id="singleComment" resultMap="UserVideoCommenMap">
+	select id,user_id from user_video_comment where id=#{id}
+	</select>
 	<!-- 视频的评论和回复结束 -->
 	</mapper>

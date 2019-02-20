@@ -72,10 +72,10 @@ public class UserVideoController {
 	 */
 	@RequestMapping("/update")
 	public Results<String> update(
-			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="id",required=false)String id,
-			@RequestParam(name="likeNumber",required=false)int likeNumber,
-			@RequestParam(name="types",required=false)int types){
+			@RequestParam(name="userId",required=true)String userId,
+			@RequestParam(name="id",required=true)String id,
+			@RequestParam(name="likeNumber",required=true)int likeNumber,
+			@RequestParam(name="types",required=true)int types){
 		
 		return userVideoService.update(userId, id, likeNumber,types);
 	}

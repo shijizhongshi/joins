@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
+
 
 public class UserVideoComment {
 
@@ -21,7 +24,7 @@ public class UserVideoComment {
 	private String likesNumber;
 	
 	private Date addtime;
-	
+	@NotNull
 	private int types;///1:评论  2;回复
 	
 	private String nickname;/////昵称

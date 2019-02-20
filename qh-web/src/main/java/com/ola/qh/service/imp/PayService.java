@@ -51,6 +51,7 @@ import com.ola.qh.service.IPayService;
 import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.MD5;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.RBuilder;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.WXPrePayResult;
@@ -102,31 +103,37 @@ public class PayService implements IPayService {
 			try {
 				response = alipayclient().sdkExecute(request);
 				System.out.println(response.getBody());
-				if("10000".equals(response.getCode())){
+				/*if("10000".equals(response.getCode())){
 					result.setData(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
 					result.setStatus("0");
 					return result;
-				}
-				result.setStatus("1");
-				result.setMessage(response.getMsg());
-				return result;
+				}*/
+				if(response.isSuccess()){
+					System.out.println("调用成功");
+					result.setData(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
+					result.setStatus("0");
+					return result;
+					} else {
+					System.out.println("调用失败");
+					result.setStatus("1");
+					result.setMessage(response.getMsg());
+					return result;
+					}
+				
 			} catch (AlipayApiException e) {
 				result.setStatus("1");
 				result.setMessage("调用支付宝接口失败~");
 				return null;
 			}
-			
-			
-			// return map;
 		
 	}
 
 	public static DefaultAlipayClient alipayclient() {
 
-		DefaultAlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", "", "",
+		DefaultAlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", "2019022063258258", Patterns.ALIPAY_PRIVATE_KEY,
 				"json", "utf-8",
 				// 支付宝公钥 (ALIPAY_PUBLIC_KEY)，RSA支付宝公钥固定的，推荐使用rsa2的，这里先使用的rsa测试
-				"", "RSA2");
+				Patterns.ALIPAY_PUBLIC_KEY, "RSA2");
 		return alipayClient;
 	}
 

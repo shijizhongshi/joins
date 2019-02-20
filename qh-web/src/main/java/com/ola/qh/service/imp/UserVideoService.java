@@ -60,6 +60,7 @@ public class UserVideoService implements IUserVideoService{
 				uv.setHeadImgUrl(d.getHeadImg());
 				uv.setNickname(d.getName());
 				uv.setProfessional(d.getProfessional());
+				uv.setDoctorId(d.getId());//////这个是医生的id
 			}
 			
 		}else{
@@ -102,7 +103,7 @@ public class UserVideoService implements IUserVideoService{
 			}
 		}
 		
-		return null;
+		return list;
 	}
 	
 	/**
@@ -168,6 +169,16 @@ public class UserVideoService implements IUserVideoService{
 					result.setMessage("回复对应的评论id不能为空");
 					return result;
 				}
+				////////不能自己回复自己
+				UserVideoComment uvc = userVideoDao.singleComment(vc.getCommentid());
+				if(uvc!=null){
+					if(uvc.getUserId().equals(vc.getUserId())){
+						result.setStatus("1");
+						result.setMessage("不能自己回复自己");
+						return result;
+					}
+				}
+				
 			}
 			userVideoDao.insertComment(vc);
 			return result;
@@ -182,7 +193,7 @@ public class UserVideoService implements IUserVideoService{
 	@Override
 	public List<UserVideoComment> listComment(String vid,String userId,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		List<UserVideoComment> list = userVideoDao.listComment(vid, null, pageNo, pageSize);
+		List<UserVideoComment> list = userVideoDao.listComment(vid, null, pageNo, pageSize,1);
 		for (UserVideoComment userVideoComment : list) {
 			String showtime = Patterns.sfDetailTime(userVideoComment.getAddtime());
 			userVideoComment.setShowtime(showtime);
@@ -193,7 +204,7 @@ public class UserVideoService implements IUserVideoService{
 				}
 			}
 			///////评论对应的回复的集合
-			List<UserVideoComment> replylist = userVideoDao.listComment(vid, userVideoComment.getId(), 0, 0);
+			List<UserVideoComment> replylist = userVideoDao.listComment(vid, userVideoComment.getId(), 0, 0,2);
 			for (UserVideoComment userVideoComment2 : replylist) {
 				String replyshowtime = Patterns.sfDetailTime(userVideoComment2.getAddtime());
 				userVideoComment2.setShowtime(replyshowtime);

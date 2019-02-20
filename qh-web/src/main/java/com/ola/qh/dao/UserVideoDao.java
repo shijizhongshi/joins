@@ -29,11 +29,14 @@ public interface UserVideoDao {
 	
 	public List<UserVideoComment> listComment(
 			@Param("vid")String vid,@Param("commentid")String commentid,
-			@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+			@Param("pageNo")int pageNo,@Param("pageSize")int pageSize,
+			@Param("types")int types);
 	
 	public int updateComment(@Param("likesNumber")String likesNumber,
 			@Param("updatetime")Date updatetime,
 			@Param("id")String id);
+	
+	public UserVideoComment singleComment(@Param("id")String id);
 	
 	
 	

@@ -26,14 +26,28 @@ public class ProductBuyDomain {
 	@NotNull
 	private BigDecimal totalPayout;/////实际支付金额
 	
-	private String productId;/////购买的产品(课程或者是服务)不能为空
+	private String productId;/////购买的产品(班级或者是服务)不能为空
 	@NotNull
 	private int count;////对于服务店铺的项目就不止一个了
 
 	private List<String> courseId;////一个订单里边有好几个课程的id
 	
 	private int usedoudou;////使用的豆豆数量
+	private String mobile;
 	
+	private String receiver;
+	
+	private String recommendTeacher;
+	
+	private String leaveMessage;
+	
+	private String sex;
+	
+	private String paymentType;////团购还是预定
+	
+	private String presetTime;////预定的时间
+	
+	private int classStatus;/////1:表示的是全套的课程 0:不处理
 	
 	
 	public int getUsedoudou() {
@@ -52,21 +66,7 @@ public class ProductBuyDomain {
 		this.courseId = courseId;
 	}
 
-	private String mobile;
 	
-	private String receiver;
-	
-	private String recommendTeacher;
-	
-	private String leaveMessage;
-	
-	private String sex;
-	
-	private String paymentType;////团购还是预定
-	
-	private String presetTime;////预定的时间
-	
-	private int classStatus;/////1:表示的是全套的课程 0:不处理
 	
 	
 	
