@@ -130,18 +130,12 @@ public class PayService implements IPayService {
 
 	public static DefaultAlipayClient alipayclient() {
 
-		DefaultAlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", "2019022063258258", Patterns.ALIPAY_PRIVATE_KEY,
+		DefaultAlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", Patterns.ALI_APPID, Patterns.ALIPAY_PRIVATE_KEY,
 				"json", "utf-8",
 				// 支付宝公钥 (ALIPAY_PUBLIC_KEY)，RSA支付宝公钥固定的，推荐使用rsa2的，这里先使用的rsa测试
 				Patterns.ALIPAY_PUBLIC_KEY, "RSA2");
 		return alipayClient;
 	}
-
-	
-	public static final String wxappId="wxfc7f0bca7a44cbb8";/////公众号的appid
-	public static final String wxmchId="1526334321";////商户号
-
-	public static final  String wxsignkey="6d2fc165d722531a87df0f63bc639685";
 	
 	/**
 	 * 调用微信的接口
@@ -171,8 +165,8 @@ public class PayService implements IPayService {
 		}
 		BigDecimal summoney = money.multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_DOWN);
 		Map<String, String> requestParams = new HashMap<String, String>();
-		requestParams.put("appid", wxappId);// 公众账号
-		requestParams.put("mch_id", wxmchId);// 商户号
+		requestParams.put("appid", Patterns.wxappId);// 公众账号
+		requestParams.put("mch_id", Patterns.wxmchId);// 商户号
 		requestParams.put("nonce_str", new String(new RBuilder().length(16).hasletter(true).next()));// 随机字符串，不长于32位
 		requestParams.put("body", pays.get(0).getBodyDetail());
 		requestParams.put("out_trade_no", pays.get(0).getExtransno());
@@ -183,7 +177,7 @@ public class PayService implements IPayService {
 		requestParams.put("notify_url", pp.getNoticeUrl());// 接收微信支付异步通知回调地址
 		requestParams.put("trade_type", "APP");// 交易类型
 		/* String signkey = payPipeline.getSignkey(); */
-		String signkey = wxsignkey;//////私钥
+		String signkey = Patterns.wxsignkey;//////私钥
 		requestParams.put("sign", MD5.digest(compositeWXPayKeyValuePaires(requestParams, signkey)).toUpperCase());
 		HttpPost post = new HttpPost("https://api.mch.weixin.qq.com/pay/unifiedorder");
 
@@ -287,7 +281,7 @@ public class PayService implements IPayService {
 /*	FileInputStream instream = new FileInputStream(new File("/common/apiclient_cert.p12"));*/
 	try
 	{
-	    keyStore.load(instream, wxmchId.toCharArray());
+	    keyStore.load(instream, Patterns.wxmchId.toCharArray());
 	}
 	finally
 	{
@@ -295,7 +289,7 @@ public class PayService implements IPayService {
 	}
 
 	// Trust own CA and all self-signed certs
-	SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, wxmchId.toCharArray()).build();
+	SSLContext sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, Patterns.wxmchId.toCharArray()).build();
 	// Allow TLSv1 protocol only
 	SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[]
 	{
@@ -305,8 +299,8 @@ public class PayService implements IPayService {
 	try
 	{
 	    Map<String, String> requestParams = new HashMap<String, String>();
-	    requestParams.put("appid", wxappId);// 公众账号ID
-	    requestParams.put("mch_id", wxmchId);// 商户号
+	    requestParams.put("appid", Patterns.wxappId);// 公众账号ID
+	    requestParams.put("mch_id", Patterns.wxmchId);// 商户号
 	    requestParams.put("nonce_str", new String(new RBuilder().length(16).hasletter(true).next()));// 随机字符串，不长于32位
 	    requestParams.put("out_trade_no", extranceno);// 商户系统内部的订单号
 	    requestParams.put("out_refund_no", KeyGen.uuid() + "");
@@ -315,9 +309,9 @@ public class PayService implements IPayService {
 	    
 	   /* requestParams.put("total_fee", "" + totalfee);// 单位分
 	    requestParams.put("refund_fee", "" + refundfee);// APP和网页支付提交用户端ip
-*/	    requestParams.put("op_user_id", wxmchId);// 交易类型
+*/	    requestParams.put("op_user_id", Patterns.wxmchId);// 交易类型
 
-	    String signkey = wxsignkey;/////秘钥
+	    String signkey = Patterns.wxsignkey;/////秘钥
 	    requestParams.put("sign", MD5.digest(compositeWXPayKeyValuePaires(requestParams, signkey)).toUpperCase());
 
 	    HttpPost httppost = new HttpPost("https://api.mch.weixin.qq.com/secapi/pay/refund");
