@@ -15,12 +15,15 @@
 		<result column="course_img_url" property="courseImgUrl" />
 		<result column="orders_id" property="ordersId" />
 		<result column="class_id" property="classId"/>
+		<result column="pay_type" property="payType"/>
+		<result column="realname" property="realname"/>
+		<result column="remarks" property="remarks"/>
 		<result column="addtime" property="addtime" />
 	</resultMap>
-	<sql id="sql_base">id,user_id,course_id,course_name,orders_id,class_id,addtime</sql>
+	<sql id="sql_base">id,user_id,course_id,course_name,orders_id,class_id,addtime,pay_type,realname,remarks</sql>
 	<insert id="insertUserCourse" parameterType="com.ola.qh.entity.UserBuyCourse">
 	insert into user_buy_course(<include refid="sql_base"></include>,course_discount_price,course_price,course_img_url)values(
-	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{classId},#{addtime},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
+	#{id},#{userId},#{courseId},#{courseName},#{ordersId},#{classId},#{addtime},#{payType},#{realname},#{remarks},#{courseDiscountPrice},#{coursePrice},#{courseImgUrl})
 	</insert>
 	
 	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">

@@ -42,6 +42,18 @@ public class UserVideo {
 	private int islikes;////1:点过赞了   0:没有点过赞
 	
 	
+	private String firstImage;
+	
+	
+	
+	public String getFirstImage() {
+		return firstImage;
+	}
+
+	public void setFirstImage(String firstImage) {
+		this.firstImage = firstImage;
+	}
+
 	public int getIslikes() {
 		return islikes;
 	}

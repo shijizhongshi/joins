@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.security.DigestException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,9 +30,10 @@ public class UserVideoController {
 	 * @param uv
 	 * @param valid
 	 * @return
+	 * @throws DigestException 
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
-	public Results<String> save(@RequestBody @Valid UserVideo uv,BindingResult valid){
+	public Results<String> save(@RequestBody @Valid UserVideo uv,BindingResult valid) throws DigestException{
 		Results<String> result=new Results<String>();
 		
 		if(valid.hasErrors()){

@@ -1,5 +1,6 @@
 package com.ola.qh.service;
 
+import java.security.DigestException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import com.ola.qh.util.Results;
 
 public interface IUserVideoService {
 
-	public Results<String> save(UserVideo uv); 
+	public Results<String> save(UserVideo uv) throws DigestException; 
 	
 	public List<UserVideo> list(String userId,int pageNo,int pageSize);
 	

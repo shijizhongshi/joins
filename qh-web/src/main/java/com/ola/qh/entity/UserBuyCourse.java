@@ -33,7 +33,35 @@ public class UserBuyCourse {
 	
 	private Date addtime;///
 	
+	private String payType;///线上支付或者是线下支付的
 	
+	private String realname;/////购买的学员
+	
+	private String remarks;/////购买课程的简称
+	
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
 
 	public String getClassId() {
 		return classId;
