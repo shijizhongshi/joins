@@ -74,7 +74,10 @@ public class Patterns {
 
 	public static final  String wxsignkey="6d2fc165d722531a87df0f63bc639685";
     
+	public static final String cert_path="/home/apiclient_cert.p12";
     
+	
+	
     public static final String ALI_APPID="2019022063258258";
     
     public static final String  ALIPAY_PUBLIC_KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArijI7FpHDMwnJ6951LlfsuWBhSWUUn+F214shLH9IIP6aqDV+fJM7B6exjktb1l40m1eelP3j2epThsnOjAhi+Agw6pen0HnuCQgjTVm0Cz3BfAdXUuJeLn8RONwUXybdgpWWdO/JiLt+Ge7DY8CYi02hm8rnb8+Gq2WfgzzT9KBEVsoCnne2yHgpEPV9LReC7l6v4to4omGqzkZnf/TL5gjXEPSV8HwnMmvi13aaoEGxb6MNrw5c5N7X+9EoGcWAbovwiby53D5gnlt48c8wM/auo2pVIFHMoCvl2NuTrZEZP7DQdMdYt/s0ktIQmuPTcO1pqhI5pGE2lmCivS4/wIDAQAB";

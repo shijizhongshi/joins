@@ -277,7 +277,7 @@ public class PayService implements IPayService {
 	
 	Map<String, String> message = new HashMap<String, String>();
 	KeyStore keyStore = KeyStore.getInstance("PKCS12");
-	FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
+	FileInputStream instream = new FileInputStream(new File(Patterns.cert_path));
 /*	FileInputStream instream = new FileInputStream(new File("/common/apiclient_cert.p12"));*/
 	try
 	{
