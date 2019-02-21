@@ -138,10 +138,10 @@ public class PayService implements IPayService {
 	}
 
 	
-	public static final String wxappId="";/////公众号的appid
-	public static final String wxmchId="";////商户号
+	public static final String wxappId="wxfc7f0bca7a44cbb8";/////公众号的appid
+	public static final String wxmchId="1526334321";////商户号
 
-	public static final  String wxsignkey="";
+	public static final  String wxsignkey="6d2fc165d722531a87df0f63bc639685";
 	
 	/**
 	 * 调用微信的接口
@@ -183,7 +183,7 @@ public class PayService implements IPayService {
 		requestParams.put("notify_url", pp.getNoticeUrl());// 接收微信支付异步通知回调地址
 		requestParams.put("trade_type", "APP");// 交易类型
 		/* String signkey = payPipeline.getSignkey(); */
-		String signkey = "";//////私钥
+		String signkey = wxsignkey;//////私钥
 		requestParams.put("sign", MD5.digest(compositeWXPayKeyValuePaires(requestParams, signkey)).toUpperCase());
 		HttpPost post = new HttpPost("https://api.mch.weixin.qq.com/pay/unifiedorder");
 
@@ -283,8 +283,8 @@ public class PayService implements IPayService {
 	
 	Map<String, String> message = new HashMap<String, String>();
 	KeyStore keyStore = KeyStore.getInstance("PKCS12");
-	/*FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));*/
-	FileInputStream instream = new FileInputStream(new File("/common/apiclient_cert.p12"));
+	FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
+/*	FileInputStream instream = new FileInputStream(new File("/common/apiclient_cert.p12"));*/
 	try
 	{
 	    keyStore.load(instream, wxmchId.toCharArray());
