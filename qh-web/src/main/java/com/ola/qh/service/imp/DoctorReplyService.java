@@ -177,8 +177,6 @@ public class DoctorReplyService implements IDoctorReplyService{
 					dr.setReplyHeadImg(d.getHeadImg());
 				}
 			}
-				
-			
 		}
 		dr.setId(KeyGen.uuid());
 		dr.setAddtime(new Date());

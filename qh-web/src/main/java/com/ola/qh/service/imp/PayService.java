@@ -201,6 +201,7 @@ public class PayService implements IPayService {
 			    .getReturn_code().equals("SUCCESS"))
 		    {
 		    /////将wxresult这个对象的值转换成键值对的样子	
+		    	
 			Map<String, String> mapresult = BeanUtils.describe(wxresult);
 			result.setStatus("0");
 			result.setData(mapresult);

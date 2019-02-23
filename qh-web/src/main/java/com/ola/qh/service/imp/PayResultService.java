@@ -157,7 +157,6 @@ public class PayResultService implements IPayResultService{
 					ubc.setOrdersId(op.getOrdersId());
 					ubc.setUserId(orderproduct.getUserId());
 					ubc.setPayType("线上支付");
-					ubc.setRealname(orders.getReceiver());
 					userBuyCourseDao.insertUserCourse(ubc);
 				}
 				pushService.send(orders.getUserId(), "课程订单","购买成功,请及时到我的-我的课程及时学习");
