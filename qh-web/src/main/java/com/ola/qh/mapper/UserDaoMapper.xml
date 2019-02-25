@@ -13,6 +13,8 @@
 		<result column="isdoctor" property="isdoctor"/>
 		<result column="mobile" property="mobile" />
 		<result column="birthday" property="birthday" />
+		<result column="address" property="address"/>
+		
 	</resultMap>
 
 	<sql id="sql_base">
@@ -20,7 +22,7 @@
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
-		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
+		insert into user(id,mobile,password,address,addtime) values(#{id},#{mobile},#{password},#{address},#{addtime})
 	</insert>
 	
 	<select id="loginUser"  resultMap="UserMap">

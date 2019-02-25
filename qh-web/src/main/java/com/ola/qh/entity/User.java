@@ -20,6 +20,9 @@ public class User {
 	@NotEmpty(message="验证码不能为空")
 	private String verification;
 	
+	@NotEmpty(message="地址不能为空")
+	private String address;
+	
 	private Date addtime;
 	
 	private String headimg;//用户头像
@@ -47,6 +50,15 @@ public class User {
 	
 	private int isdoctor;//1是医生   0:不是医生
 	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getId() {
 		return id;
 	}
