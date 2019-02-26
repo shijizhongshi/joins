@@ -20,7 +20,6 @@ public class User {
 	@NotEmpty(message="验证码不能为空")
 	private String verification;
 	
-	@NotEmpty(message="地址不能为空")
 	private String address;
 	
 	private Date addtime;
