@@ -14,7 +14,7 @@
 		<result column="updatetime" property="updatetime" />
 	</resultMap>
 
-	<select id="selectUserLogin" resultType="com.ola.qh.entity.UserLogin">
+	<select id="selectUserLogin" resultMap="UserLoginMap">
 		select id,user_id,device_name,device_id,device_token,device_type,addtime from user_login where user_id=#{userId}
 	</select>
 	

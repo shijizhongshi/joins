@@ -143,14 +143,23 @@ public class UserService implements IUserService {
 				}
 			}
 
-			userlogin.setUserId(user.getId());
-			userlogin.setUpdatetime(new Date());
-			userloginDao.updateUserLogin(userlogin);
-
-			/*user.setDeviceId(userlogin.getDeviceId());
-			user.setDeviceName(userlogin.getDeviceName());
-			user.setDeviceToken(userlogin.getDeviceToken());
-			user.setDeviceType(userlogin.getDeviceType());*/
+			UserLogin ulold = userloginDao.selectUserLogin(user.getId());
+			if(ulold!=null){
+				userlogin.setUserId(user.getId());
+				userlogin.setUpdatetime(new Date());
+				userloginDao.updateUserLogin(userlogin);
+			}else{
+				UserLogin newul=new UserLogin();
+				newul.setDeviceId(userlogin.getDeviceId());
+				newul.setDeviceName(userlogin.getDeviceName());
+				newul.setDeviceToken(userlogin.getDeviceToken());
+				newul.setDeviceType(userlogin.getDeviceType());
+				newul.setAddtime(new Date());
+				newul.setId(KeyGen.uuid());
+				newul.setUserId(user.getId());
+				userloginDao.saveUserLogin(newul);
+				
+			}
 
 			results.setStatus("0");
 			user.setPassword(null);
