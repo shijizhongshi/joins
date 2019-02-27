@@ -26,6 +26,7 @@
 	
 	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">
 	select id,user_id,course_id,course_name,course_discount_price,course_price,course_img_url,orders_id,class_id,addtime from user_buy_course where user_id=#{userId}
+	and status=0 order by addtime desc
 	</select>
 	
 	<select id="selectUserBuyCourseCount" resultType="int">
@@ -39,5 +40,6 @@
 	<if test="courseId!=null">
 	and course_id=#{courseId}
 	</if>
+	and status=0
 	</select>
 </mapper>

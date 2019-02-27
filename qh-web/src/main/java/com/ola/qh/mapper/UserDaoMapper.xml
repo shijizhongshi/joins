@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="singleUser" resultMap="UserMap">
-		select <include refid="sql_base"></include>,password from user where 1=1
+		select <include refid="sql_base"></include>,password,address from user where 1=1
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>

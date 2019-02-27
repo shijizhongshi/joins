@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.dao.BannerDao;
+import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.NewsDao;
@@ -20,7 +21,9 @@ import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopDrugImgDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserCommentDao;
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Banner;
+import com.ola.qh.entity.Business;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;
@@ -28,6 +31,7 @@ import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugImg;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
+import com.ola.qh.entity.User;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ClassVo;
@@ -61,6 +65,10 @@ public class IndexController {
 	private CourseDao courseDao;
 	@Autowired
 	private ShopDrugImgDao shopDrugImgDao;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private BusinessDao businessDao;
 	
 	
 	@RequestMapping("/select")
@@ -207,11 +215,45 @@ public class IndexController {
 	
 	@RequestMapping("/class")
 	public Results<ClassVo> courseClass(
-			@RequestParam(name="typeName",required=false)String typeName){
+			@RequestParam(name="typeName",required=false)String typeName,
+			@RequestParam(name="address",required=true)String address,
+			@RequestParam(name="userId",required=false)String userId){
 		Results<ClassVo> result=new Results<ClassVo>();
 		ClassVo vo =new ClassVo();
-		List<Banner> bannerlist =  bannerDao.selectBanner("6");
-		vo.setBannerlist(bannerlist);
+		String newAddress=null;
+		List<Banner> bannerlist=new ArrayList<Banner>();
+		Banner banner=new Banner();
+		if(userId!=null && !"".equals(userId)){
+			String businessId = businessDao.singleBusinessUser(userId);
+			if(businessId!=null){
+				//////说明这个用户有固定的加盟商
+				Business b = businessDao.single(businessId,null);
+				banner.setImageurl(b.getBanner());
+				bannerlist.add(banner);
+			}else{
+				User user = userDao.singleUser(userId, null);
+				if(user.getAddress()!=null && user.getAddress()!=""){
+					newAddress=user.getAddress();
+				}
+			}
+			
+		}else if(newAddress==null){
+			newAddress=address;
+		}
+		if(newAddress!=null && !"".equals(newAddress)){
+		
+			Business b = businessDao.single(null,newAddress);
+			if(b!=null){
+				////////查加盟商(加盟商存在的话将其的banner赋值)
+				banner.setImageurl(b.getBanner());
+				bannerlist.add(banner);
+			}else{
+			////没有查到这个地址的加盟商的时候就是系统的banner
+				bannerlist=bannerDao.selectBanner("1");
+				vo.setBannerlist(bannerlist);
+			}
+		}
+		
 		
 		if(typeName==null || "".equals(typeName)){
 			CourseClassDomain ccd=new CourseClassDomain();
