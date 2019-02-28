@@ -21,8 +21,28 @@ public class CourseClassVo extends CourseClass{
 	
 	private int classStatus;///1;全套课程已经买了   0:没有权限看下边的视频
 	
+	private String logos;
+	
+	private String mobile;
 	
 	
+	
+	public String getLogos() {
+		return logos;
+	}
+
+	public void setLogos(String logos) {
+		this.logos = logos;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public int getClassStatus() {
 		return classStatus;
 	}

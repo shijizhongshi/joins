@@ -237,7 +237,7 @@ public class IndexController {
 				}
 			}
 			
-		}else if(newAddress==null){
+		}else if(newAddress==null && bannerlist.size()==0){
 			newAddress=address;
 		}
 		if(newAddress!=null && !"".equals(newAddress)){

@@ -26,7 +26,29 @@ public class CourseNofree {
 	
 	private String videoId;
 	
+	private String logos;
 	
+	private String mobile;
+	
+	
+	
+	
+
+	public String getLogos() {
+		return logos;
+	}
+
+	public void setLogos(String logos) {
+		this.logos = logos;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
 	public String getVideoUrl() {
 		return videoUrl;

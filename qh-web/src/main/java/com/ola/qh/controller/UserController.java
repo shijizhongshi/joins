@@ -53,6 +53,7 @@ public class UserController {
 		return results;
 	}
 
+	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Results<User> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
 		Results<User> result = new Results<User>();

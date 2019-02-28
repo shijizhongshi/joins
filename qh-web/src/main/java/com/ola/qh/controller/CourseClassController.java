@@ -43,8 +43,9 @@ public class CourseClassController {
 	
 	@RequestMapping("/single")
 	public Results<CourseClassVo> single(@RequestParam(name="classId",required=true)String classId,
-			@RequestParam(name="userId",required=false)String userId){
-		return courseClassService.classSingle(classId,userId);
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="address",required=true)String address){
+		return courseClassService.classSingle(classId,userId,address);
 		
 	}	
 	////////免费课程的开始////////////////////////////
@@ -62,9 +63,11 @@ public class CourseClassController {
 	}
 	
 	@RequestMapping("/nofreesingle")
-	public Results<CourseNofree> nofreeSingle(@RequestParam(name="id",required=true)String id){
+	public Results<CourseNofree> nofreeSingle(@RequestParam(name="id",required=true)String id,
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="address",required=true)String address){
 		Results<CourseNofree> result=new Results<CourseNofree>();
-		result.setData(courseClassService.nofreeSingle(id));
+		result.setData(courseClassService.nofreeSingle(id, address, userId));
 		result.setStatus("0");
 		return result;
 	}

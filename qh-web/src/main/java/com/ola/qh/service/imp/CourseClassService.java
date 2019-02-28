@@ -6,13 +6,19 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ola.qh.dao.BannerDao;
+import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserBuyCourseDao;
+import com.ola.qh.dao.UserDao;
+import com.ola.qh.entity.Banner;
+import com.ola.qh.entity.Business;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.CourseNofree;
 import com.ola.qh.entity.CourseTeacher;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseClassService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
@@ -27,6 +33,13 @@ public class CourseClassService implements ICourseClassService{
 	@Autowired
 	private UserBuyCourseDao userBuyCourseDao;
 	
+	@Autowired
+	private BusinessDao businessDao;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private BannerDao bannerDao;
+	
 	@Override
 	public List<CourseNofree> nofreeList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
@@ -36,8 +49,46 @@ public class CourseClassService implements ICourseClassService{
 	}
 
 	@Override
-	public CourseNofree nofreeSingle(String id) {
+	public CourseNofree nofreeSingle(String id,String address,String userId) {
 		// TODO Auto-generated method stub
+		CourseNofree coursenoFree=new CourseNofree();
+		String newAddress=null;
+		if(userId!=null && !"".equals(userId)){
+			/////////查这个用户是否所属加盟商
+			String businessId=businessDao.singleBusinessUser(userId);
+			if(businessId!=null){
+				//////属于某个加盟商
+				Business b = businessDao.single(businessId,null);
+				if(b!=null){
+					coursenoFree.setLogos(b.getLogo());
+					coursenoFree.setMobile(b.getMobile());
+				}
+			}else{
+				//////查这个用户是否存在地址
+				User user = userDao.singleUser(userId, null);
+				if(user.getAddress()!=null && !"".equals(user.getAddress())){
+					newAddress=user.getAddress();
+				}
+			}
+		}
+		if(newAddress==null && (coursenoFree.getLogos()==null || "".equals(coursenoFree.getLogos()))){
+			newAddress=address;
+		}
+		if(newAddress!=null && !"".equals(newAddress)){
+			
+			Business b = businessDao.single(null,newAddress);
+			if(b!=null){
+				////////查加盟商(加盟商存在的话将其的banner赋值)
+				coursenoFree.setLogos(b.getLogo());
+				coursenoFree.setMobile(b.getMobile());
+			}else{
+			////没有查到这个地址的加盟商的时候就是系统的banner
+				List<Banner> banner=bannerDao.selectBanner("2");
+				coursenoFree.setLogos(banner.get(0).getImageurl());
+				coursenoFree.setMobile(banner.get(0).getOutLinks());
+			}
+		}
+		
 		return courseClassDao.nofreeSingle(id);
 	}
 
@@ -51,18 +102,51 @@ public class CourseClassService implements ICourseClassService{
 	}
 
 	@Override
-	public Results<CourseClassVo> classSingle(String classId,String userId) {
+	public Results<CourseClassVo> classSingle(String classId,String userId,String address) {
 		// TODO Auto-generated method stub
 		
 		Results<CourseClassVo> result=new Results<CourseClassVo>();
 		CourseClassVo vo=new CourseClassVo();
 		int count=0;
+		String newAddress=null;
 		if(userId!=null && !"".equals(userId)){
 			count=userBuyCourseDao.selectUserBuyCourseCount(userId, classId, null);
 			if(count>0){
 				vo.setClassStatus(1);
 			}
+			/////////查这个用户是否所属加盟商
+			String businessId=businessDao.singleBusinessUser(userId);
+			if(businessId!=null){
+				//////属于某个加盟商
+				Business b = businessDao.single(businessId,null);
+				if(b!=null){
+					vo.setLogos(b.getLogo());
+					vo.setMobile(b.getMobile());
+				}
+			}else{
+				//////查这个用户是否存在地址
+				User user = userDao.singleUser(userId, null);
+				if(user.getAddress()!=null && !"".equals(user.getAddress())){
+					newAddress=user.getAddress();
+				}
+			}
+		}
+		if(newAddress==null && (vo.getLogos()==null || "".equals(vo.getLogos()))){
+			newAddress=address;
+		}
+		if(newAddress!=null && !"".equals(newAddress)){
 			
+			Business b = businessDao.single(null,newAddress);
+			if(b!=null){
+				////////查加盟商(加盟商存在的话将其的banner赋值)
+				vo.setLogos(b.getLogo());
+				vo.setMobile(b.getMobile());
+			}else{
+			////没有查到这个地址的加盟商的时候就是系统的banner
+				List<Banner> banner=bannerDao.selectBanner("2");
+				vo.setLogos(banner.get(0).getImageurl());
+				vo.setMobile(banner.get(0).getOutLinks());
+			}
 		}
 		
 		CourseClass cc = courseClassDao.classSingle(classId);

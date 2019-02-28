@@ -12,9 +12,9 @@ public interface ICourseClassService {
 
 	public List<CourseNofree> nofreeList(CourseClassDomain ccd);
 	
-	public CourseNofree nofreeSingle(String id);
+	public CourseNofree nofreeSingle(String id,String address,String userId);
 	
 	public List<CourseClass> classList(CourseClassDomain ccd);
 	
-	public Results<CourseClassVo> classSingle(String classId,String userId);
+	public Results<CourseClassVo> classSingle(String classId,String userId,String address);
 }
