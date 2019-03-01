@@ -342,4 +342,60 @@ public class UserVideoService implements IUserVideoService{
 
 
 
+	@Override
+	public int saveUV(UserVideo uv) {
+		// TODO Auto-generated method stub
+		
+		Results<String> result = userService.existUser(uv.getUserId());
+		if("1".equals(result.getStatus())){
+			return 0;
+		}
+		User user = userService.sinleUser(uv.getUserId(), null);
+		if(user.getIsdoctor()!=1 && user.getUserrole()==0){
+			/////说明既不是医师护也不是店铺没有权限发送小视频
+			
+			return 1;
+			
+		}
+		if(user.getIsdoctor()==1){
+			
+			Doctors d=doctorDao.singleDoctors(null, user.getId(), "1");
+			if(d!=null){
+				uv.setHeadImgUrl(d.getHeadImg());
+				uv.setNickname(d.getName());
+				uv.setProfessional(d.getProfessional());
+				uv.setDoctorId(d.getId());//////这个是医生的id
+			}
+			
+		}else{
+			Shop s=new Shop();
+			if(user.getUserrole()==1){
+				////服务店铺
+				s=shopDao.singleShop(uv.getUserId(), null, 1, null);
+				
+			}else if(user.getUserrole()==2){
+				////商城店铺
+				s=shopDao.singleShop(uv.getUserId(), null, 2, null);
+				
+			}else{
+				//////两种店铺都有(取商城店铺的名称)
+				s=shopDao.singleShop(uv.getUserId(), null, 2, null);
+				
+			}
+			uv.setShopId(s.getId());
+			uv.setShopname(s.getShopName());
+		}
+		return userVideoDao.insert(uv);
+	}
+
+
+
+	@Override
+	public int existVideo(String videoId) {
+		// TODO Auto-generated method stub
+		return userVideoDao.existVideo(videoId);
+	}
+
+
+
 }

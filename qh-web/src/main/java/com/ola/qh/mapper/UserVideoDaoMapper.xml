@@ -63,7 +63,9 @@
 	where id=#{id}
 	</select>
 	
-	
+	<select id="existVideo" resultType="int">
+	select count(id) from user_video where and video_id=#{videoId}
+	</select>
 	
 	<!-- 视频的评论和回复开始 -->
 	<resultMap type="com.ola.qh.entity.UserVideoComment" id="UserVideoCommenMap">
