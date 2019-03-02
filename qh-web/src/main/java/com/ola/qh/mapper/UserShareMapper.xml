@@ -19,6 +19,6 @@
 	</select>
 	
 	<delete id="deleteUserShare">
-		delete from user_share where user_id=#{userId} and section_id=#{sectionId}
+		delete from user_share where user_id=#{userId} 
 	</delete>
 </mapper>

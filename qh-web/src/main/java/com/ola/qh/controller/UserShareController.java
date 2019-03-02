@@ -64,11 +64,11 @@ public class UserShareController {
 	}
 	
 	@RequestMapping(value="/delete",method=RequestMethod.GET)
-	public Results<String> deleteUserShare(@RequestParam(name="userId",required=true)String userId,@RequestParam(name="sectionId",required=true)String sectionId){
+	public Results<String> deleteUserShare(@RequestParam(name="userId",required=true)String userId){
 		
 		Results<String> results=new Results<String>();
 		
-		int delete=userShareService.deleteUserShare(userId, sectionId);
+		int delete=userShareService.deleteUserShare(userId);
 		if(delete>0){
 			
 			results.setStatus("0");

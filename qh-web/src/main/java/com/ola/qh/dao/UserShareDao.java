@@ -10,5 +10,5 @@ public interface UserShareDao {
 	
 	public int insertUserShare(UserShare userShare);
 	
-	public int deleteUserShare(@Param("userId")String userId,@Param("sectionId")String sectionId);
+	public int deleteUserShare(@Param("userId")String userId);
 }
