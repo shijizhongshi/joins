@@ -57,12 +57,12 @@
 	</select>
 	
 	<!--根据address查询数量  -->
-	<selecct id="selectByAddress" resultMap="BusinessMap">
+	<select id="selectByAddress" resultMap="BusinessMap">
 	select count(*) from business where 1=1
 	<if test="address!=null and address!=''">
 	and address like concat(concat('%',#{address},'%'))
 	</if>
-	</selecct>
+	</select>
 	
 	<!--根据address查询加盟商logo -->
 	<select id="selectLogoByAddress" resultMap="BusinessMap">
