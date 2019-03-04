@@ -7,59 +7,70 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.BannerDao;
 import com.ola.qh.dao.BusinessDao;
+import com.ola.qh.entity.Banner;
 import com.ola.qh.entity.Business;
 import com.ola.qh.service.IBusinessService;
 
 @Service
-public class BusinessService implements IBusinessService{
-	
+public class BusinessService implements IBusinessService {
+
 	@Autowired
-	private BusinessDao businesssdao;
+	private BusinessDao businessdao;
 	@Autowired
 	private BannerDao bannerDao;
 
 	@Override
-	public List<Business> selectLogo(String userid, String address) {
-		
-		return null;
-	}
+	public String selectLogo(String address, String userId) {
 
-	@Override
-	public Integer selectByAddress(String address) {
-		//根据address查询加盟商logo
-		Integer count = businesssdao.selectByAddress(address);
-		return count;
-	
-	}
+		// 判断是否登录
+		if (userId == null) {
+			Integer count = businessdao.selectCount(address);
+			if (count == 0) {
+				// 无匹配信息 使用默认logo
+				String type = String.valueOf("2");
+				List<Banner> list = bannerDao.selectBanner(type);
+				String logoString = list.get(0).getImageurl();
 
-	@Override
-	public List<Business> selectLogoByAddress(String address) {
-		//根据address查询business表中的加盟商logo
-		List<Business> list = businesssdao.selectLogoByAddress(address);
-		return list;
-	}
+				return logoString;
 
-	@Override
-	public Integer selectCount(String userid) {
-		//根据userID查询数量
-		
-		return businesssdao.selectCount(userid);
-	}
+			} else {
+				// 有加盟商 使用加盟商logo
+				List<Business> list = businessdao.selectLogoByAddress(address);
+				String logoString = list.get(0).getLogo();
 
-	@Override
-	public String selectAddressByUserId(String userid) {
-		//根据userID查询address
-		String addreString = businesssdao.selectAddressByUserId(userid);
-		
-		return addreString;
-	}
+				return logoString;
+			}
+		} else {
+			// 登录状态 根据userID查询加盟商 先查询数量
+			Integer count = businessdao.selectCountByUserId(userId);
+			if (count == 0) {
+				// 没有加盟商 查询是否有固定的address
+				String addressString = businessdao.selectAddressByUserId(userId);
 
-	@Override
-	public List<Business> selectLogoByUserId(String userid) {
-		List<Business> list = businesssdao.selectLogoByUserId(userid);
-		
-		return list;
+				if (addressString == null) {
+					// 使用默认logo
+					String type = String.valueOf("2");
+					List<Banner> list = bannerDao.selectBanner(type);
+					String logoString = list.get(0).getImageurl();
+
+					return logoString;
+				} else {
+					// 根据userID查询businessID
+					String businessId = businessdao.selectBusinessByUserId(userId);
+					// 根据businessID查询logo
+					String logoString = businessdao.selectByBusinessId(businessId);
+
+					return logoString;
+				}
+			} else {
+				// 已登录 有加盟商 根据用户-加盟商关系表用address查logo
+				// 根据userID查询businessID
+				String businessId = businessdao.selectBusinessByUserId(userId);
+				// 根据businessID查询logo
+				String logoString = businessdao.selectByBusinessId(businessId);
+
+				return logoString;
+			}
+		}
 	}
-		
-	
 }

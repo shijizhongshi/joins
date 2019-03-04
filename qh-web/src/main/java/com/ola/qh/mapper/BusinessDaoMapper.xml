@@ -57,7 +57,7 @@
 	</select>
 	
 	<!--根据address查询数量  -->
-	<select id="selectByAddress" resultMap="BusinessMap">
+	<select id="selectByAddress" resultType="int">
 	select count(*) from business where 1=1
 	<if test="address!=null and address!=''">
 	and address like concat(concat('%',#{address},'%'))
@@ -66,38 +66,58 @@
 	
 	<!--根据address查询加盟商logo -->
 	<select id="selectLogoByAddress" resultMap="BusinessMap">
-	select logo from business where 1=1
+	select * from business where 1=1
 	<if test="address!= null and address !=''">
 	and address like concat(concat('%',#{address},'%'))
 	</if>
 	</select>
 	
-	<!--根据userID查询数量  -->
-	<select id = "selectCount" resultMap="BusinessMap">
+	<!--根据address查询数量  -->
+	<select id = "selectCount" resultType="Integer">
 	select count(*) from business where 1=1
-	<if test = "id != null and id != ''">
-	and user_id=#{userId}
+	<if test = "address!= null and address!= ''">
+	and address like concat(concat('%',#{address},'%'))
 	</if>
 	</select>
 	
 	<!--根据userID查询address -->
-	<select id="selectAddressByUserId" resultMap="BusinessMap">
-	select address from business as b 
-	inner join user as u
-	on u.id = b.id
-	where 1=1
+	<select id="selectAddressByUserId" resultType="java.lang.String">
+	select address from user where 1=1
 	<if test = "userId != null and userId !=''">
-	and u.id = #{userId}
+	and id = #{userId}
 	</if>
 	</select>
 	
 	<!--根据userID查询全部  -->
 	<select id="selectLogoByUserId" resultMap="BusinessMap">
 	select * from business where 1=1
-	<if test = "id!=null and id!=''">
+	<if test = "userId !=null and userId !=''">
 	and id=#{userId}
 	</if>
 	</select>
 	
+	<!--根据userID查询用户-加盟商关系表中符合条件的数量  -->
+	<select id="selectCountByUserId" resultType="int">
+	select count(*) from business_user where 1=1
+	<if test="userId !=null and userId!=''">
+	and user_id = #{userId}
+	</if>
+	</select>
+	
+	<!--根据userID查询businessid  -->
+	<select id="selectBusinessByUserId" resultType="java.lang.String">
+	select business_id from business_user where 1=1 
+	<if test="userId != null and userId != ''">
+	and user_id = #{userId}
+	</if>
+	</select>
+	
+	<!--根据businessID查询business表中logo  -->
+	<select id = "selectByBusinessId" resultType="java.lang.String">
+	select logo from business where 1=1 
+	<if test = "businessId != null and businessId != ''">
+	and id =#{businessId}
+	</if>
+	</select>
 	<!-- 加盟商和用户的关联表结束~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 </mapper>
