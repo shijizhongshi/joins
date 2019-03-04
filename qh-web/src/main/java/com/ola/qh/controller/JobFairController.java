@@ -66,7 +66,7 @@ public class JobFairController {
 				Results<String> results=new Results<String>();
 				if(valid.hasErrors()){
 					
-					results.setData("1");
+					results.setStatus("1");
 					results.setMessage("信息填写不完整，请检查");
 					return results;
 					
