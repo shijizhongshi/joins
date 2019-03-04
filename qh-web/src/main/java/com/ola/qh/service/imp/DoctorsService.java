@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -168,9 +169,17 @@ public class DoctorsService implements IDoctorsService{
 		
 
 	@Override
-	public List<DoctorPatient> listPatient(String userId,String category,String searchName, int pageNo, int pageSize) {
+	public List<DoctorPatient> listPatient(String userId,String category,String searchName, int pageNo, int pageSize,int types) {
 		// TODO Auto-generated method stub
-		List<DoctorPatient> list = doctorsDao.listPatient(userId,category,searchName,pageNo,pageSize);
+		
+		List<DoctorPatient> list=new ArrayList<DoctorPatient>();
+		if(types==1){
+			/////医学圈的问题
+			list = doctorsDao.listPatient(null,category,searchName,pageNo,pageSize);
+		}else{
+			//////我的发布
+			list = doctorsDao.listPatient(userId,category,searchName,pageNo,pageSize);
+		}
 		for (DoctorPatient doctorPatient : list) {
 			UserLikes ul = doctorReplyDao.singleLikes(userId, doctorPatient.getId());
 			if(ul==null){
