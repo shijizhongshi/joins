@@ -8,5 +8,5 @@ public interface IUserShareService {
 	
 	public int insertUserShare(UserShare userShare);
 	
-	public int deleteUserShare(String userId,String sectionId);
+	public int deleteUserShare(String userId);
 }

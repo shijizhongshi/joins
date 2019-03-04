@@ -26,9 +26,9 @@ public class UserShareService implements IUserShareService{
 	}
 
 	@Override
-	public int deleteUserShare(String userId, String sectionId) {
+	public int deleteUserShare(String userId) {
 		
-		return userShareDao.deleteUserShare(userId, sectionId);
+		return userShareDao.deleteUserShare(userId);
 	}
 
 	
