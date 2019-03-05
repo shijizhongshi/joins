@@ -216,9 +216,15 @@ public class UserVideoService implements IUserVideoService{
 	
 	
 	@Override
-	public List<UserVideo> list(String userId, int pageNo, int pageSize) {
+	public List<UserVideo> list(String userId, int pageNo, int pageSize,int types) {
 		// TODO Auto-generated method stub
-		List<UserVideo> list = userVideoDao.list(userId, pageNo, pageSize);
+		List<UserVideo> list=new ArrayList<>();
+		if(types==1){
+			list = userVideoDao.list(null, pageNo, pageSize);
+		}else{
+			list = userVideoDao.list(userId, pageNo, pageSize);
+		}
+		
 		if(userId!=null && userId!=""){
 			for (UserVideo userVideo : list) {
 				UserLikes ul = doctorReplyDao.singleLikes(userId, userVideo.getId());
@@ -347,7 +353,7 @@ public class UserVideoService implements IUserVideoService{
 		// TODO Auto-generated method stub
 		
 		Results<String> result = userService.existUser(uv.getUserId());
-		if("1".equals(result.getStatus())){
+		/*if("1".equals(result.getStatus())){
 			return 0;
 		}
 		User user = userService.sinleUser(uv.getUserId(), null);
@@ -384,7 +390,7 @@ public class UserVideoService implements IUserVideoService{
 			}
 			uv.setShopId(s.getId());
 			uv.setShopname(s.getShopName());
-		}
+		}*/
 		return userVideoDao.insert(uv);
 	}
 

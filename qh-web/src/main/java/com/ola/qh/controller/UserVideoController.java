@@ -107,12 +107,13 @@ public class UserVideoController {
 	@RequestMapping("/list")
 	public Results<List<UserVideo>> list(
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="page",required=true)int page){
+			@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="types",required=false)int types){
 		
 		Results<List<UserVideo>> result=new Results<List<UserVideo>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<UserVideo> list = userVideoService.list(userId, pageNo, pageSize);
+		List<UserVideo> list = userVideoService.list(userId, pageNo, pageSize,types);
 		result.setStatus("0");
 		result.setData(list);
 		return result;

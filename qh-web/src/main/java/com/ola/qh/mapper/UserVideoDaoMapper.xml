@@ -64,7 +64,7 @@
 	</select>
 	
 	<select id="existVideo" resultType="int">
-	select count(id) from user_video where and video_id=#{videoId}
+	select count(id) from user_video where video_id=#{videoId}
 	</select>
 	
 	<!-- 视频的评论和回复开始 -->
