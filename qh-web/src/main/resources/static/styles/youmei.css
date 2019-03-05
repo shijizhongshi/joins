@@ -1,9 +1,5 @@
 *{ margin: 0px; padding: 0px;border:none; list-style: none;font-family:"/";outline:none;text-decoration: none;font-size:14px}
 a{outline: none;color:black;outline: none;}
- @font-face { 
- font-family:'fangzheng';
-src: url('../css/songti.ttf');
-}
 .nav{width:100%;position:relative;}
 .nav img{width:100%;}
 .nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;position:absolute;top:0;}
@@ -15,7 +11,7 @@ src: url('../css/songti.ttf');
 .biaoti , .xiaobiaoti{width:100%;text-align:center;}
  .biaoti{font-size:3rem;display:block;margin-bottom:34px;font-family:'fangzheng';
  }
-.xiaobiaoti{font-size:1.2rem;color:#666;width:60%;background:url(../img/honggang.png) no-repeat;height:2.3rem;background-size:100%;margin:0 auto;margin-bottom:46px;}
+.xiaobiaoti{font-size:1.2rem;color:#666;width:60%;background:url(/images/honggang.png) no-repeat;height:2.3rem;background-size:100%;margin:0 auto;margin-bottom:46px;}
 .miaoshu{width:100%;text-align:center;font-size:1.5rem;line-height:2.1rem;}
 /*wenhua*/
 .wenhua{width:100%;height:860px;padding-top:110px;background:#FEF8EC;}
@@ -46,9 +42,9 @@ column-count:2;}
 .xiangmu-center dl dt{color:#d7d2d2;font-size: 1.2rem;width:94%;height: 35px;background:#33100A;padding:0 3%;line-height: 35px;}
 .xiangmu-center dl  img{width:100%;height:150px;border:7px solid #7C4026;box-sizing: border-box;}
 .xiangmu-center dl dd{padding:20px 10%;height: 103px;width:80%;background:#FCEAD6;margin-top: 1px;color:#A88659;}
-.shizi{width:100%;height: 660px;padding-top: 180px;background:url(../img/shizibg.png) no-repeat;background-size:100% 100%;}
+.shizi{width:100%;height: 660px;padding-top: 180px;background:url(/images/shizibg.png) no-repeat;background-size:100% 100%;}
 .shizi-center{display:flex;justify-content:space-between;width:60%;margin:0 auto;}
-.shizi dl {width:30%;padding-top:80px;background:url(../img/tuandui.jpg) no-repeat;background-size: 100% 100%;}
+.shizi dl {width:30%;padding-top:80px;background:url(/images/tuandui.jpg) no-repeat;background-size: 100% 100%;}
 .shizi dl dt{width:50px; height:50px;line-height:50px;text-align:center;border-radius:50px;border:2px solid black;margin:0 auto;font-size:1.6rem;}
 .shizi dl p {text-align:center;width:100%;margin-top:10px;}
 .shizi dl p span{font-size:1.6rem;}

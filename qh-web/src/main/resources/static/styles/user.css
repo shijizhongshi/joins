@@ -2,6 +2,8 @@
 a{outline: none;color:black;outline: none;}
 body{background:#FEF8EC;}
 .nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;}
+.nav-head select{color:white;font-size:1.2rem;background:black;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding-right: 14px;border: solid 1px #000;}
+.nav-head select::-ms-expand { display: none; }
 .nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
 .nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;}
 .nav-head ul li a{color:white;font-size:1.1rem;}

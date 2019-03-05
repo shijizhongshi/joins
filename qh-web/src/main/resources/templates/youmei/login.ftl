@@ -4,9 +4,9 @@
 		<meta charset="UTF-8">
 		<title>登陆</title>
 	</head>
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="/styles/youmei.css" />
 		<style type="text/css">
-body{background:url(img/register.jpg) no-repeat 100%;background-size:cover;background-attachment: fixed;}
+body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;background-attachment: fixed;}
 .register{position:relative;}
 .denglu{width:300px;height:380px;background:white;padding:80px;position:fixed;right:20%;top:30%;}
 .greeting{font-size:2.8rem;color:#CE0002;line-height:3.8 rem;font-weight:bold;}
@@ -31,8 +31,8 @@ body{background:url(img/register.jpg) no-repeat 100%;background-size:cover;backg
 <p class="greeting">你好<br/>欢迎来优渼教育</p>
 <dl>
 <dt>登录</dt>
-<dd><input type="text" placeholder="用户名"/><img src="img/username.png"/></dd>
-<dd><input type="text" placeholder="密码"/><img src="img/password.png"/></dd>
+<dd><input type="text" placeholder="用户名"/><img src="/images/username.png"/></dd>
+<dd><input type="text" placeholder="密码"/><img src="/images/password.png"/></dd>
 <dd><span style="float:right;color:#FFA47B">忘记密码？</span></dd>
 </dl>
 

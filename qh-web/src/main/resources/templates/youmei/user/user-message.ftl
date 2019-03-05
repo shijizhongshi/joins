@@ -5,14 +5,14 @@
 		<title>登陆</title>
 	</head>
 <link rel="stylesheet" href="/styles/user.css" />
-<script type="text/javascript" src="/scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/scripts/youmei/jquery-1.8.3.min.js"></script>
 
 <body>
 
 
 <!--右侧信息栏-->
 <div class="message-top">
-<b><img src="img/touxiang.png"/></b>
+<b><img src="/images/touxiang.png"/></b>
 <p>{某某}&nbsp;您好，欢迎来到中师传承<br/>
 <span>您的累计学习时长:{}</span></p>
 </div>
@@ -32,7 +32,7 @@
 
 
 </body>
-<script type="text/javascript" src="/scripts/layout.js"></script>
-<script type="text/javascript" src="/scripts/diqu.js"></script>
-<script type="text/javascript" src="/scripts/LocalStore.js"></script>
+<script type="text/javascript" src="/scripts/youmei/layout.js"></script>
+<script type="text/javascript" src="/scripts/youmei/diqu.js"></script>
+<script type="text/javascript" src="/scripts/youmei/LocalStore.js"></script>
 </html>
