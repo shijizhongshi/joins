@@ -237,12 +237,21 @@ public class ShopService implements IShopService {
 	public List<Shop> listShop(ShopDomain sd) {
 		// TODO Auto-generated method stub
 		List<Shop> listshop=new ArrayList<Shop>();
+		List<Shop> listshortshop=new ArrayList<Shop>();
 		if((sd.getOrdersPrice()!=null && !"".equals(sd.getOrdersPrice()))|| (sd.getPayType()!=null && !"".equals(sd.getPayType())) || (sd.getLowprice()!=null && !"".equals(sd.getLowprice()))){
 			/////按照分组查店铺的项目
 			listshop=shopServeDao.selectShop(sd);
 			
 		}else{
 			listshop=shopDao.listShop(sd);
+			if(listshop.size()<12){
+				listshortshop = shopDao.listShortShop(sd.getAddress(),sd.getShopType(),0,6);
+			}
+			
+			if(listshortshop.size()!=0){
+				listshop.addAll(listshortshop);
+			}
+			
 		}
 		if(sd.getShopType()==1){
 			/////只有服务店铺才会有评论信息
@@ -251,13 +260,9 @@ public class ShopService implements IShopService {
 				if(shopDao.commentGrade(shop1.getId())!=null){
 					avgGrade = shopDao.commentGrade(shop1.getId()).doubleValue();
 				}
-				
 				shop1.setCommentGrade(avgGrade);
 				shop1.setComments(comments(0));
-
 			}
-		
-		
 		}
 		return listshop;
 		}

@@ -14,6 +14,10 @@ public interface IUserVideoService {
 
 	public Results<String> save(UserVideo uv) throws DigestException; 
 	
+	public int saveUV(UserVideo uv);
+	
+	public int existVideo(String videoId);
+	
 	public List<UserVideo> list(String userId,int pageNo,int pageSize);
 	
 	public Results<String> update(String userId,String id,int likeNumber,int types);

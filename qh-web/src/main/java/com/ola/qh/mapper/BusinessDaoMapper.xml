@@ -34,6 +34,7 @@
 	<if test="address!=null and address!=''">
 	and address like concat(concat('%',#{address},'%'))
 	</if>
+	and status=0
 	</select>
 	
 	

@@ -73,7 +73,19 @@ public class Shop {
 	private String servetypeName;
 	
 
+	private int isshortshop;///1:是临时店铺   0:不是临时店铺
 	
+	
+	
+
+	public int getIsshortshop() {
+		return isshortshop;
+	}
+
+	public void setIsshortshop(int isshortshop) {
+		this.isshortshop = isshortshop;
+	}
+
 	public List<String> getComments() {
 		return comments;
 	}

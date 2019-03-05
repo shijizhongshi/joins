@@ -23,6 +23,8 @@ public interface UserVideoDao {
 	
 	public UserVideo single(@Param("id")String id);
 	
+	public int existVideo(@Param("videoId")String videoId);
+	
 	
 	
 	public int insertComment(UserVideoComment vc);

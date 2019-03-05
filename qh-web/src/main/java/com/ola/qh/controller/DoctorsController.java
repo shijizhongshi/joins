@@ -133,12 +133,13 @@ public class DoctorsController {
 			@RequestParam(name="userId",required=false)String userId,
 			@RequestParam(name="category",required=false)String category,
 			@RequestParam(name="page",required=true)int page,
-			@RequestParam(name="searchName",required=false)String searchName){
+			@RequestParam(name="searchName",required=false)String searchName,
+			@RequestParam(name="types",required=false)int types){
 		
 		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list = doctorsService.listPatient(userId,category,searchName,pageNo, pageSize);
+		List<DoctorPatient> list = doctorsService.listPatient(userId,category,searchName,pageNo, pageSize,types);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
