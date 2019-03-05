@@ -6,7 +6,6 @@ a{outline: none;color:black;outline: none;}
 .nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
 .nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;}
 .nav-head ul li a{color:white;font-size:1.1rem;}
-.nav-head ul li:nth-child(1){background:#CB0101;}
 
 .biaoti , .xiaobiaoti{width:100%;text-align:center;}
  .biaoti{font-size:3rem;display:block;margin-bottom:34px;font-family:'fangzheng';
@@ -57,3 +56,4 @@ column-count:2;}
 /*guanyuwomen*/
 .guanyu{width:100%;height:290px;background:#1C0702;padding-top:150px;}
 .beian{color:white;text-align:center;width:100%;height: 58px;line-height: 58px;background:#0E0402;font-size:1.2rem;}
+
