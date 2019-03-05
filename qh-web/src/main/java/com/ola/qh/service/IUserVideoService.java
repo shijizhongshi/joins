@@ -18,7 +18,7 @@ public interface IUserVideoService {
 	
 	public int existVideo(String videoId);
 	
-	public List<UserVideo> list(String userId,int pageNo,int pageSize);
+	public List<UserVideo> list(String userId,int pageNo,int pageSize,int types);
 	
 	public Results<String> update(String userId,String id,int likeNumber,int types);
 	
