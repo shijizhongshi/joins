@@ -1,0 +1,59 @@
+*{ margin: 0px; padding: 0px;border:none; list-style: none;font-family:"/";outline:none;text-decoration: none;font-size:14px}
+a{outline: none;color:black;outline: none;}
+.nav{width:100%;position:relative;}
+.nav img{width:100%;}
+.nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;position:absolute;top:0;}
+.nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
+.nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;}
+.nav-head ul li a{color:white;font-size:1.1rem;}
+.nav-head ul li:nth-child(1){background:#CB0101;}
+
+.biaoti , .xiaobiaoti{width:100%;text-align:center;}
+ .biaoti{font-size:3rem;display:block;margin-bottom:34px;font-family:'fangzheng';
+ }
+.xiaobiaoti{font-size:1.2rem;color:#666;width:60%;background:url(/images/honggang.png) no-repeat;height:2.3rem;background-size:100%;margin:0 auto;margin-bottom:46px;}
+.miaoshu{width:100%;text-align:center;font-size:1.5rem;line-height:2.1rem;}
+/*wenhua*/
+.wenhua{width:100%;height:860px;padding-top:110px;background:#FEF8EC;}
+.wenhua-center{width:60%;margin:0 auto;margin-top:100px;
+-moz-column-count:2; 
+-webkit-column-count:2; 
+column-count:2;}
+.wenhua-left{float:left;}
+.wenhua-left p{font-size: 1.3rem;line-height: 2.5rem;}
+.wenhua-right{float:right;}
+.wenhua-right img{width:100%;}
+/*zixun*/
+.zixun{width:100%;height:800px;background:#FBEAD6;padding-top:110px;}
+.zixun-center{width:60%;margin:0 auto;margin-top:56px;}
+.zixun-center ul{display:flex;justify-content:space-between;}
+.zixun-center ul li {width:48%;}
+.zixun-center ul li img{display:block;width:100%;clear:both;}
+.fuyuansu{display:flex;justify-content:space-between;padding-top: 8px;}
+.fuyuansu b {display:block;font-size: 1.2rem;padding-bottom: 5px;}
+.zixun-center .neirong-zuo{height:65px;overflow: hidden;}
+.zixun-center .shijian{width: 56px;height: 60px;color:#8E7B63;margin-left: 20px;background:#F4DCB8;text-align:center;padding: 3px 5px;}
+.zixun-center .shijian b{font-size: 1.4rem;}
+
+/*zhengliao*/
+.xiangmu{width:100%;height: 1100px;padding-top:110px;background:#FEF7ED;}
+.xiangmu-center{width:60%;margin-top:48px;margin:0 auto;display:flex;justify-content:space-between;margin-top:48px;flex-wrap: wrap;}
+.xiangmu-center dl{width:30%;overflow: hidden;text-overflow: ellipsis;margin-bottom: 60px;}
+.xiangmu-center dl dt{color:#d7d2d2;font-size: 1.2rem;width:94%;height: 35px;background:#33100A;padding:0 3%;line-height: 35px;}
+.xiangmu-center dl  img{width:100%;height:150px;border:7px solid #7C4026;box-sizing: border-box;}
+.xiangmu-center dl dd{padding:20px 10%;height: 103px;width:80%;background:#FCEAD6;margin-top: 1px;color:#A88659;}
+.shizi{width:100%;height: 660px;padding-top: 180px;background:url(/images/shizibg.png) no-repeat;background-size:100% 100%;}
+.shizi-center{display:flex;justify-content:space-between;width:60%;margin:0 auto;}
+.shizi dl {width:30%;padding-top:80px;background:url(/images/tuandui.jpg) no-repeat;background-size: 100% 100%;}
+.shizi dl dt{width:50px; height:50px;line-height:50px;text-align:center;border-radius:50px;border:2px solid black;margin:0 auto;font-size:1.6rem;}
+.shizi dl p {text-align:center;width:100%;margin-top:10px;}
+.shizi dl p span{font-size:1.6rem;}
+.shizi dl dd{margin: 50px 0px;padding: 70px 5px;text-align:center;border-top:2px solid black;line-height: 1.8rem;font-size: 1.2rem;padding-bottom: 0;}
+/*lianxi*/
+.lianxi{width:100%;height:;padding:150px 0;background:#FEF7ED;}
+.fangshi{width:200px;height:80px;padding-top:20px ;margin:0 auto;text-align:center;background:#FEF7ED;}
+.fangshi p{font-size:1.3rem;}
+.fangshi p span{font-size:1.5rem;}
+/*guanyuwomen*/
+.guanyu{width:100%;height:290px;background:#1C0702;padding-top:150px;}
+.beian{color:white;text-align:center;width:100%;height: 58px;line-height: 58px;background:#0E0402;font-size:1.2rem;}

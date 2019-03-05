@@ -1,0 +1,41 @@
+*{ margin: 0px; padding: 0px;border:none; list-style: none;font-family:"/";outline:none;text-decoration: none;font-size:14px}
+a{outline: none;color:black;outline: none;}
+body{background:#FEF8EC;}
+.nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;}
+.nav-head select{color:white;font-size:1.2rem;background:black;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding-right: 14px;border: solid 1px #000;}
+.nav-head select::-ms-expand { display: none; }
+.nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
+.nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;}
+.nav-head ul li a{color:white;font-size:1.1rem;}
+.nav-head ul li:nth-child(1){background:#CB0101;}
+/*个人信息*/
+.user{width: 60%;min-width:900px;margin:0 auto;margin-top:15px;}
+.classify{width: 20%;float:left;background:white;font-size:1.3rem;}
+.classify ul{width:70%;margin:0 auto;padding-top:10px;}
+.classify ul li {line-height:60px;}
+.classify ul li a{font-size:1.3rem;}
+.classify ul li span{display:none;color:red;z-index:3rem;padding-left: 15%;}
+/*个人信息右侧*/
+.message{width:78%;float:right;}
+.message-top{width:90%;padding:20px 5%;background:white;display: flex;align-items: center;}
+.message-top p{font-size:1.5rem;display:inline-block;margin-left:5%;}
+.message-top b{width:120px;height:120px;display:inline-block;border-radius:50px;}
+.message-top b img{width:100%;height:100%;}
+.message-top p span{font-size:1.0rem;color:red;}
+.message-bottom{width:90%;padding:20px 5% 50px 5%;background:white;}
+.message-bottom ul{display:flex;justify-content:}
+.message-bottom ul li{height: 40px;line-height: 40px;font-size: 1.2rem;}
+.message-bottom ul li:nth-child(1){color:#999;margin-right:3%;}
+.message-bottom ul li:nth-child(2) input{border: 1px solid #D9D9D9;padding: 0 5%;width: 222px;height: 28px;}
+.message-bottom ul li:nth-child(2) select{border: 1px solid #D9D9D9;height: 30px;}
+/*我的班级右侧*/
+.grade {background:white;width:90%;padding:20px 5% 40px 5%;}
+.grade p{font-size:1.6rem;margin-bottom:48px;}
+.grade p span{color:#999;font-size:1.0rem;}
+.fenlei {display:flex;margin-bottom:13px;border-bottom:1px solid #CC0001;}
+.fenlei li {cursor:pointer;width:130px;height:45px;line-height:45px;text-align:center;font-size:1.6rem;background:#F5F6F8;margin-right:5px;}
+.grade dl{height:58px;padding:22px 0;line-height:90px;width:100%;border-bottom:#E5E5E5 1px solid;}
+.grade dl:last-child{border:none;}
+.grade dl img{width:103px;height:58px;display:inline-block;float:left;margin-right:5%;}
+.grade dl dt{height:58px;line-height:58px;float:left;font-size:1.3rem;display:inline-block;}
+.grade dl dd {width:100px;height:40px;color:white;line-height:40px;text-align:center;font-size:1.4rem;float:right;background:#CC0001;}
