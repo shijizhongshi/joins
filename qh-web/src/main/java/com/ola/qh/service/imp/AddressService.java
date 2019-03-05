@@ -1,5 +1,7 @@
 package com.ola.qh.service.imp;
 
+import static org.mockito.Matchers.anyList;
+
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.AddressDao;
+import com.ola.qh.dao.BannerDao;
 import com.ola.qh.entity.Address;
+import com.ola.qh.entity.Banner;
 import com.ola.qh.service.IAddressService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.sun.org.apache.bcel.internal.generic.ISTORE;
 
 /**
  * 
@@ -117,5 +122,4 @@ public class AddressService implements IAddressService {
 
 		return addressDao.deleteAddress(id);
 	}
-
 }

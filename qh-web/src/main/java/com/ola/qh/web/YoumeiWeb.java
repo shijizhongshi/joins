@@ -15,6 +15,10 @@ public class YoumeiWeb {
 	public String login(){
 		return "youmei/login";
 	}
+	@RequestMapping("/Onlie-course")
+	public String OnlieCourse(){
+		return "youmei/Onlie-course";
+	}
 	@RequestMapping("/user/user")
 	public String user(){
 		return "youmei/user/user";
