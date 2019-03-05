@@ -39,4 +39,7 @@ public interface ShopDao {
 	public List<ShopImg> selectList(@Param("shopId")String shopId,@Param("subtype")int subtype);
 	
 	public List<Shop> selectShopServeType();
+	
+	public List<Shop> listShortShop(@Param("address")String address,@Param("shopType")int shopType,
+			@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 }

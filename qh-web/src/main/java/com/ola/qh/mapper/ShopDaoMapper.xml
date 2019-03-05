@@ -24,6 +24,7 @@
 	<result column="updatetime" property="updatetime"/>
 	<result column="idcard" property="idcard"/>
 	<result column="serve_domain" property="serveDomain"/>
+	<result column="isshortshop" property="isshortshop"/>
 	
 	</resultMap>
 
@@ -155,4 +156,23 @@
 	<select id="selectShopServeType" resultMap="ShopMap">
 		select name servetypeName from	shop_serve_type
 	</select>
+	
+	
+	
+	
+	<!-- 临时店铺 -->
+	<select id="listShortShop" resultMap="ShopMap">
+	select * from short_time_shop where 1=1
+	<if test="address!=null and address!='' ">
+	and address=#{address}
+	</if>
+	<if test="shopType!=null and shopType!=''">
+	and shop_type=#{shopType}
+	</if>
+	order by addtime desc
+	<if test="pageSize!=0">
+	limit #{pageNo},#{pageSize}
+	</if>
+	</select>
+	
 </mapper>
