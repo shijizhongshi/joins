@@ -43,9 +43,9 @@ window.onresize=function(){  
 <!--登录头-->
 <div class="nav-head">
 <ul>
-<li><a href='http://www.zhongyi.com'>首页</a></li>
-<li><a href='#'>网课中心</a></li>
-<li><a href='#'>关于我们</a></li>
+<a href='/web/youmei/index'><li style="background:#CB0101;">首页</li></a>
+<a href='/web/youmei/Onlie-course'><li>网课中心</li></a>
+<a href='#'><li>关于我们</li></a>
 </ul>
 <span style="position: absolute;right: 10%; top: 15px;">
 <select  >

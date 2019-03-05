@@ -9,6 +9,6 @@ body{background:#FEF7ED;}
 .choose-kc li{display:inline-block;width:260px;border:3px solid #DFCEBC;margin-right:15px;margin-bottom:15px;}
 .choose-kc li div{padding:10px 5%;background:white;width:90%;}
 .choose-kc li div .jiage {color:red;}
-.choose-kc li div .jiage span{color:#999;folat:right;}
+.choose-kc li div .jiage span{color:#999;float:right;}
 .laoshi{padding:10px 5%;border-top:1px solid #ddd;background:#DFCEBC;width:90%;}
 .laoshi span{color:white;margin-top: -33px;display: block;margin-left: 55px;font-size:1.4rem;}

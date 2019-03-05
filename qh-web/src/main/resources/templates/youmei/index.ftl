@@ -17,12 +17,13 @@
 <img src="/images/banner.png"/>
 <div class="nav-head">
 <ul>
-<li style="background:#CB0101;"><a href=''>首页</a></li>
-<li><a  href="">网课中心</a></li>  	<span style="float:left;">|</span>
-<li><a  href="">关于我的</a></li>
+<a href='index'><li style="background:#CB0101;">首页</li></a>
+<a  href="Onlie-course"><li>网课中心</li> </a> 	<span style="float:left;">|</span>
+<a  href=""><li>关于我的</li></a>
 
 </ul>
-<span style="position: absolute;right: 10%; top: 15px;color:white;"><a href="login.htm" style="color:white;">登录</a></span>
+<span style="position: absolute;right: 10%; top: 15px;color:white;">
+<a href="login" style="color:white;">登录</a>/<a href="registe" style="color:white;">注册</a></span>
 </div>
 </div>
 	<!--企业文化-->
