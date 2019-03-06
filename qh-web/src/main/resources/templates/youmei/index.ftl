@@ -4,8 +4,6 @@
 		<meta charset="utf-8" />
 
 		<link rel="stylesheet" href="/styles/youmei.css" />
-		<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
-      <meta name="viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 	
 <title>中师网校</title>
 <meta name="description" content="" />

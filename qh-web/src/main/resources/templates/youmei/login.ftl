@@ -1,10 +1,9 @@
+<#import "/layout/header.ftl" as h/>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>登陆</title>
-	</head>
+	<@h.header title="登录"/>
 <link rel="stylesheet" href="/styles/youmei.css" />
+<script src="/scripts/youmei/login.js"></script>
 		<style type="text/css">
 body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;background-attachment: fixed;}
 .register{position:relative;}
@@ -18,7 +17,7 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 .denglu dl dd input::-webkit-input-placeholder{color:#CACACA;}
 .bt input{width:100%;background:#CC0001;margin-top:22px;color:white;line-height:40px;height:40px;text-align:center;font-size:1.4rem;border-radius:10px;}
 </style>  
-	<body>
+	<body ng-controller="loginController">
 	<div class="register">
 <div class="nav-head">
 <ul>
@@ -31,12 +30,13 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 <p class="greeting">你好<br/>欢迎来优渼教育</p>
 <dl>
 <dt>登录</dt>
-<dd><input type="text" placeholder="用户名"/><img src="/images/username.png"/></dd>
-<dd><input type="text" placeholder="密码"/><img src="/images/password.png"/></dd>
+
+<dd><input type="text" ng-model="mobile" placeholder="用户名"/><img src="/images/username.png"/></dd>
+<dd><input type="text" ng-model="password" placeholder="密码"/><img src="/images/password.png"/></dd>
 <dd><span style="float:right;color:#FFA47B">忘记密码？</span></dd>
 </dl>
 
-<div class="bt"><input type="button" value="登陆"/></div>
+<div class="bt"><input type="button" ng-click="submitForm()" value="登陆"/></div>
 </div>
 
 </div>

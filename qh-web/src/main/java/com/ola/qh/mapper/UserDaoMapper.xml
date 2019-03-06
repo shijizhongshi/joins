@@ -63,6 +63,17 @@
 		</if>
 	</update>
 	
+	<!--登录验证  -->
+	<select id = "selectCount" resultType="int">
+	select count(*) from user where 1=1
+	<if test = "mobile != null and mobile != ''">
+	and mobile = #{mobile}
+	</if>
+	<if test = "password != null and password != ''">
+	and password = #{password}
+	</if>
+	</select>
+	
 	<!-- <update id="updatePassword" parameterType="com.ola.qh.entity.User" >
 		update user set password=#{password} where id=#{id} 
 	</update> -->

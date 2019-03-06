@@ -7,6 +7,7 @@
         <meta name="author" content="" />
         <title>${title!'世纪中师管理系统'}</title>
         <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <!--
         <link rel="stylesheet" href="/assets/css/fonts/linecons/css/linecons.css">
         <link rel="stylesheet" href="/assets/css/fonts/fontawesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/assets/css/bootstrap.css">
@@ -16,7 +17,7 @@
         <link rel="stylesheet" href="/assets/css/xenon-skins.css">
         <link rel="stylesheet" href="/assets/css/custom.css">
         <link rel="stylesheet" href="/assets/js/angular-bootstrap/ui-bootstrap-csp.css">
-        <link rel="stylesheet" href="/styles/style.css">
+        <link rel="stylesheet" href="/styles/style.css">-->
          <!-- Imported styles on this page -->
 		<link rel="stylesheet" href="/assets/js/icheck/skins/all.css">
         <script src="/assets/js/jquery-1.11.1.min.js"></script>
@@ -47,7 +48,7 @@
         <script src="/assets/js/xenon-custom.js"></script>
         <script src="/assets/js/md5-min.js"></script>
         <script src="/scripts/layout/app.js"></script>
-        <script src="/scripts/islogin.js"></script>
+       
         
     </head>
 </#macro>

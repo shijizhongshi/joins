@@ -26,5 +26,5 @@ public interface UserDao {
 	
 	public int updateCode(@Param("code")String code,@Param("mobile")String mobile);
 	
-	
+	public Integer selectCount(@Param("mobile")String mobile,@Param("password")String password);
 }
