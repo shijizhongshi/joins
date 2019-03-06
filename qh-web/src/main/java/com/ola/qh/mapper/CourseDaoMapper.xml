@@ -102,7 +102,7 @@
 	</resultMap>
 	<select id="courseChapterList" resultMap="CourseChapterMap">
 	select id,course_id,course_chapter_name,course_lecturer,addtime from course_chapter
-	where course_id=#{courseId} order by addtime asc
+	where course_id=#{courseId} order by orders asc
 	</select>
 	
 	
@@ -123,7 +123,7 @@
 	</resultMap>
 	<select id="courseSectionList" resultMap="CourseSectionMap">
 	select id,course_chapter_id,section_name,aliyunId,video_id,video_url,addtime from course_section
-	where course_chapter_id=#{courseChapterId} order by addtime asc
+	where course_chapter_id=#{courseChapterId} order by orders asc
 	</select>
 	
 	<!-- 直播课程的查询 -->
