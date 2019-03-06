@@ -145,7 +145,7 @@ public class UserController {
 	 * @param password 密码
 	 * @return
 	 */
-	@RequestMapping(value = "/loginByMobileAndPassword", method = RequestMethod.GET)
+	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	public Results<String> loginByMobileAndPassword(@RequestParam(name = "mobile", required = true) String mobile,
 			@RequestParam(name = "password", required = true) String password) {
 		Results<String> results = new Results<String>();
