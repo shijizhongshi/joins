@@ -1,23 +1,16 @@
+<#import "/layout/header.ftl" as h/>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>网课中心</title>
+	<@h.header title="网课中心"/>
 <link rel="stylesheet" href="/styles/youmei.css" />
 <link rel="stylesheet" href="/styles/online.css" />
-</head>
+
 <body>
 <div class="nav">
 <div style="background:#C6A57F;width:100%;height:50px;"></div>
 <img src="/images/wkbanner.png"/>
-<div class="nav-head">
-<ul>
-<li ><a href='index'>首页</a></li>
-<li style="background:#CB0101;"><a  href="Onlie-course">网课中心</a></li>
-<li><a  href="">关于我的</a></li>
-</ul>
-<span style="position: absolute;right: 10%; top: 15px;color:white;"><a style="color:white;">{名字}</a></span>
-</div>
+<#include "/layout/head.ftl" />
+
 </div>
 <div class="onlie">
 <p class="choose"><span></span><b>选择类别</b></p>

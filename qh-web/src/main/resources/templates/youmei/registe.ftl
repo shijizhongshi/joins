@@ -1,9 +1,7 @@
+<#import "/layout/header.ftl" as h/>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>注册</title>
-	</head>
+	<@h.header title="网课中心"/>
 <link rel="stylesheet" href="/styles/youmei.css" />
 		<style type="text/css">
 body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;background-attachment: fixed;}
@@ -22,13 +20,7 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 </style>  
 	<body>
 	<div class="register">
-<div class="nav-head">
-<ul>
-<a href='index'><li style="background:#CB0101;">首页</li></a>
-<a href='Onlie-course'><li>网课中心</li></a><span style="float:left;">|</span>
-<a href='#'><li>关于我们</li></a>
-</ul>
-</div>
+<#include "/layout/head.ftl" />
 <div class="denglu">
 <p class="greeting">你好！<br/>欢迎来优渼教育</p>
 <dl>

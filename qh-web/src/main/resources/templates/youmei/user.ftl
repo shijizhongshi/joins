@@ -1,9 +1,7 @@
+<#import "/layout/header.ftl" as h/>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>登陆</title>
-	</head>
+		<@h.header title="个人中心"/>
 <link rel="stylesheet" href="/styles/user.css" />
 
 <script type="text/javascript">
@@ -41,25 +39,15 @@ window.onresize=function(){  
 <body>
 
 <!--登录头-->
-<div class="nav-head">
-<ul>
-<a href='/web/youmei/index'><li style="background:#CB0101;">首页</li></a>
-<a href='/web/youmei/Onlie-course'><li>网课中心</li></a>
-<a href='#'><li>关于我们</li></a>
-</ul>
-<span style="position: absolute;right: 10%; top: 15px;">
-<select  >
-<option disabled selected hidden>{名字}</option>
-<option  >退出</option></select></span>
-</div>
-
+<#include "/layout/head.ftl" />
+<div style="100%;height:50px;background:#FEF8EC;"></div>
 <div class="user">
 <!--左侧选择栏-->
 <div class="classify" id="classify">
 <ul>
-<li  ><a  onclick="setTab(0)"  href="user-message.ftl" target="iframes" style="color:red;" >个人信息</a><span style="display:inline-block;">></span></li>
-<li><a onclick="setTab(1)"  href="user-grade.ftl" target="iframes" >我的班级</a><span >></span></li>
-<li><a onclick="setTab(2)" href="user-curriculum.ftl" target="iframes"  >我的课程</a><span >></span></li>
+<li  ><a  onclick="setTab(0)"  href="user/user-message.ftl" target="iframes" style="color:red;" >个人信息</a><span style="display:inline-block;">></span></li>
+<li><a onclick="setTab(1)"  href="user/user-grade.ftl" target="iframes" >我的班级</a><span >></span></li>
+<li><a onclick="setTab(2)" href="user/user-curriculum.ftl" target="iframes"  >我的课程</a><span >></span></li>
 <li><a>修改密码</a><span >></span></li>
 <li><a>我的直播</a><span >></span></li>
 <li><a>个人题库</a><span >></span></li>
@@ -72,7 +60,7 @@ window.onresize=function(){  
 </div>
 <!--右侧信息栏-->
 <div class="message">
-<iframe name="iframes" src="user-message.html"  width="100%" height="100%" runat="server"  onload="changeFrameHeight()" id="test"></iframe>
+<iframe name="iframes" src="user/user-message.html"  width="100%" height="100%" runat="server"  onload="changeFrameHeight()" id="test"></iframe>
 </div>
 </div>
 

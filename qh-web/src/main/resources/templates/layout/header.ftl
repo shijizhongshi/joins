@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=0.5" />
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="" />
         <title>${title!'世纪中师管理系统'}</title>
