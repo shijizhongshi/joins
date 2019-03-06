@@ -44,22 +44,31 @@ public class BusinessService implements IBusinessService {
 			// 登录状态 根据userID查询加盟商 先查询数量
 			Integer count = businessdao.selectCountByUserId(userId);
 			if (count == 0) {
-				// 没有加盟商 查询是否有固定的address
+				// 没有加盟商 查询是否有固定的addressString
 				String addressString = businessdao.selectAddressByUserId(userId);
 
 				if (addressString == null) {
-					// 使用默认logo
-					String type = String.valueOf("2");
-					List<Banner> list = bannerDao.selectBanner(type);
-					String logoString = list.get(0).getImageurl();
+					// 根据定位的地址查询business
+					List<Business> list = businessdao.selectLogoByAddress(address);
+					if (list == null) {
+						// 使用默认logo
+						String type = String.valueOf("2");
+						List<Banner> lists = bannerDao.selectBanner(type);
+						String logoString = lists.get(0).getImageurl();
 
-					return logoString;
+						return logoString;
+					} else {
+						// 使用定位地址所属加盟商的logo
+						List<Business> logoString = businessdao.selectLogoByAddress(address);
+						String logString = logoString.get(0).getLogo();
+
+						return logString;
+					}
 				} else {
-					// 根据userID查询businessID
-					String businessId = businessdao.selectBusinessByUserId(userId);
-					// 根据businessID查询logo
-					String logoString = businessdao.selectByBusinessId(businessId);
-
+					//addressString 存在 根据它查询logo并返回
+					List<Business> list = businessdao.selectLogoByAddress(addressString);
+					String logoString = list.get(0).getLogo();
+					
 					return logoString;
 				}
 			} else {

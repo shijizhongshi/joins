@@ -12,8 +12,6 @@ public interface BusinessDao {
 	
 	public String singleBusinessUser(@Param("userId")String userId);
 	
-	public Integer selectByAddress(@Param("address")String address);
-	
 	public List<Business> selectLogoByAddress(@Param("address")String address);
 	
 	public Integer selectCount(@Param("address")String address);
