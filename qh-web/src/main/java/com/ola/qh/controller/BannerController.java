@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.Banner;
 import com.ola.qh.service.IBannerService;
-import com.ola.qh.service.IBusinessService;
 import com.ola.qh.util.Results;
 
 /**
@@ -28,8 +27,6 @@ public class BannerController {
 
 	@Autowired
 	private IBannerService bannerService;
-	@Autowired
-	private IBusinessService businessService;
 
 	@RequestMapping(value = "/selectlist", method = RequestMethod.GET)
 	public Results<List<Banner>> selectBanner(@RequestParam(name = "type", required = true) String type) {
@@ -46,23 +43,5 @@ public class BannerController {
 		results.setStatus("1");
 		return results;
 
-	}
-	/**
-	 * 根据userID和address查询logo并返回
-	 * 
-	 * @param address 地址
-	 * @param userId  用户ID
-	 * @return
-	 */
-	@RequestMapping(value = "/selectLogo", method = RequestMethod.GET)
-	public Results<String> selectLogo(@RequestParam(name = "address", required = true) String address,
-			@RequestParam(name = "userId", required = false) String userId) {
-		Results<String> results = new Results<String>();
-
-		String logoString = businessService.selectLogo(address, userId);
-		results.setStatus("0");
-		results.setData(logoString);
-
-		return results;
 	}
 }

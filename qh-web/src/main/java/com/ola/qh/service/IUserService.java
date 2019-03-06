@@ -2,8 +2,6 @@ package com.ola.qh.service;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserCode;
@@ -31,4 +29,5 @@ public interface IUserService {
 	
 	public UserBook singleUserBook(String userId);
 	
+	public Integer selectByMobileAndPassword(String mobile,String password);
 }

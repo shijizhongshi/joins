@@ -1,12 +1,14 @@
 package com.ola.qh.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.DigestException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.http.entity.StringEntity;
@@ -61,7 +63,7 @@ public class UserVideoController {
 			@RequestParam(name="videoid",required=true)String videoid,
 			@RequestParam(name="status",required=true)String status,
 			@RequestParam(name="duration",required=true)String duration,
-			@RequestParam(name="image",required=true)String image){
+			@RequestParam(name="image",required=true)String image,HttpServletResponse response){
 		
 		if("OK".equals(status)){
 			if(userVideoService.existVideo(videoid)==0){
@@ -69,19 +71,25 @@ public class UserVideoController {
 				uv.setAddtime(new Date());
 				uv.setFirstImage(image);
 				uv.setId(KeyGen.uuid());
-				String userIds=String.valueOf(userId.subSequence(0, userId.indexOf("title")));
+				String userIds=String.valueOf(userId.substring(0, userId.indexOf("title")));
 				uv.setUserId(userIds);
 				String title=String.valueOf(userId.substring(userId.indexOf("title")+5));
 				uv.setTitle(title);
 				uv.setVideoId(videoid);
 				userVideoService.saveUV(uv);
 			}
-			StringBuilder sbuilder = new StringBuilder();
-			sbuilder.append("<?xml version='1.0' encoding='UTF-8' ?>");
+			StringBuilder sbuilder1 = new StringBuilder();
+			sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
+			try (PrintWriter writer = response.getWriter())
+		    {
+			writer.print(sbuilder1.toString());
+		    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			sbuilder.append("<video>OK</video>");
-			
-			return sbuilder.toString();
+			String sbuilders="<?xml version='1.0' encoding='UTF-8' ?> <video>OK</video>";
+			return sbuilders;
 			
 		}
 		return null;
