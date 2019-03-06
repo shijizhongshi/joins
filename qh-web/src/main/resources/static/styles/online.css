@@ -1,0 +1,14 @@
+body{background:#FEF7ED;}
+.onlie{width:60%;padding-top:33px;margin:0 auto;min-width:900px;}
+.choose b{font-size:1.4rem;}
+.choose span {display:inline-block;width:5px;height:1.4rem;margin-right:5px;background:#BEA68C;}
+.choose-lei {margin-top:16px;margin-bottom:42px;}
+.choose-lei li{color:#9B7A57;padding:10px 20px;font-size:1.6rem;background:url(/images/choose1.png) no-repeat;background-size:100% 100%;display:inline-block;margin-right:20px;}
+.choose-zy {margin-top:27px;margin-bottom:35px;}
+.choose-zy  li{display:inline-block;margin-right:40px;font-size:1.5rem;}
+.choose-kc li{display:inline-block;width:260px;border:3px solid #DFCEBC;margin-right:15px;margin-bottom:15px;}
+.choose-kc li div{padding:10px 5%;background:white;width:90%;}
+.choose-kc li div .jiage {color:red;}
+.choose-kc li div .jiage span{color:#999;float:right;}
+.laoshi{padding:10px 5%;border-top:1px solid #ddd;background:#DFCEBC;width:90%;}
+.laoshi span{color:white;margin-top: -33px;display: block;margin-left: 55px;font-size:1.4rem;}

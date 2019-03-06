@@ -44,7 +44,7 @@ public class CourseClassController {
 	@RequestMapping("/single")
 	public Results<CourseClassVo> single(@RequestParam(name="classId",required=true)String classId,
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="address",required=true)String address){
+			@RequestParam(name="address",required=false)String address){
 		return courseClassService.classSingle(classId,userId,address);
 		
 	}	
@@ -65,7 +65,7 @@ public class CourseClassController {
 	@RequestMapping("/nofreesingle")
 	public Results<CourseNofree> nofreeSingle(@RequestParam(name="id",required=true)String id,
 			@RequestParam(name="userId",required=false)String userId,
-			@RequestParam(name="address",required=true)String address){
+			@RequestParam(name="address",required=false)String address){
 		Results<CourseNofree> result=new Results<CourseNofree>();
 		result.setData(courseClassService.nofreeSingle(id, address, userId));
 		result.setStatus("0");

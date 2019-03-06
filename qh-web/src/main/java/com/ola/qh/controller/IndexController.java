@@ -216,7 +216,7 @@ public class IndexController {
 	@RequestMapping("/class")
 	public Results<ClassVo> courseClass(
 			@RequestParam(name="typeName",required=false)String typeName,
-			@RequestParam(name="address",required=true)String address,
+			@RequestParam(name="address",required=false)String address,
 			@RequestParam(name="userId",required=false)String userId){
 		Results<ClassVo> result=new Results<ClassVo>();
 		ClassVo vo =new ClassVo();
@@ -238,7 +238,10 @@ public class IndexController {
 			}
 			
 		}else if(newAddress==null && bannerlist.size()==0){
-			newAddress=address;
+			if(address!=null && !"".equals(address)){
+				newAddress=address;
+			}
+			
 		}
 		if(newAddress!=null && !"".equals(newAddress)){
 		
@@ -252,6 +255,9 @@ public class IndexController {
 				bannerlist=bannerDao.selectBanner("1");
 				vo.setBannerlist(bannerlist);
 			}
+		}else{
+			bannerlist=bannerDao.selectBanner("1");
+			vo.setBannerlist(bannerlist);
 		}
 		
 		

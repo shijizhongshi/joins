@@ -21,9 +21,10 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 	<div class="register">
 <div class="nav-head">
 <ul>
-<li style="background:#CB0101;"><a href='http://www.zhongyi.com'>首页</a></li>
-<li><a href='#'>网课中心</a></li><span style="float:left;">|</span>
-<li><a href='#'>关于我们</a></li>
+<a href='index.html'><li style="background:#CB0101;">首页</li></a>
+<a href='Onlie-course.html'><li>网课中心</li></a><span style="float:left;">|</span>
+<a href='#'><li>关于我们</li></a>
+<span style="position: absolute;right: 10%; top: 15px;color:white;"><a href="registe" style="color:white;">注册</a></span>
 </ul>
 </div>
 <div class="denglu">

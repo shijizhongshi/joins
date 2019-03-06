@@ -72,7 +72,9 @@ public class CourseClassService implements ICourseClassService{
 			}
 		}
 		if(newAddress==null && (coursenoFree.getLogos()==null || "".equals(coursenoFree.getLogos()))){
-			newAddress=address;
+			if(address!=null && !"".equals(address)){
+				newAddress=address;
+			}
 		}
 		if(newAddress!=null && !"".equals(newAddress)){
 			
@@ -87,6 +89,10 @@ public class CourseClassService implements ICourseClassService{
 				coursenoFree.setLogos(banner.get(0).getImageurl());
 				coursenoFree.setMobile(banner.get(0).getOutLinks());
 			}
+		}else{
+			List<Banner> banner=bannerDao.selectBanner("2");
+			coursenoFree.setLogos(banner.get(0).getImageurl());
+			coursenoFree.setMobile(banner.get(0).getOutLinks());
 		}
 		
 		return courseClassDao.nofreeSingle(id);
@@ -132,7 +138,9 @@ public class CourseClassService implements ICourseClassService{
 			}
 		}
 		if(newAddress==null && (vo.getLogos()==null || "".equals(vo.getLogos()))){
-			newAddress=address;
+			if(address!=null && !"".equals(address)){
+				newAddress=address;
+			}
 		}
 		if(newAddress!=null && !"".equals(newAddress)){
 			
@@ -147,6 +155,10 @@ public class CourseClassService implements ICourseClassService{
 				vo.setLogos(banner.get(0).getImageurl());
 				vo.setMobile(banner.get(0).getOutLinks());
 			}
+		}else{
+			List<Banner> banner=bannerDao.selectBanner("2");
+			vo.setLogos(banner.get(0).getImageurl());
+			vo.setMobile(banner.get(0).getOutLinks());
 		}
 		
 		CourseClass cc = courseClassDao.classSingle(classId);
