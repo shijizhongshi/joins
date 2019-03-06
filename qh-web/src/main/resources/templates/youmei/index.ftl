@@ -32,37 +32,23 @@
 
 <div class="zixun-center">
 <ul>
-<li><img src="/images/xinw.png"/>
-<div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
-</div>
-<div class="shijian">
-<b>08</b>
-<span>2019-3</span>
-</div>
+<li style="position: relative;height:100%;"><img src="/images/xinw.png" />
+<div class="fuyuansu" style="position: absolute;bottom:0;text-align: center;line-height: 40px;width:100%;height:40px;background: black;padding:0;color:white;opacity: 0.7;">
+<b style="margin:0 auto;font-size:1.3rem;letter-spacing:2px;">标题标题标题</b>
 </div>
 </li>
-<li><img src="/images/xinw.png"/>
-<div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
-</div>
-<div class="shijian">
-<b>08</b>
-<span>2019-3</span>
-</div>
+<li style="position: relative;height:100%;"><img src="/images/xinw.png" />
+<div class="fuyuansu" style="position: absolute;bottom:0;text-align: center;line-height: 40px;width:100%;height:40px;background: black;padding:0;color:white;opacity: 0.7;">
+<b style="margin:0 auto;font-size:1.3rem;letter-spacing:2px;">标题标题标题</b>
 </div>
 </li>
 </ul>
-<!--新闻资讯下边不调缩略图的两个-->
+<!--新闻资讯下边不调缩略图的六个-->
 <ul style="margin-top:40px;">
 <li><div class="fuyuansu">
 <div class="neirong-zuo">
 <b>标题</b>
-大概内容
+
 </div>
 <div class="shijian">
 <b>21</b>
@@ -73,7 +59,7 @@
 <li><div class="fuyuansu">
 <div class="neirong-zuo">
 <b>标题</b>
-大概内容
+
 </div>
 <div class="shijian">
 <b>21</b>
