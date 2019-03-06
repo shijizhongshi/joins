@@ -12,11 +12,11 @@
 <img src="/images/wkbanner.png"/>
 <div class="nav-head">
 <ul>
-<li ><a href=''>首页</a></li>
-<li style="background:#CB0101;"><a  href="">网课中心</a></li>
+<li ><a href='index'>首页</a></li>
+<li style="background:#CB0101;"><a  href="Onlie-course">网课中心</a></li>
 <li><a  href="">关于我的</a></li>
 </ul>
-<span style="position: absolute;right: 10%; top: 15px;color:white;"><a href="login.htm" style="color:white;">{名字}</a></span>
+<span style="position: absolute;right: 10%; top: 15px;color:white;"><a style="color:white;">{名字}</a></span>
 </div>
 </div>
 <div class="onlie">

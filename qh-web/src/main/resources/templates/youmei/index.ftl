@@ -4,7 +4,6 @@
 		<meta charset="utf-8" />
 
 		<link rel="stylesheet" href="/styles/youmei.css" />
-		<meta http-equiv="Content-Type" content="text/html; charset={dede:global.cfg_soft_lang/}" />
       <meta name="viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 	
 <title>中师网校</title>
@@ -17,12 +16,13 @@
 <img src="/images/banner.png"/>
 <div class="nav-head">
 <ul>
-<li style="background:#CB0101;"><a href=''>首页</a></li>
-<li><a  href="">网课中心</a></li>  	<span style="float:left;">|</span>
-<li><a  href="">关于我的</a></li>
+<a href='index'><li style="background:#CB0101;">首页</li></a>
+<a  href="Onlie-course"><li>网课中心</li> </a> 	<span style="float:left;">|</span>
+<a  href=""><li>关于我的</li></a>
 
 </ul>
-<span style="position: absolute;right: 10%; top: 15px;color:white;"><a href="login.htm" style="color:white;">登录</a></span>
+<span style="position: absolute;right: 10%; top: 15px;color:white;">
+<a href="login" style="color:white;">登录</a>/<a href="registe" style="color:white;">注册</a></span>
 </div>
 </div>
 	<!--企业文化-->
@@ -33,7 +33,7 @@
 	<div class="wenhua-center">
 	<div class="wenhua-left">
 	<p style="margin-bottom:56px;"><img src="/images/jianjie.png" /></p>
-	<p>&nbsp;&nbsp;优渼教育网是知名教育集团中师传承中医药研究院旗下的一大品牌之一，是致力于小儿推拿、中医正骨、中医针灸等中医教育为一体的专业化、规模化的中医适宜技术推广公司。有专业的中医讲师团队，并且每位名师都是丰厚的中医临床经验，学习过程中能够真正做到“言简意赅”的效果。网上学习、线下授课，两站是服务，让中医适宜技术学习更简单。</p>
+	<p>&nbsp;&nbsp;优渼教育网是知名教育集团中师传承中医药研究院旗下的一大品牌之一，是致力于小儿推拿、中医正骨、中医针灸等中医教育为一体的专业化、规模化的中医适宜技术推广公司。有专业的中医讲师团队，并且每位名师都是丰厚的中医临床经验，学习过程中能够真正做到“言简意赅”的效果。网上学习、线下授课，两站式服务，让中医适宜技术学习更简单。</p>
 	</div>
 	
 	<div class="wenhua-right"><img src="/images/wenhua-right.png" /></div>
@@ -155,10 +155,55 @@
 </div>
 <!--关于我们-->
 <div class="guanyu">
-<ul></ul>
+<div class="guanyu-centent">
+<div style="float:left;">
+<ul class="youlian">
+			<li><a href="#">网站首页</a></li>
+			<li><a href="#">关于我们</a></li>
+			<li><a href="#">诚聘英才</a></li>
+			<li><a href="#">帮助中心</a></li>
+		</ul>
+	<div id="district">
+		 <ul>
+		 <li onmousemove="font(0)">济南分校</li>		  
+		    <li onmousemove="font(1)">德州分校</li>
+		 </ul>
+		 </div>
+		 <div id="address">
+		 <p style="font-size:1.3rem;color:red;">地址：</p>
+		 <ul>
+		 
+		  <li style="display: block;font-size:1.2rem;">济南市天桥区名泉广场C座1904</li>
+		    <li style="display: none;font-size:1.2rem;">德州市德城区青年路贵都综合9楼905室</li>
+		 </ul>
+		 </div>
+</div>
+<div style="float:right;width:200px;font-size:1.3rem;line-height: 30px;text-align: center;">
+<img src="/images/youmeierweima.jpg" style="width:200px;"/>
+微信公众号
+</div>
+</div>
 </div>
 <!--备案号-->
 <div class="beian">@9999感冒灵</div>
 	</body>
+	 <script type="text/javascript">
+ function font(s){
+ 			var tabs=document.getElementById("district").getElementsByTagName("li");
+ 			var show=document.getElementById("address").getElementsByTagName("li");
+            for(var x=0;x<tabs.length;x++){
+		
+            	show[x].style.display='none';
+                if(x==s){
+                	
+                    show[x].style.display='block';
+					
+                }
 
+            }
+
+
+        }
+ 
+</script>
 </html>

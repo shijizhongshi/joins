@@ -22,7 +22,8 @@
 <ul><li>手机号码：</li><li>{15258544555}</li></ul>
 <ul><li>QQ号码&nbsp;：</li><li><input type="text"></li></ul>
 <ul><li>所在地区：</li>
-<li><select id="province" name="province" class="std_se_01" onchange="cityName(this.selectedIndex);"></select>
+<li><select id="province" name="province" class="std_se_01" onchange="cityName(this.selectedIndex);">"
+</select>
 	<select id="city" name="city" class="std_se_01" onchange="citychange(this.value);"></select></li></ul>
 <ul><li>详细地址：</li><li><input type="text"></li></ul>
 <ul><li>电子邮箱：</li><li><input type="text"></li></ul>
