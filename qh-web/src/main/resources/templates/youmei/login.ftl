@@ -17,7 +17,7 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 .denglu dl dd input::-webkit-input-placeholder{color:#CACACA;}
 .bt input{width:100%;background:#CC0001;margin-top:22px;color:white;line-height:40px;height:40px;text-align:center;font-size:1.4rem;border-radius:10px;}
 </style>  
-	<body ng-controller="loginController">
+	<body ng-app="app" ng-controller="loginController">
 	<div class="register">
 <div class="nav-head">
 <ul>
