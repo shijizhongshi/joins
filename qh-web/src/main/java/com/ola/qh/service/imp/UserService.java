@@ -2,6 +2,7 @@ package com.ola.qh.service.imp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.dao.UserLoginDao;
-import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserCode;
@@ -252,6 +253,18 @@ public class UserService implements IUserService {
 	public UserBook singleUserBook(String userId) {
 		// TODO Auto-generated method stub
 		return userbookDao.singleUserBook(userId);
+	}
+	/**
+	 * 登录验证
+	 */
+	@Override
+	public Integer selectByMobileAndPassword(String mobile, String password) {
+		Integer countInteger = 1;
+		User user = userDao.loginUser(mobile,password);
+		if (user != null) {
+			countInteger = 0;
+		}
+		return countInteger;
 	}
 
 }

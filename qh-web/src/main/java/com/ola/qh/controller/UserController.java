@@ -36,15 +36,13 @@ public class UserController {
 
 	@Autowired
 	private IUserService userService;
-	
-	
 
 	@RequestMapping(value = "/single", method = RequestMethod.GET)
 	public Results<User> singleUser(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<User> results = new Results<User>();
-		User user = userService.sinleUser(userId,null);
-		if(user.getNickname()==null || "".equals(user.getNickname())){
+		User user = userService.sinleUser(userId, null);
+		if (user.getNickname() == null || "".equals(user.getNickname())) {
 			user.setNickname(user.getMobile().substring(7));
 		}
 		user.setPassword(null);
@@ -53,7 +51,6 @@ public class UserController {
 		return results;
 	}
 
-	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Results<User> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
 		Results<User> result = new Results<User>();
@@ -75,7 +72,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid,HttpServletRequest request) {
+	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid,
+			HttpServletRequest request) {
 
 		Results<User> result = new Results<User>();
 		if (valid.hasErrors()) {
@@ -83,29 +81,31 @@ public class UserController {
 			result.setStatus("1");
 			return result;
 		}
-		return userService.loginUser(userlogin,request);
+		return userService.loginUser(userlogin, request);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Results<String> updateUser(@RequestBody User user,HttpServletRequest  request) {
+	public Results<String> updateUser(@RequestBody User user, HttpServletRequest request) {
 
 		Results<String> results = new Results<String>();
 
-		if((user.getId()==null || "".equals(user.getId())) && (user.getMobile()==null || "".equals(user.getMobile()))){
+		if ((user.getId() == null || "".equals(user.getId()))
+				&& (user.getMobile() == null || "".equals(user.getMobile()))) {
 			results.setStatus("1");
 			results.setMessage("缺少用户的标识");
 			return results;
 		}
-		if(user.getPassword()!=null && user.getPassword()!=""){
-			///////验证一下验证码说明是修改密码的操作
-			if(user.getVerification()==null || "".equals(user.getVerification())){
+		if (user.getPassword() != null && user.getPassword() != "") {
+			/////// 验证一下验证码说明是修改密码的操作
+			if (user.getVerification() == null || "".equals(user.getVerification())) {
 				results.setStatus("1");
 				results.setMessage("修改密码的时候验证码不能为空");
 				return results;
 			}
-			//String verification = request.getSession().getAttribute(user.getMobile()).toString();
+			// String verification =
+			// request.getSession().getAttribute(user.getMobile()).toString();
 			UserCode uc = userService.singleCode(user.getMobile());
-			
+
 			if (!uc.getCode().equals(user.getVerification())) {
 				results.setStatus("1");
 				results.setMessage("验证码不正确,请稍后重新获取");
@@ -122,19 +122,38 @@ public class UserController {
 		return results;
 	}
 
-	/*@RequestMapping(value = "/updatepassword", method = RequestMethod.POST)
-	public Results<User> updatePassword(@RequestBody User user) {
-
-		return userService.updatePassword(user);
-	}*/
+	/*
+	 * @RequestMapping(value = "/updatepassword", method = RequestMethod.POST)
+	 * public Results<User> updatePassword(@RequestBody User user) {
+	 * 
+	 * return userService.updatePassword(user); }
+	 */
 	@RequestMapping("/single/userbook")
-	public Results<UserBook> singleUserBook(@RequestParam(name="userId",required=true)String userId){
-		
-		Results<UserBook> result=new Results<UserBook>();
+	public Results<UserBook> singleUserBook(@RequestParam(name = "userId", required = true) String userId) {
+
+		Results<UserBook> result = new Results<UserBook>();
 		UserBook ub = userService.singleUserBook(userId);
 		result.setStatus("0");
 		result.setData(ub);
 		return result;
-	} 
-	
+	}
+
+	/**
+	 * 用户登录验证
+	 * 
+	 * @param mobile 手机号
+	 * @param password 密码
+	 * @return
+	 */
+	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
+	public Results<String> loginByMobileAndPassword(@RequestParam(name = "mobile", required = true) String mobile,
+			@RequestParam(name = "password", required = true) String password) {
+		Results<String> results = new Results<String>();
+
+		Integer count = userService.selectByMobileAndPassword(mobile, password);
+		results.setStatus(String.valueOf(count));
+
+		return results;
+	}
+
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.BannerDao;
-import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.entity.Banner;
 import com.ola.qh.service.IBannerService;
 
@@ -24,8 +23,6 @@ public class BannerService implements IBannerService {
 
 	@Autowired
 	private BannerDao bannerDao;
-	@Autowired
-	private BusinessDao businessDao;
 
 	@Override
 	public List<Banner> selectBanner(String type) {
