@@ -9,7 +9,7 @@ body{background:#FEF8EC;}
 .nav-head ul  a{color:white;font-size:1.1rem;}
 
 
-.user{width: 60%;min-width:900px;margin:0 auto;margin-top:15px;}
+.user{width: 60%;min-width:700px;margin:0 auto;margin-top:15px;}
 .classify{width: 20%;float:left;background:white;font-size:1.3rem;}
 .classify ul{width:70%;margin:0 auto;padding-top:10px;}
 .classify ul li {line-height:60px;}

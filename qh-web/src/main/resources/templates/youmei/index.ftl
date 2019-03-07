@@ -1,14 +1,22 @@
 <#import "/layout/header.ftl" as h/>
+<#import "/layout/head.ftl" as b/>
 <!DOCTYPE html>
 <html>
 	
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
-<body>
+<<<<<<< HEAD
+<@b.head ></@b.head> 
+<script src="/scripts/youmei/index.js"></script>
+<<<<<<< HEAD
+<@b.head ></@b.head> 
+<body ng-app="app" ng-controller="indexController">
+=======
+<body ng-app="app" ng-controller="indexController">
+>>>>>>> branch 'master' of https://github.com/shijizhongshi/joins.git
 <div class="nav">
 <img src="/images/banner.png"/>
-<#include "/layout/head.ftl" />
 </div>
 	<!--企业文化-->
 	<div class="wenhua">
@@ -30,54 +38,34 @@
 <p class="xiaobiaoti">ENTERPRIS&nbsp;CULTURE</p>
 <p  class="miaoshu">中医具有完整的理论体系，其独特之处，在于“天人合一”、“天人感应”<br/>的整体观及辨证论治</p>
 
-<div class="zixun-center">
+<div class="zixun-center" >
 <ul>
-<li><img src="/images/xinw.png"/>
-<div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
-</div>
-<div class="shijian">
-<b>08</b>
-<span>2019-3</span>
-</div>
+
+<li style="position: relative;height:100%;" >
+<img src="{{newsList[0].imgUrl}}" style="height:" />
+<div class="fuyuansu" style="position: absolute;bottom:0;text-align: center;line-height: 40px;width:100%;height:40px;background: black;padding:0;color:white;opacity: 0.7;">
+<b style="margin:0 auto;font-size:1.3rem;letter-spacing:2px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">{{newsList[0].title}}</b>
 </div>
 </li>
-<li><img src="/images/xinw.png"/>
-<div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
-</div>
-<div class="shijian">
-<b>08</b>
-<span>2019-3</span>
-</div>
+<li style="position: relative;height:100%;">
+<img src="{{newsList[1].imgUrl}}" />
+<div class="fuyuansu" style="position: absolute;bottom:0;text-align: center;line-height: 40px;width:100%;height:40px;background: black;padding:0;color:white;opacity: 0.7;">
+<b style="margin:0 auto;font-size:1.3rem;letter-spacing:2px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">{{newsList[1].title}}</b>
 </div>
 </li>
+
 </ul>
-<!--新闻资讯下边不调缩略图的两个-->
+<!--新闻资讯下边不调缩略图的六个-->
 <ul style="margin-top:40px;">
-<li><div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
+<li ng-repeat = "news in news">
+<div class="fuyuansu">
+<div class="neirong-zuo" >
+<b >{{news.title}}</b>
+
 </div>
 <div class="shijian">
-<b>21</b>
-<span>2019-08</span>
-</div>
-</div>
-</li>
-<li><div class="fuyuansu">
-<div class="neirong-zuo">
-<b>标题</b>
-大概内容
-</div>
-<div class="shijian">
-<b>21</b>
-<span>2019-08</span>
+<b>{{news.addtime | date:'dd'}}</b>
+<span>{{news.addtime | date:'yyyy-MM'}}</span>
 </div>
 </div>
 </li>

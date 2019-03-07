@@ -42,7 +42,7 @@
 		select * from news
 		where id=#{id}
 	</select>
-
+	
 	<select id="selectRecommendNews"  resultMap="NewsMap">
 		select id,title,img_url,simple_intro from news where isrecommend=1 limit 4
 	</select>
