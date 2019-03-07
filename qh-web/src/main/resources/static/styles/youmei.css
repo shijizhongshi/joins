@@ -26,7 +26,7 @@ column-count:2;}
 .zixun-center ul li img{display:block;width:100%;clear:both;}
 .fuyuansu{display:flex;justify-content:space-between;padding-top: 8px;}
 .fuyuansu b {display:block;font-size: 1.3rem;padding-bottom: 5px;}
-.zixun-center .neirong-zuo{height:65px;overflow: hidden;}
+.zixun-center .neirong-zuo{height:65px;overflow: hidden;width:75%;}
 .zixun-center .shijian{width: 56px;height: 60px;color:#8E7B63;margin-left: 20px;background:#F4DCB8;text-align:center;padding: 3px 5px;}
 .zixun-center .shijian b{font-size: 1.4rem;}
 
