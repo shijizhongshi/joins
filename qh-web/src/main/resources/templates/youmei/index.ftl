@@ -6,10 +6,10 @@
 
 <link rel="stylesheet" href="/styles/youmei.css" />
 <script src="/scripts/youmei/index.js"></script>
+<@b.head ></@b.head> 
 <body ng-app="app" ng-controller="indexController">
 <div class="nav">
 <img src="/images/banner.png"/>
-<#include "/layout/head.ftl" />
 </div>
 	<!--企业文化-->
 	<div class="wenhua">
@@ -57,8 +57,8 @@
 
 </div>
 <div class="shijian">
-<b>21</b>
-<span>2019-08</span>
+<b>{{news.addtime | date:'dd'}}</b>
+<span>{{news.addtime | date:'yyyy-MM'}}</span>
 </div>
 </div>
 </li>
