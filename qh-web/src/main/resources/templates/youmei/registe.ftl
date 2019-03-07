@@ -1,4 +1,5 @@
 <#import "/layout/header.ftl" as h/>
+<#import "/layout/head.ftl" as b/>
 <!DOCTYPE html>
 <html>
 	<@h.header title="网课中心"/>
@@ -18,9 +19,10 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 .denglu dl dd input::-webkit-input-placeholder{color:#CACACA;}
 .bt input{width:100%;background:#CC0001;margin-top:22px;color:white;line-height:40px;height:40px;text-align:center;font-size:1.4rem;border-radius:10px;}
 </style>  
+<@b.head ></@b.head> 
 	<body>
 	<div class="register">
-<#include "/layout/head.ftl" />
+
 <div class="denglu">
 <p class="greeting">你好！<br/>欢迎来优渼教育</p>
 <dl>

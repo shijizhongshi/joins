@@ -1,4 +1,5 @@
 <#import "/layout/header.ftl" as h/>
+<#import "/layout/head.ftl" as b/>
 <!DOCTYPE html>
 <html>
 		<@h.header title="个人中心"/>
@@ -36,10 +37,9 @@ window.onresize=function(){  
         }
  
 </script>
-<body>
 
-<!--登录头-->
-<#include "/layout/head.ftl" />
+<@b.head ></@b.head> 
+<body>
 <div style="100%;height:50px;background:#FEF8EC;"></div>
 <div class="user">
 <!--左侧选择栏-->
@@ -63,7 +63,7 @@ window.onresize=function(){  
 <iframe name="iframes" src="user/user-message.html"  width="100%" height="100%" runat="server"  onload="changeFrameHeight()" id="test"></iframe>
 </div>
 </div>
-
 </body>
+
 
 </html>
