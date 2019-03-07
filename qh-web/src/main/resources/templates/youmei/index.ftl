@@ -1,14 +1,15 @@
 <#import "/layout/header.ftl" as h/>
+<#import "/layout/head.ftl" as b/>
 <!DOCTYPE html>
 <html>
 	
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
+<@b.head ></@b.head> 
 <body>
 <div class="nav">
 <img src="/images/banner.png"/>
-<#include "/layout/head.ftl" />
 </div>
 	<!--企业文化-->
 	<div class="wenhua">

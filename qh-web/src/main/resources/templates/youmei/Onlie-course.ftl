@@ -1,15 +1,15 @@
 <#import "/layout/header.ftl" as h/>
+<#import "/layout/head.ftl" as b/>
 <!DOCTYPE html>
 <html>
 	<@h.header title="网课中心"/>
 <link rel="stylesheet" href="/styles/youmei.css" />
 <link rel="stylesheet" href="/styles/online.css" />
-
+<@b.head ></@b.head> 
 <body>
 <div class="nav">
 <div style="background:#C6A57F;width:100%;height:50px;"></div>
 <img src="/images/wkbanner.png"/>
-<#include "/layout/head.ftl" />
 
 </div>
 <div class="onlie">
