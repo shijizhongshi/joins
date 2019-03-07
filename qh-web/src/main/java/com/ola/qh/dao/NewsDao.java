@@ -22,4 +22,5 @@ public interface NewsDao {
 	//话题广场
 	public List<TopicSquare> topicSquare(@Param("pageNo") int pageNo,
 			@Param("pageSize") int pageSize);
+
 }
