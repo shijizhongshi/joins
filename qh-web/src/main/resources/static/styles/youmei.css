@@ -23,7 +23,7 @@ column-count:2;}
 .zixun-center{width:60%;margin:0 auto;margin-top:56px;}
 .zixun-center ul{display:flex;justify-content:space-between;flex-wrap: wrap;}
 .zixun-center ul li {width:48%;margin-top: 10px;}
-.zixun-center ul li img{display:block;width:100%;clear:both;}
+.zixun-center ul li img{display:block;width:100%;clear:both;height:13vw;}
 .fuyuansu{display:flex;justify-content:space-between;padding-top: 8px;}
 .fuyuansu b {display:block;font-size: 1.3rem;padding-bottom: 5px;}
 .zixun-center .neirong-zuo{height:65px;overflow: hidden;width:75%;}
