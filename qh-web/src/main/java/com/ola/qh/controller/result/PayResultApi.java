@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import com.ola.qh.entity.PayResult;
 import com.ola.qh.service.IPayResultService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.MD5;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.vo.WXPayResult;
 /**
  * 支付宝和微信的回调
@@ -41,12 +43,12 @@ public class PayResultApi {
 	@Autowired
 	private IPayResultService payResultService;
 
-	@RequestMapping(value = "/api/pay/result/alipay/async", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/pay/result/alipay/async", method = RequestMethod.POST)
 	public void aliPayResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, String> params = new HashMap<String, String>();
 		Map<String, String[]> requestParams = request.getParameterMap();
 
-		/*for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
 			String name = (String) iter.next();
 			String[] values = (String[]) requestParams.get(name);
 			String valueStr = "";
@@ -61,13 +63,13 @@ public class PayResultApi {
 		// 商户订单号
 		String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
 		// 交易状态
-		String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"), "UTF-8");*/
+		String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"), "UTF-8");
 		// 获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// 请在这里加上商户的业务逻辑程序代码
 		
-		  String out_trade_no ="483996511646541940"; 
-		  String trade_status ="TRADE_SUCCESS";
+		 /* String out_trade_no ="483996511646541940"; 
+		  String trade_status ="TRADE_SUCCESS";*/
 		 
 		// ——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 
@@ -139,7 +141,7 @@ public class PayResultApi {
 		    {
 			Map<String, String> mapresult = BeanUtils.describe(wxresult);
 			String providedSign = wxresult.getSign();
-			String signkey = "";/////设置的秘钥
+			String signkey =Patterns.wxsignkey;/////设置的秘钥
 			String calculatedSign = MD5.digest(compositeWXPayKeyValuePaires(mapresult, signkey)).toUpperCase();
 			
 
