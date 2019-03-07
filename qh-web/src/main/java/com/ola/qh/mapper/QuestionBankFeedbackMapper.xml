@@ -19,7 +19,7 @@
 	</select>
 	
 	
-	<insert id="addFeedback">
+	<insert id="addFeedback" parameterType="com.ola.qh.entity.QuestionBankFeedback">
 		insert into question_bank_feedback(id,user_id,category_id,bank_id,types,status,addtime) 
 		values(#{id},#{userId},#{categoryId},#{bankId},#{types},#{status},#{addtime})
 	</insert>
