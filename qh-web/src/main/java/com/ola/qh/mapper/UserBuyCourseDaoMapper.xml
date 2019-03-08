@@ -26,8 +26,8 @@
 	
 	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">
 	select uc.* from user_buy_course uc 
-	left join <if test="types==1">course_class cc on cc.id=uc.class_id</if>
-	<if test="types==2">course c on c.id=uc.course_id</if>
+	<if test="types==1"> left join course_class cc on cc.id=uc.class_id</if>
+	<if test="types==2">left join course c on c.id=uc.course_id</if>
 	where 1=1
 	<if test="userId!=null and userId!=''">
 	and uc.user_id=#{userId}

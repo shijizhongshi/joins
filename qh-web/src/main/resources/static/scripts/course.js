@@ -59,5 +59,9 @@ app.controller("CourseController",function($scope,$http){
 	}
 	
 	
+	$scope.singleClass=function(classId){
+		location.href="/web/youmei/particulars?classId="+classId;
+	}
+	
 	
 })

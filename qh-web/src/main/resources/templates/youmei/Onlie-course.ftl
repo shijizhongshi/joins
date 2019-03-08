@@ -34,7 +34,7 @@ background-size:100% 100%  !important;
 </ul>
 <div >
 	<ul class="choose-kc">
-					<li ng-repeat="class in classlist">
+					<li ng-repeat="class in classlist" ng-click="singleClass(class.id)">
 					<div>
 					<img ng-src="{{class.imgUrl}}" style="width:100%;height:130px;"/>
    <p style="line-height: 40px;font-size: 1.2rem;">{{class.className}}</p>
