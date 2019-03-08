@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserCode;
 import com.ola.qh.service.ISendSmsService;

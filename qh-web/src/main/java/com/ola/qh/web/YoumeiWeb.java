@@ -41,6 +41,10 @@ public class YoumeiWeb {
 		}
 		return "youmei/Onlie-course";
 	}
+	@RequestMapping("/particulars")
+	public String particulars(){
+		return "youmei/particulars";
+	}
 	@RequestMapping("/user")
 	public String user(HttpServletRequest request){
 		Object obj = request.getSession().getAttribute("islogin");
@@ -81,6 +85,7 @@ public class YoumeiWeb {
 		}
 		return "youmei/user/user-curriculum";
 	}
+
 	
 	@RequestMapping("/loginout")
 	public String loginout(HttpServletRequest request){
@@ -89,5 +94,9 @@ public class YoumeiWeb {
 		return "youmei/login";
 	}
 	
+	@RequestMapping("/vadio")
+	public String vadio(){
+		return "youmei/vadio";
+	}
 
 	}

@@ -47,12 +47,13 @@ public class UserService implements IUserService {
 
 		Results<User> result = new Results<User>();
 		try {
-			//String verification = request.getSession().getAttribute(user.getMobile()).toString();
+			// String verification =
+			// request.getSession().getAttribute(user.getMobile()).toString();
 			UserCode uc = userDao.singleCode(user.getMobile());
-			
+
 			if (uc.getCode().equals(user.getVerification())) {
 
-				User existMobile = userDao.singleUser(null,user.getMobile());
+				User existMobile = userDao.singleUser(null, user.getMobile());
 				User users = new User();
 
 				if (existMobile != null) {
@@ -84,7 +85,7 @@ public class UserService implements IUserService {
 				userlogin.setDeviceType(user.getDeviceType());
 				userlogin.setAddtime(new Date());
 				userloginDao.saveUserLogin(userlogin);
-				String nickname=users.getMobile().substring(7);
+				String nickname = users.getMobile().substring(7);
 				users.setNickname(nickname);
 				result.setData(users);
 				result.setStatus("0");
@@ -111,7 +112,7 @@ public class UserService implements IUserService {
 
 			User user = new User();
 
-			user = userDao.singleUser(null,userlogin.getMobile());
+			user = userDao.singleUser(null, userlogin.getMobile());
 			if (user == null) {
 				results.setMessage("该手机号未注册");
 				results.setStatus("1");
@@ -123,17 +124,17 @@ public class UserService implements IUserService {
 				results.setStatus("1");
 				return results;
 			}
-			
-			if(userlogin.getVerification()!=null && !"".equals(userlogin.getVerification())){
-				//String verification = request.getSession().getAttribute(userlogin.getMobile()).toString();
-				UserCode uc =userDao.singleCode(userlogin.getMobile());
-				
-				if(!userlogin.getVerification().equals(uc.getCode())){
+
+			if (userlogin.getVerification() != null && !"".equals(userlogin.getVerification())) {
+				// String verification =
+				// request.getSession().getAttribute(userlogin.getMobile()).toString();
+				UserCode uc = userDao.singleCode(userlogin.getMobile());
+
+				if (!userlogin.getVerification().equals(uc.getCode())) {
 					results.setMessage("验证码输入有误");
 					results.setStatus("1");
 					return results;
 				}
-				
 
 			}
 			if (userlogin.getPassword() != null && !"".equals(userlogin.getPassword())) {
@@ -145,12 +146,12 @@ public class UserService implements IUserService {
 			}
 
 			UserLogin ulold = userloginDao.selectUserLogin(user.getId());
-			if(ulold!=null){
+			if (ulold != null) {
 				userlogin.setUserId(user.getId());
 				userlogin.setUpdatetime(new Date());
 				userloginDao.updateUserLogin(userlogin);
-			}else{
-				UserLogin newul=new UserLogin();
+			} else {
+				UserLogin newul = new UserLogin();
 				newul.setDeviceId(userlogin.getDeviceId());
 				newul.setDeviceName(userlogin.getDeviceName());
 				newul.setDeviceToken(userlogin.getDeviceToken());
@@ -159,7 +160,7 @@ public class UserService implements IUserService {
 				newul.setId(KeyGen.uuid());
 				newul.setUserId(user.getId());
 				userloginDao.saveUserLogin(newul);
-				
+
 			}
 
 			results.setStatus("0");
@@ -176,7 +177,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User sinleUser(String userId,String mobile) {
+	public User sinleUser(String userId, String mobile) {
 
 		return userDao.singleUser(userId, mobile);
 
@@ -186,7 +187,7 @@ public class UserService implements IUserService {
 	public Results<String> existUser(String userId) {
 
 		Results<String> result = new Results<String>();
-		User user = userDao.singleUser(userId,null);
+		User user = userDao.singleUser(userId, null);
 		if (user != null) {
 			result.setStatus("0");
 			return result;
@@ -233,16 +234,19 @@ public class UserService implements IUserService {
 		}
 
 	}
+
 	@Override
 	public int insertCode(UserCode uc) {
 		// TODO Auto-generated method stub
 		return userDao.insertCode(uc);
 	}
+
 	@Override
 	public UserCode singleCode(String mobile) {
 		// TODO Auto-generated method stub
 		return userDao.singleCode(mobile);
 	}
+
 	@Override
 	public int updateCode(String code, String mobile) {
 		// TODO Auto-generated method stub
@@ -254,13 +258,14 @@ public class UserService implements IUserService {
 		// TODO Auto-generated method stub
 		return userbookDao.singleUserBook(userId);
 	}
+
 	/**
 	 * 登录验证
 	 */
 	@Override
 	public Integer selectByMobileAndPassword(String mobile, String password,HttpServletRequest request) {
 		Integer countInteger = 1;
-		User user = userDao.loginUser(mobile,password);
+		User user = userDao.loginUser(mobile, password);
 		if (user != null) {
 			countInteger = 0;
 			request.getSession().setAttribute("username", mobile);
@@ -268,5 +273,45 @@ public class UserService implements IUserService {
 		}
 		return countInteger;
 	}
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Results<User> saveUser(User user, HttpServletRequest request) {
 
+		Results<User> result = new Results<User>();
+		try {
+			// String verification =
+			// request.getSession().getAttribute(user.getMobile()).toString();
+			UserCode uc = userDao.singleCode(user.getMobile());
+
+			if (uc.getCode().equals(user.getVerification())) {
+
+				User existMobile = userDao.singleUser(null, user.getMobile());
+				User users = new User();
+
+				if (existMobile != null) {
+					result.setStatus("1");
+					result.setMessage("手机号已存在");
+					return result;
+				}
+				user.setAddtime(new Date());
+				user.setId(KeyGen.uuid());
+				userDao.saveUser(user);
+				// userDao.loginUser(user.getMobile(), user.getPassword());
+				
+				result.setData(users);
+				result.setStatus("0");
+				return result;
+			}
+
+			result.setStatus("1");
+			result.setMessage("验证码有误");
+			return result;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			result.setStatus("1");
+			result.setMessage("保存失败");
+			return result;
+		}
+
+	}
 }

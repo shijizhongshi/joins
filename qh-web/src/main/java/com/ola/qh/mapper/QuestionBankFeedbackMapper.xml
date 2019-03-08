@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.QuestionBankFeedbackDao">
+	<resultMap type="com.ola.qh.entity.QuestionBankFeedback"  id="QuestionBankFeedbackMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="category_id" property="categoryId" />
+		<result column="bank_id" property="bankId" />
+		<result column="types" property="types" />
+		<result column="status" property="status" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+
+	<select id="feedbackList" resultMap="QuestionBankFeedbackMap">
+		select id,user_id,category_id,bank_id,types,status,addtime from question_bank_feedback where user_id=#{userId}
+	</select>
+	
+	
+	<insert id="addFeedback" parameterType="com.ola.qh.entity.QuestionBankFeedback">
+		insert into question_bank_feedback(id,user_id,category_id,bank_id,types,status,addtime) 
+		values(#{id},#{userId},#{categoryId},#{bankId},#{types},#{status},#{addtime})
+	</insert>
+	
+</mapper>

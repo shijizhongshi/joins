@@ -25,5 +25,5 @@ public interface UserDao {
 	public UserCode singleCode(String mobile);
 	
 	public int updateCode(@Param("code")String code,@Param("mobile")String mobile);
-	
+
 }

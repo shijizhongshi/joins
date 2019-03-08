@@ -29,5 +29,13 @@ public interface IUserService {
 	
 	public UserBook singleUserBook(String userId);
 	
+<<<<<<< HEAD
 	public Integer selectByMobileAndPassword(String mobile,String password,HttpServletRequest request);
+=======
+	public Integer selectByMobileAndPassword(String mobile,String password);
+	
+	public Results<User> saveUser(User user, HttpServletRequest request);
+
+	
+>>>>>>> branch 'master' of https://github.com/shijizhongshi/joins.git
 }
