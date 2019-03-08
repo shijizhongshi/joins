@@ -4,6 +4,11 @@
 <div class="nav-head" id="head" ng-app="app" ng-controller="HeadController">
 <ul>
 
+<img src="/images/youmeilogo.png" style="
+    height: 70%;
+    margin-top: 8px;
+    margin-right: 3%;
+"  />
 <a href='/web/youmei/index'><li id="index">首页</li></a>
 <a  href="/web/youmei/onliecourse"><li id="course" >网课中心</li> </a> 
 <li id="user" ng-click="bg()">个人中心</li>
@@ -22,7 +27,7 @@
 *{ margin: 0px; padding: 0px;border:none; list-style: none;font-family:"/";outline:none;text-decoration: none;font-size:14px}
 a{outline: none;color:black;outline: none;}
 .nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;position:absolute;top:0;}
-.nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
+.nav-head ul{display:flex;justify-content: left;height: 50px;width: 60%;margin: 0 auto;min-width:600px;}
 .nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;color:white;font-size:1.1rem;}
 .nav-head ul  a{color:white;font-size:1.1rem;}
 

@@ -11,11 +11,16 @@
 background:url(/images/choose2.png)  no-repeat !important;
 background-size:100% 100%  !important;
 }
+
 #course{
 	background:#CB0101 !important;
 }
+
 </style>
+
 <script src="/scripts/course.js"></script>
+
+
 <@b.head ></@b.head> 
 <body ng-app="app" ng-controller="CourseController">
 <div class="nav">
@@ -31,6 +36,7 @@ background-size:100% 100%  !important;
 <p class="choose"><span></span><b>选择专业</b></p>
 <ul class="choose-zy">
 <li ng-repeat="sub in subtype.sublist" ng-click="subCourse(sub)">{{sub.courseTypeSubclassName}}</li>
+
 </ul>
 <div >
 	<ul class="choose-kc">
@@ -49,6 +55,7 @@ background-size:100% 100%  !important;
 	</ul>
 	</div>
 </div>
-
+<!--footer-->
+<#include "/layout/footer.ftl"/>
 </body>
 </html>

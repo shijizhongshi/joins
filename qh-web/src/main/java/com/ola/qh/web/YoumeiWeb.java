@@ -107,4 +107,13 @@ public class YoumeiWeb {
 		return "youmei/vadio";
 	}
 
+	@RequestMapping("/orderform")
+	public String orderForm(){
+		return "youmei/order-form";
+	}
+	@RequestMapping("/videograde")
+	public String videoGrade(){
+		return "youmei/video-grade";
+	}
+
 	}

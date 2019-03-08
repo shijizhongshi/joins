@@ -22,7 +22,9 @@ color:red;
 <input type="hidden" value="${classId}" id="classId">
 <div style="background:#C6A57F;width:100%;height:50px;"></div>
 <div class="weizhi">
-<p>您的位置：<a href="index">网站首页</a>><a href="Onlie-course">网课中心</a>>{{courseClass.courseTypeSubclassName}} &nbsp;&nbsp;{{courseClass.className}}</p>
+
+<p>您的位置：<a href="index">网站首页</a>><a href="onliecourse">网课中心</a>>{{courseClass.courseTypeSubclassName}} &nbsp;&nbsp;{{courseClass.className}}</p>
+
 </div>
 <!-- 购买课程 -->
 <div class="buy">
@@ -89,6 +91,6 @@ color:red;
 </div>
 </div>
 <!--footer-->
-<#include "footer.ftl"/>
+<#include "/layout/footer.ftl"/>
 </body>
 </html>
