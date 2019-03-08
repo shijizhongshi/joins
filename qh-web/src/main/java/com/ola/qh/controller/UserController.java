@@ -141,7 +141,7 @@ public class UserController {
 	/**
 	 * 用户登录验证
 	 * 
-	 * @param mobile 手机号
+	 * @param mobile   手机号
 	 * @param password 密码
 	 * @return
 	 */
@@ -156,4 +156,20 @@ public class UserController {
 		return results;
 	}
 
+	/**
+	 * 用户web端注册
+	 * 
+	 * @param mobile
+	 * @param password
+	 * @param code
+	 * @return
+	 */
+	@RequestMapping(value = "/web/registe", method = RequestMethod.POST)
+	public Results<User> registe(@RequestBody User user,@RequestBody HttpServletRequest request) {
+		Results<User> results = new Results<User>();
+		System.out.println("传值 = "+user.getMobile()+user.getPassword()+user.getVerification());
+		results =  userService.saveUser(user, request);
+		
+		return results;
+	}
 }
