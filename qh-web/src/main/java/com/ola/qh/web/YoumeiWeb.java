@@ -23,6 +23,10 @@ public class YoumeiWeb {
 	public String OnlieCourse(){
 		return "youmei/Onlie-course";
 	}
+	@RequestMapping("/particulars")
+	public String particulars(){
+		return "youmei/particulars";
+	}
 	@RequestMapping("/user")
 	public String user(){
 		return "youmei/user";

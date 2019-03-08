@@ -1,0 +1,35 @@
+body{background:#FEF7ED;}
+.weizhi{height:60px;}
+.weizhi p{width:60%;margin:0 auto;line-height: 60px;font-size:1.0rem;}
+.buy{width:100%;padding:41px 0;background:#DFCEBE;}
+.buy-center{width:60%;margin: 0 auto;overflow: hidden;min-width: 700px;}
+.buy-center .goumai{display: inline-block;padding: 4% 5%;background:white;float: right;width: 30%;}
+.goumai b{font-size:1.3rem;display:inline-block;width:100%;text-align: center;height: 25px;line-height: 25px;border-left: 5px solid #C90000;text-indent: 0.5em;}
+.goumai p{font-size:1.0rem;color:#999;}
+.goumai p span{color:red;font-size:1.4rem;}
+.goumai ul{display:flex;justify-content: space-between;flex-wrap: wrap;}
+.goumai ul li{box-sizing: border-box;width:49%;font-size:1.0rem;border:1px solid #D4CFCB;text-align: center;padding: 3px 0;margin-top: 7px;position:relative;}
+.goumai ul li img{position: absolute;right:0;height: 50%;bottom: 0;display:none;}
+.btn{width:100%;margin-top:15px;}
+.btn input{width:47%;color:white;font-size:1.3rem;padding:5px 0;}
+/*intro*/
+.title{font-size: 1.6rem;border-left: 5px solid #C1A58A;text-indent: 1em;}
+.intro{clear:both;width:60%;margin:0 auto;min-width:700px;padding:37px 0;padding-bottom:500px;}
+.intro-left{float:left;width:45%;}
+.intro-right{float:right;width:49px;}
+.teacher-intro{width:100%;}
+.teacher-intro .title span {display: inline-block;margin-left:5px;line-height: 1.8rem;font-size: 1.2rem;text-indent: 0;}
+.teacher-intro ul{display:flex;margin-top:20px;}
+.teacher-intro ul li{padding:3%;background:white;width:94%;}
+.teacher-intro ul li b , .teacher-intro ul li span{font-size:1.4rem;margin-left:5%;line-height:40px;}
+.teacher-intro ul li span{color:#999;font-size:1.2rem;}
+.teacher-intro ul li p{clear:both;line-height: 30px;padding-top: 10px;font-size: 1.1rem;text-indent: 2em;}
+/*course-intro*/
+.course-intro{width:100%;margin-top:37px;}
+.course-intro-center{width:96%;padding:2%;background:white;text-indent: 2em;margin-top:10px;font-size:1.2rem;}
+/*chapter*/
+.intro-right{float:right;width:47%;}
+.intro-right ul{padding:2%;background:white;margin-top:20px;}
+.intro-right ul li{line-height:1.5rem;font-size:1.2rem;padding:10px 0;}
+.intro-right ul li img{float:left;margin-right:3%;}
+.intro-right ul li span{float:right;font-size: 1.2rem;color:#999;}
