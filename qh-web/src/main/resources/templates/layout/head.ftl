@@ -3,7 +3,7 @@
 <div class="nav-head" id="head">
 <ul>
 <a href='index'><li style="background:#CB0101;" onclick="bg(0)">首页</li></a>
-<a  href="Onlie-course"><li onclick="bg(1)">网课中心</li> </a> 
+<a  href="onliecourse"><li onclick="bg(1)">网课中心</li> </a> 
 <a  href="user"><li onclick="bg(2)" >个人中心</li></a>
 
 </ul>
