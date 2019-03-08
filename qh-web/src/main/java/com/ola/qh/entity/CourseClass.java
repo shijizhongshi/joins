@@ -32,6 +32,29 @@ public class CourseClass {
 	
 	private int maxdoudou;////购买整个课程最多的豆豆数
 	
+	private String tearcherImg;
+	
+	private int buyCount;/////购买的人数
+	
+	
+	
+
+
+	public int getBuyCount() {
+		return buyCount;
+	}
+
+	public void setBuyCount(int buyCount) {
+		this.buyCount = buyCount;
+	}
+
+	public String getTearcherImg() {
+		return tearcherImg;
+	}
+
+	public void setTearcherImg(String tearcherImg) {
+		this.tearcherImg = tearcherImg;
+	}
 
 	public int getMaxdoudou() {
 		return maxdoudou;

@@ -24,4 +24,9 @@ public interface CourseClassDao {
 		public int teacherCount(@Param("classId") String classId);////老师的总个数
 		
 		public int ordersCount(@Param("productId") String productId);/////查课程订单的个数
+		
+		//////通过name查教师的信息
+		public String getTeacherImg(@Param("name")String name);
+		
+		
 }

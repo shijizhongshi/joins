@@ -10,6 +10,7 @@ import com.ola.qh.dao.BannerDao;
 import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
 import com.ola.qh.dao.CourseDao;
+import com.ola.qh.dao.OrdersProductDao;
 import com.ola.qh.dao.UserBuyCourseDao;
 import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Banner;
@@ -40,6 +41,9 @@ public class CourseClassService implements ICourseClassService{
 	@Autowired
 	private BannerDao bannerDao;
 	
+	@Autowired
+	private OrdersProductDao ordersProductDao;
+	
 	@Override
 	public List<CourseNofree> nofreeList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
@@ -51,7 +55,7 @@ public class CourseClassService implements ICourseClassService{
 	@Override
 	public CourseNofree nofreeSingle(String id,String address,String userId) {
 		// TODO Auto-generated method stub
-		CourseNofree coursenoFree=new CourseNofree();
+		CourseNofree coursenoFree=courseClassDao.nofreeSingle(id);
 		String newAddress=null;
 		if(userId!=null && !"".equals(userId)){
 			/////////查这个用户是否所属加盟商
@@ -95,7 +99,7 @@ public class CourseClassService implements ICourseClassService{
 			coursenoFree.setMobile(banner.get(0).getOutLinks());
 		}
 		
-		return courseClassDao.nofreeSingle(id);
+		return coursenoFree;
 	}
 
 	/**
@@ -104,7 +108,21 @@ public class CourseClassService implements ICourseClassService{
 	@Override
 	public List<CourseClass> classList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		return courseClassDao.classList(ccd);
+		List<CourseClass> list = courseClassDao.classList(ccd);
+		for (CourseClass courseClass : list) {
+			int count = ordersProductDao.ordersCount(courseClass.getId());
+			CourseClassDomain courseed=new CourseClassDomain();
+			courseed.setClassId(courseClass.getId());
+			courseed.setPageSize(0);
+			List<Course> courseList = courseDao.courseList(courseed);
+			for (Course course : courseList) {
+				count+=ordersProductDao.ordersCount(course.getId());
+			}
+			courseClass.setBuyCount(count);
+			String tearcherImg=courseClassDao.getTeacherImg(courseClass.getCourseLecturer());
+			courseClass.setTearcherImg(tearcherImg);
+		}
+		return list;
 	}
 
 	@Override

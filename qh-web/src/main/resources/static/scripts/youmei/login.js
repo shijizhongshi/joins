@@ -5,7 +5,8 @@ app.controller("loginController",function($scope,$http){
 		.success(function(result){
 			if (result.status == "0") {
 				//跳转到登录界面
-				location.href="/web/youmei/index"
+				location.href="/web/youmei/user";
+				
 			}else {
 				alert("登陆失败，账号或密码输入错误");
 			}

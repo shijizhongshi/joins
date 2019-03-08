@@ -4,7 +4,11 @@
 <html>
 		<@h.header title="个人中心"/>
 <link rel="stylesheet" href="/styles/user.css" />
-
+<style>
+#user{
+	background:#CB0101 !important;
+}
+</style>
 <script type="text/javascript">
 //iframe 自适应高度
 function changeFrameHeight(){
@@ -37,7 +41,6 @@ window.onresize=function(){  
         }
  
 </script>
-
 <@b.head ></@b.head> 
 <body>
 <div style="100%;height:50px;background:#FEF8EC;"></div>

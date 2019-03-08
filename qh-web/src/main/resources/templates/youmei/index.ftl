@@ -6,15 +6,16 @@
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
-<<<<<<< HEAD
-<@b.head ></@b.head> 
-<script src="/scripts/youmei/index.js"></script>
-<<<<<<< HEAD
+<style>
+
+#index{
+	background:#CB0101 !important;
+}
+</style>
+<script src="/scripts/index.js"></script>
 <@b.head ></@b.head> 
 <body ng-app="app" ng-controller="indexController">
-=======
-<body ng-app="app" ng-controller="indexController">
->>>>>>> branch 'master' of https://github.com/shijizhongshi/joins.git
+
 <div class="nav">
 <img src="/images/banner.png"/>
 </div>

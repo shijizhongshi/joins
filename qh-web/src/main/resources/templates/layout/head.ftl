@@ -1,19 +1,20 @@
-<#macro head>
+<#macro head >
 <body>
-<div class="nav-head" id="head">
+<script src="/scripts/islogin.js"></script>
+<div class="nav-head" id="head" ng-app="app" ng-controller="HeadController">
 <ul>
-<a href='index'><li style="background:#CB0101;" onclick="bg(0)">首页</li></a>
-<a  href="Onlie-course"><li onclick="bg(1)">网课中心</li> </a> 
-<a  href="user"><li onclick="bg(2)" >个人中心</li></a>
-
+<a href='/web/youmei/index'><li id="index">首页</li></a>
+<a  href="/web/youmei/onliecourse"><li id="course" >网课中心</li> </a> 
+<li id="user" ng-click="bg()">个人中心</li>
+<input type="hidden" value="${islogin}" id="islogin"/>
 </ul>
-<span style="position: absolute;right: 10%; top: 15px;color:white;">
+<span style="position:absolute;right:10%; top:15px;color:white;" ng-show="register">
 <a href="login" style="color:white;">登录</a>/<a href="registe" style="color:white;">注册</a></span>
 
-<span style="display:none;position: absolute;right: 10%; top: 15px;">
+<span style="position: absolute;right: 10%; top: 15px;" ng-show="!register">
 <select >
-<option disabled selected hidden>{名字}</option>
-<option  >退出</option></select></span>
+<option>${username}</option>
+<option ng-click="loginout()">退出</option></select></span>
 </div>
 <style>
 
@@ -25,7 +26,7 @@
 .nav-head select{color:white;font-size:1.2rem;background:black;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding-right: 14px;border: solid 1px #000;}
 .nav-head select::-ms-expand { display: none; }
 </style>
-<script type="text/javascript">
+<!--<script type="text/javascript">
  function bg(s){
  			var tabs=document.getElementById("head").getElementsByTagName("li");
             for(var x=0;x<tabs.length;x++){
@@ -42,6 +43,6 @@
 
         }
  
-</script>
+</script>-->
 </body>      
 </#macro>

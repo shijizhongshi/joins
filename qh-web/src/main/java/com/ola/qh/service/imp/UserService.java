@@ -258,11 +258,13 @@ public class UserService implements IUserService {
 	 * 登录验证
 	 */
 	@Override
-	public Integer selectByMobileAndPassword(String mobile, String password) {
+	public Integer selectByMobileAndPassword(String mobile, String password,HttpServletRequest request) {
 		Integer countInteger = 1;
 		User user = userDao.loginUser(mobile,password);
 		if (user != null) {
 			countInteger = 0;
+			request.getSession().setAttribute("username", mobile);
+			request.getSession().setAttribute("islogin", "1");
 		}
 		return countInteger;
 	}
