@@ -51,8 +51,20 @@ public class OrdersProduct {
 	
 	private BigDecimal freight;////运费
 	
+	private String classId;
 	
 	
+	
+	
+	
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+
 	public BigDecimal getFreight() {
 		return freight;
 	}

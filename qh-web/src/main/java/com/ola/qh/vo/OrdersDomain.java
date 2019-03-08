@@ -8,7 +8,7 @@ public class OrdersDomain {
 	private int pageSize;
 	private String userId;
 	private String muserId;
-	private int  ordersType;
+	private String  ordersType;
 	private String ordersno;
 	private String expressNo;
 	public String getOrdersStatus() {
@@ -41,10 +41,11 @@ public class OrdersDomain {
 	public void setMuserId(String muserId) {
 		this.muserId = muserId;
 	}
-	public int getOrdersType() {
+	
+	public String getOrdersType() {
 		return ordersType;
 	}
-	public void setOrdersType(int ordersType) {
+	public void setOrdersType(String ordersType) {
 		this.ordersType = ordersType;
 	}
 	public String getOrdersno() {

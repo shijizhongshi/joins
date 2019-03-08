@@ -6,8 +6,15 @@
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
+<style>
+
+#index{
+	background:#CB0101 !important;
+}
+</style>
 <script src="/scripts/youmei/index.js"></script>
 <@b.head ></@b.head> 
+
 <body ng-app="app" ng-controller="indexController">
 
 <div class="nav">

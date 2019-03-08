@@ -29,5 +29,11 @@ public interface IUserService {
 	
 	public UserBook singleUserBook(String userId);
 	
-	public Integer selectByMobileAndPassword(String mobile,String password);
+
+	public Integer selectByMobileAndPassword(String mobile,String password,HttpServletRequest request);
+
+	
+	public Results<User> saveUser(User user, HttpServletRequest request);
+
+
 }

@@ -38,10 +38,17 @@ public class UserController {
 	private IUserService userService;
 
 	@RequestMapping(value = "/single", method = RequestMethod.GET)
-	public Results<User> singleUser(@RequestParam(name = "userId", required = true) String userId) {
+	public Results<User> singleUser(@RequestParam(name = "userId", required = false) String userId,
+			@RequestParam(name="mobile",required=false)String mobile) {
 
 		Results<User> results = new Results<User>();
-		User user = userService.sinleUser(userId, null);
+		User user =new User();
+		if(userId!=null && !"".equals(userId)){
+			user=userService.sinleUser(userId, null);
+		}else if(mobile!=null && !"".equals(mobile)){
+			user=userService.sinleUser(null, mobile);
+		}
+		
 		if (user.getNickname() == null || "".equals(user.getNickname())) {
 			user.setNickname(user.getMobile().substring(7));
 		}
@@ -141,19 +148,43 @@ public class UserController {
 	/**
 	 * 用户登录验证
 	 * 
-	 * @param mobile 手机号
+	 * @param mobile   手机号
 	 * @param password 密码
 	 * @return
 	 */
 	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	public Results<String> loginByMobileAndPassword(@RequestParam(name = "mobile", required = true) String mobile,
-			@RequestParam(name = "password", required = true) String password) {
+			@RequestParam(name = "password", required = true) String password,HttpServletRequest request) {
 		Results<String> results = new Results<String>();
 
-		Integer count = userService.selectByMobileAndPassword(mobile, password);
+		Integer count = userService.selectByMobileAndPassword(mobile, password,request);
 		results.setStatus(String.valueOf(count));
 
 		return results;
 	}
 
+	/**
+	 * 用户web端注册
+	 * 
+	 * @param mobile
+	 * @param password
+	 * @param code
+	 * @return
+	 */
+	@RequestMapping(value = "/web/registe", method = RequestMethod.POST)
+	public Results<User> registe(@RequestBody User user,
+			@RequestParam(name = "password",required = true) String password,
+			HttpServletRequest request) {
+		Results<User> results = new Results<User>();
+		
+		if (!password.equals(user.getPassword())) {
+			results.setStatus("1");
+			results.setMessage("密码两次输入不一致，请核对");
+			
+			return results;
+		}
+		results = userService.saveUser(user, request);
+
+		return results;
+	}
 }

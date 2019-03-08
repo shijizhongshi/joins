@@ -11,11 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class YoumeiWeb {
 
 	@RequestMapping("/index")
-	public String index(){
+	public String index(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+		}
 		return "youmei/index";
 	}
 	@RequestMapping("/login")
-	public String login(){
+	public String login(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+		}
 		return "youmei/login";
 	}
 	@RequestMapping("/registe")
@@ -23,7 +33,12 @@ public class YoumeiWeb {
 		return "youmei/registe";
 	}
 	@RequestMapping("/onliecourse")
-	public String OnlieCourse(){
+	public String OnlieCourse(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+		}
 		return "youmei/Onlie-course";
 	}
 	@RequestMapping("/particulars")
@@ -31,25 +46,59 @@ public class YoumeiWeb {
 		return "youmei/particulars";
 	}
 	@RequestMapping("/user")
-	public String user(){
+	public String user(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+			return "youmei/login";
+		}
 		return "youmei/user";
 	}
 	@RequestMapping("/user/user-message")
-	public String userMessage(){
+	public String userMessage(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+			return "youmei/login";
+		}
 		return "youmei/user/user-message";
 	}
 	@RequestMapping("/user/user-grade")
-	public String userGrade(){
+	public String userGrade(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+			return "youmei/login";
+		}
 		return "youmei/user/user-grade";
 	}
 	@RequestMapping("/user/user-curriculum")
-	public String userCurriculum(){
+	public String userCurriculum(HttpServletRequest request){
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+			return "youmei/login";
+		}
 		return "youmei/user/user-curriculum";
 	}
+
+	
+	@RequestMapping("/loginout")
+	public String loginout(HttpServletRequest request){
+		request.getSession().setAttribute("islogin", "0");
+		request.getSession().setAttribute("username", "0");
+		return "youmei/login";
+	}
+	
 	@RequestMapping("/vadio")
 	public String vadio(){
 		return "youmei/vadio";
 	}
+
 	@RequestMapping("/orderform")
 	public String orderForm(){
 		return "youmei/order-form";
@@ -58,4 +107,5 @@ public class YoumeiWeb {
 	public String videoGrade(){
 		return "youmei/video-grade";
 	}
+
 	}

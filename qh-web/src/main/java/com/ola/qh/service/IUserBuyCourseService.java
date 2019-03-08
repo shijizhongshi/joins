@@ -6,5 +6,5 @@ import com.ola.qh.entity.UserBuyCourse;
 
 public interface IUserBuyCourseService {
 
-	public List<UserBuyCourse> selectUserBuyCourse(String userId);
+	public List<UserBuyCourse> selectUserBuyCourse(String userId,String mobile,int types,String years);
 }

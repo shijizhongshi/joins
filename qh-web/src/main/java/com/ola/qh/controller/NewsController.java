@@ -2,6 +2,8 @@ package com.ola.qh.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,7 +91,7 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "/selectNews", method = RequestMethod.GET)
-	public Results<List<News>> selectNews() {
+	public Results<List<News>> selectNews(HttpServletRequest request) {
 		Results<List<News>> results = new Results<List<News>>();
 		
 		List<News> list = newsService.selectNewList(0, 2,"3", null);
