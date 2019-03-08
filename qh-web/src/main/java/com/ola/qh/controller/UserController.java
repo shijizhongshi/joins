@@ -167,9 +167,9 @@ public class UserController {
 	@RequestMapping(value = "/web/registe", method = RequestMethod.POST)
 	public Results<User> registe(@RequestBody User user, HttpServletRequest request) {
 		Results<User> results = new Results<User>();
-		
-		results =  userService.saveUser(user, request);
-		
+
+		results = userService.saveUser(user, request);
+
 		return results;
 	}
 }
