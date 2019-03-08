@@ -40,9 +40,6 @@
 	
 	<select id="singleBusinessUser" resultType="java.lang.String">
 	select business_id from business_user where 1=1
-	<if test="businessId!=null and businessId!=''">
-	and business_id=#{businessId}
-	</if>
 	<if test="userId!=null and userId!=''">
 	and user_id=#{userId}
 	</if>

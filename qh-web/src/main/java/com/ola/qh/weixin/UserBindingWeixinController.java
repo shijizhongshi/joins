@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,17 +46,16 @@ public class UserBindingWeixinController {
 	 * @param state
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/api/wx/web/auth/base")
+	@RequestMapping(value = "/api/wx/web/auth/base",method=RequestMethod.GET)
 	public Results<String> getWeiXinInfo(HttpServletRequest request, 
 			HttpServletResponse resp, 
 			HttpSession session,
 			@RequestParam(name = "code") String code,
-			@RequestParam(name = "state") String state) throws Exception{
+			@RequestParam(name = "userId") String userId) throws Exception{
 		
 		 request.setCharacterEncoding("utf-8");
 		 resp.setCharacterEncoding("utf-8");
 		 Results<String> result=new Results<String>();
-		String userId=state;////把用户的id
 		Map<String,String> mapss=new HashMap<String,String>();		
 		mapss.put("appid", Patterns.appId);
 		mapss.put("secret", Patterns.appSecret);

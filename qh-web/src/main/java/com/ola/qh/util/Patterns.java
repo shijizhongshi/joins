@@ -29,9 +29,9 @@ public class Patterns {
     
     
     
-    public static final String appId="wxa13c67ede13ea9a7";
+    public static final String appId="wxfc7f0bca7a44cbb8";
     
-    public static final String appSecret="f59e578884a7c5992cf2074953610853";
+    public static final String appSecret="4279e1ca9f2ee3d05a8edf0244564673";
     
     
     /*

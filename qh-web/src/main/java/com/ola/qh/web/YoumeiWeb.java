@@ -1,7 +1,10 @@
 package com.ola.qh.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/web/youmei")
@@ -19,7 +22,7 @@ public class YoumeiWeb {
 	public String registe(){
 		return "youmei/registe";
 	}
-	@RequestMapping("/Onlie-course")
+	@RequestMapping("/onliecourse")
 	public String OnlieCourse(){
 		return "youmei/Onlie-course";
 	}

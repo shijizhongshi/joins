@@ -16,7 +16,7 @@
 		<result column="sub_type" property="subType"/>
 		</resultMap>
 		<sql id="sql_base">
-		id,user_id,types,title,describe,head_status,orders_id,patient_id,addtime,sub_type
+		id,user_id,types,title,`describe`,head_status,orders_id,patient_id,addtime,sub_type
 		</sql>
 		
 		<insert id="insert" parameterType="com.ola.qh.entity.UserMessage">
