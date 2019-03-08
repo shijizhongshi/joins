@@ -3,7 +3,7 @@
 <div class="nav-head" id="head">
 <ul>
 <a href='index'><li style="background:#CB0101;" onclick="bg(0)">首页</li></a>
-<a  href="Onlie-course"><li onclick="bg(1)">网课中心</li> </a> 
+<a  href="onliecourse"><li onclick="bg(1)">网课中心</li> </a> 
 <a  href="user"><li onclick="bg(2)" >个人中心</li></a>
 
 </ul>
@@ -16,7 +16,8 @@
 <option  >退出</option></select></span>
 </div>
 <style>
-
+*{ margin: 0px; padding: 0px;border:none; list-style: none;font-family:"/";outline:none;text-decoration: none;font-size:14px}
+a{outline: none;color:black;outline: none;}
 .nav-head{width:100%;height:50px;background:black;opacity:0.8;color:white;position:absolute;top:0;}
 .nav-head ul{display:flex;justify-content: left;height: 50px;align-items: baseline;width: 60%;margin: 0 auto;padding-left: 18%;}
 .nav-head ul li{height:16px;padding:0 40px;height:50px;line-height:50px;color:white;font-size:1.1rem;}

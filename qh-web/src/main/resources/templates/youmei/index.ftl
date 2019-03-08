@@ -6,15 +6,10 @@
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
-<<<<<<< HEAD
-<@b.head ></@b.head> 
 <script src="/scripts/youmei/index.js"></script>
-<<<<<<< HEAD
 <@b.head ></@b.head> 
 <body ng-app="app" ng-controller="indexController">
-=======
-<body ng-app="app" ng-controller="indexController">
->>>>>>> branch 'master' of https://github.com/shijizhongshi/joins.git
+
 <div class="nav">
 <img src="/images/banner.png"/>
 </div>
@@ -74,7 +69,6 @@
 </div>
 
 </div>	
-<!--诊疗项目,循环六次-->
 <div class="xiangmu">
 <b class="biaoti"><img src="/images/xiangmu.png" /></b>
 	<p class="xiaobiaoti">ENTERPRIS&nbsp;CULTURE</p>
@@ -82,9 +76,34 @@
 	<div class="xiangmu-center">
 	
 	<dl>
-	<dt>标题<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<dt>中医针灸<span style="float:right;font-size:1.5rem;" >></span></dt>
 	<img src="/images/xiangm.png"/>
-	<dd>内容</dd>
+	<dd>针灸由"针"和"灸"构成，是东方医学的重要组成部分之一，其内容包括针灸理论、腧穴、针灸技术以及相关器具，在形成、应用和发展的过程中，具有鲜明的中华民族文化与地域特征，是基于中华民族文化和科学传统产生的宝贵遗产</dd>
+	</dl>
+	<dl>
+	<dt>中医舌诊<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<img src="/images/xiangm.png"/>
+	<dd>中医四诊中望诊的一部分，临床上对于各种疾病，都常结合辨舌来决定诊断和治疗，它标志着中医诊病的传统经验和特色，也是中医临床上占重要地位不可缺少的检查常规。</dd>
+	</dl>
+	<dl>
+	<dt>小儿推拿<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<img src="/images/xiangm.png"/>
+	<dd>小儿推拿是以中医辩证理论为基础，通过穴位点按推拿、调节脏腑、疏通经络、调和气血、平衡阴阳的方式来改善儿童体质、提高机体免疫力的一种保健、治疗方式。</dd>
+	</dl>
+	<dl>
+	<dt>正骨<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<img src="/images/xiangm.png"/>
+	<dd>正骨，中医指用推、拽、按、捺等手法治疗骨折、脱臼等疾病。对象主要是外力作用所致的骨、关节和软组织的损伤，但也包括同类原因引致的体内脏器损伤正骨主要分为骨折和脱位，骨折系指由于外伤或病理等原因致使骨质部分地或完全地断裂的一种疾病。</dd>
+	</dl>
+	<dl>
+	<dt>拔罐<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<img src="/images/xiangm.png"/>
+	<dd>拔罐法古称角法，又名火罐气、吸筒疗法，是以罐为工具，利用燃烧排除罐内空气，造成负压，使之吸附于腧穴或应拔部位的体表，产生刺激，使被拔部位的皮肤充血、淤血，以达到防治疾病的目的。</dd>
+	</dl>
+	<dl>
+	<dt>康复理疗<span style="float:right;font-size:1.5rem;" >></span></dt>
+	<img src="/images/xiangm.png"/>
+	<dd>康复理疗又称为康复物理治疗，是集运动治疗、作业治疗、言语治疗、物理治疗、针灸、拨罐、按摩于一体的综合性治疗室</dd>
 	</dl>
 	</div>
 </div>
@@ -92,11 +111,11 @@
 <div class="shizi">
 <div class="shizi-center">
 <dl>
-<dt>师</dt>
-<p><span>师资团队</span></br>ONLINE&nbsp;BOOKING</p>
-<dd>挑选理论知识扎实</br>
-临床技能经验丰富的</br>
-高年资中医师担任培训老师</dd>
+<dt>免</dt>
+<p><span>免费重学</span></br>ONLINE&nbsp;BOOKING</p>
+<dd>包教包会</br>
+第一次未过，第二次免费培训</br>
+</dd>
 </dl>
 <dl>
 <dt>师</dt>
@@ -106,11 +125,11 @@
 高年资中医师担任培训老师</dd>
 </dl>
 <dl>
-<dt>师</dt>
-<p><span>师资团队</span></br>ONLINE&nbsp;BOOKING</p>
-<dd>挑选理论知识扎实</br>
-临床技能经验丰富的</br>
-高年资中医师担任培训老师</dd>
+<dt>赠</dt>
+<p><span>会员赠送</span></br>ONLINE&nbsp;BOOKING</p>
+<dd>购买单项中医适宜技术课程</br>
+就可成为优渼教育会员</br>
+免费获得价值1980元的名师面授课一天</dd>
 </dl>
 </div>
 </div>
@@ -126,39 +145,8 @@
 <p>微信号:400-662-9001</p>
 </div>
 </div>
-<!--关于我们-->
-<div class="guanyu">
-<div class="guanyu-centent">
-<div style="float:left;">
-<ul class="youlian">
-			<li><a href="#">网站首页</a></li>
-			<li><a href="#">关于我们</a></li>
-			<li><a href="#">诚聘英才</a></li>
-			<li><a href="#">帮助中心</a></li>
-		</ul>
-	<div id="district">
-		 <ul>
-		 <li onmousemove="font(0)">济南分校</li>		  
-		    <li onmousemove="font(1)">德州分校</li>
-		 </ul>
-		 </div>
-		 <div id="address">
-		 <p style="font-size:1.3rem;color:red;">地址：</p>
-		 <ul>
-		 
-		  <li style="display: block;font-size:1.2rem;">济南市天桥区名泉广场C座1904</li>
-		    <li style="display: none;font-size:1.2rem;">德州市德城区青年路贵都综合9楼905室</li>
-		 </ul>
-		 </div>
-</div>
-<div style="float:right;width:200px;font-size:1.3rem;line-height: 30px;text-align: center;">
-<img src="/images/youmeierweima.jpg" style="width:200px;"/>
-微信公众号
-</div>
-</div>
-</div>
-<!--备案号-->
-<div class="beian">@9999感冒灵</div>
+<!--footer-->
+<#include "footer.ftl"/>
 	</body>
 	 <script type="text/javascript">
  function font(s){
