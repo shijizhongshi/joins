@@ -31,7 +31,7 @@
 <!--备案号-->
 <div class="beian">@9999感冒灵</div>
 <style>
-.guanyu{width:100%;height:290px;background:#1C0702;padding-top:100px;color:white;
+.guanyu{width:100%;height:260px;background:#1C0702;padding-top:60px;color:white;
 background: -webkit-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Firefox 3.6 - 15 */
