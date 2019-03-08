@@ -280,7 +280,7 @@ public class OrdersController {
 		OrdersDomain od = new OrdersDomain();
 		od.setPageNo(pageNo);
 		od.setPageSize(pageSize);
-		od.setOrdersType(ordersType);
+		od.setOrdersType(String.valueOf(ordersType));
 		od.setUserId(userId);
 		od.setMuserId(muserId);
 		od.setOrdersStatus(statusCode);

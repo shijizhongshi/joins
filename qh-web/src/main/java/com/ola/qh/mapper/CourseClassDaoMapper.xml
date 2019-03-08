@@ -79,6 +79,13 @@
 	</if> 
 	
 	</select>
+	
+	
+	
+	<select id="getTeacherImg" resultType="java.lang.String">
+	select img_url imgUrl from course_teacher where `name`=#{name}
+	</select>
+	
 	<!-- 查班级的所有老师结束************************* -->
 	<select id="ordersCount" resultType="int">
 	select count(id) from orders_product where product_id=#{productId} and status_code="RECEIVED"

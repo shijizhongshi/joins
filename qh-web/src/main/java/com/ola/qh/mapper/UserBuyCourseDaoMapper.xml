@@ -25,8 +25,29 @@
 	</insert>
 	
 	<select id="selectUserBuyCourse" resultMap="UserBuyCourseMap">
-	select id,user_id,course_id,course_name,course_discount_price,course_price,course_img_url,orders_id,class_id,addtime from user_buy_course where user_id=#{userId}
-	and status=0 order by addtime desc
+	select uc.* from user_buy_course uc 
+	left join <if test="types==1">course_class cc on cc.id=uc.class_id</if>
+	<if test="types==2">course c on c.id=uc.course_id</if>
+	where 1=1
+	<if test="userId!=null and userId!=''">
+	and uc.user_id=#{userId}
+	</if>
+	<if test="types==1">
+	<!-- 我的班级 -->
+	and uc.class_id is not null
+	<if test="years!=null and years!=''">
+	and cc.class_year=#{years}
+	</if>
+	</if>
+	<if test="types==2">
+	<!-- 我的课程 -->
+	and uc.course_id is not null
+	<if test="years!=null and years!=''">
+	and c.course_year=#{years}
+	</if>
+	</if>
+	and uc.status=0
+	 order by uc.addtime desc
 	</select>
 	
 	<select id="selectUserBuyCourseCount" resultType="int">

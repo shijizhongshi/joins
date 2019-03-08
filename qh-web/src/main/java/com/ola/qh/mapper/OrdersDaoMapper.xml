@@ -93,7 +93,7 @@
 	<if test="muserId!=null and muserId!='' ">
 	and muser_id=#{muserId}
 	</if>
-	<if test="ordersType!=0">
+	<if test="ordersType!=null and ordersType!=''">
 	and orders_type=#{ordersType}
 	</if>
 	<if test="ordersno!=null">

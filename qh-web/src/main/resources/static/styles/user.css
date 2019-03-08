@@ -39,3 +39,7 @@ body{background:#FEF8EC;}
 .grade dl img{width:103px;height:58px;display:inline-block;float:left;margin-right:5%;}
 .grade dl dt{height:58px;line-height:58px;float:left;font-size:1.3rem;display:inline-block;}
 .grade dl dd {width:100px;height:40px;color:white;line-height:40px;text-align:center;font-size:1.4rem;float:right;background:#CC0001;}
+.yearselected{
+	color:white !important;
+	background:#CC0001 !important;
+}

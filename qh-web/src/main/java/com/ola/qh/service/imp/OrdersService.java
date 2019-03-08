@@ -249,7 +249,7 @@ public class OrdersService implements IOrdersService {
 			}
 			OrdersDomain od=new OrdersDomain();
 			od.setUserId(ordersVo.getUserId());
-			od.setOrdersType(ordersVo.getOrdersType());
+			od.setOrdersType(String.valueOf(ordersVo.getOrdersType()));
 			od.setPageNo(0);
 			od.setPageSize(1);
 			if(ordersVo.getUsedoudou()>0 ){
@@ -618,6 +618,15 @@ public class OrdersService implements IOrdersService {
 		BigDecimal totalprice = BigDecimal.ZERO;
 		for (OrdersProduct op : plist) {
 			totalprice = totalprice.add(op.getPayout());
+			if(o.getOrdersType()==1){
+				Course c=courseDao.singleCourse(op.getProductId());
+				if(c!=null){
+					op.setClassId(c.getClassId());
+				}else{
+					op.setClassId(op.getProductId());
+				}
+			}
+			
 		}
 		////// 防止订单中有退款的产品
 		od.setProduct(plist);
@@ -648,7 +657,7 @@ public class OrdersService implements IOrdersService {
 				}
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
 				ovo.setProduct(listOrders);
-				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
+				OrdersVo shopdomain = getShop(Integer.valueOf(od.getOrdersType()), orders.getMuserId(), orders.getAddtime());
 				if (shopdomain != null) {
 					ovo.setShopLogo(shopdomain.getShopLogo());
 					ovo.setShopName(shopdomain.getShopName());
@@ -671,7 +680,7 @@ public class OrdersService implements IOrdersService {
 				OrdersVo ovo = new OrdersVo();
 				List<OrdersProduct> listOrdersp = new ArrayList<OrdersProduct>();
 				////// 查出商品所属的店铺的信息
-				OrdersVo shopdomain = getShop(od.getOrdersType(), ordersProduct.getMuserId(), null);
+				OrdersVo shopdomain = getShop(Integer.valueOf(od.getOrdersType()), ordersProduct.getMuserId(), null);
 				if (shopdomain != null) {
 					ovo.setShopLogo(shopdomain.getShopLogo());
 					ovo.setShopName(shopdomain.getShopName());
@@ -697,7 +706,7 @@ public class OrdersService implements IOrdersService {
 				}
 				List<OrdersProduct> listOrders = ordersProductDao.selectByOid(orders.getId(), null);
 				ovo.setProduct(listOrders);
-				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
+				OrdersVo shopdomain = getShop(Integer.valueOf(od.getOrdersType()), orders.getMuserId(), orders.getAddtime());
 				if (shopdomain != null) {
 					ovo.setShopLogo(shopdomain.getShopLogo());
 					ovo.setShopName(shopdomain.getShopName());
@@ -727,7 +736,7 @@ public class OrdersService implements IOrdersService {
 
 					ovo.setPresetTime(sf.format(orders.getPresetTime()));
 				}
-				OrdersVo shopdomain = getShop(od.getOrdersType(), orders.getMuserId(), orders.getAddtime());
+				OrdersVo shopdomain = getShop(Integer.valueOf(od.getOrdersType()), orders.getMuserId(), orders.getAddtime());
 				if (shopdomain != null) {
 					ovo.setShopLogo(shopdomain.getShopLogo());
 					ovo.setShopName(shopdomain.getShopName());
