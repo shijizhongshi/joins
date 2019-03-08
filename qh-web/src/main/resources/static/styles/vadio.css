@@ -1,0 +1,9 @@
+body{background:#FEF8EC;}
+.vadio{width:100%;}
+.mulu{width:auto;background: #FEF8EC;}
+.mulu p {background:#DDDDDD;height:30px;line-height: 30px;width: 100%;} 
+.mulu p span{padding:0 3%;font-size: 1.3rem;height:30px;display: inline-block;background: #FEF8EC;}
+.mulu dl{padding:0 20px;white-space:nowrap;}
+.mulu dl dt{font-size:1.2rem;padding:0 3%;margin: 15px 0;}
+.mulu dl img{display:inline-block; margin-right: 1rem;}
+.mulu dl  dd{text-align:left;padding: 6px 0;font-size: 1.1rem;}

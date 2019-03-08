@@ -46,4 +46,8 @@ public class YoumeiWeb {
 	public String userCurriculum(){
 		return "youmei/user/user-curriculum";
 	}
+	@RequestMapping("/vadio")
+	public String vadio(){
+		return "youmei/vadio";
+	}
 	}
