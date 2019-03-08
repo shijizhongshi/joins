@@ -50,6 +50,8 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 </div>
 
 </div>
+<!--footer-->
+<#include "/layout/footer.ftl"/>
 	</body>
 
 </html>

@@ -146,25 +146,7 @@
 </div>
 </div>
 <!--footer-->
-<#include "footer.ftl"/>
+<#include "/layout/footer.ftl"/>
 	</body>
-	 <script type="text/javascript">
- function font(s){
- 			var tabs=document.getElementById("district").getElementsByTagName("li");
- 			var show=document.getElementById("address").getElementsByTagName("li");
-            for(var x=0;x<tabs.length;x++){
-		
-            	show[x].style.display='none';
-                if(x==s){
-                	
-                    show[x].style.display='block';
-					
-                }
-
-            }
-
-
-        }
- 
-</script>
+	
 </html>

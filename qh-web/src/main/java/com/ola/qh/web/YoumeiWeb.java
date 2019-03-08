@@ -50,4 +50,12 @@ public class YoumeiWeb {
 	public String vadio(){
 		return "youmei/vadio";
 	}
+	@RequestMapping("/orderform")
+	public String orderForm(){
+		return "youmei/order-form";
+	}
+	@RequestMapping("/videograde")
+	public String videoGrade(){
+		return "youmei/video-grade";
+	}
 	}

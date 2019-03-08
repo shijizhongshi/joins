@@ -11,6 +11,7 @@
 background:url(/images/choose2.png)  no-repeat !important;
 background-size:100% 100%  !important;
 }
+.sel{color:red;}
 </style>
 <script src="/scripts/course.js"></script>
 
@@ -29,7 +30,7 @@ background-size:100% 100%  !important;
 </ul>
 <p class="choose"><span></span><b>选择专业</b></p>
 <ul class="choose-zy">
-<li ng-repeat="sub in subtype.sublist">{{sub.courseTypeSubclassName}}</li>
+<li ng-repeat="sub in subtype.sublist" ng-class="{'sel':sel==sub}">{{sub.courseTypeSubclassName}}</li>
 </ul>
 <div >
 	<ul class="choose-kc">
@@ -48,6 +49,7 @@ background-size:100% 100%  !important;
 	</ul>
 	</div>
 </div>
-
+<!--footer-->
+<#include "/layout/footer.ftl"/>
 </body>
 </html>

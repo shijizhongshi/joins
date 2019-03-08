@@ -63,6 +63,8 @@ window.onresize=function(){  
 <iframe name="iframes" src="user/user-message.html"  width="100%" height="100%" runat="server"  onload="changeFrameHeight()" id="test"></iframe>
 </div>
 </div>
+<!--footer-->
+<#include "/layout/footer.ftl"/>
 </body>
 
 
