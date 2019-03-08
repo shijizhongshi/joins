@@ -296,8 +296,6 @@ public class UserService implements IUserService {
 				userDao.saveUser(user);
 				// userDao.loginUser(user.getMobile(), user.getPassword());
 				
-				String nickname = users.getMobile().substring(7);
-				users.setNickname(nickname);
 				result.setData(users);
 				result.setStatus("0");
 				return result;

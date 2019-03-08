@@ -165,9 +165,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/registe", method = RequestMethod.POST)
-	public Results<User> registe(@RequestBody User user,@RequestBody HttpServletRequest request) {
+	public Results<User> registe(@RequestBody User user, HttpServletRequest request) {
 		Results<User> results = new Results<User>();
-		System.out.println("传值 = "+user.getMobile()+user.getPassword()+user.getVerification());
+		
 		results =  userService.saveUser(user, request);
 		
 		return results;

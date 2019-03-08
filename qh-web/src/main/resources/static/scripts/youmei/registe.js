@@ -7,9 +7,7 @@ app.controller("registeController",function($scope,$http){
 		$http.post("/api/user/web/registe",$scope.user,{'Content-Type':'application/json;charset=UTF-8'})
 		.success(function(result){
 			if (result.status == "0") {
-				//注册成功 跳转到登录界面
 				alert("注册成功");
-				location.href="/web/youmei/login"
 			}else {
 				alert(result.message);
 			}
@@ -21,7 +19,7 @@ app.controller("registeController",function($scope,$http){
 		.success(function (result) {
 			if (result.status == "0") {
 				//成功
-				alert("ture")
+				alert("获取验证码成功")
 			}else {
 				alert(result.message);
 			} 
