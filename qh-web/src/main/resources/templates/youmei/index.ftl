@@ -6,15 +6,10 @@
 	<@h.header title="优渼教育"/>
 
 <link rel="stylesheet" href="/styles/youmei.css" />
-<<<<<<< HEAD
-<@b.head ></@b.head> 
 <script src="/scripts/youmei/index.js"></script>
-<<<<<<< HEAD
 <@b.head ></@b.head> 
 <body ng-app="app" ng-controller="indexController">
-=======
-<body ng-app="app" ng-controller="indexController">
->>>>>>> branch 'master' of https://github.com/shijizhongshi/joins.git
+
 <div class="nav">
 <img src="/images/banner.png"/>
 </div>
@@ -126,39 +121,8 @@
 <p>微信号:400-662-9001</p>
 </div>
 </div>
-<!--关于我们-->
-<div class="guanyu">
-<div class="guanyu-centent">
-<div style="float:left;">
-<ul class="youlian">
-			<li><a href="#">网站首页</a></li>
-			<li><a href="#">关于我们</a></li>
-			<li><a href="#">诚聘英才</a></li>
-			<li><a href="#">帮助中心</a></li>
-		</ul>
-	<div id="district">
-		 <ul>
-		 <li onmousemove="font(0)">济南分校</li>		  
-		    <li onmousemove="font(1)">德州分校</li>
-		 </ul>
-		 </div>
-		 <div id="address">
-		 <p style="font-size:1.3rem;color:red;">地址：</p>
-		 <ul>
-		 
-		  <li style="display: block;font-size:1.2rem;">济南市天桥区名泉广场C座1904</li>
-		    <li style="display: none;font-size:1.2rem;">德州市德城区青年路贵都综合9楼905室</li>
-		 </ul>
-		 </div>
-</div>
-<div style="float:right;width:200px;font-size:1.3rem;line-height: 30px;text-align: center;">
-<img src="/images/youmeierweima.jpg" style="width:200px;"/>
-微信公众号
-</div>
-</div>
-</div>
-<!--备案号-->
-<div class="beian">@9999感冒灵</div>
+<!--footer-->
+<#include "footer.ftl"/>
 	</body>
 	 <script type="text/javascript">
  function font(s){

@@ -75,6 +75,7 @@
 </ul>
 </div>
 </div>
-
+<!--footer-->
+<#include "footer.ftl"/>
 </body>
 </html>
