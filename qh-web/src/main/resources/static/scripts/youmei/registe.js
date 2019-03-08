@@ -4,7 +4,7 @@ app.controller("registeController",function($scope,$http){
 	//点击事件 成功后跳转到登录页面
 	$scope.submitForm = function() {
 		
-		$http.post("/api/user/web/registe",$scope.user,{'Content-Type':'application/json;charset=UTF-8'})
+		$http.post("/api/user/web/registe",$scope.user,{"params":{"password":$scope.password}},{'Content-Type':'application/json;charset=UTF-8'})
 		.success(function(result){
 			if (result.status == "0") {
 				alert("注册成功");

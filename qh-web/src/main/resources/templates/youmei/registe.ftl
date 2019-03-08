@@ -33,7 +33,7 @@ body{background:url(/images/register.jpg) no-repeat 100%;background-size:cover;b
 <input type="button" ng-click="sms()" value="获取验证码" style="position: absolute;border-radius:5px;right:5px;top:8px;height: 20px;background: #FAD901;color: white;border: none;padding: 0 5px;width: auto;"/></dd>
 <dd><input type="text" ng-model="user.verification" placeholder="输入验证码"/><img src="/images/yanzhengma.png"/></dd>
 <dd><input type="password" ng-model="user.password" placeholder="密码"/><img src="/images/mima.png"/></dd>
-<dd><input type="password" ng-model="passwords" placeholder="确认密码"/><img src="/images/mima.png"/></dd>
+<dd><input type="password" ng-model="password" placeholder="确认密码"/><img src="/images/mima.png"/></dd>
 </dd>
 </dl>
 </from>

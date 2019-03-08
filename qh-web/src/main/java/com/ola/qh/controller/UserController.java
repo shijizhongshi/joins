@@ -165,9 +165,17 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/web/registe", method = RequestMethod.POST)
-	public Results<User> registe(@RequestBody User user, HttpServletRequest request) {
+	public Results<User> registe(@RequestBody User user,
+			@RequestParam(name = "password",required = true) String password,
+			HttpServletRequest request) {
 		Results<User> results = new Results<User>();
-
+		
+		if (!password.equals(user.getPassword())) {
+			results.setStatus("1");
+			results.setMessage("密码两次输入不一致，请核对");
+			
+			return results;
+		}
 		results = userService.saveUser(user, request);
 
 		return results;
