@@ -35,10 +35,11 @@ public class UserBuyCourseController {
 			@RequestParam(name="years",required=false)String years){
 		
 		Results<List<UserBuyCourse>> results=new Results<List<UserBuyCourse>>();
-		
-		
-		List<UserBuyCourse> list=userBuyCourseService.selectUserBuyCourse(userId,mobile,Integer.valueOf(types),years);
-		
+		int type=0;
+		if(types!=null && !"".equals(types)){
+			type=Integer.valueOf(types);
+		}
+		List<UserBuyCourse> list=userBuyCourseService.selectUserBuyCourse(userId,mobile,type,years);
 		
 		results.setData(list);
 		results.setStatus("0");

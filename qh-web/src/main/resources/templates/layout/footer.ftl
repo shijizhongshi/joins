@@ -22,8 +22,8 @@
 		 </ul>
 		 </div>
 </div>
-<div style="float:right;width:200px;font-size:1.3rem;line-height: 30px;text-align: center;">
-<img src="/images/youmeierweima.jpg" style="width:200px;"/>
+<div style="float:right;width:15%;font-size:1.3rem;line-height: 30px;text-align: center;">
+<img src="/images/youmeierweima.jpg" style="width:100%;"/>
 微信公众号
 </div>
 </div>
@@ -31,18 +31,31 @@
 <!--备案号-->
 <div class="beian">@9999感冒灵</div>
 <style>
-.guanyu{width:100%;height:260px;background:#1C0702;padding-top:60px;color:white;
-background: -webkit-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Firefox 3.6 - 15 */
-background:linear-gradient(52deg,#57574e , #2e2d2a ,#57574e );}
+.guanyu{width:100%;height: 190px;background:#1C0702;padding-top:60px;color:white;background: -webkit-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Safari 5.1 - 6.0 */background: -o-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Opera 11.1 - 12.0 */background: -moz-linear-gradient(52deg,#57574e , #2e2d2a ,#57574e ); /* Firefox 3.6 - 15 */background:#1c0702;}
 .guanyu a{color:white}
-.guanyu-centent{width:45%;margin:0 auto;min-width:700px;}
+.guanyu-centent{width: 60%;margin:0 auto;min-width:700px;}
 .youlian li{margin-right:20px;display:inline-block;}
 .youlian li a{font-size:1.3rem;}
 #district li{display:inline-block;margin-top:30px;font-size:1.3rem;margin-right:20px;cursor: pointer;}
 #address{font-size:1.2rem;margin-top:20px;}
 .beian{color:white;text-align:center;width:100%;height: 58px;line-height: 58px;background:#0E0402;font-size:1.2rem;}
-
-
 </style>
+ <script type="text/javascript">
+ function font(s){
+ 			var tabs=document.getElementById("district").getElementsByTagName("li");
+ 			var show=document.getElementById("address").getElementsByTagName("li");
+            for(var x=0;x<tabs.length;x++){
+		
+            	show[x].style.display='none';
+                if(x==s){
+                	
+                    show[x].style.display='block';
+					
+                }
+
+            }
+
+
+        }
+ 
+</script>

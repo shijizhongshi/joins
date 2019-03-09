@@ -42,7 +42,15 @@ public class YoumeiWeb {
 		return "youmei/Onlie-course";
 	}
 	@RequestMapping("/particulars")
-	public String particulars(){
+	public String particulars(@RequestParam(name="classId",required=true)String classId,HttpServletRequest request){
+		
+		Object obj = request.getSession().getAttribute("islogin");
+		if(obj==null){
+			request.getSession().setAttribute("islogin", "0");
+			request.getSession().setAttribute("username", "0");
+		}
+		
+		request.getSession().setAttribute("classId",classId);
 		return "youmei/particulars";
 	}
 	@RequestMapping("/user")
@@ -97,6 +105,15 @@ public class YoumeiWeb {
 	@RequestMapping("/vadio")
 	public String vadio(){
 		return "youmei/vadio";
+	}
+
+	@RequestMapping("/orderform")
+	public String orderForm(){
+		return "youmei/order-form";
+	}
+	@RequestMapping("/videograde")
+	public String videoGrade(){
+		return "youmei/video-grade";
 	}
 
 	}
