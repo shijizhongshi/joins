@@ -41,8 +41,11 @@
 		<if test="experience!=null and experience!=''">
 		and experience=#{experience}
 		</if>
-		<if test="salaryRange!=null and salaryRange!=''">
-		and salary_range=#{salaryRange}
+		<if test="salaryRangeMin!=null and salaryRangeMin!=''">
+		and salary_range <![CDATA[ >= ]]> #{salaryRangeMin}
+		</if>
+		<if test="salaryRangeMax!=null and salaryRangeMax!=''">
+		and salary_range <![CDATA[ <= ]]> #{salaryRangeMax}
 		</if>
 		<if test="position!=null and position!=''">
 		and position LIKE CONCAT(CONCAT('%',#{position},'%'))

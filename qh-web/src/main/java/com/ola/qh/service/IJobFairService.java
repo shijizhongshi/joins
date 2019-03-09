@@ -8,7 +8,7 @@ public interface IJobFairService {
 
 	
 	public List<JobFair> selectJob(String id,String userId,String company,String category,String education,
-			String experience,String salaryRange,String position,int pageNo,int pageSize);
+			String experience,String salaryRangeMin,String salaryRangeMax,String position,int pageNo,int pageSize);
 	
 	public int insertJobApply(JobFair jobFair);
 	
