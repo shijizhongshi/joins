@@ -51,7 +51,7 @@
 		and position LIKE CONCAT(CONCAT('%',#{position},'%'))
 		</if>
 		<if test="category!=null and category!=''">
-		and category=#{category]
+		and category=#{category}
 		</if>
 		order by addtime desc
 		limit #{pageNo},#{pageSize}
