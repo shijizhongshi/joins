@@ -39,7 +39,7 @@ public class Doctors {
 	private String reverseIdcardImg;
 	@NotEmpty
 	private String professionalImg;///职称的图片
-	@NotEmpty
+	//@NotEmpty
 	private String practiceImg;////执业医师证的图片
 	
 	private String elseImg;////其他的图片
@@ -54,7 +54,7 @@ public class Doctors {
 	private List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 
 	private double grade;
-	@NotEmpty(message="请选择入驻的类别")
+	//@NotEmpty(message="请选择入驻的类别")
 	private String category;/////医师or护士or医师
 	
 	
