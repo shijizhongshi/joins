@@ -11,10 +11,53 @@
 	<result column="types" property="types"/>
 	<result column="analysis" property="analysis"/>
 	<result column="correct" property="correct"/>
-	<result column="addtime" property="addtime"/>
+	<result column="bankId" property="bankId"/>
+	<result column="updatetime" property="updatetime"/>
 	</resultMap>
 	
-	<!-- <insert id="insertBank" parameterType="com.ola.qh.entity.QuestionBank">
-	insert into question_bank()
-	</insert> -->
+	<select id="selectQuestionBank" resultMap="QuestionBankMap"> 
+	select id,sub_id,number_no,title,types,analysis,correct,addtime from question_bank where sub_id=#{subId}
+	order by number_no limit #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="singleQuestionBank" resultType="com.ola.qh.entity.QuestionBank"> 
+	select id,sub_id,number_no,title,types,analysis,correct,addtime from question_bank where id=#{id}
+	
+	</select>
+	
+	<select id="countQuestionBank" resultType="int"> 
+	select count(id) from question_bank where sub_id=#{subId}
+	
+	</select>
+	
+	<resultMap type="com.ola.qh.entity.QuestionAnswer" id="QuestionAnswerMap">
+	<result column="id" property="id"/>
+	<result column="bank_unit_id" property="bankUnitId"/>
+	<result column="answers" property="answers"/>
+	<result column="options" property="options"/>
+	<result column="correct" property="correct"/>
+	<result column="orders" property="orders"/>
+	<result column="updatetime" property="updatetime"/>
+	</resultMap>
+	
+	<select id="selectQuestionAnswer" resultMap="QuestionAnswerMap"> 
+	select id,bank_unit_id,answers,options,correct,orders from question_bank_answer where bank_unit_id=#{bankUnitId}
+	order by options asc
+	</select>
+	
+	<resultMap type="com.ola.qh.entity.QuestionUnit" id="QuestionUnitMap">
+	<result column="id" property="id"/>
+	<result column="bank_id" property="bankId"/>
+	<result column="title" property="title"/>
+	<result column="types" property="types"/>
+	<result column="analysis" property="analysis"/>
+	<result column="correct" property="correct"/>
+	<result column="updatetime" property="updatetime"/>
+	</resultMap>
+	
+	
+	<select id="selectQuestionUnit" resultMap="QuestionUnitMap"> 
+	select id,bank_id,title,types,analysis,correct from question_bank_unit where bank_id=#{bankId}
+	</select>
+	
 	</mapper>

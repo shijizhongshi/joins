@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.ola.qh.dao.QuestionCategoryDao">
+	
+	<select id="singleCategory" resultType="com.ola.qh.entity.QuestionCategory">
+	select id from question_bank_category where 1=1
+	<if test="categoryName!=null">
+	and `name`=#{categoryName}
+	</if>
+	<if test="subclassName!=null">
+	and course_type_subclass_name=#{subclassName}
+	</if>
+	</select>
+	
+	<select id="existSubCategory" resultType="java.lang.Integer">
+	select count(id) from question_bank_subcategory where 1=1
+	<if test="categoryId!=null">
+	and category_id=#{categoryId}
+	</if>
+	<if test="subName!=null">
+	and `name`=#{subName}
+	</if>
+	</select>
+	
+	<resultMap type="com.ola.qh.entity.QuestionCategory" id="QuestionCategoryMap">
+		<result column="id" property="id"/>
+		<result column="types" property="types"/>
+		<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+		<result column="name" property="name"/>
+		<result column="isshow" property="isshow"/>
+		<result column="addtime" property="addtime"/>
+		<result column="updatetime" property="updatetime"/>
+	</resultMap>
+	
+	<select id="selectCategory" resultMap="QuestionCategoryMap">
+	select id,course_type_subclass_name,name,isshow,addtime from question_bank_category 
+	where course_type_subclass_name=#{courseTypeSubclassName} and types=#{types}
+	order by addtime limit #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="countCategory" resultType="int">
+	select count(id) from question_bank_category 
+	where course_type_subclass_name=#{courseTypeSubclassName} and types=#{types}
+	
+	</select>
+	
+	</mapper>
