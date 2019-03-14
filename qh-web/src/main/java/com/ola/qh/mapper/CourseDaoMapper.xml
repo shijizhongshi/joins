@@ -82,7 +82,7 @@
 		
 		
 	<select id="singleCourse" resultMap="CourseMap">
-	    select * from course where id=#{courseId} and course_show=1
+	    select * from course where id=#{courseId} and course_show=0
 	</select>	
 		
 	
