@@ -23,10 +23,18 @@
 	</sql>
 	<select id="selectNewList" resultMap="NewsMap" >
 		select
-		<include refid="sql_base"></include>
+		<include refid="sql_base"></include>,content_types
 		from news where 1=1
-		<if test="contentTypes!=null">
+		<if test="contentTypes!=0">
 			and content_types=#{contentTypes}
+		</if>
+		<if test=" contentTypes==0">
+			and content_types=1
+			<if test="typename!=null and typename!='' ">
+		  		 and typename=#{typename}
+			</if>
+			or content_types=3
+			
 		</if>
 		<if test="typename!=null and typename!='' ">
 		   and typename=#{typename}
