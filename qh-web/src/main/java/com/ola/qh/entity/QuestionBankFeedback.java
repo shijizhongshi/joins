@@ -2,18 +2,20 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class QuestionBankFeedback {
 
 	private String id;
-	
+	@NotEmpty
 	private String userId;
-	
+	@NotEmpty
 	private String bankId;
-	
+	@NotEmpty
 	private String types;
 	
 	private String bankTypes;
-	
+	@NotEmpty
 	private String content;
 	
 	private QuestionBank bank;

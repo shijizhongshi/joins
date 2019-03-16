@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,12 @@ public class QuestionBankFeedbackController {
 		Results<List<QuestionBankFeedback>> results=new Results<List<QuestionBankFeedback>>();
 		
 		List<QuestionBankFeedback> list=questionBankFeedbackService.feedbackList(userId);
+		
+		for (QuestionBankFeedback questionBankFeedback : list) {
+			SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			questionBankFeedback.setShowtime(sf.format(questionBankFeedback.getAddtime()));
+		}
+		
 		
 		if(list.size()<=0){
 			
