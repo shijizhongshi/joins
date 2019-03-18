@@ -1,7 +1,5 @@
 package com.ola.qh.entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class CourseLineShow {
 	private String id;
 	private String courseTypeName;
@@ -16,7 +14,38 @@ public class CourseLineShow {
 	
 	private String isshow;///1:可见
 	
+	private String liveRoomId;//直播间id
+	private String liveId;//直播id
+	private String liveBackId;//回放id
 	
+	
+	
+	
+	
+
+	public String getLiveRoomId() {
+		return liveRoomId;
+	}
+
+	public void setLiveRoomId(String liveRoomId) {
+		this.liveRoomId = liveRoomId;
+	}
+
+	public String getLiveId() {
+		return liveId;
+	}
+
+	public void setLiveId(String liveId) {
+		this.liveId = liveId;
+	}
+
+	public String getLiveBackId() {
+		return liveBackId;
+	}
+
+	public void setLiveBackId(String liveBackId) {
+		this.liveBackId = liveBackId;
+	}
 
 	public String getOutLinks() {
 		return outLinks;

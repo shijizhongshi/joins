@@ -128,7 +128,7 @@
 	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks  from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null">
 	and course_type_name=#{courseTypeName}
@@ -142,7 +142,15 @@
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
 	</if>
-	
+	<if test="liveId != null and live != '' ">
+	and live_id=#{liveId}
+	</if>
+	<if test="liveRoomId != null and liveRoomId != '' ">
+	and live_room_id=#{liveRoomId}
+	</if>
+	<if test="liveBackId != null and liveBackId != '' ">
+	and live_back_id=#{liveBackId}
+	</if>
 	and isshow=1
 	order by addtime desc
 	limit #{pageNo},#{pageSize}

@@ -2,7 +2,6 @@ package com.ola.qh.controller;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +22,10 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
-import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.service.ICourseService;
-import com.ola.qh.service.IUserFavoriteService;
-import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
-import com.ola.qh.vo.CourseClassVo;
 
 @RestController
 @RequestMapping("/api/course")
@@ -157,6 +152,10 @@ public class CourseController {
 			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
 			@RequestParam(name="isremmend",required=false)String isremmend,
 			@RequestParam(name="className",required=false)String className,
+			@RequestParam(name="liveId",required=false)String liveId,
+			@RequestParam(name="liveRoomId",required=false)String liveRoomId,
+			@RequestParam(name="liveBackId",required=false)String liveBackId,
+			
 			@RequestParam(name="page",required=true)int page
 			){
 		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
@@ -168,6 +167,10 @@ public class CourseController {
 		ccd.setCourseTypeSubclassName(courseTypeSubclassName);
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
+		ccd.setLiveBackId(liveBackId);
+		ccd.setLiveId(liveId);
+		ccd.setLiveRoomId(liveRoomId);
+		
 		List<CourseLineShow> list = courseService.selectLiveList(ccd);
 		result.setData(list);
 		result.setStatus("0");
