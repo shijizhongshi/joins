@@ -23,10 +23,30 @@ public class CourseClassDomain {
 	private String maxdoudou;
 	
 	private String liveId;//直播id
-	
+	 
 	private String liveRoomId;//直播间id
-	
+	 
 	private String liveBackId;//直播回放id
+	
+	private String live;
+	
+	
+	 
+	public String getLive() {
+		return live;
+	}
+
+	public void setLive(String live) {
+		this.live = live;
+	}
+
+	public String getLiveId() {
+		return liveId;
+	}
+
+	public void setLiveId(String liveId) {
+		this.liveId = liveId;
+	}
 
 	public String getLiveRoomId() {
 		return liveRoomId;
@@ -42,14 +62,6 @@ public class CourseClassDomain {
 
 	public void setLiveBackId(String liveBackId) {
 		this.liveBackId = liveBackId;
-	}
-
-	public String getLiveId() {
-		return liveId;
-	}
-
-	public void setLiveId(String liveId) {
-		this.liveId = liveId;
 	}
 
 	public String getMaxdoudou() {

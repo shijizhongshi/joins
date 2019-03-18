@@ -167,9 +167,11 @@ public class CourseController {
 		ccd.setCourseTypeSubclassName(courseTypeSubclassName);
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
-		ccd.setLiveBackId(liveBackId);
+		
+		ccd.setLiveBackId(liveBackId); 
 		ccd.setLiveId(liveId);
 		ccd.setLiveRoomId(liveRoomId);
+		 
 		
 		List<CourseLineShow> list = courseService.selectLiveList(ccd);
 		result.setData(list);

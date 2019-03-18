@@ -136,20 +136,8 @@
 	<if test="courseTypeSubclassName!=null">
 	and course_type_subclass_name=#{courseTypeSubclassName}
 	</if>
-	<if test="isremmend!=null">
-	and isremmend=#{isremmend}
-	</if>
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
-	</if>
-	<if test="liveId != null and live != '' ">
-	and live_id=#{liveId}
-	</if>
-	<if test="liveRoomId != null and liveRoomId != '' ">
-	and live_room_id=#{liveRoomId}
-	</if>
-	<if test="liveBackId != null and liveBackId != '' ">
-	and live_back_id=#{liveBackId}
 	</if>
 	and isshow=1
 	order by addtime desc
