@@ -63,7 +63,7 @@
 	<!--课程按照不同的条件进行查询-->
 	<select id="courseList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseMap" >
 	
-	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img,course_price,course_discount_price,class_id from course where course_show=1
+	select id,user_id,course_name,course_type_name,course_type_subclass_name,course_img,course_price,course_discount_price,class_id from course where course_show=0
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	 and course_type_name=#{courseTypeName}
 	</if>
@@ -82,7 +82,7 @@
 		
 		
 	<select id="singleCourse" resultMap="CourseMap">
-	    select * from course where id=#{courseId} and course_show=1
+	    select * from course where id=#{courseId} and course_show=0
 	</select>	
 		
 	
