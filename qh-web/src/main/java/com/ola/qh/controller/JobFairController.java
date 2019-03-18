@@ -32,8 +32,9 @@ public class JobFairController {
 			@RequestParam(name="userId",required=false)String userId,@RequestParam(name="company",required=false)String company,
 			@RequestParam(name="category",required=false)String category,
 			@RequestParam(name="education",required=false)String education,@RequestParam(name="experience",required=false)String experience,
-			@RequestParam(name="salaryRange",required=false)String salaryRange,@RequestParam(name="position",required=false)String position,
-			@RequestParam(name="page",required=true)int page){
+			@RequestParam(name="salaryRangeMin",required=false)String salaryRangeMin,
+			@RequestParam(name="salaryRangeMax",required=false)String salaryRangeMax,@RequestParam(name="position",required=false)String position,
+			@RequestParam(name="welfare",required=false)String welfare,@RequestParam(name="page",required=true)int page){
 		
 				Results<List<JobFair>> results=new Results<List<JobFair>>();
 				
@@ -41,12 +42,12 @@ public class JobFairController {
 				int pageNo=(page-1)*pageSize;
 				
 				
-				List<JobFair> list=jobFairService.selectJob(id, userId, company, category,education, experience, salaryRange, position, pageNo, pageSize);
+				List<JobFair> list=jobFairService.selectJob(id, userId, company, category,education, experience, salaryRangeMin,salaryRangeMax, position, pageNo, pageSize);
 					
 				for (JobFair jobFair : list) {
 					if(jobFair.getWelfare()!=null){
-					String welfare=jobFair.getWelfare();
-					String[] welfares = welfare.split(",");
+					String welfaress=jobFair.getWelfare();
+					String[] welfares = welfaress.split(",");
 					jobFair.setWelfares(Arrays.asList(welfares));
 					}
 					else{

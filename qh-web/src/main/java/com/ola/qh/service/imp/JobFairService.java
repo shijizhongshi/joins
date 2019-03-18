@@ -17,9 +17,9 @@ public class JobFairService implements IJobFairService{
 	
 	@Override
 	public List<JobFair> selectJob(String id, String userId, String company,String category, String education, String experience,
-			String salaryRange, String position,int pageNo,int pageSize) {
+			String salaryRangeMin,String salaryRangeMax, String position,int pageNo,int pageSize) {
 		
-		return jobFairDao.selectJob(id, userId, company, category, education, experience, salaryRange, position, pageNo, pageSize);
+		return jobFairDao.selectJob(id, userId, company, category, education, experience, salaryRangeMin,salaryRangeMax, position, pageNo, pageSize);
 	}
 
 	@Override

@@ -5,8 +5,8 @@
 <mapper namespace="com.ola.qh.dao.QuestionBankFeedbackDao">
 	<resultMap type="com.ola.qh.entity.QuestionBankFeedback"  id="QuestionBankFeedbackMap">
 		<result column="id" property="id" />
+		<result column="content" property="content" />
 		<result column="user_id" property="userId" />
-		<result column="category_id" property="categoryId" />
 		<result column="bank_id" property="bankId" />
 		<result column="types" property="types" />
 		<result column="status" property="status" />
@@ -15,13 +15,13 @@
 	</resultMap>
 
 	<select id="feedbackList" resultMap="QuestionBankFeedbackMap">
-		select id,user_id,category_id,bank_id,types,status,addtime from question_bank_feedback where user_id=#{userId}
+		select id,content,user_id,bank_id,types,addtime from question_bank_feedback where user_id=#{userId}
 	</select>
 	
 	
 	<insert id="addFeedback" parameterType="com.ola.qh.entity.QuestionBankFeedback">
-		insert into question_bank_feedback(id,user_id,category_id,bank_id,types,status,addtime) 
-		values(#{id},#{userId},#{categoryId},#{bankId},#{types},#{status},#{addtime})
+		insert into question_bank_feedback(id,content,user_id,bank_id,types,status,addtime) 
+		values(#{id},#{content},#{userId},#{bankId},#{types},"0",#{addtime})
 	</insert>
 	
 </mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.QuestionSubcategoryDao">
+	<resultMap type="com.ola.qh.entity.QuestionSubCategory" id="QuestionSubCategoryMap">
+		<result column="id" property="id" />
+		<result column="category_id" property="categoryId" />
+		<result column="name" property="name" />
+		<result column="times" property="times" />
+		<result column="purposes" property="purposes" />
+		<result column="isshow" property="isshow" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+	
+	<select id="selectQuestionSubCategory" resultMap="QuestionSubCategoryMap">
+	select id,name,times,purposes,isshow,addtime from question_bank_subcategory where category_id=#{categoryId}
+	order by addtime limit #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="countSubCategory" resultType="int">
+	select count(id) from question_bank_subcategory where category_id=#{categoryId}
+	</select>
+	
+	</mapper>
