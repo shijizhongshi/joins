@@ -118,13 +118,10 @@ public class UserVideoController {
 			@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="types",required=false)int types){
 		
-		Results<List<UserVideo>> result=new Results<List<UserVideo>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<UserVideo> list = userVideoService.list(userId, pageNo, pageSize,types);
-		result.setStatus("0");
-		result.setData(list);
-		return result;
+		return userVideoService.list(userId, pageNo, pageSize,types);
+		
 	}
 	
 	/**
@@ -178,13 +175,10 @@ public class UserVideoController {
 			@RequestParam(name="userId",required=false)String userId,
 			@RequestParam(name="page",required=true)int page){
 		
-		Results<List<UserVideoComment>> result=new Results<List<UserVideoComment>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<UserVideoComment> list = userVideoService.listComment(vid,userId,pageNo,pageSize);
-		result.setStatus("0");
-		result.setData(list);
-		return result;
+		return userVideoService.listComment(vid,userId,pageNo,pageSize);
+		
 	}
 	
 	

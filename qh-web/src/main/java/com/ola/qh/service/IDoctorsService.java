@@ -23,11 +23,11 @@ public interface IDoctorsService {
 			@Param("name")String name);
 
 	
-	public Doctors singleDoctors(String id,String userId,String islimit,int page);
+	public Results<Doctors> singleDoctors(String id,String userId,String islimit,int page);
 	
 	public Results<String> patientSaveUpdate(DoctorPatient dp);
 	
-	public List<DoctorPatient> listPatient(String userId,String category,String searchName,int pageNo,int pageSize,int types);
+	public Results<List<DoctorPatient>> listPatient(String userId,String category,String searchName,int pageNo,int pageSize,int types);
 	
 	public DoctorPatient singlePatient(String id);
 	

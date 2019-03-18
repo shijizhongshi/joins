@@ -39,14 +39,8 @@ public class ShopDrugCartController {
 	public Results<List<CartVo>> selectShopDrugCart(@RequestParam(name = "userId", required = true) String userId,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<CartVo>> results = new Results<List<CartVo>>();
-
-		int pageSize = Patterns.zupageSize;
-		int pageNo = (page - 1) * pageSize;
-		List<CartVo> list = shopDrugCartService.selectShopDrugCart(userId,page);
-		results.setData(list);
-		results.setStatus("0");
-		return results;
+		return shopDrugCartService.selectShopDrugCart(userId,page);
+		
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -92,16 +86,7 @@ public class ShopDrugCartController {
 			results.setStatus("1");
 			return results;
 		}
-		int delete = shopDrugCartService.deleteShopDrugCart(id,userId);
-
-		if (delete <= 0) {
-			results.setMessage("删除出现异常");
-			results.setStatus("1");
-			return results;
-
-		}
-		results.setStatus("0");
-		return results;
+		return shopDrugCartService.deleteShopDrugCart(id,userId);
 	}
 
 

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.JobFair;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IJobFairService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -26,6 +28,8 @@ public class JobFairController {
 
 	@Autowired
 	private IJobFairService jobFairService;
+	@Autowired
+	private IUserService userService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<List<JobFair>> selectJob(@RequestParam(name="id",required=false)String id,
@@ -37,7 +41,15 @@ public class JobFairController {
 			@RequestParam(name="welfare",required=false)String welfare,@RequestParam(name="page",required=true)int page){
 		
 				Results<List<JobFair>> results=new Results<List<JobFair>>();
-				
+				if(userId!=null && !"".equals(userId)){
+					Results<User> userResult = userService.existUser(userId);
+					if("1".equals(userResult.getStatus())){
+						results.setStatus("1");
+						results.setMessage(userResult.getMessage());
+						return results;
+					}
+					userId=userResult.getData().getId();
+				}
 				int pageSize=Patterns.zupageSize;
 				int pageNo=(page-1)*pageSize;
 				
@@ -72,6 +84,13 @@ public class JobFairController {
 					return results;
 					
 				}
+				Results<User> userResult = userService.existUser(jobFair.getUserId());
+				if("1".equals(userResult.getStatus())){
+					results.setStatus("1");
+					results.setMessage(userResult.getMessage());
+					return results;
+				}
+				jobFair.setUserId(userResult.getData().getId());
 				jobFair.setId(KeyGen.uuid());
 				jobFair.setCategory("招聘");
 				jobFair.setAddtime(new Date());

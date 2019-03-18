@@ -37,6 +37,18 @@ public class UserLogin {
 	
 	@NotEmpty(message = "手机号不能为空")
 	private String mobile;
+	
+	private String token;
+	
+	
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getId() {
 		return id;

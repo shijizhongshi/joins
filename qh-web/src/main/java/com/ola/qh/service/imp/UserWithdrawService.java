@@ -14,6 +14,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.ola.qh.dao.UserBookDao;
 import com.ola.qh.dao.UserWeixinBindingDao;
 import com.ola.qh.dao.UserWithdrawDao;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserWeixinBinding;
 import com.ola.qh.entity.UserWithdraw;
@@ -40,8 +41,17 @@ public class UserWithdrawService implements IUserWithdrawService {
 	
 
 	@Override
-	public List<UserWithdrawVo> selectUserWithdraw(String userId, int pageNo, int pageSize,String payStatus) {
-
+	public Results<List<UserWithdrawVo>> selectUserWithdraw(String userId, int pageNo, int pageSize,String payStatus) {
+		Results<List<UserWithdrawVo>> result=new Results<List<UserWithdrawVo>>();
+		if(userId!=null && userId!=""){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<UserWithdraw> list = userWithdrawDao.selectUserWithdraw(userId, pageNo, pageSize,payStatus);
 		List<UserWithdrawVo> listvo=new ArrayList<UserWithdrawVo>();
 		UserWithdrawVo vo=new UserWithdrawVo();
@@ -81,7 +91,9 @@ public class UserWithdrawService implements IUserWithdrawService {
 			listvo.add(vo);
 		}
 		
-		return listvo;
+		result.setStatus("0");
+		result.setData(listvo);
+		return result;
 	}
 	
 	public static String sfDetailTime(Date time){
@@ -92,12 +104,15 @@ public class UserWithdrawService implements IUserWithdrawService {
 	@Override
 	public Results<String> saveUserWithdraw(UserWithdraw userwithdraw) {
 
-		Results<String> results = new Results<String>();
+		Results<String> result = new Results<String>();
 		try {
-		Results<String> userresult = userService.existUser(userwithdraw.getUserId());
-		if ("1".equals(userresult.getStatus())) {
-			return userresult;
-		}else{
+			Results<User> userResult = userService.existUser(userwithdraw.getUserId());
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}else{
+			userwithdraw.setUserId(userResult.getData().getId());
 			if(userwithdraw.getTypes()==2){
 				//////保证提现到微信
 				int count=userBindingDao.existUserBinding(userwithdraw.getUserId());
@@ -107,14 +122,14 @@ public class UserWithdrawService implements IUserWithdrawService {
 						userwithdraw.setOpenId(userBinding.getOpenId());
 						userwithdraw.setWeixinnickname(userBinding.getNickname());
 					}else{
-						results.setMessage("微信没有被绑定~");
-						results.setStatus("1");
-						return results;
+						result.setMessage("微信没有被绑定~");
+						result.setStatus("1");
+						return result;
 					}
 				}else{
-					results.setMessage("微信没有被绑定~");
-					results.setStatus("1");
-					return results;
+					result.setMessage("微信没有被绑定~");
+					result.setStatus("1");
+					return result;
 				}
 			}
 			
@@ -122,9 +137,9 @@ public class UserWithdrawService implements IUserWithdrawService {
 		BigDecimal outMoney = userwithdraw.getMoney();
 		int notzero = outMoney.compareTo(new BigDecimal(0));
 		if (notzero <= 0) {
-			results.setMessage("请输入大于0.1元提现金额");
-			results.setStatus("1");
-			return results;
+			result.setMessage("请输入大于0.1元提现金额");
+			result.setStatus("1");
+			return result;
 		}
 		
 
@@ -132,9 +147,9 @@ public class UserWithdrawService implements IUserWithdrawService {
 			BigDecimal canWithdraw = userBooks.getCanWithdraw();
 			int bigdecimal = canWithdraw.compareTo(outMoney);
 			if (bigdecimal == -1) {
-				results.setMessage("可提现金额不足");
-				results.setStatus("1");
-				return results;
+				result.setMessage("可提现金额不足");
+				result.setStatus("1");
+				return result;
 			}
 			BigDecimal onmoney=userBooks.getOnMoney();
 			BigDecimal onMoney = onmoney.add(outMoney);
@@ -153,18 +168,18 @@ public class UserWithdrawService implements IUserWithdrawService {
 			userwithdraw.setPayStatus(0);
 			userWithdrawDao.saveUserWithdraw(userwithdraw);
 			if(userwithdraw.getTypes()==1){
-				results.setMessage(userwithdraw.getAliaccount());
+				result.setMessage(userwithdraw.getAliaccount());
 			}else if(userwithdraw.getTypes()==2){
-				results.setMessage(userwithdraw.getWeixinnickname());
+				result.setMessage(userwithdraw.getWeixinnickname());
 			}
-			results.setStatus("0");
-			return results;
+			result.setStatus("0");
+			return result;
 
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			results.setStatus("1");
-			results.setMessage("保存失败");
-			return results;
+			result.setStatus("1");
+			result.setMessage("保存失败");
+			return result;
 		}
 	}
 

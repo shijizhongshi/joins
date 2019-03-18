@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.UserFavoriteDao;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserFavorite;
 import com.ola.qh.service.IUserFavoriteService;
 import com.ola.qh.service.IUserService;
@@ -22,20 +23,33 @@ public class UserFavoriteService implements IUserFavoriteService{
 	private IUserService userService;
 
 	@Override
-	public List<UserFavorite> selectUserFavorite(String userId,int pageNo,int pageSize,int productType) {
-		
-		return userFavoriteDao.selectUserFavorite(userId, pageNo, pageSize, productType);
+	public Results<List<UserFavorite>> selectUserFavorite(String userId,int pageNo,int pageSize,int productType) {
+		Results<List<UserFavorite>> result=new Results<List<UserFavorite>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
+		List<UserFavorite> list=userFavoriteDao.selectUserFavorite(userId, pageNo, pageSize, productType);
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 	@Override
 	public Results<String> insertUserFavorite(UserFavorite userFavorite) {
 		Results<String> result=new Results<String>();
-		Results<String> userResult = userService.existUser(userFavorite.getUserId());
+		Results<User> userResult = userService.existUser(userFavorite.getUserId());
 		if("1".equals(userResult.getStatus())){
-			result.setMessage(userResult.getMessage());
 			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
 			return result;
 		}
+		userFavorite.setUserId(userResult.getData().getId());
 		int count=userFavoriteDao.existUserFavorite(userFavorite.getProductId(),userFavorite.getUserId());
 		if(count>0){
 			result.setMessage("您已经收藏过此宝贝了");
@@ -56,9 +70,21 @@ public class UserFavoriteService implements IUserFavoriteService{
 	}
 
 	@Override
-	public int deleteUserFavorite(String id,String userId,String productId) {
+	public Results<String> deleteUserFavorite(String id,String userId,String productId) {
+		Results<String> result=new Results<String>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		
-		return userFavoriteDao.deleteUserFavorite(id, userId, productId);
+		userFavoriteDao.deleteUserFavorite(id, userId, productId);
+		result.setStatus("0");
+		return result;
 	}
 
 	@Override
@@ -68,9 +94,22 @@ public class UserFavoriteService implements IUserFavoriteService{
 	}
 
 	@Override
-	public List<UserFavorite> selectSearchUserFavorite(String userId, int pageNo, int pageSize, String productName) {
-		
-		return userFavoriteDao.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
+	public Results<List<UserFavorite>> selectSearchUserFavorite(String userId, int pageNo, int pageSize, String productName) {
+		Results<List<UserFavorite>> result=new Results<List<UserFavorite>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			
+			userId=userResult.getData().getId();
+		}
+		List<UserFavorite> list=userFavoriteDao.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 	

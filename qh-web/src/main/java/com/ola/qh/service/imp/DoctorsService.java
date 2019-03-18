@@ -40,10 +40,13 @@ public class DoctorsService implements IDoctorsService{
 	public Results<String> doctorsSaveUpdate(Doctors d) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		Results<String> resultuser = userService.existUser(d.getUserId());
-		if("1".equals(resultuser.getStatus())){
-			return resultuser;
+		Results<User> userResult = userService.existUser(d.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
 		}
+		d.setUserId(userResult.getData().getId());
 		try {
 			if(d.getId()!=null && !"".equals(d.getId())){
 				//////修改医生的信息
@@ -88,8 +91,18 @@ public class DoctorsService implements IDoctorsService{
 	}
 
 	@Override
-	public Doctors singleDoctors(String id,String userId,String islimit,int page) {
+	public Results<Doctors> singleDoctors(String id,String userId,String islimit,int page) {
 		// TODO Auto-generated method stub
+		Results<Doctors> result=new Results<Doctors>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		Doctors d=  doctorsDao.singleDoctors(id,userId,islimit);
 		/*int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
@@ -102,7 +115,9 @@ public class DoctorsService implements IDoctorsService{
 			dp.setPublisher(name+num);
 		}*/
 		//d.setList(list);
-		return d;
+		result.setStatus("0");
+		result.setData(d);
+		return result;
 	}
 
 	@Transactional(rollbackFor=Exception.class)
@@ -110,9 +125,14 @@ public class DoctorsService implements IDoctorsService{
 	public Results<String> patientSaveUpdate(DoctorPatient dp) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		result = userService.existUser(dp.getUserId());
-		if("1".equals(result.getStatus())){
-			return result;
+		if(dp.getUserId()!=null && !"".equals(dp.getUserId())){
+			Results<User> userResult = userService.existUser(dp.getUserId());
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			dp.setUserId(userResult.getData().getId());
 		}
 		if(dp.getId()!=null && !"".equals(dp.getId())){
 			////修改患者的信息
@@ -169,9 +189,18 @@ public class DoctorsService implements IDoctorsService{
 		
 
 	@Override
-	public List<DoctorPatient> listPatient(String userId,String category,String searchName, int pageNo, int pageSize,int types) {
+	public Results<List<DoctorPatient>> listPatient(String userId,String category,String searchName, int pageNo, int pageSize,int types) {
 		// TODO Auto-generated method stub
-		
+		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<DoctorPatient> list=new ArrayList<DoctorPatient>();
 		if(types==1){
 			/////医学圈的问题
@@ -193,7 +222,9 @@ public class DoctorsService implements IDoctorsService{
 			int replyCount = doctorReplyDao.replyListCount(doctorPatient.getId());
 			doctorPatient.setReplyCount(replyCount);
 		}
-		return list;
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 	@Override

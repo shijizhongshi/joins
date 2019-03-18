@@ -12,14 +12,22 @@
 		<result column="device_type" property="deviceType" />
 		<result column="addtime" property="addtime" />
 		<result column="updatetime" property="updatetime" />
+		<result column="token" property="token" />
 	</resultMap>
 
 	<select id="selectUserLogin" resultMap="UserLoginMap">
-		select id,user_id,device_name,device_id,device_token,device_type,addtime from user_login where user_id=#{userId}
+		select id,user_id,device_name,device_id,device_token,device_type,addtime,token from user_login where 1=1
+		<if test="userId!=null and userId!='' ">
+		and user_id=#{userId}
+		</if>
+		<if test="token!=null and token!='' ">
+		and token=#{token}
+		</if>
+		
 	</select>
 	
 	<insert id="saveUserLogin" parameterType="com.ola.qh.entity.UserLogin" >
-	 	insert into user_login(id,user_id,device_name,device_id,device_token,device_type,addtime) values(#{id},#{userId},#{deviceName},#{deviceId},#{deviceToken},#{deviceType},#{addtime})
+	 	insert into user_login(id,user_id,device_name,device_id,device_token,device_type,addtime,token) values(#{id},#{userId},#{deviceName},#{deviceId},#{deviceToken},#{deviceType},#{addtime},#{token})
 	</insert>
 	
 	<update id="updateUserLogin"  parameterType="com.ola.qh.entity.UserLogin">
@@ -35,6 +43,9 @@
 		</if>
 		<if test="deviceType!=0">
 		device_type=#{deviceType},
+		</if>
+		<if test="token!=null and token!=''">
+		token=#{token},
 		</if>
 		updatetime=#{updatetime}
 		

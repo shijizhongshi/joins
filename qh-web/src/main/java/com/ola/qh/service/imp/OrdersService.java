@@ -34,6 +34,7 @@ import com.ola.qh.entity.OrdersStatus;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserDouDou;
 import com.ola.qh.entity.UserIntomoneyHistory;
@@ -94,12 +95,13 @@ public class OrdersService implements IOrdersService {
 		/* try { */
 		///// 校验用户的信息是否准确
 		if (ordersVo.getOid() == null || "".equals(ordersVo.getOid())) {
-			Results<String> userResult = userService.existUser(ordersVo.getUserId());
-			if ("1".equals(userResult.getStatus())) {
+			Results<User> userResult = userService.existUser(ordersVo.getUserId());
+			if("1".equals(userResult.getStatus())){
 				result.setStatus("1");
 				result.setMessage(userResult.getMessage());
 				return result;
 			}
+			ordersVo.setUserId(userResult.getData().getId());
 			List<Orders> ordersList = ordersVo.getOrdersList();
 			BigDecimal totalPrice = BigDecimal.ZERO;
 			int count = 0;
@@ -521,12 +523,23 @@ public class OrdersService implements IOrdersService {
 					}
 					statusCode = OrdersStatus.RECEIVED;
 					statusName = "服务已经使用,订单完成";
+					Results<User> userResult=new Results<User>();
+					String userIds=null;
+					if(userId!=null && !"".equals(userId)){
+						userResult = userService.existUser(userId);
+						if("1".equals(userResult.getStatus())){
+							result.setStatus("1");
+							result.setMessage(userResult.getMessage());
+							return result;
+						}
+						userIds=userResult.getData().getId();
+					}
 					if (userId == null || "".equals(userId)) {
 						result.setStatus("1");
 						result.setMessage("登录用户的标识不能为空");
 						return result;
 					}
-					if (!orders.getMuserId().equals(userId)) {
+					if (!orders.getMuserId().equals(userIds)) {
 						result.setStatus("1");
 						result.setMessage("必须订单归属的商家扫码才可以");
 						return result;
@@ -545,7 +558,7 @@ public class OrdersService implements IOrdersService {
 					////// 往商家店铺里打钱~~~
 					uh.setUserId(orders.getMuserId());
 					userIntomoneyHistoryDao.saveUserIntomoneyHistory(uh);
-					UserBook ub = userBookDao.singleUserBook(userId);
+					UserBook ub = userBookDao.singleUserBook(userIds);
 					/// 修改总账本
 					BigDecimal accountMoney = ub.getAccountMoney().add(money).setScale(2, BigDecimal.ROUND_DOWN);
 					BigDecimal canWithdraw = ub.getCanWithdraw().add(money).setScale(2, BigDecimal.ROUND_DOWN);
@@ -637,10 +650,29 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public List<OrdersVo> listOrders(OrdersDomain od) {
+	public Results<List<OrdersVo>> listOrders(OrdersDomain od) {
 		// TODO Auto-generated method stub
 		///// statusCode:AllStatus全部的订单
 		// statusCode:refundStatus退款售后
+		Results<List<OrdersVo>> result=new Results<List<OrdersVo>>();
+		if(od.getUserId()!=null && !"".equals(od.getUserId())){
+			Results<User> userResult = userService.existUser(od.getUserId());
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			od.setUserId(userResult.getData().getId());
+		}
+		if(od.getMuserId()!=null && !"".equals(od.getMuserId())){
+			Results<User> userResult = userService.existUser(od.getMuserId());
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			od.setMuserId(userResult.getData().getId());
+		}
 		List<OrdersVo> odmainList = new ArrayList<OrdersVo>();
 		if ("AllStatus".equals(od.getOrdersStatus())) {
 			od.setOrdersStatus(null);
@@ -665,7 +697,9 @@ public class OrdersService implements IOrdersService {
 				}
 				odmainList.add(ovo);
 			}
-			return odmainList;
+			result.setStatus("0");
+			result.setData(odmainList);
+			return result;
 		} else if ("refundStatus".equals(od.getOrdersStatus())) {
 			////// 退款售后
 			OrdersProductDomain opd = new OrdersProductDomain();
@@ -689,7 +723,9 @@ public class OrdersService implements IOrdersService {
 				ovo.setProduct(listOrdersp);
 				odmainList.add(ovo);
 			}
-			return odmainList;
+			result.setStatus("0");
+			result.setData(odmainList);
+			return result;
 
 		}else if("serveOrdersIng".equals(od.getOrdersStatus())){
 			//////服务订单的销售订单进行中包括申请取消的 拒绝取消的  未使用的  (如果是已完成的话传RECEIVED  如果是已关闭的话传CANCELSERVEED(取消成功))
@@ -714,7 +750,9 @@ public class OrdersService implements IOrdersService {
 				}
 				odmainList.add(ovo);
 			}
-			return odmainList;
+			result.setStatus("0");
+			result.setData(odmainList);
+			return result;
 			
 			
 			
@@ -752,7 +790,9 @@ public class OrdersService implements IOrdersService {
 
 				odmainList.add(ovo);
 			}
-			return odmainList;
+			result.setStatus("0");
+			result.setData(odmainList);
+			return result;
 
 		}
 
@@ -791,12 +831,26 @@ public class OrdersService implements IOrdersService {
 		String newUserId=null;
 		if (muserId != null && (userId == null || "".equals(userId))) {
 			//// 销售订单的个数
-			newUserId=muserId;
+			Results<User> userResult = userService.existUser(muserId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			
+			newUserId=userResult.getData().getId();
 		}
 
 		if (userId!=null && (muserId == null || "".equals(muserId))) {
 			////// 这种情况下是指购物订单的个数
-			newUserId=userId;
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			
+			newUserId=userResult.getData().getId();
 
 		}
 		int newCount = ordersDao.ordersListCount(null, newUserId, OrdersStatus.NEW,null);
