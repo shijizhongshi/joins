@@ -15,6 +15,7 @@ import com.ola.qh.entity.QuestionBankUserFinish;
 import com.ola.qh.service.IQuestionBankUserFinishService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserFinishDomain;
 
 @RestController
 @RequestMapping(value="/api/QuestionBankUserFinish")
@@ -24,18 +25,24 @@ public class QuestionBankUserFinishController {
 	private IQuestionBankUserFinishService questionBankUserFinishService;
 	
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public Results<String> addUserFinish(@RequestBody @Valid QuestionBankUserFinish questionBankUserFinish,BindingResult valid){
+	public Results<String> addUserFinish(@RequestBody @Valid UserFinishDomain userFinishDomain,BindingResult valid){
 		
 		Results<String> results=new Results<String>();
 		
+		for (QuestionBankUserFinish questionBankUserFinish : userFinishDomain.getList()) {
+			
+		
+		questionBankUserFinish.setUserId(userFinishDomain.getUserId());
 		questionBankUserFinish.setId(KeyGen.uuid());
 		questionBankUserFinish.setAddtime(new Date());
 		int insert=questionBankUserFinishService.addUserFinish(questionBankUserFinish);
 		
-		if(insert<=0){
+			if(insert<=0){
 			
-			results.setStatus("1");
-			return results;
+				results.setStatus("1");
+				return results;
+			}
+		
 		}
 		
 		results.setStatus("0");

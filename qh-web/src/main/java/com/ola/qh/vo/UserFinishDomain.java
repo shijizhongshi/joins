@@ -17,6 +17,18 @@ public class UserFinishDomain {
 	private List<QuestionBankUserFinish> list=new ArrayList<QuestionBankUserFinish>();
 	@NotEmpty
 	private String userId;
+	public List<QuestionBankUserFinish> getList() {
+		return list;
+	}
+	public void setList(List<QuestionBankUserFinish> list) {
+		this.list = list;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	
 	
 }
