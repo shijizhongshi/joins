@@ -130,10 +130,10 @@
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId from course_line_show
 	where 1=1
-	<if test="courseTypeName!=null">
+	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
 	</if>
-	<if test="courseTypeSubclassName!=null">
+	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
 	and course_type_subclass_name=#{courseTypeSubclassName}
 	</if>
 	<if test="className!=null and className!='' ">
