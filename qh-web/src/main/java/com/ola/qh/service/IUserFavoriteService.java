@@ -7,13 +7,13 @@ import com.ola.qh.util.Results;
 
 public interface IUserFavoriteService {
 
-	public List<UserFavorite> selectUserFavorite(String userId,int pageNo,int pageSize,int productType);
+	public Results<List<UserFavorite>> selectUserFavorite(String userId,int pageNo,int pageSize,int productType);
 	
 	public Results<String> insertUserFavorite(UserFavorite userFavorite);
 	
-	public int deleteUserFavorite(String id,String userId,String productId);
+	public Results<String> deleteUserFavorite(String id,String userId,String productId);
 	
 	public int existUserFavorite(String productId);
 	
-	public List<UserFavorite> selectSearchUserFavorite(String userId,int pageNo,int pageSize,String productName);
+	public Results<List<UserFavorite>> selectSearchUserFavorite(String userId,int pageNo,int pageSize,String productName);
 }

@@ -10,5 +10,5 @@ public interface IUserDoudouService {
 	public Results<String> insertDoudou(UserDouDou udd);
 	
 	//////////查询所有的豆豆的来源
-	public List<UserDouDou> listDoudou(String userId,int pageNo,int pageSize);
+	public Results<List<UserDouDou>> listDoudou(String userId,int pageNo,int pageSize);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IUserMessageService;
 import com.ola.qh.service.IUserService;
@@ -30,6 +31,13 @@ public class UserMessageController {
 	public Results<List<UserMessage>> listType(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<List<UserMessage>> result = new Results<List<UserMessage>>();
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
+		}
+		userId=userResult.getData().getId();
 		List<UserMessage> list = new ArrayList<UserMessage>();
 		//////// 1:
 		List<UserMessage> list1 = userMessageService.listByType(userId, 1);
@@ -113,12 +121,13 @@ public class UserMessageController {
 		Results<List<UserMessage>> result = new Results<List<UserMessage>>();
 		List<UserMessage> list = new ArrayList<UserMessage>();
 		int pageNo = (page - 1) * Patterns.zupageSize;
-		Results<String> userResult = userService.existUser(userId);
-		if ("1".equals(userResult.getStatus())) {
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
 			result.setStatus("1");
 			result.setMessage(userResult.getMessage());
 			return result;
 		}
+		userId=userResult.getData().getId();
 		list = userMessageService.list(userId, pageNo, Patterns.zupageSize, types);
 		for (UserMessage userMessage : list) {
 			userMessage.setShowtime(Patterns.sfDetailTime(userMessage.getAddtime()));

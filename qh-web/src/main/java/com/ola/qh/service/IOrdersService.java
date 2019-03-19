@@ -19,7 +19,7 @@ public interface IOrdersService {
 	
 	public Results<OrdersVo> singleOrders(String ordersId);
 	
-	public List<OrdersVo> listOrders(OrdersDomain od);
+	public Results<List<OrdersVo>> listOrders(OrdersDomain od);
 	
 	public Results<OrdersCountVo> countOrders(String muserId,String userId);
 	

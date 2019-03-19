@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBuyCourse;
 import com.ola.qh.service.IUserBuyCourseService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -18,6 +20,8 @@ public class UserBuyCourseController {
 
 	@Autowired
 	private IUserBuyCourseService userBuyCourseService;
+	@Autowired
+	private IUserService userService;
 	/**
 	 * 
 	 * <p>Title: selectUserBuyCourse</p>  
@@ -39,6 +43,13 @@ public class UserBuyCourseController {
 		if(types!=null && !"".equals(types)){
 			type=Integer.valueOf(types);
 		}
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		userId=userResult.getData().getId();
 		List<UserBuyCourse> list=userBuyCourseService.selectUserBuyCourse(userId,mobile,type,years);
 		
 		results.setData(list);

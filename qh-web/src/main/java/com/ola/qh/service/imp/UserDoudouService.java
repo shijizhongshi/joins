@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ola.qh.dao.UserBookDao;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserDouDou;
 import com.ola.qh.service.IUserDoudouService;
@@ -27,10 +28,13 @@ public class UserDoudouService implements IUserDoudouService{
 	public Results<String> insertDoudou(UserDouDou udd) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		Results<String> usserresult = userService.existUser(udd.getUserId());
-		if("1".equals(usserresult.getStatus())){
-			return usserresult;
+		Results<User> userResult = userService.existUser(udd.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
 		}
+		udd.setUserId(userResult.getData().getId());
 		UserBook ub = userBookDao.singleUserBook(udd.getUserId());
 		if(ub!=null){
 			UserBook ubnew=new UserBook();
@@ -51,9 +55,20 @@ public class UserDoudouService implements IUserDoudouService{
 	}
 
 	@Override
-	public List<UserDouDou> listDoudou(String userId, int pageNo, int pageSize) {
+	public Results<List<UserDouDou>> listDoudou(String userId, int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
-		return userBookDao.listDoudou(userId, pageNo, pageSize);
+		Results<List<UserDouDou>> result=new Results<List<UserDouDou>>();
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
+		}
+		userId=userResult.getData().getId();
+		List<UserDouDou> list=userBookDao.listDoudou(userId, pageNo, pageSize);
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 }

@@ -41,15 +41,11 @@ public class UserWithdrawController {
 			@RequestParam(name="payStatus",required=false)String payStatus,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<UserWithdrawVo>> results = new Results<List<UserWithdrawVo>>();
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<UserWithdrawVo> select = userWithdrawService.selectUserWithdraw(userId, pageNo,
+		return userWithdrawService.selectUserWithdraw(userId, pageNo,
 				pageSize,payStatus);
-		results.setData(select);
-		results.setStatus("0");
-		return results;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)

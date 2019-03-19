@@ -17,7 +17,7 @@ public interface IUserService {
 
 	public int updateUser(User user);
 	
-	public Results<String> existUser(String userId);
+	public Results<User> existUser(String userId);
 	
 	public Results<User> updatePassword(User user);
 	

@@ -44,6 +44,15 @@ public class UserController {
 		Results<User> results = new Results<User>();
 		User user = new User();
 		if (userId != null && !"".equals(userId)) {
+			
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			userId=userResult.getData().getId();
+			
 			user = userService.sinleUser(userId, null);
 		} else if (mobile != null && !"".equals(mobile)) {
 			user = userService.sinleUser(null, mobile);
@@ -139,6 +148,13 @@ public class UserController {
 	public Results<UserBook> singleUserBook(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<UserBook> result = new Results<UserBook>();
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
+		}
+		userId=userResult.getData().getId();
 		UserBook ub = userService.singleUserBook(userId);
 		result.setStatus("0");
 		result.setData(ub);

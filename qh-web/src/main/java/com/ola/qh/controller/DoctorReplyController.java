@@ -88,13 +88,10 @@ public class DoctorReplyController {
 			@RequestParam(name="patientId",required=true)String patientId,
 			@RequestParam(name="userId",required=false)String userId){
 		
-		Results<List<Reply>> result=new Results<List<Reply>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<Reply> list=doctorReplyService.listReply(patientId, pageNo, pageSize, userId);
-		result.setStatus("0");
-		result.setData(list);
-		return result;
+		return doctorReplyService.listReply(patientId, pageNo, pageSize, userId);
+	
 		
 	}
 	/**
@@ -107,10 +104,8 @@ public class DoctorReplyController {
 	public Results<String> updateReply(
 			@RequestParam(name="id",required=true)String id,
 			@RequestParam(name="userId",required=true)String userId){
-		Results<String> result=new Results<String>();
-		doctorReplyService.updateReply(id, userId);
-		result.setStatus("0");
-		return result;
+		return doctorReplyService.updateReply(id, userId);
+		
 	}	
 	
 }

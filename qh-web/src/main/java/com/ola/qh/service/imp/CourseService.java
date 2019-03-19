@@ -13,6 +13,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
@@ -96,24 +97,28 @@ public class CourseService implements ICourseService {
 	public Results<Course> singleCourse(String courseId, String userId) {
 		// TODO Auto-generated method stub
 		Results<Course> result = new Results<Course>();
-		if (userId != null && !"".equals(userId)) {
-			Results<String> userresult = userService.existUser(userId);
-			if ("1".equals(userresult.getStatus())) {
-				result.setStatus("1");
-				result.setMessage(userresult.getMessage());
-				return result;
-			}
-		}
 		Course c = courseDao.singleCourse(courseId);
 		if(c!=null && c.getCourseShow()==1){
 			result.setStatus("1");
 			result.setMessage("课程已失效");
 			return result;
 		}
-		int count = userFavoriteDao.existUserFavorite(courseId, userId);
-		if (count > 0) {
-			c.setIsFavorite(1);
+		if (userId != null && !"".equals(userId)) {
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+			int count = userFavoriteDao.existUserFavorite(courseId, userId);
+			if (count > 0) {
+				c.setIsFavorite(1);
+			}
 		}
+		
+		
+		
 		result.setStatus("0");
 		result.setData(c);
 		return result;

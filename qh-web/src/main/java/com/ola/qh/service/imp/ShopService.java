@@ -16,6 +16,7 @@ import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.service.IShopService;
 import com.ola.qh.service.IUserCommentService;
@@ -124,10 +125,13 @@ public class ShopService implements IShopService {
 					return result;
 			}
 			/////// 查用户的基本信息
-			Results<String> userResult = userService.existUser(shop.getUserId());
+			Results<User> userResult = userService.existUser(shop.getUserId());
 			if("1".equals(userResult.getStatus())){
-				return userResult;
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
 			}
+			shop.setUserId(userResult.getData().getId());
 			///////查用户时候有店铺
 			Shop listshop = shopDao.singleShop(shop.getUserId(), null, shop.getShopType(),null);
 			if(listshop!=null){
@@ -218,8 +222,19 @@ public class ShopService implements IShopService {
 	}
 
 	@Override
-	public List<Shop> selectShopByUserId(String userId,String shopId,int shopType) {
+	public Results<List<Shop>> selectShopByUserId(String userId,String shopId,int shopType) {
 		// TODO Auto-generated method stub
+		Results<List<Shop>> result=new Results<List<Shop>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
+		
 		List<Shop> shopList = shopDao.selectShopByUserId(userId, shopId,0);
 		for (Shop shop : shopList) {
 			List<ShopImg> imgList = shopDao.selectList(shop.getId(),1);
@@ -230,7 +245,9 @@ public class ShopService implements IShopService {
 			}
 			shop.setImgList(imgList);
 		}
-		return shopList;
+		result.setStatus("0");
+		result.setData(shopList);
+		return result;
 	}
 
 	@Override

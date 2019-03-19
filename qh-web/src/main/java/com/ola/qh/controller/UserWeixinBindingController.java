@@ -58,8 +58,8 @@ public class UserWeixinBindingController {
 	public Results<String> exist(@RequestParam(name="userId",required=true)String userId){
 		
 		Results<String> result=new Results<String>(); 
-		int count = userPayBindingService.existUserBinding(userId);
-		if(count>0){
+		result = userPayBindingService.existUserBinding(userId);
+		if(result.getCount()>0){
 			result.setStatus("0");
 			return result;
 		}else{

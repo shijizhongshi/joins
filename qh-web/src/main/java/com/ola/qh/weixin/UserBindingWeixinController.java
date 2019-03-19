@@ -77,12 +77,12 @@ public class UserBindingWeixinController {
 		WeixinInfo userInfo = Json.from(bodyuser, WeixinInfo.class);
 		if(userInfo!=null){
 			
-			int count = userBindingService.existUserBinding(userId);
-			if(count==0){
+			Results<String> count = userBindingService.existUserBinding(userId);
+			if(count.getCount()==0){
 				UserWeixinBinding userbinding=new UserWeixinBinding();
 				userbinding.setHeadimgurl(userInfo.getHeadimgurl());
 				userbinding.setOpenId(userInfo.getOpenid());
-				userbinding.setUserId(userId);
+				userbinding.setUserId(count.getData());
 				userbinding.setId(KeyGen.uuid());
 				userbinding.setNickname(userInfo.getNickname());
 				userbinding.setAddtime(new Date());

@@ -9,11 +9,11 @@ import com.ola.qh.vo.CartVo;
 
 public interface IShopDrugCartService {
 
-	public List<CartVo> selectShopDrugCart(String userId,int page);
+	public Results<List<CartVo>> selectShopDrugCart(String userId,int page);
 	
 	public Results<String> insertShopDrugCart(ShopDrugCart shopDrugCart);
 	
-	public int deleteShopDrugCart(String id,String userId);
+	public Results<String> deleteShopDrugCart(String id,String userId);
 	
 	public int updateShopDrugCart(int count, String id,Date updatetime);
 	

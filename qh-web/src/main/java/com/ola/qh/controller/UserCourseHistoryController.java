@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserCourseHistory;
 import com.ola.qh.service.IUserCourseHistoryService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 
@@ -24,11 +26,22 @@ public class UserCourseHistoryController {
 
 	@Autowired
 	private IUserCourseHistoryService userCourseHistoryService;
+	@Autowired
+	private IUserService userService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<List<UserCourseHistory>> selectUserCourseHistory(@RequestParam(name="userId",required=false)String userId){
 		
 		Results<List<UserCourseHistory>> results=new Results<List<UserCourseHistory>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			userId=userResult.getData().getId();
+		}
 		
 		List<UserCourseHistory> list=userCourseHistoryService.selectUserCourseHistory(userId);
 		
@@ -48,20 +61,21 @@ public class UserCourseHistoryController {
 	public Results<String> insertUpdateUserCourseHistory(@RequestBody @Valid UserCourseHistory userCourseHistory,BindingResult valid){
 		
 		Results<String> results=new Results<String>();
-		
+		Results<User> userResult = userService.existUser(userCourseHistory.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		userCourseHistory.setUserId(userResult.getData().getId());
 		UserCourseHistory exist=userCourseHistoryService.existUserCourseHistory(userCourseHistory.getUserId(), userCourseHistory.getClassId());
-		
 		if(exist==null){
-			
 			userCourseHistory.setId(KeyGen.uuid());
 			userCourseHistory.setAddtime(new Date());
 			userCourseHistoryService.insertUserCourseHistory(userCourseHistory);
-			
 		}
 		Date addtime=new Date();
 		userCourseHistoryService.updateUserCourseHistory(userCourseHistory.getClassId(), userCourseHistory.getUserId(), addtime);
-		
-		
 		results.setStatus("0");
 		return results;
 		
@@ -71,16 +85,22 @@ public class UserCourseHistoryController {
 			@RequestParam(name="userId",required=false)String userId){
 		
 		Results<String> results=new Results<String>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			userId=userResult.getData().getId();
+		}
 		
 		int delete=userCourseHistoryService.deleteUserCourseHistory(id, userId);
-		
 		if(delete==0){
 			results.setStatus("1");
 			return results;
 		}
-		
 		results.setStatus("0");
 		return results;
-		
 	}
 }

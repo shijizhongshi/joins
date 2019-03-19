@@ -21,7 +21,7 @@ public interface IDoctorReplyService {
 	
 	public Results<String> insertReply(Reply dr); 
 	
-	public List<Reply> listReply(String patientId,int pageNo,int pageSize,String userId); 
+	public Results<List<Reply>> listReply(String patientId,int pageNo,int pageSize,String userId); 
 	
-	public int updateReply(String id,String userId);
+	public Results<String> updateReply(String id,String userId);
 }

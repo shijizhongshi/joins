@@ -19,6 +19,7 @@ import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.entity.ShopDrugImg;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IShopDrugService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -48,10 +49,13 @@ public class ShopDrugService implements IShopDrugService {
 	@Transactional(rollbackFor = Exception.class)
 	public Results<String> insertDrug(ShopDrug shopDrug) {
 		Results<String> result = new Results<String>();
-		result = userService.existUser(shopDrug.getUserId());
-		if ("1".equals(result.getStatus())) {
+		Results<User> userResult = userService.existUser(shopDrug.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
 			return result;
 		}
+		shopDrug.setUserId(userResult.getData().getId());
 		Shop shop = shopDao.singleShop(shopDrug.getUserId(), shopDrug.getShopId(),0,null);
 		/////// 必须是2商城店铺才有上传药品的权限
 		if (shop.getShopType()==1) {
@@ -161,13 +165,14 @@ public class ShopDrugService implements IShopDrugService {
 		ShopDrug sd = shopDrugDao.selectById(drugId);
 		if(userId!=null && !"".equals(userId)){
 			///////
-			Results<String> userresult = userService.existUser(userId);
-			if("1".equals(userresult.getStatus())){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
 				result.setStatus("1");
-				result.setMessage(userresult.getMessage());
+				result.setMessage(userResult.getMessage());
 				return result;
 			}
-			int count = userFavoriteDao.existUserFavorite(drugId, userId);
+			
+			int count = userFavoriteDao.existUserFavorite(drugId, userResult.getData().getId());
 			if(count>0){
 				sd.setIsFavorite(1);
 			}

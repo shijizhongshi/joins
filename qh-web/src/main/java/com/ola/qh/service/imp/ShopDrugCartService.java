@@ -15,7 +15,9 @@ import com.ola.qh.dao.ShopDrugCartDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopDrugCart;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IShopDrugCartService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
@@ -27,14 +29,25 @@ public class ShopDrugCartService implements IShopDrugCartService{
 
 	@Autowired
 	private ShopDrugCartDao shopDrugCartDao;
-	
 	@Autowired
 	private ShopDrugDao shopDrugDao;
+	@Autowired
+	private IUserService userService;
 	
 	@Override
-	public List<CartVo> selectShopDrugCart(String userId, int page) {
+	public Results<List<CartVo>> selectShopDrugCart(String userId, int page) {
 		List<CartVo> volist = new ArrayList<CartVo>();
 		List<CartVo> newvolist = new ArrayList<CartVo>();
+		Results<List<CartVo>> result=new Results<List<CartVo>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<ShopDrugCart> sdcList = shopDrugCartDao.selectShopDrugCart(userId, 0, 0);
 		sdcList.forEach(sdc -> {
 			String sname = sdc.getShopName();
@@ -63,7 +76,9 @@ public class ShopDrugCartService implements IShopDrugCartService{
 			}else{
 				newvolist= volist.subList(pageNo, pageSize);
 			}
-			return newvolist.subList(0, newvolist.size()-1);
+			result.setData(newvolist.subList(0, newvolist.size()-1));
+			result.setStatus("0");
+			return result;
 		}
 		return null;
 	}
@@ -73,6 +88,13 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	public Results<String> insertShopDrugCart(ShopDrugCart shopDrugCart) {
 		
 		Results<String> results= new Results<String>();
+		Results<User> userResult = userService.existUser(shopDrugCart.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		shopDrugCart.setUserId(userResult.getData().getId());
 		try {
 			if(shopDrugCart.getUserId().equals(shopDrugCart.getMuserId())){
 				results.setMessage("不可以将自己的产品加入购物车");
@@ -114,9 +136,20 @@ public class ShopDrugCartService implements IShopDrugCartService{
 	}
 
 	@Override
-	public int deleteShopDrugCart(String id,String userId) {
-		
-		return shopDrugCartDao.deleteShopDrugCart(id,userId);
+	public Results<String> deleteShopDrugCart(String id,String userId) {
+		Results<String> result=new Results<String>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
+		shopDrugCartDao.deleteShopDrugCart(id,userId);
+		result.setStatus("0");
+		return result;
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.ola.qh.vo.UserWithdrawVo;
 
 public interface IUserWithdrawService {
 
-	public List<UserWithdrawVo> selectUserWithdraw(String userId,int pageNo,int pageSize,String payStatus);
+	public Results<List<UserWithdrawVo>> selectUserWithdraw(String userId,int pageNo,int pageSize,String payStatus);
 	
 	public Results<String> saveUserWithdraw(UserWithdraw userwithdrawhistory);
 	

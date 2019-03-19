@@ -84,9 +84,11 @@ public class UserService implements IUserService {
 				userlogin.setDeviceToken(user.getDeviceToken());
 				userlogin.setDeviceType(user.getDeviceType());
 				userlogin.setAddtime(new Date());
+				userlogin.setToken(KeyGen.uuid());
 				userloginDao.saveUserLogin(userlogin);
 				String nickname = users.getMobile().substring(7);
 				users.setNickname(nickname);
+				users.setToken(userlogin.getToken());
 				result.setData(users);
 				result.setStatus("0");
 				return result;
@@ -145,10 +147,12 @@ public class UserService implements IUserService {
 				}
 			}
 
-			UserLogin ulold = userloginDao.selectUserLogin(user.getId());
+			UserLogin ulold = userloginDao.selectUserLogin(user.getId(),null);
 			if (ulold != null) {
 				userlogin.setUserId(user.getId());
+				userlogin.setToken(KeyGen.uuid());
 				userlogin.setUpdatetime(new Date());
+				user.setToken(userlogin.getToken());
 				userloginDao.updateUserLogin(userlogin);
 			} else {
 				UserLogin newul = new UserLogin();
@@ -159,6 +163,8 @@ public class UserService implements IUserService {
 				newul.setAddtime(new Date());
 				newul.setId(KeyGen.uuid());
 				newul.setUserId(user.getId());
+				newul.setToken(KeyGen.uuid());
+				user.setToken(newul.getToken());
 				userloginDao.saveUserLogin(newul);
 
 			}
@@ -184,12 +190,20 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Results<String> existUser(String userId) {
+	public Results<User> existUser(String token) {
 
-		Results<String> result = new Results<String>();
-		User user = userDao.singleUser(userId, null);
+		Results<User> result = new Results<User>();
+		UserLogin ul=userloginDao.selectUserLogin(null, token);
+		if(ul==null){
+			result.setStatus("1");
+			result.setMessage("登录过期,请先登录~");
+			return result;
+		}
+		User user = userDao.singleUser(ul.getUserId(), null);
 		if (user != null) {
+			user.setToken(token);
 			result.setStatus("0");
+			result.setData(user);
 			return result;
 		}
 		result.setStatus("1");

@@ -6,7 +6,7 @@ import com.ola.qh.entity.UserLogin;
 
 public interface UserLoginDao {
 
-	public UserLogin selectUserLogin(@Param("userId")String userId);
+	public UserLogin selectUserLogin(@Param("userId")String userId,@Param("token")String token);
 	
 	public int saveUserLogin(UserLogin userlogin);
 	
