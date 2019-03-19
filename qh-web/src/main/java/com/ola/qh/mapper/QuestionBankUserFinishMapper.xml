@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.QuestionBankUserFinishDao">
+
+	<resultMap type="com.ola.qh.entity.QuestionBankUserFinish" id="QuestionBankUserFinishMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="bank_id" property="bankId" />
+		<result column="istrue" property="istrue" />
+		<result column="number_no" property="numberNo" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		
+	</resultMap>
+
+	<insert id="addUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">
+		insert into question_bank_user_finish(id,user_id,bank_id,istrue,number_no,addtime) 
+		values(#{id},#{userId},#{bankId},#{istrue},#{numberNo},#{addtime})
+	</insert>
+	
+	
+
+</mapper>

@@ -1,8 +1,8 @@
-package com.ola.qh.service;
+package com.ola.qh.dao;
 
 import com.ola.qh.entity.QuestionBankUserFinish;
 
-public interface IQuestionBankUserFinishService {
+public interface QuestionBankUserFinishDao {
 
 	public int addUserFinish(QuestionBankUserFinish questionBankUserFinish);
 	
