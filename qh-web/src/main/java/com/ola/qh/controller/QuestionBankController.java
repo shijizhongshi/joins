@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.QuestionBank;
 import com.ola.qh.service.IQuestionBankService;
-import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -32,13 +31,9 @@ public class QuestionBankController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<QuestionBank>> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId,
-			@RequestParam(value = "page",required=true) int page){
+	public Results<List<QuestionBank>> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId){
 		
-		int pageSize=Patterns.zupageSize;
-		int pageNo=(page-1)*pageSize;
-		
-		return questionBankService.selectQuestionBank(subId, pageNo,pageSize);
+		return questionBankService.selectQuestionBank(subId);
 	}
 	
 	

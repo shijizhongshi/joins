@@ -22,12 +22,12 @@ public class QuestionBankService implements IQuestionBankService {
 
 	@Transactional
 	@Override
-	public Results<List<QuestionBank>> selectQuestionBank(String subId,int pageNo,int pageSize) {
+	public Results<List<QuestionBank>> selectQuestionBank(String subId) {
 		
 		Results<List<QuestionBank>> results=new Results<List<QuestionBank>>();
 		try {
 			
-			List<QuestionBank> listbank=questionBankDao.selectQuestionBank(subId,pageNo,pageSize);
+			List<QuestionBank> listbank=questionBankDao.selectQuestionBank(subId);
 			
 			int count=questionBankDao.countQuestionBank(subId);
 			
