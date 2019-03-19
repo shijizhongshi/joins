@@ -36,6 +36,10 @@ public class CourseClassController {
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Results<List<CourseClass>> classList(@RequestBody CourseClassDomain ccd){
 		Results<List<CourseClass>> result=new Results<List<CourseClass>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(ccd.getPage()-1)*pageSize;
+		ccd.setPageNo(pageNo);
+		ccd.setPageSize(pageSize);
 		List<CourseClass> list = courseClassService.classList(ccd);
 		result.setData(list);
 		result.setStatus("0");
