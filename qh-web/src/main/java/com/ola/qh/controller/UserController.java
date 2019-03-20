@@ -104,6 +104,12 @@ public class UserController {
 	public Results<String> updateUser(@RequestBody User user, HttpServletRequest request) {
 
 		Results<String> results = new Results<String>();
+		if ((user.getId() == null || "".equals(user.getId()))
+				&& (user.getMobile() == null || "".equals(user.getMobile()))) {
+			results.setStatus("1");
+			results.setMessage("缺少用户的标识");
+			return results;
+		}
 		if (user.getId() != null && !"".equals(user.getId())) {
 			
 			Results<User> userResult = userService.existUser(user.getId());
@@ -114,12 +120,7 @@ public class UserController {
 			}
 			user.setId(userResult.getData().getId());
 		}
-		if ((user.getId() == null || "".equals(user.getId()))
-				&& (user.getMobile() == null || "".equals(user.getMobile()))) {
-			results.setStatus("1");
-			results.setMessage("缺少用户的标识");
-			return results;
-		}
+		
 		if (user.getPassword() != null && user.getPassword() != "") {
 			/////// 验证一下验证码说明是修改密码的操作
 			if (user.getVerification() == null || "".equals(user.getVerification())) {
