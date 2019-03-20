@@ -104,7 +104,16 @@ public class UserController {
 	public Results<String> updateUser(@RequestBody User user, HttpServletRequest request) {
 
 		Results<String> results = new Results<String>();
-
+		if (user.getId() != null && !"".equals(user.getId())) {
+			
+			Results<User> userResult = userService.existUser(user.getId());
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			user.setId(userResult.getData().getId());
+		}
 		if ((user.getId() == null || "".equals(user.getId()))
 				&& (user.getMobile() == null || "".equals(user.getMobile()))) {
 			results.setStatus("1");
