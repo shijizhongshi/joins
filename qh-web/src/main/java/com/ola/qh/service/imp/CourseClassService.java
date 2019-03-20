@@ -205,25 +205,18 @@ public class CourseClassService implements ICourseClassService{
 		
 		List<Course> clist = courseDao.courseList(ccd);
 		int buycount=0;
-		/*int sectionCount=0;*/
+		int sectionCount=0;
 		buycount = courseClassDao.ordersCount(classId);
 		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
-		/*for (CourseTeacher courseTeacher : ctlist) {
+		for (CourseTeacher courseTeacher : ctlist) {
 			int courseNumber=0;
-		for (Course course : clist) {
-		    ////这个教师对应的总节数
-			Integer num = courseDao.sectionCount(course.getId(),courseTeacher.getName());
-			if(num!=null){
-				courseNumber+=num.intValue();
-			}
-		}
+			courseNumber+=courseDao.sectionCount(null,courseTeacher.getName());
 		courseTeacher.setCourseNumber(courseNumber);
-		}*/
+		}
 		for (Course course : clist) {
-		    /*////总节数
-			if(courseDao.sectionCount(course.getId(),null)!=null){
-				sectionCount+=courseDao.sectionCount(course.getId(),null).intValue();
-			}*/
+		    ////总节数
+			
+			sectionCount+=courseDao.sectionCount(course.getId(),null);
 			
 			int num1 = courseDao.courseChapterCount(course.getId());
 			course.setCourseChapterSize(num1);
@@ -237,13 +230,11 @@ public class CourseClassService implements ICourseClassService{
 						course.setCourseStatus(1);
 					}
 				}
-				
 			}
-			
 			////总的购买人数
 			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}
-		/*vo.setSectionCount(sectionCount);*/
+		vo.setSectionCount(sectionCount);
 		vo.setBuyCount(buycount);
 		vo.setCourselist(clist);
 		

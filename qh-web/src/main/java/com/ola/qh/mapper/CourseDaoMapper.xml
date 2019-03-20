@@ -111,6 +111,16 @@
 	select count(id) from course_section where course_chapter_id=#{chapterId}
 	</select>
 	
+	<select id="sectionCount" resultType="int">
+	select count(sc.id) from course_chapter cc left join course_section sc on cc.id=sc.course_chapter_id  where 1=1
+	<if test="courseId!=null and courseId!=''">
+	and cc.course_id=#{courseId}
+	</if>
+	<if test="lecturer!=null and lecturer!=''">
+	and cc.course_lecturer=#{lecturer}
+	</if>
+	</select>
+	
 	<!-- 课程节的查询 -->
 	<resultMap type="com.ola.qh.entity.CourseSection" id="CourseSectionMap">
 	<result column="id" property="id"/>
