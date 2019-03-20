@@ -21,9 +21,10 @@ public class QuestionSubcategoryController {
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(@RequestParam(name="pageNo",required=true)int pageNo
-			,@RequestParam(name="pageSize",required=true)int pageSize,@RequestParam(name="categoryId",required=true)String categoryId){
+			,@RequestParam(name="pageSize",required=true)int pageSize,@RequestParam(name="categoryId",required=true)String categoryId
+			,@RequestParam(name="userId",required=false)String userId){
 		
-		return questionSubCategoryService.selectQuestionSubCategory(pageNo, pageSize, categoryId);
+		return questionSubCategoryService.selectQuestionSubCategory(pageNo, pageSize, categoryId,userId);
 		
 	}
 	

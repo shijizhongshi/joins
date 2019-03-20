@@ -8,6 +8,7 @@
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="bank_id" property="bankId" />
+		<result column="sub_id" property="subId" />
 		<result column="istrue" property="istrue" />
 		<result column="number_no" property="numberNo" />
 		<result column="addtime" property="addtime" />
@@ -20,6 +21,13 @@
 		values(#{id},#{userId},#{bankId},#{istrue},#{numberNo},#{addtime})
 	</insert>
 	
-	
+	<select id="showUserFinishCount" resultType="int">
+		select count(id) from question_bank_user_finish where sub_id=#{subId} 
+		<if test="userId!=null and userId!=''">
+		
+		and user_id=#{userId}
+		</if>
+		
+	</select>
 
 </mapper>

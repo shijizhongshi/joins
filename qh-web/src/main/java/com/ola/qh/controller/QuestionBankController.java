@@ -1,13 +1,11 @@
 package com.ola.qh.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.ola.qh.entity.QuestionBank;
+import org.springframework.web.bind.annotation.RestController; 
+import com.ola.qh.entity.QuestionBankTypes;
 import com.ola.qh.service.IQuestionBankService;
 import com.ola.qh.util.Results;
 
@@ -31,7 +29,7 @@ public class QuestionBankController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<List<QuestionBank>> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId){
+	public Results<QuestionBankTypes> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId){
 		
 		return questionBankService.selectQuestionBank(subId);
 	}

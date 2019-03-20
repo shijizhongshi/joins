@@ -13,6 +13,8 @@ public class QuestionBankUserFinish {
 	@NotEmpty
 	private String bankId;////////////试题序号
 	@NotEmpty
+	private String subId;/////////是否答对
+	@NotEmpty
 	private String istrue;/////////是否答对
 	@NotEmpty
 	private String numberNo;/////////题目序号
@@ -75,6 +77,14 @@ public class QuestionBankUserFinish {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public String getSubId() {
+		return subId;
+	}
+
+	public void setSubId(String subId) {
+		this.subId = subId;
 	}
 
 	
