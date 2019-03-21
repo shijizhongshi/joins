@@ -1,10 +1,10 @@
 package com.ola.qh.service;
 
-import com.ola.qh.entity.QuestionBankUserFinish;
+import com.ola.qh.util.Results;
+import com.ola.qh.vo.UserFinishDomain;
 
 public interface IQuestionBankUserFinishService {
 	
-	public int addUserFinish(QuestionBankUserFinish questionBankUserFinish);
+	public Results<String> addupdateUserFinish(UserFinishDomain userFinishDomain);
 	
-	public int updateUserFinish(QuestionBankUserFinish questionBankUserFinish);
 }

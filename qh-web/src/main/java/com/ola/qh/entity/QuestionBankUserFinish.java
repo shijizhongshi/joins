@@ -11,11 +11,11 @@ public class QuestionBankUserFinish {
 	
 	private String userId;
 	@NotEmpty
-	private String bankId;////////////试题序号
+	private String bankId;////////////试题id
 	@NotEmpty
-	private String subId;/////////是否答对
-	@NotEmpty
-	private String istrue;/////////是否答对
+	private String subId;/////////节或单元id
+	
+	private int status;/////////是否答对或未看解析
 	@NotEmpty
 	private String numberNo;/////////题目序号
 	
@@ -47,12 +47,12 @@ public class QuestionBankUserFinish {
 		this.bankId = bankId;
 	}
 
-	public String getIstrue() {
-		return istrue;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setIstrue(String istrue) {
-		this.istrue = istrue;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public String getNumberNo() {
