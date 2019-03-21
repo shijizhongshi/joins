@@ -130,4 +130,17 @@ public class CourseService implements ICourseService {
 		return courseDao.selectLiveList(ccd);
 	}
 
+	@Override
+	public CourseLineShow singleLiveShow(String liveId) {
+		// TODO Auto-generated method stub
+		return courseDao.singleLiveShow(liveId);
+	}
+
+	@Override
+	public int updateListShow(CourseLineShow cls) {
+		// TODO Auto-generated method stub
+		
+		return courseDao.updateListShow(cls);
+	}
+
 }

@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.UserVideo;
 import com.ola.qh.entity.UserVideoComment;
+import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserVideoService;
 import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
@@ -37,6 +39,8 @@ public class UserVideoController {
 
 	@Autowired
 	private IUserVideoService userVideoService;
+	@Autowired
+	private ICourseService courseService;
 	/**
 	 * 视频的保存
 	 * @param uv
@@ -93,6 +97,44 @@ public class UserVideoController {
 			
 		}
 		return null;
+		
+		
+	}
+	/////////直播开始的回调
+	@RequestMapping(value="/notify/liveShow/start",method=RequestMethod.GET)
+	public String liveShowStart(
+			@RequestParam(name="userId",required=true)String userId,
+			@RequestParam(name="roomId",required=true)String roomId,
+			@RequestParam(name="liveId",required=true)String liveId,
+			@RequestParam(name="type",required=true)String duration,
+			@RequestParam(name="startTime",required=true)String startTime,HttpServletResponse response){
+		
+		
+			
+			
+			CourseLineShow liveShow=courseService.singleLiveShow(liveId);
+			if(liveShow!=null){
+				//////将直播开启为开始直播的状态(修改成直播中)
+				
+				
+				
+				
+				StringBuilder sbuilder1 = new StringBuilder();
+				sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
+				try (PrintWriter writer = response.getWriter())
+			    {
+				writer.print(sbuilder1.toString());
+			    } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				String sbuilders="<?xml version='1.0' encoding='UTF-8' ?> <video>OK</video>";
+				return sbuilders;
+			}
+			
+			return null;
+		
 		
 		
 	}

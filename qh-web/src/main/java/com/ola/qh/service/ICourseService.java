@@ -28,4 +28,8 @@ public interface ICourseService {
 	public List<CourseSection> courseSectionList(String courseChapterId);
 	
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
+	
+	public CourseLineShow singleLiveShow(String liveId);
+	
+	public int updateListShow(CourseLineShow cls);
 }

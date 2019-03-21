@@ -32,4 +32,8 @@ public interface CourseDao {
 	public int sectionCount(@Param("courseId")String courseId,@Param("lecturer")String lecturer);
 	
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
+	
+	public CourseLineShow singleLiveShow(@Param("liveId")String liveId);
+	
+	public int updateListShow(CourseLineShow cls);
 }
