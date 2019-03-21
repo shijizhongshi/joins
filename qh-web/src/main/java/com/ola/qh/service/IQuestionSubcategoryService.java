@@ -7,5 +7,5 @@ import com.ola.qh.util.Results;
 
 public interface IQuestionSubcategoryService {
 
-	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(int pageNo,int pageSize,String categoryId);
+	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(int pageNo,int pageSize,String categoryId,String userId);
 }

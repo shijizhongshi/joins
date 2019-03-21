@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.QuestionBankUserFinishDao">
+
+	<resultMap type="com.ola.qh.entity.QuestionBankUserFinish" id="QuestionBankUserFinishMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="bank_id" property="bankId" />
+		<result column="sub_id" property="subId" />
+		<result column="status" property="status" />
+		<result column="number_no" property="numberNo" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		
+	</resultMap>
+
+	<insert id="addUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">
+		insert into question_bank_user_finish(id,user_id,bank_id,sub_id,status,number_no,addtime) 
+		values(#{id},#{userId},#{bankId},#{subId},#{status},#{numberNo},#{addtime})
+	</insert>
+	
+	<select id="showUserFinishCount" resultType="int">
+		select count(id) from question_bank_user_finish where sub_id=#{subId} 
+		<if test="userId!=null and userId!=''">
+		
+		and user_id=#{userId}
+		</if>
+		
+	</select>
+	
+	<select id="existUserFinish" resultType="int">
+		select count(id) from question_bank_user_finish where bank_id=#{bankId} and user_id=#{userId}
+	</select>
+	
+	<update id="updateUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">
+		update question_bank_user_finish set status=#{status},updatetime=#{updatetime}
+		where user_id=#{userId} and bank_id=#{bankId}
+	</update>
+	
+
+</mapper>

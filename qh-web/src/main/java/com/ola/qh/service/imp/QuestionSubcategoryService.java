@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.QuestionBankDao;
+import com.ola.qh.dao.QuestionBankUserFinishDao;
 import com.ola.qh.dao.QuestionSubcategoryDao;
 import com.ola.qh.entity.QuestionSubCategory;
 import com.ola.qh.service.IQuestionSubcategoryService;
@@ -22,10 +23,13 @@ public class QuestionSubcategoryService implements IQuestionSubcategoryService{
 	
 	@Autowired
 	private QuestionBankDao questionBankDao;
+	
+	@Autowired
+	private QuestionBankUserFinishDao questionBankUserFinishDao;
 
 	@Transactional
 	@Override
-	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(int pageNo,int pageSize,String categoryId) {
+	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(int pageNo,int pageSize,String categoryId,String userId) {
 		
 		Results<List<QuestionSubCategory>> results=new Results<List<QuestionSubCategory>>();
 		try {
@@ -38,6 +42,9 @@ public class QuestionSubcategoryService implements IQuestionSubcategoryService{
 			
 			int subcount=questionBankDao.countQuestionBank(questionSubCategory.getId());
 			questionSubCategory.setCount(subcount);
+			
+			int userFinish=questionBankUserFinishDao.showUserFinishCount(questionSubCategory.getId(),userId);
+			questionSubCategory.setUserFinishCount(userFinish);
 			
 			SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			questionSubCategory.setShowtime(sf.format(questionSubCategory.getAddtime()));
