@@ -12,11 +12,14 @@ import com.ola.qh.entity.QuestionBankUserFinish;
 
 
 public class UserFinishDomain {
+	
 	@NotNull
 	@Size(min=1)
 	private List<QuestionBankUserFinish> list=new ArrayList<QuestionBankUserFinish>();
+	
 	@NotEmpty
 	private String userId;
+	
 	public List<QuestionBankUserFinish> getList() {
 		return list;
 	}
