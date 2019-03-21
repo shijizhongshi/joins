@@ -38,7 +38,7 @@
 		   and (title like concat(concat("%",#{searchname},"%")) or simple_intro like concat(concat("%",#{searchname},"%")))
 		</if>
 		order by addtime desc
-		<if test="pageNo!=0">
+		<if test="pageSize!=0">
 			 limit #{pageNo},#{pageSize}
 		</if>
 		

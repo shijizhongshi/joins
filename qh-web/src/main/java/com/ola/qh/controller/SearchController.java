@@ -28,7 +28,7 @@ public class SearchController {
 	} 
 	
 	@RequestMapping("/circle")
-	public Results<SearchCircleVo> searchCircle(@RequestParam("types") String types,
+	public Results<SearchCircleVo> searchCircle(@RequestParam(name="types",required=false) String types,
 			@RequestParam(name="searchName",required=false)String searchName,
 			@RequestParam(name="page",required=true)int page){
 		
