@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
@@ -32,4 +33,6 @@ public interface ICourseService {
 	public CourseLineShow singleLiveShow(String liveId);
 	
 	public int updateListShow(CourseLineShow cls);
+	
+	public int insertCCresult(CourseLineCCresult ccresult);
 }

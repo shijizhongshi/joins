@@ -236,7 +236,7 @@ public class DoctorReplyService implements IDoctorReplyService{
 			doctorReplyDao.insertLikes(KeyGen.uuid(), userId, id, new Date());
 		}else{
 			 doctorReplyDao.updateReply(reply.getLikes()-1, new Date(), id);
-			 doctorReplyDao.deleteLikes(id);
+			 doctorReplyDao.deleteLikes(ul.getId());
 			 
 		}
 		result.setStatus("0");

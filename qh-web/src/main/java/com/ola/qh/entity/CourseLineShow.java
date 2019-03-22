@@ -24,9 +24,21 @@ public class CourseLineShow {
 	private Date endtime;
 	
 	private Date updatetime;
+	
+	private String offlineUrl;
+	
+	
 
 
 	
+	public String getOfflineUrl() {
+		return offlineUrl;
+	}
+
+	public void setOfflineUrl(String offlineUrl) {
+		this.offlineUrl = offlineUrl;
+	}
+
 	public int getStatus() {
 		return status;
 	}

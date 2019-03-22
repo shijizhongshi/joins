@@ -3,6 +3,8 @@ package com.ola.qh.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.DigestException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.UserVideo;
 import com.ola.qh.entity.UserVideoComment;
@@ -29,6 +32,7 @@ import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.vo.LiveShowResultsVo;
 
 import net.sf.json.JSONSerializer;
 import net.sf.json.xml.XMLSerializer;
@@ -101,36 +105,139 @@ public class UserVideoController {
 		
 	}
 	/////////直播开始的回调
-	@RequestMapping(value="/notify/liveShow/start",method=RequestMethod.GET)
+	@RequestMapping(value="/notify/lineShow/start",method=RequestMethod.GET)
 	public String liveShowStart(
 			@RequestParam(name="userId",required=true)String userId,
 			@RequestParam(name="roomId",required=true)String roomId,
 			@RequestParam(name="liveId",required=true)String liveId,
-			@RequestParam(name="type",required=true)String duration,
-			@RequestParam(name="startTime",required=true)String startTime,HttpServletResponse response){
+			@RequestParam(name="type",required=true)String type,
+			@RequestParam(name="recordId",required=false)String recordId,
+			@RequestParam(name="startTime",required=false)String startTime,
+			@RequestParam(name="endTime",required=false)String endTime,
+			@RequestParam(name="stopStatus",required=false)String stopStatus,
+			@RequestParam(name="recordStatus",required=false)String recordStatus,
+			@RequestParam(name="recordVideoId",required=false)String recordVideoId,
+			@RequestParam(name="recordVideoDuration",required=false)String recordVideoDuration,
+			@RequestParam(name="replayUrl",required=false)String replayUrl,
+			@RequestParam(name="offlineStatus",required=false)String offlineStatus,
+			@RequestParam(name="offlineMd5",required=false)String offlineMd5,
+			@RequestParam(name="offlineUrl",required=false)String offlineUrl,
+			HttpServletResponse response) throws ParseException{
 		
-		
-			
-			
 			CourseLineShow liveShow=courseService.singleLiveShow(liveId);
 			if(liveShow!=null){
 				//////将直播开启为开始直播的状态(修改成直播中)
+				CourseLineShow cls=new CourseLineShow();
+				CourseLineCCresult ccresult=new CourseLineCCresult();
+				ccresult.setAddtime(new Date());
+				ccresult.setId(KeyGen.uuid());
+				ccresult.setLiveId(liveId);
+				ccresult.setRoomId(roomId);
+				ccresult.setType(type);
+				SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				if(startTime!=null && !"".equals(startTime)){
+					ccresult.setStartTime(sf.parse(startTime));
+				}
+				if(endTime!=null && !"".equals(endTime)){
+					ccresult.setEndTime(sf.parse(endTime));
+				}
+				cls.setId(liveShow.getId());
+				cls.setUpdatetime(new Date());
+				if("1".equals(type)){
+				//////直播开始
+					cls.setStatus(1);
+					ccresult.setDescribes("直播开始");
+				}else if("2".equals(type)){
+					/////直播结束
+					cls.setStatus(2);
+					if(startTime!=null && !"".equals(startTime)){
+						cls.setAddtime(sf.parse(startTime));
+					}
+					if(endTime!=null && !"".equals(endTime)){
+						cls.setEndtime(sf.parse(endTime));
+					}
+					
+					ccresult.setStopStatus(stopStatus);
+					
+					
+					if("10".equals(stopStatus)){
+						ccresult.setDescribes("直播正常结束");
+					}else{
+						ccresult.setDescribes("直播非正常结束");
+					}
+					
+				}else if("103".equals(type)){
+					/////录制完成线上回放
+					cls.setStatus(3);
+					cls.setLiveBackId(recordId);
+					
+					ccresult.setRecordId(recordId);
+					ccresult.setDescribes("录制完成可以进行回放直播了");
+					ccresult.setRecordId(recordId);
+					ccresult.setRecordStatus(recordStatus);
+					ccresult.setRecordVideoDuration(recordVideoDuration);
+					ccresult.setRecordVideoId(recordVideoId);
+					ccresult.setReplayUrl(replayUrl);
+					
+				}else if("200".equals(type)){
+					/////离线回放完成
+					cls.setStatus(4);
+					cls.setOfflineUrl(offlineUrl);
+					
+					ccresult.setRecordId(recordId);
+					ccresult.setOfflineMd5(offlineMd5);
+					ccresult.setOfflineStatus(offlineStatus);
+					ccresult.setOfflineUrl(offlineUrl);
+					if("10".equals(offlineStatus)){
+						ccresult.setDescribes("可用的离线包");
+					}else{
+						ccresult.setDescribes("不可用的离线包");
+					}
+					
+				}else{
+					if("101".equals(type)){
+						
+						ccresult.setRecordId(recordId);
+						ccresult.setDescribes("直播录制回调开始");
+						ccresult.setRecordId(recordId);
+						ccresult.setRecordStatus(recordStatus);
+						ccresult.setRecordVideoDuration(recordVideoDuration);
+						ccresult.setRecordVideoId(recordVideoId);
+						ccresult.setReplayUrl(replayUrl);
+						courseService.insertCCresult(ccresult);
+						return null;
+					}else if("102".equals(type)){
+						///////保存一下直播的状态
+						ccresult.setRecordId(recordId);
+						ccresult.setDescribes("直播录制回调结束");
+						ccresult.setRecordId(recordId);
+						ccresult.setRecordStatus(recordStatus);
+						ccresult.setRecordVideoDuration(recordVideoDuration);
+						ccresult.setRecordVideoId(recordVideoId);
+						ccresult.setReplayUrl(replayUrl);
+						courseService.insertCCresult(ccresult);
+						return null;
+					}else{
+						return null;
+					}
+				}
 				
+				courseService.insertCCresult(ccresult);
+				courseService.updateListShow(cls);
 				
-				
-				
-				StringBuilder sbuilder1 = new StringBuilder();
-				sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
+				LiveShowResultsVo vo=new LiveShowResultsVo();
+				vo.setResult("OK");
+				String results=null;
 				try (PrintWriter writer = response.getWriter())
 			    {
-				writer.print(sbuilder1.toString());
+				results=Json.to(vo);
+				writer.print(Json.to(vo));
 			    } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				String sbuilders="<?xml version='1.0' encoding='UTF-8' ?> <video>OK</video>";
-				return sbuilders;
+				return results;
 			}
 			
 			return null;

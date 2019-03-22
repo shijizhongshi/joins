@@ -138,7 +138,7 @@
 	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
@@ -155,7 +155,7 @@
 	</select>
 
 	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl from course_line_show
 	where 1=1
 	<if test="liveId!=null and liveId!='' ">
 	and live_id=#{liveId}
@@ -180,7 +180,17 @@
 		<if test="liveBackId!=null and liveBackId!='' ">
 		live_back_id=#{liveBackId},
 		</if>
+		<if test="offlineUrl=null and offlineUrl!=''">
+		offline_url=#{offlineUrl}, 
+		</if>
 		updatetime=#{updatetime}
 		 where id=#{id}
 	</update>
+	
+	<insert id="insertCCresult" parameterType="com.ola.qh.entity.CourseLineCCresult">
+	insert into course_line_ccresult(id,liveId,roomId,recordId,type,startTime,endTime,stopStatus,recordStatus,recordVideoId,
+	recordVideoDuration,replayUrl,offlineStatus,offlineMd5,offlineUrl,describes,addtime)
+	values(#{id},#{liveId},#{roomId},#{recordId},#{type},#{startTime},#{endTime},#{stopStatus},#{recordStatus},#{recordVideoId},
+	#{recordVideoDuration},#{replayUrl},#{offlineStatus},#{offlineMd5},#{offlineUrl},#{describes},#{addtime})
+	</insert>
 	</mapper>
