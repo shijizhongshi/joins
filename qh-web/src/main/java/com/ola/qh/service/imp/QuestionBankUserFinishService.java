@@ -36,12 +36,12 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 		
 		try {
 			
-			/*if("1".equals(userResult.getStatus())){
+			if("1".equals(userResult.getStatus())){
 				results.setStatus("1");
 				results.setMessage(userResult.getMessage());
 				return results;
 			}
-			*/
+			
 			List<QuestionBankUserFinish> userFinishlist=userFinishDomain.getList();
 			
 			for (QuestionBankUserFinish userFinish : userFinishlist) {

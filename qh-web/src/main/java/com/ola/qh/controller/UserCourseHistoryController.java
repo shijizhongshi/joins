@@ -18,6 +18,7 @@ import com.ola.qh.entity.UserCourseHistory;
 import com.ola.qh.service.IUserCourseHistoryService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -30,7 +31,8 @@ public class UserCourseHistoryController {
 	private IUserService userService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<UserCourseHistory>> selectUserCourseHistory(@RequestParam(name="userId",required=false)String userId){
+	public Results<List<UserCourseHistory>> selectUserCourseHistory(@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="page",required=true)int page){
 		
 		Results<List<UserCourseHistory>> results=new Results<List<UserCourseHistory>>();
 		if(userId!=null && !"".equals(userId)){
@@ -43,7 +45,9 @@ public class UserCourseHistoryController {
 			userId=userResult.getData().getId();
 		}
 		
-		List<UserCourseHistory> list=userCourseHistoryService.selectUserCourseHistory(userId);
+		int pageSize=1;
+		int pageNo=(page-1)*pageSize;
+		List<UserCourseHistory> list=userCourseHistoryService.selectUserCourseHistory(userId,pageNo,pageSize);
 		
 		if(list==null || list.size()==0){
 			results.setMessage("当前没有观看历史");
