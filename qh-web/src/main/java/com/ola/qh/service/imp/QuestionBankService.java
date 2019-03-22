@@ -54,12 +54,14 @@ public class QuestionBankService implements IQuestionBankService {
 					
 					//////////将查询出来的试题根据类型分开存放
 					
-					if("A".equals(questionUnit.getTypes())){
+					if("单选题".equals(questionUnit.getTypes())){
 						
+						questionUnit.setTypes("A");
 						questionUnitTypes.getAList().add(questionUnit);
 					}
-					else if("B".equals(questionUnit.getTypes())){
+					else if("多选题".equals(questionUnit.getTypes())){
 						
+						questionUnit.setTypes("B");
 						questionUnitTypes.getBList().add(questionUnit);
 					}
 					
@@ -72,20 +74,24 @@ public class QuestionBankService implements IQuestionBankService {
 				
 				//////////将查询出来的试题根据类型分开存放
 				
-				if("A".equals(questionBank.getTypes())){
+				if("单选题".equals(questionBank.getTypes())){
 					
+					questionBank.setTypes("A");
 					questionBankTypes.getAList().add(questionBank);
 				}
-				else if("B".equals(questionBank.getTypes())){
+				else if("多选题".equals(questionBank.getTypes())){
 					
+					questionBank.setTypes("B");
 					questionBankTypes.getBList().add(questionBank);
 				}
-				else if("C".equals(questionBank.getTypes())){
+				else if("共用选项".equals(questionBank.getTypes())){
 	
+					questionBank.setTypes("C");
 					questionBankTypes.getCList().add(questionBank);
 				}
-				else if("D".equals(questionBank.getTypes())){
+				else if("共用题干".equals(questionBank.getTypes())){
 	
+					questionBank.setTypes("D");
 					questionBankTypes.getDList().add(questionBank);
 				}
 			}
