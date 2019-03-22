@@ -9,7 +9,7 @@ import com.ola.qh.entity.UserCourseHistory;
 
 public interface UserCourseHistoryDao {
 
-	public List<UserCourseHistory> selectUserCourseHistory(@Param("userId")String userId);
+	public List<UserCourseHistory> selectUserCourseHistory(@Param("userId")String userId,@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
 	
 	public int insertUserCourseHistory(UserCourseHistory userCourseHistory);
 	
