@@ -184,7 +184,7 @@
 		<if test="liveBackId!=null and liveBackId!='' ">
 		live_back_id=#{liveBackId},
 		</if>
-		<if test="offlineUrl=null and offlineUrl!=''">
+		<if test="offlineUrl!=null and offlineUrl!=''">
 		offline_url=#{offlineUrl}, 
 		</if>
 		updatetime=#{updatetime}
