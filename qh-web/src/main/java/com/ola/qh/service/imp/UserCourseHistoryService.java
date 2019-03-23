@@ -17,9 +17,9 @@ public class UserCourseHistoryService implements IUserCourseHistoryService{
 	private UserCourseHistoryDao userCourseHistoryDao;
 	
 	@Override
-	public List<UserCourseHistory> selectUserCourseHistory(String userId) {
+	public List<UserCourseHistory> selectUserCourseHistory(String userId,int pageNo,int pageSize) {
 		
-		return userCourseHistoryDao.selectUserCourseHistory(userId);
+		return userCourseHistoryDao.selectUserCourseHistory(userId,pageNo,pageSize);
 	}
 
 	@Override

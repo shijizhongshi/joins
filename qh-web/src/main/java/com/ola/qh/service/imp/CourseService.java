@@ -9,10 +9,12 @@ import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
@@ -96,24 +98,28 @@ public class CourseService implements ICourseService {
 	public Results<Course> singleCourse(String courseId, String userId) {
 		// TODO Auto-generated method stub
 		Results<Course> result = new Results<Course>();
-		if (userId != null && !"".equals(userId)) {
-			Results<String> userresult = userService.existUser(userId);
-			if ("1".equals(userresult.getStatus())) {
-				result.setStatus("1");
-				result.setMessage(userresult.getMessage());
-				return result;
-			}
-		}
 		Course c = courseDao.singleCourse(courseId);
 		if(c!=null && c.getCourseShow()==1){
 			result.setStatus("1");
 			result.setMessage("课程已失效");
 			return result;
 		}
-		int count = userFavoriteDao.existUserFavorite(courseId, userId);
-		if (count > 0) {
-			c.setIsFavorite(1);
+		if (userId != null && !"".equals(userId)) {
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+			int count = userFavoriteDao.existUserFavorite(courseId, userId);
+			if (count > 0) {
+				c.setIsFavorite(1);
+			}
 		}
+		
+		
+		
 		result.setStatus("0");
 		result.setData(c);
 		return result;
@@ -123,6 +129,25 @@ public class CourseService implements ICourseService {
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
 		return courseDao.selectLiveList(ccd);
+	}
+
+	@Override
+	public CourseLineShow singleLiveShow(String liveId) {
+		// TODO Auto-generated method stub
+		return courseDao.singleLiveShow(liveId);
+	}
+
+	@Override
+	public int updateListShow(CourseLineShow cls) {
+		// TODO Auto-generated method stub
+		
+		return courseDao.updateListShow(cls);
+	}
+
+	@Override
+	public int insertCCresult(CourseLineCCresult ccresult) {
+		// TODO Auto-generated method stub
+		return courseDao.insertCCresult(ccresult);
 	}
 
 }

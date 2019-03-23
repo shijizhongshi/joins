@@ -10,7 +10,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.ola.qh.dao.QuestionBankDao;
 import com.ola.qh.entity.QuestionAnswer;
 import com.ola.qh.entity.QuestionBank;
+import com.ola.qh.entity.QuestionBankTypes;
 import com.ola.qh.entity.QuestionUnit;
+import com.ola.qh.entity.QuestionUnitTypes;
 import com.ola.qh.service.IQuestionBankService;
 import com.ola.qh.util.Results;
 
@@ -22,12 +24,14 @@ public class QuestionBankService implements IQuestionBankService {
 
 	@Transactional
 	@Override
-	public Results<List<QuestionBank>> selectQuestionBank(String subId,int pageNo,int pageSize) {
+	public Results<QuestionBankTypes> selectQuestionBank(String subId) {
 		
-		Results<List<QuestionBank>> results=new Results<List<QuestionBank>>();
+		Results<QuestionBankTypes> results=new Results<QuestionBankTypes>();
 		try {
 			
-			List<QuestionBank> listbank=questionBankDao.selectQuestionBank(subId,pageNo,pageSize);
+			List<QuestionBank> listbank=questionBankDao.selectQuestionBank(subId);
+			
+			QuestionBankTypes questionBankTypes=new QuestionBankTypes();
 			
 			int count=questionBankDao.countQuestionBank(subId);
 			
@@ -37,23 +41,64 @@ public class QuestionBankService implements IQuestionBankService {
 				
 				questionBank.setAnswer(listanswer);
 				
+				QuestionUnitTypes questionUnitTypes=new QuestionUnitTypes();
+					
 				List<QuestionUnit> listunit=questionBankDao.selectQuestionUnit(questionBank.getId());
+				
 				
 				for (QuestionUnit questionUnit : listunit) {
 					
 					List<QuestionAnswer> listanswerunit=questionBankDao.selectQuestionAnswer(questionUnit.getId());
 					
 					questionUnit.setUnitAnswer(listanswerunit);
+					
+					//////////将查询出来的试题根据类型分开存放
+					
+					if("单选题".equals(questionUnit.getTypes())){
+						
+						questionUnit.setTypes("A");
+						questionUnitTypes.getAList().add(questionUnit);
+					}
+					else if("多选题".equals(questionUnit.getTypes())){
+						
+						questionUnit.setTypes("B");
+						questionUnitTypes.getBList().add(questionUnit);
+					}
+					
 				}
-				questionBank.setUnit(listunit);
+				
+				questionBank.setUnit(questionUnitTypes);
 				
 				SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				questionBank.setShowtime(sf.format(questionBank.getAddtime()));
+				
+				//////////将查询出来的试题根据类型分开存放
+				
+				if("单选题".equals(questionBank.getTypes())){
+					
+					questionBank.setTypes("A");
+					questionBankTypes.getAList().add(questionBank);
+				}
+				else if("多选题".equals(questionBank.getTypes())){
+					
+					questionBank.setTypes("B");
+					questionBankTypes.getBList().add(questionBank);
+				}
+				else if("共用选项".equals(questionBank.getTypes())){
+	
+					questionBank.setTypes("C");
+					questionBankTypes.getCList().add(questionBank);
+				}
+				else if("共用题干".equals(questionBank.getTypes())){
+	
+					questionBank.setTypes("D");
+					questionBankTypes.getDList().add(questionBank);
+				}
 			}
 			
 			
 			
-			results.setData(listbank);
+			results.setData(questionBankTypes);
 			results.setCount(count);
 			results.setStatus("0");
 			return results;

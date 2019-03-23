@@ -44,6 +44,15 @@ public class UserController {
 		Results<User> results = new Results<User>();
 		User user = new User();
 		if (userId != null && !"".equals(userId)) {
+			
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			userId=userResult.getData().getId();
+			
 			user = userService.sinleUser(userId, null);
 		} else if (mobile != null && !"".equals(mobile)) {
 			user = userService.sinleUser(null, mobile);
@@ -95,13 +104,23 @@ public class UserController {
 	public Results<String> updateUser(@RequestBody User user, HttpServletRequest request) {
 
 		Results<String> results = new Results<String>();
-
 		if ((user.getId() == null || "".equals(user.getId()))
 				&& (user.getMobile() == null || "".equals(user.getMobile()))) {
 			results.setStatus("1");
 			results.setMessage("缺少用户的标识");
 			return results;
 		}
+		if (user.getId() != null && !"".equals(user.getId())) {
+			
+			Results<User> userResult = userService.existUser(user.getId());
+			if("1".equals(userResult.getStatus())){
+				results.setStatus("1");
+				results.setMessage(userResult.getMessage());
+				return results;
+			}
+			user.setId(userResult.getData().getId());
+		}
+		
 		if (user.getPassword() != null && user.getPassword() != "") {
 			/////// 验证一下验证码说明是修改密码的操作
 			if (user.getVerification() == null || "".equals(user.getVerification())) {
@@ -139,6 +158,13 @@ public class UserController {
 	public Results<UserBook> singleUserBook(@RequestParam(name = "userId", required = true) String userId) {
 
 		Results<UserBook> result = new Results<UserBook>();
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
+			return result;
+		}
+		userId=userResult.getData().getId();
 		UserBook ub = userService.singleUserBook(userId);
 		result.setStatus("0");
 		result.setData(ub);

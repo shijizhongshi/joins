@@ -21,6 +21,7 @@ import com.ola.qh.entity.CourseNofree;
 import com.ola.qh.entity.CourseTeacher;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseClassService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
 import com.ola.qh.vo.CourseClassVo;
@@ -43,6 +44,8 @@ public class CourseClassService implements ICourseClassService{
 	
 	@Autowired
 	private OrdersProductDao ordersProductDao;
+	@Autowired
+	private IUserService userService;
 	
 	@Override
 	public List<CourseNofree> nofreeList(CourseClassDomain ccd) {
@@ -53,11 +56,19 @@ public class CourseClassService implements ICourseClassService{
 	}
 
 	@Override
-	public CourseNofree nofreeSingle(String id,String address,String userId) {
+	public Results<CourseNofree> nofreeSingle(String id,String address,String userId) {
 		// TODO Auto-generated method stub
 		CourseNofree coursenoFree=courseClassDao.nofreeSingle(id);
+		Results<CourseNofree> result=new Results<CourseNofree>();
 		String newAddress=null;
 		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
 			/////////查这个用户是否所属加盟商
 			String businessId=businessDao.singleBusinessUser(userId);
 			if(businessId!=null){
@@ -98,8 +109,9 @@ public class CourseClassService implements ICourseClassService{
 			coursenoFree.setLogos(banner.get(0).getImageurl());
 			coursenoFree.setMobile(banner.get(0).getOutLinks());
 		}
-		
-		return coursenoFree;
+		result.setStatus("0");
+		result.setData(coursenoFree);
+		return result;
 	}
 
 	/**
@@ -134,6 +146,13 @@ public class CourseClassService implements ICourseClassService{
 		int count=0;
 		String newAddress=null;
 		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
 			count=userBuyCourseDao.selectUserBuyCourseCount(userId, classId, null);
 			if(count>0){
 				vo.setClassStatus(1);
@@ -186,25 +205,18 @@ public class CourseClassService implements ICourseClassService{
 		
 		List<Course> clist = courseDao.courseList(ccd);
 		int buycount=0;
-		/*int sectionCount=0;*/
+		int sectionCount=0;
 		buycount = courseClassDao.ordersCount(classId);
 		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
-		/*for (CourseTeacher courseTeacher : ctlist) {
+		for (CourseTeacher courseTeacher : ctlist) {
 			int courseNumber=0;
-		for (Course course : clist) {
-		    ////这个教师对应的总节数
-			Integer num = courseDao.sectionCount(course.getId(),courseTeacher.getName());
-			if(num!=null){
-				courseNumber+=num.intValue();
-			}
-		}
+			courseNumber+=courseDao.sectionCount(null,courseTeacher.getName());
 		courseTeacher.setCourseNumber(courseNumber);
-		}*/
+		}
 		for (Course course : clist) {
-		    /*////总节数
-			if(courseDao.sectionCount(course.getId(),null)!=null){
-				sectionCount+=courseDao.sectionCount(course.getId(),null).intValue();
-			}*/
+		    ////总节数
+			
+			sectionCount+=courseDao.sectionCount(course.getId(),null);
 			
 			int num1 = courseDao.courseChapterCount(course.getId());
 			course.setCourseChapterSize(num1);
@@ -218,13 +230,11 @@ public class CourseClassService implements ICourseClassService{
 						course.setCourseStatus(1);
 					}
 				}
-				
 			}
-			
 			////总的购买人数
 			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}
-		/*vo.setSectionCount(sectionCount);*/
+		vo.setSectionCount(sectionCount);
 		vo.setBuyCount(buycount);
 		vo.setCourselist(clist);
 		

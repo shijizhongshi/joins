@@ -13,6 +13,7 @@ import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.TopicSquare;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.INewsService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
@@ -41,32 +42,35 @@ public class NewsService implements INewsService {
 	@Override
 	public List<News> selectNewList(int pageNo, int pageSize, String contentType, String typename) {
 		// TODO Auto-generated method stub
-		return newsDao.selectNewList(pageNo, pageSize, contentType, typename);
+		return newsDao.selectNewList(pageNo, pageSize, contentType, typename,null);
 	}
 
 	@Override
 	public Results<News> singlenews(String id, String userId) {
 		// TODO Auto-generated method stub
 		Results<News> result = new Results<News>();
-		if (userId != null && !"".equals(userId)) {
-			Results<String> userResult = userService.existUser(userId);
-			if ("1".equals(userResult.getStatus())) {
-				result.setMessage(userResult.getMessage());
-				result.setStatus("1");
-				return result;
-			}
-		}
-
 		News news = newsDao.singlenews(id);
 		if (news != null && news.getStatus() == 1) {
 			result.setStatus("1");
 			result.setMessage("文章已失效");
 			return result;
 		}
-		int count = userFavoriteDao.existUserFavorite(id, userId);
-		if (count > 0) {
-			news.setIsFavorite(1);//// 表示已经收藏过了
+		if (userId != null && !"".equals(userId)) {
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+			int count = userFavoriteDao.existUserFavorite(id, userId);
+			if (count > 0) {
+				news.setIsFavorite(1);//// 表示已经收藏过了
+			}
 		}
+
+		
+		
 		if (news.getAddtime() != null) {
 			String time = Patterns.sfTime(news.getAddtime());
 			news.setShowtime(time);

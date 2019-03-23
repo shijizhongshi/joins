@@ -18,12 +18,12 @@ public interface IUserVideoService {
 	
 	public int existVideo(String videoId);
 	
-	public List<UserVideo> list(String userId,int pageNo,int pageSize,int types);
+	public Results<List<UserVideo>> list(String userId,int pageNo,int pageSize,int types);
 	
 	public Results<String> update(String userId,String id,int likeNumber,int types);
 	
 	public Results<String> insertComment(UserVideoComment vc);
 	
-	public List<UserVideoComment> listComment(String vid,String userId,int pageNo,int pageSize);
+	public Results<List<UserVideoComment>> listComment(String vid,String userId,int pageNo,int pageSize);
 	
 }

@@ -13,7 +13,7 @@ public interface NewsDao {
 			@Param("pageNo") int pageNo,
 			@Param("pageSize") int pageSize,
 			@Param("contentTypes") String contentTypes,
-			@Param("typename")String typename);
+			@Param("typename")String typename,@Param("searchname")String searchname);
 	
 	public News singlenews(@Param("id") String id);
 	

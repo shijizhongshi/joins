@@ -10,9 +10,11 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.dao.UserCommentImgDao;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.entity.UserCommentImg;
 import com.ola.qh.service.IUserCommentService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -24,6 +26,9 @@ public class UserCommentService implements IUserCommentService {
 	private UserCommentDao userCommentDao;
 	@Autowired
 	private UserCommentImgDao userCommentImgDao;
+	@Autowired
+	private IUserService userService;
+	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<List<UserComment>> selectShopUserComment(String shopId,String doctorId, int page) {
@@ -70,7 +75,13 @@ public class UserCommentService implements IUserCommentService {
 	public Results<String> insertUserComment(UserComment usercomment) {
 
 		Results<String> results = new Results<String>();
-
+		Results<User> userResult = userService.existUser(usercomment.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		usercomment.setUserId(userResult.getData().getId());
 		try {
 			
 			String textName=new String();
@@ -86,6 +97,7 @@ public class UserCommentService implements IUserCommentService {
 					
 				}
 			}
+			
 			
 			String commentId = KeyGen.uuid();
 			usercomment.setTextName(textName);
@@ -114,7 +126,13 @@ public class UserCommentService implements IUserCommentService {
 	public Results<String> insertDoctorComment(UserComment usercomment) {
 		
 		Results<String> results = new Results<String>();
-		
+		Results<User> userResult = userService.existUser(usercomment.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		usercomment.setUserId(userResult.getData().getId());
 		try {
 			
 			String textName=new String();

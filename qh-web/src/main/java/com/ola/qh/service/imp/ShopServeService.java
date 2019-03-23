@@ -15,6 +15,7 @@ import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.ShopServeImg;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IShopServeService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -40,10 +41,13 @@ public class ShopServeService implements IShopServeService {
 	public Results<String> saveShopServe(ShopServe ss) {
 		Results<String> result = new Results<String>();
 		try {
-			result = userService.existUser(ss.getUserId());
-			if ("1".equals(result.getStatus())) {
+			Results<User> userResult = userService.existUser(ss.getUserId());
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
 				return result;
 			}
+			ss.setUserId(userResult.getData().getId());
 			Shop shop = shopDao.singleShop(ss.getUserId(), ss.getShopId(), 0,null);
 			/////// 必须是1服务店铺才有上传
 			if (shop.getShopType() == 2) {
@@ -82,7 +86,15 @@ public class ShopServeService implements IShopServeService {
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
 		try {
-			
+			if(ss.getUserId()!=null && !"".equals(ss.getUserId())){
+				Results<User> userResult = userService.existUser(ss.getUserId());
+				if("1".equals(userResult.getStatus())){
+					result.setStatus("1");
+					result.setMessage(userResult.getMessage());
+					return result;
+				}
+				ss.setUserId(userResult.getData().getId());
+			}
 			ss.setUpdatetime(new Date());
 			shopServeDao.updateServe(ss);
 			if (ss.getImglist() != null && ss.getImglist().size() > 0) {

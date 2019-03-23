@@ -49,7 +49,27 @@ public class User {
 	
 	private int isdoctor;//1是医生   0:不是医生
 	
+	private String token;
 	
+	private String sex;
+	
+	
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getAddress() {
 		return address;
 	}

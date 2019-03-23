@@ -16,7 +16,7 @@ public class PushService implements IPushService{
 	@Override
 	public void send(String userId, String title, String content) throws Exception {
 		// TODO Auto-generated method stub
-		UserLogin ul = userLoginDao.selectUserLogin(userId);
+		UserLogin ul = userLoginDao.selectUserLogin(userId,null);
 		if(ul!=null && ul.getDeviceToken()!=null){
 			if(ul.getDeviceType()==1){
 				///////1是安卓推送  

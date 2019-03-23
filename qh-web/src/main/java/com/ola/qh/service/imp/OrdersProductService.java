@@ -21,6 +21,7 @@ import com.ola.qh.entity.OrdersPayment;
 import com.ola.qh.entity.OrdersProduct;
 import com.ola.qh.entity.OrdersProductRefund;
 import com.ola.qh.entity.OrdersStatus;
+import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserMessage;
 import com.ola.qh.service.IOrdersProductService;
@@ -64,10 +65,13 @@ public class OrdersProductService implements IOrdersProductService{
 		// TODO Auto-generated method stub
 		Results<String> result = new Results<String>();
 		try {
-			Results<String> userResult = userService.existUser(or.getUserId());
+			Results<User> userResult = userService.existUser(or.getUserId());
 			if("1".equals(userResult.getStatus())){
-				return userResult;
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
 			}
+			or.setUserId(userResult.getData().getId());
 			String opid = or.getOrdersProductId();
 			OrdersProduct op = ordersProductDao.singleOrdersProduct(opid);
 			

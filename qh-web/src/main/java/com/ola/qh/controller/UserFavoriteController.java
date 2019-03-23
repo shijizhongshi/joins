@@ -38,21 +38,12 @@ public class UserFavoriteController {
 			@RequestParam(name = "page", required = true) int page,
 			@RequestParam(name = "productType", required = true) int productType) {
 
-		Results<List<UserFavorite>> results = new Results<List<UserFavorite>>();
 
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<UserFavorite> list = userFavoriteService.selectUserFavorite(userId, pageNo, pageSize, productType);
+		return userFavoriteService.selectUserFavorite(userId, pageNo, pageSize, productType);
 
-		if (list != null && list.size() != 0) {
-			results.setData(list);
-			results.setStatus("0");
-			return results;
-		}
-
-		results.setMessage("收藏为空");
-		results.setStatus("1");
-		return results;
+		
 
 	}
 	@RequestMapping(value="/save",method=RequestMethod.POST)
@@ -75,18 +66,8 @@ public class UserFavoriteController {
 			@RequestParam(name = "userId", required = false) String userId,
 			@RequestParam(name = "productId", required = false) String productId) {
 
-		Results<String> results = new Results<String>();
+		return userFavoriteService.deleteUserFavorite(id, userId, productId);
 
-		int delete = userFavoriteService.deleteUserFavorite(id, userId, productId);
-
-		if (delete <= 0) {
-			results.setMessage("删除失败");
-			results.setStatus("1");
-			return results;
-		}
-
-		results.setStatus("0");
-		return results;
 
 	}
 	@RequestMapping(value = "/selectsearch", method = RequestMethod.GET)
@@ -94,21 +75,11 @@ public class UserFavoriteController {
 			@RequestParam(name = "productName", required = false) String productName,
 			@RequestParam(name = "page", required = true) int page) {
 
-		Results<List<UserFavorite>> results = new Results<List<UserFavorite>>();
-
 		int pageSize = Patterns.zupageSize;
 		int pageNo = (page - 1) * pageSize;
-		List<UserFavorite> list = userFavoriteService.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
+		return userFavoriteService.selectSearchUserFavorite(userId, pageNo, pageSize, productName);
 
-		if (list != null && list.size() != 0) {
-			results.setData(list);
-			results.setStatus("0");
-			return results;
-		}
-
-		results.setMessage("收藏为空");
-		results.setStatus("1");
-		return results;
+		
 
 	}	
 	

@@ -77,11 +77,8 @@ public class DoctorsController {
 			@RequestParam(name="islimit",required=false)String islimit,
 			@RequestParam(name="page",required=false)int page){
 		
-		Results<Doctors> result=new Results<Doctors>();
-		Doctors d = doctorsService.singleDoctors(id, userId, islimit,page);
-		result.setData(d);
-		result.setStatus("0");
-		return  result;
+		return doctorsService.singleDoctors(id, userId, islimit,page);
+		
 	}
 	/**
 	 * 返回医生的集合
@@ -136,13 +133,10 @@ public class DoctorsController {
 			@RequestParam(name="searchName",required=false)String searchName,
 			@RequestParam(name="types",required=false)int types){
 		
-		Results<List<DoctorPatient>> result=new Results<List<DoctorPatient>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<DoctorPatient> list = doctorsService.listPatient(userId,category,searchName,pageNo, pageSize,types);
-		result.setData(list);
-		result.setStatus("0");
-		return result;
+		return doctorsService.listPatient(userId,category,searchName,pageNo, pageSize,types);
+		
 	}
 	
 	

@@ -284,10 +284,8 @@ public class OrdersController {
 		od.setUserId(userId);
 		od.setMuserId(muserId);
 		od.setOrdersStatus(statusCode);
-		List<OrdersVo> listDomain = orderService.listOrders(od);
-		result.setStatus("0");
-		result.setData(listDomain);
-		return result;
+		return orderService.listOrders(od);
+	
 	}
 
 	@RequestMapping("/count")

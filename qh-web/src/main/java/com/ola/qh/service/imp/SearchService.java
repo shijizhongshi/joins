@@ -9,13 +9,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.ola.qh.dao.DoctorsDao;
+import com.ola.qh.dao.JobFairDao;
+import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopServeDao;
+import com.ola.qh.entity.DoctorPatient;
+import com.ola.qh.entity.JobFair;
+import com.ola.qh.entity.News;
+import com.ola.qh.entity.SearchCircleVo;
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.service.ISearchService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.SearchProductVo;
 import com.ola.qh.vo.SearchVo;
@@ -30,6 +38,15 @@ public class SearchService implements ISearchService{
 	
 	@Autowired
 	private ShopServeDao shopServeDao;
+	
+	@Autowired
+	private NewsDao newsDao;
+	@Autowired
+	private DoctorsDao doctorsDao;
+	@Autowired
+	private JobFairDao jobFairDao;
+	
+	
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -216,6 +233,42 @@ public class SearchService implements ISearchService{
 		}
 		
 		
+	}
+
+	@Override
+	public Results<SearchCircleVo> searchCircle(String searchName, String types, int page) {
+		// TODO Auto-generated method stub
+		Results<SearchCircleVo> result=new Results<SearchCircleVo>();
+		SearchCircleVo vo=new SearchCircleVo();
+		List<News> newsList=new ArrayList<News>(); 
+		
+		List<JobFair> jobList=new ArrayList<JobFair>(); 
+		
+		List<DoctorPatient> paList=new ArrayList<DoctorPatient>();
+		int pageNo=(page-1)*Patterns.zupageSize;
+		int pageSize=Patterns.zupageSize;
+		
+		if("1".equals(types)){
+			/////资讯的搜索
+			newsList=newsDao.selectNewList(pageNo, pageSize,null, null, searchName);
+			
+		}else if("2".equals(types)){
+			/////职位的搜索
+			jobList=jobFairDao.selectJob(null, null, null, null, null, searchName, pageNo, pageSize);
+		}else{
+			//////医学圈全部搜索
+			newsList=newsDao.selectNewList(0, 3,null, null, searchName);
+			jobList=jobFairDao.selectJob(null, null, null, null, null, searchName, 0, 3);
+			///////动态
+			paList=doctorsDao.listPatient(null, null, searchName, pageNo, pageSize);
+		}
+		vo.setNewsList(newsList);
+		vo.setJobList(jobList);
+		vo.setPaList(paList);
+		
+		result.setStatus("0");
+		result.setData(vo);
+		return result;
 	}
 
 }

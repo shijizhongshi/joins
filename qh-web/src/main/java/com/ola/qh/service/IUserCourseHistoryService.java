@@ -7,7 +7,7 @@ import com.ola.qh.entity.UserCourseHistory;
 
 public interface IUserCourseHistoryService {
 
-	public List<UserCourseHistory> selectUserCourseHistory(String userId);
+	public List<UserCourseHistory> selectUserCourseHistory(String userId,int pageNo,int pageSize);
 	
 	public int insertUserCourseHistory(UserCourseHistory userCourseHistory);
 	

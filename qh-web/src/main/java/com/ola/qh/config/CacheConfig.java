@@ -28,6 +28,7 @@ public class CacheConfig {
 		return mgner;
 	}
 	
+	
 	@Bean(name=CacheConfig.CUSTOM_CACHE_KEY_GENERATOR)
 	public KeyGenerator keygenerator(){
 		return new CustomKeyGenerator();

@@ -11,7 +11,7 @@ public interface IShopService {
 
 	public Results<String> shopSaveUpdate(Shop shop);
 	
-	public List<Shop> selectShopByUserId(String userId,String shopId,int shopType);
+	public Results<List<Shop>> selectShopByUserId(String userId,String shopId,int shopType);
 	
 	public List<Shop> listShop(ShopDomain sd);
 	

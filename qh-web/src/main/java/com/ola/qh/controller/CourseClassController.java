@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.CourseNofree;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseClassService;
 import com.ola.qh.service.imp.CourseClassService;
 import com.ola.qh.util.Patterns;
@@ -35,6 +36,10 @@ public class CourseClassController {
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Results<List<CourseClass>> classList(@RequestBody CourseClassDomain ccd){
 		Results<List<CourseClass>> result=new Results<List<CourseClass>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(ccd.getPage()-1)*pageSize;
+		ccd.setPageNo(pageNo);
+		ccd.setPageSize(pageSize);
 		List<CourseClass> list = courseClassService.classList(ccd);
 		result.setData(list);
 		result.setStatus("0");
@@ -66,10 +71,8 @@ public class CourseClassController {
 	public Results<CourseNofree> nofreeSingle(@RequestParam(name="id",required=true)String id,
 			@RequestParam(name="userId",required=false)String userId,
 			@RequestParam(name="address",required=false)String address){
-		Results<CourseNofree> result=new Results<CourseNofree>();
-		result.setData(courseClassService.nofreeSingle(id, address, userId));
-		result.setStatus("0");
-		return result;
+		
+	return courseClassService.nofreeSingle(id, address, userId);
 	}
 	////////免费课程的结束////////////////////////////
 }

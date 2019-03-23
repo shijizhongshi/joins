@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
@@ -29,5 +30,13 @@ public interface CourseDao {
 	
 	public int courseSectionCount(@Param("chapterId")String chapterId);
 	
+	public int sectionCount(@Param("courseId")String courseId,@Param("lecturer")String lecturer);
+	
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
+	
+	public CourseLineShow singleLiveShow(@Param("liveId")String liveId);
+	
+	public int updateListShow(CourseLineShow cls);
+	
+	public int insertCCresult(CourseLineCCresult ccresult);
 }

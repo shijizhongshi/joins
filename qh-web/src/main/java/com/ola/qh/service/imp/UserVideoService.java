@@ -58,10 +58,13 @@ public class UserVideoService implements IUserVideoService{
 	public Results<String> save(UserVideo uv) throws DigestException {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
-		result = userService.existUser(uv.getUserId());
-		if("1".equals(result.getStatus())){
+		Results<User> userResult = userService.existUser(uv.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
 			return result;
 		}
+		uv.setUserId(userResult.getData().getId());
 		User user = userService.sinleUser(uv.getUserId(), null);
 		if(user.getIsdoctor()!=1 && user.getUserrole()==0){
 			/////说明既不是医师护也不是店铺没有权限发送小视频
@@ -216,8 +219,18 @@ public class UserVideoService implements IUserVideoService{
 	
 	
 	@Override
-	public List<UserVideo> list(String userId, int pageNo, int pageSize,int types) {
+	public Results<List<UserVideo>> list(String userId, int pageNo, int pageSize,int types) {
 		// TODO Auto-generated method stub
+		Results<List<UserVideo>> result=new Results<List<UserVideo>>();
+		if(userId!=null && userId!=""){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<UserVideo> list=new ArrayList<>();
 		if(types==1){
 			list = userVideoDao.list(null, pageNo, pageSize);
@@ -226,6 +239,7 @@ public class UserVideoService implements IUserVideoService{
 		}
 		
 		if(userId!=null && userId!=""){
+			
 			for (UserVideo userVideo : list) {
 				UserLikes ul = doctorReplyDao.singleLikes(userId, userVideo.getId());
 				if(ul!=null){
@@ -234,8 +248,9 @@ public class UserVideoService implements IUserVideoService{
 				}
 			}
 		}
-		
-		return list;
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 	
 	/**
@@ -246,6 +261,15 @@ public class UserVideoService implements IUserVideoService{
 	public Results<String> update(String userId,String id,int likeNumber,int types) {
 		// TODO Auto-generated method stub
 		Results<String> result=new Results<String>();
+		if(userId!=null && userId!=""){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		UserLikes ul = doctorReplyDao.singleLikes(userId,id);
 		UserVideo uv=new UserVideo();
 		if(ul!=null){
@@ -278,11 +302,15 @@ public class UserVideoService implements IUserVideoService{
 	@Override
 	public Results<String> insertComment(UserVideoComment vc) {
 		// TODO Auto-generated method stub
-		Results<String> result = userService.existUser(vc.getUserId());
-		if("1".equals(result.getStatus())){
+		Results<String> result=new Results<String>();
+		
+		Results<User> userResult = userService.existUser(vc.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
 			return result;
 		}
-		
+		vc.setUserId(userResult.getData().getId());
 		vc.setId(KeyGen.uuid());
 		vc.setAddtime(new Date());
 		//////////修改视频的评论个数
@@ -323,8 +351,18 @@ public class UserVideoService implements IUserVideoService{
 	}
 
 	@Override
-	public List<UserVideoComment> listComment(String vid,String userId,int pageNo, int pageSize) {
+	public Results<List<UserVideoComment>> listComment(String vid,String userId,int pageNo, int pageSize) {
 		// TODO Auto-generated method stub
+		Results<List<UserVideoComment>> result=new Results<List<UserVideoComment>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<UserVideoComment> list = userVideoDao.listComment(vid, null, pageNo, pageSize,1);
 		for (UserVideoComment userVideoComment : list) {
 			String showtime = Patterns.sfDetailTime(userVideoComment.getAddtime());
@@ -343,7 +381,9 @@ public class UserVideoService implements IUserVideoService{
 			}
 			userVideoComment.setReplylist(replylist);
 		}
-		return list;
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 
@@ -352,10 +392,12 @@ public class UserVideoService implements IUserVideoService{
 	public int saveUV(UserVideo uv) {
 		// TODO Auto-generated method stub
 		
-		Results<String> result = userService.existUser(uv.getUserId());
-		/*if("1".equals(result.getStatus())){
-			return 0;
+		Results<User> userResult = userService.existUser(uv.getUserId());
+		if("1".equals(userResult.getStatus())){
+			return 1;
 		}
+		uv.setUserId(userResult.getData().getId());
+		
 		User user = userService.sinleUser(uv.getUserId(), null);
 		if(user.getIsdoctor()!=1 && user.getUserrole()==0){
 			/////说明既不是医师护也不是店铺没有权限发送小视频
@@ -390,7 +432,7 @@ public class UserVideoService implements IUserVideoService{
 			}
 			uv.setShopId(s.getId());
 			uv.setShopname(s.getShopName());
-		}*/
+		}
 		return userVideoDao.insert(uv);
 	}
 

@@ -154,10 +154,13 @@ public class DoctorReplyService implements IDoctorReplyService{
 		}
 		*/
 		
-		result = userService.existUser(dr.getUserId());
-		if("1".equals(result.getStatus())){
+		Results<User> userResult = userService.existUser(dr.getUserId());
+		if("1".equals(userResult.getStatus())){
+			result.setStatus("1");
+			result.setMessage(userResult.getMessage());
 			return result;
 		}
+		dr.setUserId(userResult.getData().getId());
 		if(dr.getType()==2){
 			Reply r = doctorReplyDao.replySingle(dr.getId());
 			if(r.getUserId().equals(dr.getUserId())){
@@ -186,11 +189,21 @@ public class DoctorReplyService implements IDoctorReplyService{
 	}
 
 	@Override
-	public List<Reply> listReply(String patientId, int pageNo, int pageSize,String userId) {
+	public Results<List<Reply>> listReply(String patientId, int pageNo, int pageSize,String userId) {
 		// TODO Auto-generated method stub
+		Results<List<Reply>> result=new Results<List<Reply>>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		List<Reply> list = doctorReplyDao.replyList(patientId, pageNo, pageSize);
 		for (Reply reply : list) {
-			UserLikes ul = doctorReplyDao.singleLikes(reply.getUserId(), reply.getId());
+			UserLikes ul = doctorReplyDao.singleLikes(userId, reply.getId());
 			if(ul!=null){
 				reply.setIslikes(1);
 			}else{
@@ -198,13 +211,24 @@ public class DoctorReplyService implements IDoctorReplyService{
 			}
 			reply.setShowtime(Patterns.sfDetailTime(reply.getAddtime()));
 		}
-		return list;
+		result.setStatus("0");
+		result.setData(list);
+		return result;
 	}
 
 	@Override
 	@Transactional
-	public int updateReply(String id,String userId) {
-		
+	public Results<String> updateReply(String id,String userId) {
+		Results<String> result=new Results<String>();
+		if(userId!=null && !"".equals(userId)){
+			Results<User> userResult = userService.existUser(userId);
+			if("1".equals(userResult.getStatus())){
+				result.setStatus("1");
+				result.setMessage(userResult.getMessage());
+				return result;
+			}
+			userId=userResult.getData().getId();
+		}
 		Reply reply = doctorReplyDao.replySingle(id);
 		UserLikes ul = doctorReplyDao.singleLikes(userId, id);
 		if(ul==null){
@@ -212,10 +236,11 @@ public class DoctorReplyService implements IDoctorReplyService{
 			doctorReplyDao.insertLikes(KeyGen.uuid(), userId, id, new Date());
 		}else{
 			 doctorReplyDao.updateReply(reply.getLikes()-1, new Date(), id);
-			 doctorReplyDao.deleteLikes(id);
+			 doctorReplyDao.deleteLikes(ul.getId());
 			 
 		}
-		return 0;
+		result.setStatus("0");
+		return result;
 		
 	}
 

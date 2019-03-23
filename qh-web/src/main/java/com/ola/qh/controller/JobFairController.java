@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.JobFair;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IJobFairService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -26,23 +28,32 @@ public class JobFairController {
 
 	@Autowired
 	private IJobFairService jobFairService;
+	@Autowired
+	private IUserService userService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
 	public Results<List<JobFair>> selectJob(@RequestParam(name="id",required=false)String id,
-			@RequestParam(name="userId",required=false)String userId,@RequestParam(name="company",required=false)String company,
+			@RequestParam(name="userId",required=false)String userId,
 			@RequestParam(name="category",required=false)String category,
-			@RequestParam(name="education",required=false)String education,@RequestParam(name="experience",required=false)String experience,
 			@RequestParam(name="salaryRangeMin",required=false)String salaryRangeMin,
-			@RequestParam(name="salaryRangeMax",required=false)String salaryRangeMax,@RequestParam(name="position",required=false)String position,
+			@RequestParam(name="salaryRangeMax",required=false)String salaryRangeMax,
 			@RequestParam(name="welfare",required=false)String welfare,@RequestParam(name="page",required=true)int page){
 		
 				Results<List<JobFair>> results=new Results<List<JobFair>>();
-				
+				if(userId!=null && !"".equals(userId)){
+					Results<User> userResult = userService.existUser(userId);
+					if("1".equals(userResult.getStatus())){
+						results.setStatus("1");
+						results.setMessage(userResult.getMessage());
+						return results;
+					}
+					userId=userResult.getData().getId();
+				}
 				int pageSize=Patterns.zupageSize;
 				int pageNo=(page-1)*pageSize;
 				
 				
-				List<JobFair> list=jobFairService.selectJob(id, userId, company, category,education, experience, salaryRangeMin,salaryRangeMax, position, pageNo, pageSize);
+				List<JobFair> list=jobFairService.selectJob(id, userId, category, salaryRangeMin,salaryRangeMax, null, pageNo, pageSize);
 					
 				for (JobFair jobFair : list) {
 					if(jobFair.getWelfare()!=null){
@@ -72,6 +83,13 @@ public class JobFairController {
 					return results;
 					
 				}
+				Results<User> userResult = userService.existUser(jobFair.getUserId());
+				if("1".equals(userResult.getStatus())){
+					results.setStatus("1");
+					results.setMessage(userResult.getMessage());
+					return results;
+				}
+				jobFair.setUserId(userResult.getData().getId());
 				jobFair.setId(KeyGen.uuid());
 				jobFair.setCategory("招聘");
 				jobFair.setAddtime(new Date());

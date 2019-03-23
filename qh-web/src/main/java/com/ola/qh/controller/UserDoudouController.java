@@ -53,16 +53,10 @@ public class UserDoudouController {
 	public Results<List<UserDouDou>> list(@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="userId",required=true)String userId){
 		
-		Results<List<UserDouDou>> result=new Results<List<UserDouDou>>();
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
-		List<UserDouDou> list = userDoudouService.listDoudou(userId, pageNo, pageSize);
-		for (UserDouDou userDouDou : list) {
-			userDouDou.setShowtime(Patterns.sfDetailTime(userDouDou.getAddtime()));
-		}
-		result.setData(list);
-		result.setStatus("0");
-		return result;
+		return userDoudouService.listDoudou(userId, pageNo, pageSize);
+		
 	}
 	
 }
