@@ -157,10 +157,11 @@
 	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status from course_line_show
 	where 1=1
-	<if test="liveId!=null and liveId!='' ">
-	and live_id=#{liveId}
+	<if test="roomId!=null and roomId!='' ">
+	and live_room_id=#{roomId}
 	</if>
-	and isshow=1
+	order by addtime desc
+	limit 0,1
 	</select>
 	
 	
@@ -176,6 +177,9 @@
 		<if test="addtime!=null">
 		<!-- 直播开始时间 -->
 		addtime=#{addtime},
+		</if>
+		<if test="liveId!=null and liveId!='' ">
+		live_id=#{liveId},
 		</if>
 		<if test="liveBackId!=null and liveBackId!='' ">
 		live_back_id=#{liveBackId},

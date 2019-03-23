@@ -34,7 +34,7 @@ public interface CourseDao {
 	
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
 	
-	public CourseLineShow singleLiveShow(@Param("liveId")String liveId);
+	public CourseLineShow singleLiveShow(@Param("roomId")String roomId);
 	
 	public int updateListShow(CourseLineShow cls);
 	
