@@ -152,10 +152,6 @@ public class CourseController {
 			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
 			@RequestParam(name="isremmend",required=false)String isremmend,
 			@RequestParam(name="className",required=false)String className,
-			@RequestParam(name="liveId",required=false)String liveId,
-			@RequestParam(name="liveRoomId",required=false)String liveRoomId,
-			@RequestParam(name="liveBackId",required=false)String liveBackId,
-			
 			@RequestParam(name="page",required=true)int page
 			){
 		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
@@ -167,11 +163,6 @@ public class CourseController {
 		ccd.setCourseTypeSubclassName(courseTypeSubclassName);
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
-		
-		ccd.setLiveBackId(liveBackId); 
-		ccd.setLiveId(liveId);
-		ccd.setLiveRoomId(liveRoomId);
-		 
 		
 		List<CourseLineShow> list = courseService.selectLiveList(ccd);
 		result.setData(list);
