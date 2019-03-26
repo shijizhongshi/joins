@@ -12,6 +12,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
 import com.ola.qh.entity.Doctors;
@@ -31,7 +32,8 @@ public class DoctorsService implements IDoctorsService{
 	private DoctorsDao doctorsDao;
 	@Autowired
 	private IUserService userService;
-	
+	@Autowired
+	private UserDao userDao;
 	@Autowired
 	private DoctorReplyDao  doctorReplyDao;
 	
@@ -210,6 +212,9 @@ public class DoctorsService implements IDoctorsService{
 			list = doctorsDao.listPatient(userId,category,searchName,pageNo,pageSize);
 		}
 		for (DoctorPatient doctorPatient : list) {
+			User user=userDao.singleUser(doctorPatient.getUserId(), null);
+			
+			doctorPatient.setPublisherHeadImgUrl(user.getHeadimg());
 			UserLikes ul = doctorReplyDao.singleLikes(userId, doctorPatient.getId());
 			if(ul==null){
 				/////没有点赞
