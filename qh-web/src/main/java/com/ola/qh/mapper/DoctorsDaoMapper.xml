@@ -247,7 +247,7 @@
 
 	<update id="updatePatient">
 		update doctor_patient set
-		<if test="likes!=0">
+		<if test="likes>=0">
 		likes=#{likes},
 		</if>
 		updatetime=#{updatetime}

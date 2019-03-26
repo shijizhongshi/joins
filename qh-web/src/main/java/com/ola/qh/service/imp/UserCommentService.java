@@ -10,6 +10,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.ola.qh.dao.UserCommentDao;
 import com.ola.qh.dao.UserCommentImgDao;
+import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserComment;
 import com.ola.qh.entity.UserCommentImg;
@@ -28,6 +29,8 @@ public class UserCommentService implements IUserCommentService {
 	private UserCommentImgDao userCommentImgDao;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private UserDao userDao;
 	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -50,7 +53,8 @@ public class UserCommentService implements IUserCommentService {
 					String textname=userComment.getTextName();
 					String[] textName = textname.split(",");
 					userComment.setTextname(textName);
-					
+					User user=userDao.singleUser(userComment.getUserId(), null);
+					userComment.setHeadImgUrl(user.getHeadimg());
 					
 				}
 				
