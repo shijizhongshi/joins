@@ -10,7 +10,7 @@ import com.ola.qh.entity.QuestionUnit;
 
 public interface QuestionBankDao {
 
-	public List<QuestionBank> selectQuestionBank(@Param("subId")String subId,@Param("page")int pageNo,@Param("pageSize")int pageSize);
+	public List<QuestionBank> selectQuestionBank(@Param("subId")String subId);
 	
 	public QuestionBank singleQuestionBank(@Param("id")String id);
 	

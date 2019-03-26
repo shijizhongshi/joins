@@ -1,5 +1,7 @@
 package com.ola.qh.entity;
 
+import java.util.Date;
+
 public class CourseLineShow {
 	private String id;
 	private String courseTypeName;
@@ -8,20 +10,66 @@ public class CourseLineShow {
 	private String imgUrl;
 	private String outLinks;/////直播跳转的连接
 	
-	
-	
+
 	private String isremmend;////1是推荐
-	
 	private String isshow;///1:可见
-	
 	private String liveRoomId;//直播间id
 	private String liveId;//直播id
 	private String liveBackId;//回放id
 	
+	private int status;////0:未开始直播   1:直播开始  2:直播结束  3:离线回放
+	
+	private Date addtime;
+	
+	private Date endtime;
+	
+	private Date updatetime;
+	
+	private String offlineUrl;
 	
 	
+
+
 	
-	
+	public String getOfflineUrl() {
+		return offlineUrl;
+	}
+
+	public void setOfflineUrl(String offlineUrl) {
+		this.offlineUrl = offlineUrl;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Date getAddtime() {
+		return addtime;
+	}
+
+	public void setAddtime(Date addtime) {
+		this.addtime = addtime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+
+	public Date getUpdatetime() {
+		return updatetime;
+	}
+
+	public void setUpdatetime(Date updatetime) {
+		this.updatetime = updatetime;
+	}
 
 	public String getLiveRoomId() {
 		return liveRoomId;

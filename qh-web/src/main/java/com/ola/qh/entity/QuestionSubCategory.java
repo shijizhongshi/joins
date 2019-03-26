@@ -14,8 +14,7 @@ public class QuestionSubCategory {
 	@NotEmpty(message="节名称不能为空")
 	private String name;////节名称
 	
-	@NotEmpty(message="考试时间不能为空")
-	private String times;///考试时间
+	private int times;///考试时间
 	
 	@NotEmpty(message="章id不能为空")
 	private String purposes;///用途(试卷还是章节联系)
@@ -30,6 +29,8 @@ public class QuestionSubCategory {
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private int userFinishCount;
 
 	public String getId() {
 		return id;
@@ -55,11 +56,11 @@ public class QuestionSubCategory {
 		this.name = name;
 	}
 
-	public String getTimes() {
+	public int getTimes() {
 		return times;
 	}
 
-	public void setTimes(String times) {
+	public void setTimes(int times) {
 		this.times = times;
 	}
 
@@ -109,6 +110,14 @@ public class QuestionSubCategory {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public int getUserFinishCount() {
+		return userFinishCount;
+	}
+
+	public void setUserFinishCount(int userFinishCount) {
+		this.userFinishCount = userFinishCount;
 	}
 	
 	

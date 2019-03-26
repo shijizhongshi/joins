@@ -7,8 +7,8 @@ import com.ola.qh.entity.JobFair;
 public interface IJobFairService {
 
 	
-	public List<JobFair> selectJob(String id,String userId,String company,String category,String education,
-			String experience,String salaryRangeMin,String salaryRangeMax,String position,int pageNo,int pageSize);
+	public List<JobFair> selectJob(String id, String userId, String category, 
+			String salaryRangeMin,String salaryRangeMax, String searchName,int pageNo,int pageSize);
 	
 	public int insertJobApply(JobFair jobFair);
 	

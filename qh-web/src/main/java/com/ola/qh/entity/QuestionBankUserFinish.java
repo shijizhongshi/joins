@@ -2,18 +2,22 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class QuestionBankUserFinish {
 
 	
 	private String id;
 	
-	private String user_id;
+	private String userId;
+	@NotEmpty
+	private String bankId;////////////试题id
+	@NotEmpty
+	private String subId;/////////节或单元id
 	
-	private String bank_id;
-	
-	private String istrue;
-	
-	private String number_no;
+	private int status;/////////是否答对或未看解析
+	@NotEmpty
+	private String numberNo;/////////题目序号
 	
 	private Date addtime;
 	
@@ -27,36 +31,36 @@ public class QuestionBankUserFinish {
 		this.id = id;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getBank_id() {
-		return bank_id;
+	public String getBankId() {
+		return bankId;
 	}
 
-	public void setBank_id(String bank_id) {
-		this.bank_id = bank_id;
+	public void setBankId(String bankId) {
+		this.bankId = bankId;
 	}
 
-	public String getIstrue() {
-		return istrue;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setIstrue(String istrue) {
-		this.istrue = istrue;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public String getNumber_no() {
-		return number_no;
+	public String getNumberNo() {
+		return numberNo;
 	}
 
-	public void setNumber_no(String number_no) {
-		this.number_no = number_no;
+	public void setNumberNo(String numberNo) {
+		this.numberNo = numberNo;
 	}
 
 	public Date getAddtime() {
@@ -74,6 +78,16 @@ public class QuestionBankUserFinish {
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
 	}
+
+	public String getSubId() {
+		return subId;
+	}
+
+	public void setSubId(String subId) {
+		this.subId = subId;
+	}
+
+	
 	
 	
 	

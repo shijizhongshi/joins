@@ -14,6 +14,7 @@
 
 	<select id="selectUserCourseHistory" resultMap="UserCourseHistoryMap">
 		select id,user_id,class_id,class_name,class_img_url,addtime from user_course_history where user_id=#{userId}
+		order by addtime limit #{pageNo},#{pageSize}
 	</select>
 	
 	<insert id="insertUserCourseHistory" parameterType="com.ola.qh.entity.UserCourseHistory">

@@ -14,6 +14,7 @@
 		<result column="mobile" property="mobile" />
 		<result column="birthday" property="birthday" />
 		<result column="address" property="address"/>
+		<result column="sex" property="sex"/>
 		
 	</resultMap>
 
@@ -30,7 +31,7 @@
 	</select>
 	
 	<select id="singleUser" resultMap="UserMap">
-		select <include refid="sql_base"></include>,password,address from user where 1=1
+		select <include refid="sql_base"></include>,password,address,sex from user where 1=1
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>
@@ -41,16 +42,19 @@
 	
 	<update id="updateUser" parameterType="com.ola.qh.entity.User" >
 		update user set 
-		<if test="nickname!=null">
+		<if test="nickname!=null and nickname!='' ">
 		nickname=#{nickname},
 		</if>
-		<if test="headimg!=null">
+		<if test="headimg!=null and headimg!='' ">
 		head_img_url=#{headimg},
 		</if>
 		<if test="password!=null and password!=''">
 		password=#{password},
 		</if>
-		<if test="birthday!=null">
+		<if test="sex!=null and sex!=''">
+		sex=#{sex},
+		</if>
+		<if test="birthday!=null and birthday!='' ">
 		birthday=#{birthday},
 		</if>
 		updatetime=#{updatetime}

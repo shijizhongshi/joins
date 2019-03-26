@@ -30,7 +30,7 @@ public class QuestionBank {
 	 
 	private List<QuestionAnswer> answer=new ArrayList<QuestionAnswer>();
 	
-	private List<QuestionUnit> unit=new ArrayList<QuestionUnit>();
+	private QuestionUnitTypes unit=new QuestionUnitTypes();
 
 	public String getCorrect() {
 		return correct;
@@ -112,11 +112,11 @@ public class QuestionBank {
 		this.answer = answer;
 	}
 
-	public List<QuestionUnit> getUnit() {
+	public QuestionUnitTypes getUnit() {
 		return unit;
 	}
 
-	public void setUnit(List<QuestionUnit> unit) {
+	public void setUnit(QuestionUnitTypes unit) {
 		this.unit = unit;
 	}
 

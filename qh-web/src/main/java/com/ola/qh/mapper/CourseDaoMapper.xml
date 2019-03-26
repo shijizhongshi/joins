@@ -111,6 +111,16 @@
 	select count(id) from course_section where course_chapter_id=#{chapterId}
 	</select>
 	
+	<select id="sectionCount" resultType="int">
+	select count(sc.id) from course_chapter cc left join course_section sc on cc.id=sc.course_chapter_id  where 1=1
+	<if test="courseId!=null and courseId!=''">
+	and cc.course_id=#{courseId}
+	</if>
+	<if test="lecturer!=null and lecturer!=''">
+	and cc.course_lecturer=#{lecturer}
+	</if>
+	</select>
+	
 	<!-- 课程节的查询 -->
 	<resultMap type="com.ola.qh.entity.CourseSection" id="CourseSectionMap">
 	<result column="id" property="id"/>
@@ -128,12 +138,12 @@
 	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status from course_line_show
 	where 1=1
-	<if test="courseTypeName!=null">
+	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
 	</if>
-	<if test="courseTypeSubclassName!=null">
+	<if test="courseTypeSubclassName!=null and courseTypeSubclassName!='' ">
 	and course_type_subclass_name=#{courseTypeSubclassName}
 	</if>
 	<if test="className!=null and className!='' ">
@@ -144,5 +154,47 @@
 	limit #{pageNo},#{pageSize}
 	</select>
 
+	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status from course_line_show
+	where 1=1
+	<if test="roomId!=null and roomId!='' ">
+	and live_room_id=#{roomId}
+	</if>
+	order by addtime desc
+	limit 0,1
+	</select>
 	
+	
+	<update id="updateListShow" parameterType="com.ola.qh.entity.CourseLineShow">
+		update course_line_show set 
+		<if test="status!=0">
+		status=#{status},
+		</if>
+		<if test="endtime!=null">
+		<!-- 直播结束时间 -->
+		endtime=#{endtime},
+		</if>
+		<if test="addtime!=null">
+		<!-- 直播开始时间 -->
+		addtime=#{addtime},
+		</if>
+		<if test="liveId!=null and liveId!='' ">
+		live_id=#{liveId},
+		</if>
+		<if test="liveBackId!=null and liveBackId!='' ">
+		live_back_id=#{liveBackId},
+		</if>
+		<if test="offlineUrl!=null and offlineUrl!=''">
+		offline_url=#{offlineUrl}, 
+		</if>
+		updatetime=#{updatetime}
+		 where id=#{id}
+	</update>
+	
+	<insert id="insertCCresult" parameterType="com.ola.qh.entity.CourseLineCCresult">
+	insert into course_line_ccresult(id,liveId,roomId,recordId,type,startTime,endTime,stopStatus,recordStatus,recordVideoId,
+	recordVideoDuration,replayUrl,offlineStatus,offlineMd5,offlineUrl,describes,addtime)
+	values(#{id},#{liveId},#{roomId},#{recordId},#{type},#{startTime},#{endTime},#{stopStatus},#{recordStatus},#{recordVideoId},
+	#{recordVideoDuration},#{replayUrl},#{offlineStatus},#{offlineMd5},#{offlineUrl},#{describes},#{addtime})
+	</insert>
 	</mapper>

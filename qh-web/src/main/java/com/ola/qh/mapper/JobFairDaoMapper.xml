@@ -32,26 +32,23 @@
 		<if test="userId!=null and userId!=''">
 		and user_id=#{userId}
 		</if>
-		<if test="company!=null and company!=''">
-		and company LIKE CONCAT(CONCAT('%',#{company},'%'))
-		</if>
-		<if test="education!=null and education!=''">
-		and education=#{education}
-		</if>
-		<if test="experience!=null and experience!=''">
-		and experience=#{experience}
-		</if>
+		
 		<if test="salaryRangeMin!=null and salaryRangeMin!=''">
 		and salary_range <![CDATA[ >= ]]> #{salaryRangeMin}
 		</if>
 		<if test="salaryRangeMax!=null and salaryRangeMax!=''">
 		and salary_range <![CDATA[ <= ]]> #{salaryRangeMax}
 		</if>
-		<if test="position!=null and position!=''">
-		and position LIKE CONCAT(CONCAT('%',#{position},'%'))
-		</if>
+		
 		<if test="category!=null and category!=''">
 		and category=#{category}
+		</if>
+		<if test="searchName!=null and searchName!='' ">
+		and (position LIKE CONCAT(CONCAT('%',#{searchName},'%')) 
+		or experience LIKE CONCAT(CONCAT('%',#{searchName},'%'))
+		or education LIKE CONCAT(CONCAT('%',#{searchName},'%'))
+		or company LIKE CONCAT(CONCAT('%',#{searchName},'%')))
+		
 		</if>
 		order by addtime desc
 		limit #{pageNo},#{pageSize}
