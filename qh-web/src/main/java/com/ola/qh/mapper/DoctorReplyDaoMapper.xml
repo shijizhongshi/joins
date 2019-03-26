@@ -58,7 +58,7 @@
 	</select> -->
 	<update id="updateReply">
 	update doctor_reply_patient set 
-	<if test="likes!=0">
+	<if test="likes>=0">
 	likes=#{likes},
 	</if>
 	updatetime=#{updatetime}

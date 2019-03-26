@@ -341,6 +341,7 @@ public class UserVideoService implements IUserVideoService{
 				
 			}
 			userVideoDao.insertComment(vc);
+			result.setStatus("0");
 			return result;
 		}else{
 			result.setStatus("1");
