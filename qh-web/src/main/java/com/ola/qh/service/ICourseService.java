@@ -30,7 +30,7 @@ public interface ICourseService {
 	
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
 	
-	public CourseLineShow singleLiveShow(String liveId);
+	public CourseLineShow singleLiveShow(String roomId);
 	
 	public int updateListShow(CourseLineShow cls);
 	

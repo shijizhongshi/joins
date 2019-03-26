@@ -1,5 +1,6 @@
 package com.ola.qh.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,10 @@ public class UserBuyCourseController {
 		}
 		userId=userResult.getData().getId();
 		List<UserBuyCourse> list=userBuyCourseService.selectUserBuyCourse(userId,mobile,type,years);
-		
+		for (UserBuyCourse userBuyCourse : list) {
+			SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			userBuyCourse.setShowtime(sf.format(userBuyCourse.getAddtime()));
+		}
 		results.setData(list);
 		results.setStatus("0");
 		return results;

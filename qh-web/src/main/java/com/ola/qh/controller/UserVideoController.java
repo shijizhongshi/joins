@@ -124,7 +124,7 @@ public class UserVideoController {
 			@RequestParam(name="offlineUrl",required=false)String offlineUrl,
 			HttpServletResponse response) throws ParseException{
 		
-			CourseLineShow liveShow=courseService.singleLiveShow(liveId);
+			CourseLineShow liveShow=courseService.singleLiveShow(roomId);
 			if(liveShow!=null){
 				//////将直播开启为开始直播的状态(修改成直播中)
 				CourseLineShow cls=new CourseLineShow();
@@ -145,6 +145,7 @@ public class UserVideoController {
 				cls.setUpdatetime(new Date());
 				if("1".equals(type)){
 				//////直播开始
+					cls.setLiveId(liveId);
 					cls.setStatus(1);
 					ccresult.setDescribes("直播开始");
 				}else if("2".equals(type)){
@@ -194,9 +195,7 @@ public class UserVideoController {
 						ccresult.setDescribes("不可用的离线包");
 					}
 					
-				}else{
-					if("101".equals(type)){
-						
+				}else if("101".equals(type)){
 						ccresult.setRecordId(recordId);
 						ccresult.setDescribes("直播录制回调开始");
 						ccresult.setRecordId(recordId);
@@ -204,8 +203,8 @@ public class UserVideoController {
 						ccresult.setRecordVideoDuration(recordVideoDuration);
 						ccresult.setRecordVideoId(recordVideoId);
 						ccresult.setReplayUrl(replayUrl);
-						courseService.insertCCresult(ccresult);
-						return null;
+						
+						
 					}else if("102".equals(type)){
 						///////保存一下直播的状态
 						ccresult.setRecordId(recordId);
@@ -215,12 +214,9 @@ public class UserVideoController {
 						ccresult.setRecordVideoDuration(recordVideoDuration);
 						ccresult.setRecordVideoId(recordVideoId);
 						ccresult.setReplayUrl(replayUrl);
-						courseService.insertCCresult(ccresult);
-						return null;
-					}else{
-						return null;
+						
 					}
-				}
+				
 				
 				courseService.insertCCresult(ccresult);
 				courseService.updateListShow(cls);
@@ -245,15 +241,6 @@ public class UserVideoController {
 		
 		
 	}
-/*	public static void main(String[] args) throws IOException {
-		StringBuilder sbuilder = new StringBuilder();
-		sbuilder.append("<?xml version='1.0' encoding='UTF-8' ?>");
-		
-		sbuilder.append("<video>OK</video>");
-		
-
-		System.out.println(sbuilder.toString());
-	}*/
 	  
 	/**
 	 * 视频的集合

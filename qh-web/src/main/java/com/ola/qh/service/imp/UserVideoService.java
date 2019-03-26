@@ -51,6 +51,8 @@ public class UserVideoService implements IUserVideoService{
 	@Autowired
 	private ShopDao shopDao;
 	@Autowired
+	private UserDao userDao;
+	@Autowired
 	private DoctorReplyDao doctorReplyDao;
 	
 	@Transactional
@@ -364,11 +366,14 @@ public class UserVideoService implements IUserVideoService{
 			}
 			userId=userResult.getData().getId();
 		}
+		
 		List<UserVideoComment> list = userVideoDao.listComment(vid, null, pageNo, pageSize,1);
 		for (UserVideoComment userVideoComment : list) {
 			String showtime = Patterns.sfDetailTime(userVideoComment.getAddtime());
 			userVideoComment.setShowtime(showtime);
 			if(userId!=null && !"".equals(userId)){
+				User user=userDao.singleUser(userVideoComment.getUserId(), null);
+				userVideoComment.setHeadImgUrl(user.getHeadimg());
 				UserLikes ul = doctorReplyDao.singleLikes(userId,userVideoComment.getId());
 				if(ul!=null){
 					userVideoComment.setIslike(1);/////说明这个用户已经点过赞了

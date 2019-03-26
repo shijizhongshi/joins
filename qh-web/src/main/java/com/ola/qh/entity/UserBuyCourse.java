@@ -31,6 +31,8 @@ public class UserBuyCourse {
 	
 	private String ordersId;
 	
+	private String showtime;
+	
 	private Date addtime;///
 	
 	private String payType;///线上支付或者是线下支付的
@@ -122,6 +124,14 @@ public class UserBuyCourse {
 
 	public void setAddtime(Date addtime) {
 		this.addtime = addtime;
+	}
+
+	public String getShowtime() {
+		return showtime;
+	}
+
+	public void setShowtime(String showtime) {
+		this.showtime = showtime;
 	}
 	
 	
