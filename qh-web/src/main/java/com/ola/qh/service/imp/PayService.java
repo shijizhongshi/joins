@@ -91,10 +91,10 @@ public class PayService implements IPayService {
 
 		model.setOutTradeNo(pays.get(0).getExtransno());
 		model.setTimeoutExpress("30m");
-		/* model.setTotalAmount(String.valueOf(money)); */
+		 model.setTotalAmount(String.valueOf(money)); 
 		model.setSubject(pays.get(0).getSubjectTitle());
 		model.setBody(pays.get(0).getBodyDetail());
-		model.setTotalAmount("0.01");
+		/*model.setTotalAmount("0.01");*/
 		model.setProductCode("QUICK_MSECURITY_PAY");
 		request.setBizModel(model);
 		request.setNotifyUrl(pp.getNoticeUrl());
@@ -171,8 +171,8 @@ public class PayService implements IPayService {
 		requestParams.put("body", pays.get(0).getBodyDetail());
 		requestParams.put("out_trade_no", pays.get(0).getExtransno());
 		requestParams.put("fee_type", "CNY");// 人民币
-		/*requestParams.put("total_fee", String.valueOf(summoney)); /// 单位分 */
-		requestParams.put("total_fee", "1");
+		requestParams.put("total_fee", String.valueOf(summoney)); /// 单位分 
+		/*requestParams.put("total_fee", "1");*/
 		requestParams.put("spbill_create_ip", ip);// APP和网页支付提交用户端ip
 		requestParams.put("notify_url", pp.getNoticeUrl());// 接收微信支付异步通知回调地址
 		requestParams.put("trade_type", "APP");// 交易类型
@@ -252,8 +252,8 @@ public class PayService implements IPayService {
 		bigContent.setOut_trade_no(extranceno);
 		bigContent.setOut_request_no(KeyGen.uuid()+"");
 		
-		bigContent.setRefund_amount(0.01);
-		//bigContent.setRefund_amount(money);
+		/*bigContent.setRefund_amount(0.01);*/
+		bigContent.setRefund_amount(money);
 		bigContent.setRefund_reason("正常退款");
 		String biz_content=Json.to(bigContent);
 		request.setBizContent(biz_content);
@@ -305,12 +305,12 @@ public class PayService implements IPayService {
 	    requestParams.put("nonce_str", new String(new RBuilder().length(16).hasletter(true).next()));// 随机字符串，不长于32位
 	    requestParams.put("out_trade_no", extranceno);// 商户系统内部的订单号
 	    requestParams.put("out_refund_no", KeyGen.uuid() + "");
-	    requestParams.put("total_fee", "" + 1);// 单位分
+	   /* requestParams.put("total_fee", "" + 1);// 单位分
 	    requestParams.put("refund_fee", "" + 1);// APP和网页支付提交用户端ip
-	    
-	   /* requestParams.put("total_fee", "" + totalfee);// 单位分
+*/	    
+	    requestParams.put("total_fee", "" + totalfee);// 单位分
 	    requestParams.put("refund_fee", "" + refundfee);// APP和网页支付提交用户端ip
-*/	    requestParams.put("op_user_id", Patterns.wxmchId);// 交易类型
+	    requestParams.put("op_user_id", Patterns.wxmchId);// 交易类型
 
 	    String signkey = Patterns.wxsignkey;/////秘钥
 	    requestParams.put("sign", MD5.digest(compositeWXPayKeyValuePaires(requestParams, signkey)).toUpperCase());
