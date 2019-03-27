@@ -244,6 +244,8 @@ public class UserVideoService implements IUserVideoService{
 			
 			for (UserVideo userVideo : list) {
 				UserLikes ul = doctorReplyDao.singleLikes(userId, userVideo.getId());
+				User headimg=userDao.singleUser(userVideo.getUserId(), null);
+				userVideo.setUserHeadImgUrl(headimg.getHeadimg());
 				if(ul!=null){
 					/////说明已经点过赞了
 					userVideo.setIslikes(1);
