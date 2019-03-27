@@ -17,6 +17,8 @@ public class UserVideo {
 	
 	private String headImgUrl;////头像
 	
+	private String userHeadImgUrl;////头像
+	
 	private String nickname;////昵称
 	
 	private String professional;////职称
@@ -181,6 +183,14 @@ public class UserVideo {
 
 	public void setShopname(String shopname) {
 		this.shopname = shopname;
+	}
+
+	public String getUserHeadImgUrl() {
+		return userHeadImgUrl;
+	}
+
+	public void setUserHeadImgUrl(String userHeadImgUrl) {
+		this.userHeadImgUrl = userHeadImgUrl;
 	}
 
 	
