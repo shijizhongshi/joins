@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.ExamCalendarDao">
+	<resultMap type="com.ola.qh.entity.ExamCalendar" id="ExamCalendarMap">
+		<result column="id" property="id" />
+		<result column="exam_name" property="examName" />
+		<result column="years" property="years" />
+		<result column="apply_time" property="applyTime" />
+		<result column="card_time" property="cardTime" />
+		<result column="grade_time" property="gradeTime" />
+		<result column="certificate_time" property="certificateTime" />
+		<result column="course_type_subclass_name" property="courseTypeSubclassName" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+	
+	<select id="calendarList" resultMap="ExamCalendarMap">
+		select id,exam_name,years,apply_time,card_time,grade_time,certificate_time,course_type_subclass_name from exam_calendar 
+		where course_type_subclass_name=#{courseTypeSubclassName}
+	</select>
+	
+	
+	
+</mapper>
