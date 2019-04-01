@@ -41,6 +41,13 @@ public class QuestionBankService implements IQuestionBankService {
 				
 				questionBank.setAnswer(listanswer);
 				
+				if("共用选项".equals(questionBank.getTypes())){
+					
+					String[] titles=questionBank.getTitles();
+					titles=questionBank.getTitle().split(",");
+					questionBank.setTitles(titles);
+				}
+				
 				QuestionUnitTypes questionUnitTypes=new QuestionUnitTypes();
 					
 				List<QuestionUnit> listunit=questionBankDao.selectQuestionUnit(questionBank.getId());
