@@ -79,7 +79,7 @@ public class PayService implements IPayService {
 		
 		///// 查询回调地址~~~~
 		Results<String> result = new Results<String>();
-		PayPipeline pp = ordersDao.singlePayPipeline("ALIPAY");
+		PayPipeline pp = ordersDao.singlePayPipeline("ALIPAY","APP");
 		BigDecimal money = BigDecimal.ZERO;
 		for (OrdersPayment op : pays) {
 			money = money.add(op.getMoney()).setScale(2, BigDecimal.ROUND_DOWN);
@@ -148,7 +148,7 @@ public class PayService implements IPayService {
 		Results<Map<String, String>> result=new Results<Map<String, String>>();
 		
 		
-		PayPipeline pp = ordersDao.singlePayPipeline("WXPAY");
+		PayPipeline pp = ordersDao.singlePayPipeline("WXPAY","APP");
 
 		String ip;
 

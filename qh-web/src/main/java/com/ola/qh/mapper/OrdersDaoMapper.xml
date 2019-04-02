@@ -178,9 +178,10 @@
 		<result column="code" property="code"/>
 		<result column="name" property="name"/>
 		<result column="notice_url" property="noticeUrl"/>
+		<result column="types" property="types"/>
 	</resultMap>	
 	<select id="singlePayPipeline" resultMap="PayPipelineMap">
-		select * from pay_pipeline where code=#{code}
+		select * from pay_pipeline where code=#{code} and types=#{types}
 	</select>
 	
 	
