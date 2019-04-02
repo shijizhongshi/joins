@@ -14,6 +14,8 @@ public class QuestionBank {
 	
 	private String title;///题干
 	
+	private String[] titles;///题干
+	
 	private String types;////问题的类型(单选)
 	
 	private String analysis;///问题的解析
@@ -134,6 +136,14 @@ public class QuestionBank {
 
 	public void setShowtime(String showtime) {
 		this.showtime = showtime;
+	}
+
+	public String[] getTitles() {
+		return titles;
+	}
+
+	public void setTitles(String[] titles) {
+		this.titles = titles;
 	}
 	
 	
