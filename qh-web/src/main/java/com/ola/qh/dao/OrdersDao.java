@@ -31,7 +31,7 @@ public interface OrdersDao {
 	
 	public int insertOrdersPayment(OrdersPayment op);
 	
-	public PayPipeline singlePayPipeline(String code);
+	public PayPipeline singlePayPipeline(@Param("code")String code,@Param("types")String types);
 	
 	public List<OrdersPayment> listByExtransno(String extransno);
 	

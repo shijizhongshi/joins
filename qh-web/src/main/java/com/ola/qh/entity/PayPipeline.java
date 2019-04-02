@@ -9,6 +9,18 @@ public class PayPipeline {
 	private String code;
 	
 	private String noticeUrl;////回调的地址
+	
+	private String types;
+	
+	
+
+	public String getTypes() {
+		return types;
+	}
+
+	public void setTypes(String types) {
+		this.types = types;
+	}
 
 	public String getId() {
 		return id;
