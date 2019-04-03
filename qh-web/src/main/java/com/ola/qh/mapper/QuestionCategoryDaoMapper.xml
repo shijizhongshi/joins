@@ -37,7 +37,7 @@
 	<select id="selectCategory" resultMap="QuestionCategoryMap">
 	select id,course_type_subclass_name,name,isshow,addtime from question_bank_category 
 	where course_type_subclass_name=#{courseTypeSubclassName} and types=#{types}
-	order by addtime limit #{pageNo},#{pageSize}
+	order by addtime 
 	</select>
 	
 	<select id="countCategory" resultType="int">

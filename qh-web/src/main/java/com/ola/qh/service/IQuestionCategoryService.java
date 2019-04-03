@@ -7,6 +7,6 @@ import com.ola.qh.util.Results;
 
 public interface IQuestionCategoryService {
 	
-	public Results<List<QuestionCategory>> selectCategory(int pageNo,int pageSize,String courseTypeSubclassName,String types);
+	public Results<List<QuestionCategory>> selectCategory(String courseTypeSubclassName,String types);
 	
 }
