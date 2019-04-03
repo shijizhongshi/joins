@@ -12,6 +12,7 @@ import com.ola.qh.entity.QuestionSubCategory;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.IQuestionSubcategoryService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -25,12 +26,14 @@ public class QuestionSubcategoryController {
 	private IUserService userService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(@RequestParam(name="pageNo",required=true)int pageNo
-			,@RequestParam(name="pageSize",required=true)int pageSize,@RequestParam(name="categoryId",required=true)String categoryId
+	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(@RequestParam(name="page",required=true)int page,
+			@RequestParam(name="categoryId",required=true)String categoryId
 			,@RequestParam(name="userId",required=false)String userId){
 		
 		
 		Results<List<QuestionSubCategory>> results=new Results<List<QuestionSubCategory>>();
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
 		if(userId!=null && userId!=""){
 		Results<User> userResult = userService.existUser(userId);
 		if("1".equals(userResult.getStatus())){

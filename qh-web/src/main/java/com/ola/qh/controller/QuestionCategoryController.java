@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.QuestionCategory;
 import com.ola.qh.service.IQuestionCategoryService;
+import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController
@@ -21,11 +22,12 @@ public class QuestionCategoryController {
 	private IQuestionCategoryService questionCategoryService;
 	
 	@RequestMapping(value="/select",method=RequestMethod.GET)
-	public Results<List<QuestionCategory>> selectCategory(@RequestParam(name="pageNo",required=true)int pageNo,
-			@RequestParam(name="pageSize",required=true)int pageSize,
+	public Results<List<QuestionCategory>> selectCategory(@RequestParam(name="page",required=true)int page,
 			@RequestParam(name="courseTypeSubclassName",required=true)String courseTypeSubclassName,
 			@RequestParam(name="types",required=true)String types){
 		
+		int pageSize=Patterns.zupageSize;
+		int pageNo=(page-1)*pageSize;
 		return questionCategoryService.selectCategory(pageNo,pageSize,courseTypeSubclassName,types);
 	}
 	
