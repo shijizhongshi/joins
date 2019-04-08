@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IQuestionBankUserFinishService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.UserFinishDomain;
 
@@ -20,11 +22,21 @@ public class QuestionBankUserFinishController {
 	@Autowired
 	private IQuestionBankUserFinishService questionBankUserFinishService;
 	
+	@Autowired
+	private IUserService userService;
+	
 	@RequestMapping(value="/addupdate",method=RequestMethod.POST)
 	public Results<String> addupdateUserFinish(@RequestBody @Valid UserFinishDomain userFinishDomain,BindingResult valid){
 		
 		Results<String> results=new Results<String>();
 		
+		Results<User> userResult = userService.existUser(userFinishDomain.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		userFinishDomain.setUserId(userResult.getData().getId());
 		if(valid.hasErrors()){
 			
 			results.setStatus("1");

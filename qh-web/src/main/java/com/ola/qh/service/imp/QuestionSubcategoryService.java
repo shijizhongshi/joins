@@ -29,12 +29,12 @@ public class QuestionSubcategoryService implements IQuestionSubcategoryService{
 
 	@Transactional
 	@Override
-	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(int pageNo,int pageSize,String categoryId,String userId) {
+	public Results<List<QuestionSubCategory>> selectQuestionSubCategory(String categoryId,String userId) {
 		
 		Results<List<QuestionSubCategory>> results=new Results<List<QuestionSubCategory>>();
 		try {
 			
-		List<QuestionSubCategory> list=questionSubcategoryDao.selectQuestionSubCategory(pageNo, pageSize, categoryId);
+		List<QuestionSubCategory> list=questionSubcategoryDao.selectQuestionSubCategory( categoryId);
 		
 		int count=questionSubcategoryDao.countSubCategory(categoryId);
 				

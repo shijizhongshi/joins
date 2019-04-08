@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.QuestionBankFeedback;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IQuestionBankFeedbackService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 
@@ -26,12 +28,23 @@ public class QuestionBankFeedbackController {
 	@Autowired
 	private IQuestionBankFeedbackService questionBankFeedbackService;
 	
+	@Autowired
+	private IUserService userService;
+	
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public Results<List<QuestionBankFeedback>> feedbackList(@RequestParam(name="userId",required=true)String userId){
 		
-		Results<List<QuestionBankFeedback>> results=new Results<List<QuestionBankFeedback>>();
 		
-		List<QuestionBankFeedback> list=questionBankFeedbackService.feedbackList(userId);
+		Results<List<QuestionBankFeedback>> results=new Results<List<QuestionBankFeedback>>();
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		
+		
+		List<QuestionBankFeedback> list=questionBankFeedbackService.feedbackList(userResult.getData().getId());
 		
 		for (QuestionBankFeedback questionBankFeedback : list) {
 			SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -54,6 +67,14 @@ public class QuestionBankFeedbackController {
 	public Results<String> addFeedback(@RequestBody @Valid QuestionBankFeedback questionBankFeedback,BindingResult valid){
 		
 		Results<String> results=new Results<String>();
+		Results<User> userResult = userService.existUser(questionBankFeedback.getUserId());
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}
+		questionBankFeedback.setUserId(userResult.getData().getId());
+		
 		
 		if(valid.hasErrors()){
 			
