@@ -53,6 +53,7 @@ public class User {
 	
 	private String sex;
 	
+	private String realname;
 	
 	public String getSex() {
 		return sex;
@@ -198,6 +199,14 @@ public class User {
 		this.isdoctor = isdoctor;
 	}
 
+	public String getRealname() {
+		return realname;
+	}
 
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	
 	
 }
