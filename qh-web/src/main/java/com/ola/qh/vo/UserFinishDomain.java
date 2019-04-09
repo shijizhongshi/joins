@@ -15,22 +15,22 @@ public class UserFinishDomain {
 	
 	@NotNull
 	@Size(min=1)
-	private List<QuestionBankUserFinish> list=new ArrayList<QuestionBankUserFinish>();
+	private List<QuestionBankUserFinish> examBeanList=new ArrayList<QuestionBankUserFinish>();
 	
 	@NotEmpty
 	private String userId;
 	
-	public List<QuestionBankUserFinish> getList() {
-		return list;
-	}
-	public void setList(List<QuestionBankUserFinish> list) {
-		this.list = list;
-	}
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public List<QuestionBankUserFinish> getExamBeanList() {
+		return examBeanList;
+	}
+	public void setExamBeanList(List<QuestionBankUserFinish> examBeanList) {
+		this.examBeanList = examBeanList;
 	}
 	
 	

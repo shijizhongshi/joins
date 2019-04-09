@@ -42,7 +42,7 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 				return results;
 			}
 			
-			List<QuestionBankUserFinish> userFinishlist=userFinishDomain.getList();
+			List<QuestionBankUserFinish> userFinishlist=userFinishDomain.getExamBeanList();
 			
 			for (QuestionBankUserFinish userFinish : userFinishlist) {
 				
