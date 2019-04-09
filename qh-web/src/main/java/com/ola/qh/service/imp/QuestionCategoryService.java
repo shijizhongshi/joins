@@ -25,14 +25,14 @@ public class QuestionCategoryService implements IQuestionCategoryService{
 	
 	@Transactional
 	@Override
-	public Results<List<QuestionCategory>> selectCategory(int pageNo,int pageSize,String courseTypeSubclassName,String types) {
+	public Results<List<QuestionCategory>> selectCategory(String courseTypeSubclassName,String types) {
 		
 		
 		Results<List<QuestionCategory>> results=new Results<List<QuestionCategory>>();
 		
 		try {
 			
-		List<QuestionCategory> list=questionCategoryDao.selectCategory(pageNo,pageSize,courseTypeSubclassName,types);
+		List<QuestionCategory> list=questionCategoryDao.selectCategory(courseTypeSubclassName,types);
 		
 		int countcate=questionCategoryDao.countCategory(courseTypeSubclassName, types);
 		for (QuestionCategory questionCategory : list) {

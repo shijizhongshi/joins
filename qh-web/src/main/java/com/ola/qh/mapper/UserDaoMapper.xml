@@ -14,6 +14,7 @@
 		<result column="mobile" property="mobile" />
 		<result column="birthday" property="birthday" />
 		<result column="address" property="address"/>
+		<result column="realname" property="realname"/>
 		<result column="sex" property="sex"/>
 		
 	</resultMap>
@@ -23,15 +24,15 @@
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
-		insert into user(id,mobile,password,address,addtime) values(#{id},#{mobile},#{password},#{address},#{addtime})
+		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
 	</insert>
 	
 	<select id="loginUser"  resultMap="UserMap">
-		select <include refid="sql_base"></include>,password from user where mobile=#{mobile} and password=#{password}
+		select <include refid="sql_base"></include>,password,realname,address,sex from user where mobile=#{mobile} and password=#{password}
 	</select>
 	
 	<select id="singleUser" resultMap="UserMap">
-		select <include refid="sql_base"></include>,password,address,sex from user where 1=1
+		select <include refid="sql_base"></include>,password,realname,address,sex from user where 1=1
 		<if test="mobile!=null">
 		and mobile=#{mobile}
 		</if>
@@ -51,11 +52,17 @@
 		<if test="password!=null and password!=''">
 		password=#{password},
 		</if>
+		<if test="realname!=null and realname!=''">
+		realname=#{realname},
+		</if>
 		<if test="sex!=null and sex!=''">
 		sex=#{sex},
 		</if>
 		<if test="birthday!=null and birthday!='' ">
 		birthday=#{birthday},
+		</if>
+		<if test="address!=null and address!='' ">
+		address=#{address},
 		</if>
 		updatetime=#{updatetime}
 		 where 1=1

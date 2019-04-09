@@ -45,7 +45,7 @@ public class User {
 	
 	private Date updatetime;
 	
-	private Date birthday;
+	private String birthday;
 	
 	private int isdoctor;//1是医生   0:不是医生
 	
@@ -53,6 +53,7 @@ public class User {
 	
 	private String sex;
 	
+	private String realname;
 	
 	public String getSex() {
 		return sex;
@@ -182,11 +183,11 @@ public class User {
 		this.updatetime = updatetime;
 	}
 
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
@@ -198,6 +199,14 @@ public class User {
 		this.isdoctor = isdoctor;
 	}
 
+	public String getRealname() {
+		return realname;
+	}
 
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	
 	
 }
