@@ -71,7 +71,7 @@
 	 and course_type_subclass_name=#{courseTypeSubclassName}
 	</if>
 	<if test="classId!=null and classId!='' ">
-	and class_id in (#{classId})
+	and class_id like concat(concat("%",#{classId},"%"))
 	</if>
 	
 	order by addtime asc 
