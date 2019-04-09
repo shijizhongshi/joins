@@ -38,6 +38,8 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 			
 			for (QuestionBankUserFinish userFinish : userFinishlist) {
 				
+				if(userFinish.getStatus()!=2){
+					
 				userFinish.setUserId(userFinishDomain.getUserId());
 				
 				int exist=questionBankUserFinishDao.existUserFinish(userFinishDomain.getUserId(), userFinish.getBankId());
@@ -53,7 +55,7 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 					questionBankUserFinishDao.addUserFinish(userFinish);
 					
 				}
-				
+				}
 			}
 			
 			results.setStatus("0");
