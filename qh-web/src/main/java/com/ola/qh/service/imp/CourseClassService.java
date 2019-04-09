@@ -232,7 +232,7 @@ public class CourseClassService implements ICourseClassService{
 				}
 			}
 			////总的购买人数
-			buycount=buycount+courseClassDao.ordersCount(course.getClassId());
+			//buycount=buycount+courseClassDao.ordersCount(course.getClassId());
 		}
 		vo.setSectionCount(sectionCount);
 		vo.setBuyCount(buycount);

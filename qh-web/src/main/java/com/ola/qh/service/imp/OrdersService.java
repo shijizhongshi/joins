@@ -634,7 +634,7 @@ public class OrdersService implements IOrdersService {
 			if(o.getOrdersType()==1){
 				Course c=courseDao.singleCourse(op.getProductId());
 				if(c!=null){
-					op.setClassId(c.getClassId());
+					op.setProductId(op.getProductId());
 				}else{
 					op.setClassId(op.getProductId());
 				}
