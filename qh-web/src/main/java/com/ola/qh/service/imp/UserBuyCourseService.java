@@ -34,13 +34,13 @@ public class UserBuyCourseService implements IUserBuyCourseService{
 		}
 		
 		List<UserBuyCourse> list = userBuyCourseDao.selectUserBuyCourse(userId,types,years);
-		for (UserBuyCourse userBuyCourse : list) {
+		/*for (UserBuyCourse userBuyCourse : list) {
 			
 			if(userBuyCourse.getClassId()==null || "".equals(userBuyCourse.getClassId())){
 				Course course = courseDao.singleCourse(userBuyCourse.getCourseId());
 				userBuyCourse.setClassId(course.getClassId());
 			}
-		}
+		}*/
 		return list;
 	}
 
