@@ -32,15 +32,7 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 		
 		Results<String> results=new Results<String>();
 		
-		Results<User> userResult = userservice.existUser(userFinishDomain.getUserId());
-		
 		try {
-			
-			if("1".equals(userResult.getStatus())){
-				results.setStatus("1");
-				results.setMessage(userResult.getMessage());
-				return results;
-			}
 			
 			List<QuestionBankUserFinish> userFinishlist=userFinishDomain.getExamBeanList();
 			
