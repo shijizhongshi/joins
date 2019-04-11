@@ -224,15 +224,18 @@ public class UserVideoService implements IUserVideoService{
 	public Results<List<UserVideo>> list(String userId, int pageNo, int pageSize,int types) {
 		// TODO Auto-generated method stub
 		Results<List<UserVideo>> result=new Results<List<UserVideo>>();
-		if(userId!=null && userId!=""){
-			Results<User> userResult = userService.existUser(userId);
-			if("1".equals(userResult.getStatus())){
-				result.setStatus("1");
-				result.setMessage(userResult.getMessage());
-				return result;
+		if(types==2){
+			if(userId!=null && userId!=""){
+				Results<User> userResult = userService.existUser(userId);
+				if("1".equals(userResult.getStatus())){
+					result.setStatus("1");
+					result.setMessage(userResult.getMessage());
+					return result;
+				}
+				userId=userResult.getData().getId();
 			}
-			userId=userResult.getData().getId();
 		}
+	
 		List<UserVideo> list=new ArrayList<>();
 		if(types==1){
 			list = userVideoDao.list(null, pageNo, pageSize);
