@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.CourseNofree;
-import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseClassService;
-import com.ola.qh.service.imp.CourseClassService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;

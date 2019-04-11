@@ -206,8 +206,14 @@ public class CourseClassService implements ICourseClassService{
 		List<Course> clist = courseDao.courseList(ccd);
 		int buycount=0;
 		int sectionCount=0;
+		//根据产品id(课程id)查询订单数量
 		buycount = courseClassDao.ordersCount(classId);
-		List<CourseTeacher> ctlist = courseClassDao.teacherList(classId);
+		//根据课程id查询老师集合  在这个地方拼接 把主讲老师放在第一位
+		//List<CourseTeacher> ctlist = courseClassDao.teacherList(classId,null);
+		//根据name查询
+		List<CourseTeacher> ctlist = courseClassDao.selectCourseLecturer(classId,cc.getCourseLecturer());
+		List<CourseTeacher> ctlist1 = courseClassDao.teacherList(classId,cc.getCourseLecturer());
+		ctlist.addAll(ctlist1);
 		for (CourseTeacher courseTeacher : ctlist) {
 			int courseNumber=0;
 			courseNumber+=courseDao.sectionCount(null,courseTeacher.getName());

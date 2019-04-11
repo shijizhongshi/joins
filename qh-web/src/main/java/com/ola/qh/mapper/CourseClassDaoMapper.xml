@@ -69,6 +69,19 @@
 	<if test="classId!=null">
 	and cct.class_id=#{classId}
 	</if> 
+	<if test="courseLecturer!=null and courseLecturer!=''">
+	and ct.name != #{courseLecturer}
+	</if> 
+	</select>
+	<!--新加查询 只查询主讲老师相关 在service层拼接list  -->
+	<select id="selectCourseLecturer" resultMap="CourseTeacherMap">
+	select ct.id,ct.name,ct.img_url,ct.details from course_class_teacher cct left join course_teacher ct on cct.teacher_id=ct.id where isshow=1
+	<if test="classId!=null">
+	and cct.class_id=#{classId}
+	</if> 
+	<if test="courseLecturer!=null and courseLecturer!=''">
+	and ct.name = #{courseLecturer}
+	</if> 
 	</select>
 	
 	
