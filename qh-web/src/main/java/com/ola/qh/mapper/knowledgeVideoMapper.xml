@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.KnowledgeVideoDao">
+	<resultMap type="com.ola.qh.entity.KnowledgeVideo" id="KnowledgeVideoMap">
+		<result column="id" property="id" />
+		<result column="first_image" property="firstImage" />
+		<result column="title" property="title" />
+		<result column="times" property="times" />
+		<result column="video_id" property="videoId" />
+		<result column="course_type_subclass_name" property="courseTypeSubclassName" />
+		<result column="orders" property="orders" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+	</resultMap>
+	
+	<select id="KnowledgeVideoList" resultMap="KnowledgeVideoMap">
+		select id,first_image,title,video_id,course_type_subclass_name,orders,addtime,times
+		from knowledge_video 
+		order by orders
+	</select>
+	
+</mapper>
