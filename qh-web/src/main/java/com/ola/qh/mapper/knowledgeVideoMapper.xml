@@ -19,6 +19,7 @@
 		select id,first_image,title,video_id,course_type_subclass_name,orders,addtime,times
 		from knowledge_video 
 		order by orders
+		limit #{pageNo},#{pageSize}
 	</select>
 	
 </mapper>
