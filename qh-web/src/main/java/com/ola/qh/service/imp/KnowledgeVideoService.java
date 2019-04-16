@@ -20,12 +20,12 @@ public class KnowledgeVideoService implements IKnowledgeVideoService{
 	
 	@Transactional
 	@Override
-	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo,int pageSize) {
+	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo,int pageSize,String courseTypeSubclassName) {
 		
 		Results<List<KnowledgeVideo>> results=new Results<List<KnowledgeVideo>>();
 		try {
 			
-		List<KnowledgeVideo> list=knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize);
+		List<KnowledgeVideo> list=knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize,courseTypeSubclassName);
 		
 		
 		results.setData(list);

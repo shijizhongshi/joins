@@ -8,6 +8,6 @@ import com.ola.qh.entity.KnowledgeVideo;
 
 public interface KnowledgeVideoDao {
 
-	public List<KnowledgeVideo> KnowledgeVideoList(@Param("pageNo")int pageNo,@Param("pageSize")int pageSize);
+	public List<KnowledgeVideo> KnowledgeVideoList(@Param("pageNo")int pageNo,@Param("pageSize")int pageSize,@Param("courseTypeSubclassName")String courseTypeSubclassName);
 	
 }
