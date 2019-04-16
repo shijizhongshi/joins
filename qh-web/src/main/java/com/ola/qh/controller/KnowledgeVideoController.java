@@ -22,7 +22,7 @@ public class KnowledgeVideoController {
 	
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public Results<List<KnowledgeVideo>> KnowledgeVideoList(@RequestParam(name="page",required=true)int page,
-			@RequestParam(name="courseTypeSubclassName",required=true)String courseTypeSubclassName){
+			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName){
 		
 		int pageNo=(page - 1) * Patterns.zupageSize;
 		int pageSize=Patterns.zupageSize;
