@@ -303,11 +303,6 @@ public class UserVideoController {
 			resultlive.setMessage("请输入正确的手机号");
 			return resultlive;
 		}
-		if(!"zhongshi".equals(viewertoken)){
-			resultlive.setResult("1");
-			resultlive.setMessage("请输入正确的密码");
-			return resultlive;
-		}
 		CourseLineCheck clc=courseService.singleLineCheck(viewername);
 		
 		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
