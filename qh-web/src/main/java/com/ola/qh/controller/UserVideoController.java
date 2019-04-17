@@ -2,12 +2,16 @@ package com.ola.qh.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.DigestException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.CourseLineCCresult;
+import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.ResultChecked;
+import com.ola.qh.entity.ResultCheckedLive;
 import com.ola.qh.entity.UserVideo;
 import com.ola.qh.entity.UserVideoComment;
 import com.ola.qh.service.ICourseService;
@@ -33,6 +40,7 @@ import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.LiveShowResultsVo;
+import com.ola.qh.weixin.handler.Requests;
 
 import net.sf.json.JSONSerializer;
 import net.sf.json.xml.XMLSerializer;
@@ -85,6 +93,7 @@ public class UserVideoController {
 				uv.setTitle(title);
 				uv.setVideoId(videoid);
 				userVideoService.saveUV(uv);
+				
 			}
 			StringBuilder sbuilder1 = new StringBuilder();
 			sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
@@ -103,6 +112,33 @@ public class UserVideoController {
 		return null;
 		
 		
+	}
+	
+	public static String createQueryString(Map<String, String> queryMap) {
+
+		if (queryMap == null) {
+			return null;
+		}
+
+		try {
+			StringBuilder sb = new StringBuilder();
+			for (Map.Entry<String, String> entry : queryMap.entrySet()) {
+				if (entry.getValue() == null) {
+					continue;
+				}
+				String key = entry.getKey().trim();
+				String value = URLEncoder.encode(entry.getValue().trim(),
+						"utf-8");
+				sb.append(String.format("%s=%s&", key, value));
+			}
+			return sb.substring(0, sb.length() - 1);
+		} catch (StringIndexOutOfBoundsException e) {
+			e.printStackTrace();
+			return null;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	/////////直播开始的回调
 	@RequestMapping(value="/notify/lineShow/start",method=RequestMethod.GET)
@@ -239,6 +275,106 @@ public class UserVideoController {
 			return null;
 		
 		
+		
+	}
+	
+	/**
+	 * 直播的验证回调
+	 * <p>Title: checkedLive</p>  
+	 * <p>Description: </p>  
+	 * @return
+	 */
+	@RequestMapping(value="/notify/check/lineShow",method=RequestMethod.POST)
+	public ResultCheckedLive checkedLive(
+			@RequestParam(name="userid",required=false)String userid,
+			@RequestParam(name="roomid",required=false)String roomid,
+			@RequestParam(name="viewername",required=false)String viewername,
+			@RequestParam(name="viewertoken",required=false)String viewertoken,
+			@RequestParam(name="viewercustomua",required=false)String viewercustomua,
+			@RequestParam(name="liveid",required=false)String liveid,
+			@RequestParam(name="recordid",required=false)String recordid){
+		
+		
+		ResultCheckedLive resultlive=new ResultCheckedLive();
+		
+		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
+		if (!pattern.matcher(viewername).matches()) {
+			resultlive.setResult("1");
+			resultlive.setMessage("请输入正确的手机号");
+			return resultlive;
+		}
+		if(!"zhongshi".equals(viewertoken)){
+			resultlive.setResult("1");
+			resultlive.setMessage("请输入正确的密码");
+			return resultlive;
+		}
+		CourseLineCheck clc=courseService.singleLineCheck(viewername);
+		
+		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
+		String courseTypeSubclassName=null;
+		if(liveShow!=null){
+			courseTypeSubclassName=liveShow.getCourseTypeSubclassName();
+		}
+		String id=KeyGen.uuid();
+		if(clc!=null){///////用户已经存在直播的记录了
+			////修改
+			
+			if(clc.getRoomid()!=null){
+				String newroomid=null;
+				
+				
+				if(!clc.getRoomid().contains(roomid)){
+					//////修改房间的id
+					newroomid=clc.getRoomid()+","+roomid;
+					
+				}else{
+					newroomid=clc.getRoomid();
+				}
+				if(courseTypeSubclassName!=null){
+					if(clc.getCourseTypeSubclassName()!=null){
+						///////修改专业  
+						if(!clc.getCourseTypeSubclassName().contains(courseTypeSubclassName)){
+							courseTypeSubclassName=clc.getCourseTypeSubclassName()+","+courseTypeSubclassName;
+						}else{
+							courseTypeSubclassName=clc.getCourseTypeSubclassName();
+						}
+						
+					}
+				}else{
+					courseTypeSubclassName=clc.getCourseTypeSubclassName();
+				}
+				
+				courseService.updateLineCheck(courseTypeSubclassName, newroomid, new Date(), clc.getId());
+			}else{
+				//////直接进行修改房间id和专业
+				if(liveShow!=null){
+					courseService.updateLineCheck(liveShow.getCourseTypeSubclassName(), roomid, new Date(), clc.getId());
+				}else{
+					courseService.updateLineCheck(null, roomid, new Date(), clc.getId());
+				}
+			}
+			
+			
+		}else{
+			//////保存
+			CourseLineCheck clcnew=new CourseLineCheck();
+			
+			clcnew.setId(id);
+			clcnew.setAddtime(new Date());
+			clcnew.setCourseTypeSubclassName(courseTypeSubclassName);
+			clcnew.setMobile(viewername);
+			clcnew.setRoomid(roomid);
+			clcnew.setToken(viewertoken);
+			courseService.insertLineCheck(clcnew);
+			
+		}
+		resultlive.setResult("ok");
+		resultlive.setMessage("登录成功");
+		ResultChecked rc=new ResultChecked();
+		rc.setId(id);
+		rc.setName(viewername);
+		resultlive.setUser(rc);
+		return resultlive;
 		
 	}
 	  

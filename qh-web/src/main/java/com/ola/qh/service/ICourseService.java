@@ -1,5 +1,6 @@
 package com.ola.qh.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
+import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
@@ -35,4 +37,11 @@ public interface ICourseService {
 	public int updateListShow(CourseLineShow cls);
 	
 	public int insertCCresult(CourseLineCCresult ccresult);
+	
+	
+	public int insertLineCheck(CourseLineCheck clc);
+	
+	public int updateLineCheck(String courseTypeSubclassName,String roomid,Date updatetime,String id);
+	
+	public CourseLineCheck singleLineCheck(String mobile);
 }

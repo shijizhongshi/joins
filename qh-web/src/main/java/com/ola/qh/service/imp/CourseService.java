@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.ola.qh.dao.UserFavoriteDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
+import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
@@ -148,6 +150,24 @@ public class CourseService implements ICourseService {
 	public int insertCCresult(CourseLineCCresult ccresult) {
 		// TODO Auto-generated method stub
 		return courseDao.insertCCresult(ccresult);
+	}
+
+	@Override
+	public int insertLineCheck(CourseLineCheck clc) {
+		// TODO Auto-generated method stub
+		return courseDao.insertLineCheck(clc);
+	}
+
+	@Override
+	public int updateLineCheck(String courseTypeSubclassName, String roomid, Date updatetime, String id) {
+		// TODO Auto-generated method stub
+		return courseDao.updateLineCheck(courseTypeSubclassName, roomid, updatetime, id);
+	}
+
+	@Override
+	public CourseLineCheck singleLineCheck(String mobile) {
+		// TODO Auto-generated method stub
+		return courseDao.singleLineCheck(mobile);
 	}
 
 }
