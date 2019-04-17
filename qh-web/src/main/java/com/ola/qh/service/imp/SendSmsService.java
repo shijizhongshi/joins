@@ -37,7 +37,7 @@ public class SendSmsService implements ISendSmsService {
 
 	static final String accessKeyId = "LTAI41SWWK79DqP8";
 	static final String accessKeySecret = "xI3xKCGvZLubv0ICOxlBfyyQQNSCIv";
-	static final String smsFreeSignName = "世纪中师";
+	static final String smsFreeSignName = "优渼教育网";
 
 	@Override
 	public Results<String> sendSms(String mobile, String templateCode, Map<String, String> map) {
