@@ -31,7 +31,9 @@
 	<result column="id" property="id"/>
 	<result column="course_type_name" property="courseTypeName"/>
 	</resultMap>
-	
+	<select id="singleCourseType" resultType="com.ola.qh.entity.CourseType">
+	    select id id,course_type_name courseTypeName from course_type where id=#{id}
+	</select>
 	<!--子类别的映射-->
 	<resultMap type="com.ola.qh.entity.CourseTypeSubclass" id="CourseTypeSubclassMap">
 	<result column="id" property="id"/>
@@ -39,7 +41,13 @@
 	<result column="course_type_id" property="courseTypeId"/>
 	</resultMap>
 	
+	<!--通过小类别的名称查小类别-->
+	<select id="singleCourseTypeSubclass" resultType="com.ola.qh.entity.CourseTypeSubclass">
 	
+	select course_type_subclass_name courseTypeSubclassName, course_type_id courseTypeId,id id
+	from course_type_subclass where course_type_subclass_name=#{courseTypeSubclassName}
+	
+	</select>
 	
 	
 	<!--查用户类别的开始####################-->

@@ -22,6 +22,10 @@ public interface CourseDao {
 	
 	public List<Course> courseList(CourseClassDomain ccd);///xml
 	
+	public CourseType singleCourseType(@Param("id") String id);
+	
+	public CourseTypeSubclass singleCourseTypeSubclass(@Param("courseTypeSubclassName") String courseTypeSubclassName);
+	
 	public List<CourseChapter> courseChapterList(@Param("courseId")String courseId);
 	
 	public List<CourseSection> courseSectionList(@Param("courseChapterId")String courseChapterId);
