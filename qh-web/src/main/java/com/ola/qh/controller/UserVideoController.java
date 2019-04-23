@@ -14,11 +14,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.http.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,8 +42,6 @@ import com.ola.qh.util.Thqs;
 import com.ola.qh.vo.LiveShowResultsVo;
 import com.ola.qh.weixin.handler.Requests;
 
-import net.sf.json.JSONSerializer;
-import net.sf.json.xml.XMLSerializer;
 
 @RestController
 @RequestMapping("/api/video")
@@ -83,66 +79,29 @@ public class UserVideoController {
 			@RequestParam(name="duration",required=true)String duration,
 			@RequestParam(name="image",required=true)String image,HttpServletResponse response){
 		
-		String firstImage=userId.substring(userId.indexOf("image")+5);
+		//String firstImage=userId.substring(userId.indexOf("image")+5);
 		if("OK".equals(status)){
-			if(userVideoService.existVideo(videoid)==0){
+			/*if(userVideoService.existVideo(videoid)==0){*/
 				UserVideo uv=new UserVideo();
-				uv.setAddtime(new Date());
-				uv.setId(KeyGen.uuid());
 				String userIds=String.valueOf(userId.substring(0, userId.indexOf("title")));
 				uv.setUserId(userIds);
-				String title=String.valueOf(userId.substring(userId.indexOf("title")+5,userId.indexOf("image")));
+				String title=String.valueOf(userId.substring(userId.indexOf("title")+5));
 				uv.setTitle(title);
 				uv.setVideoId(videoid);
-				
-				if(firstImage!=null && !"".equals(firstImage)){
-					
-					uv.setFirstImage(firstImage);
-					userVideoService.saveUV(uv);
-					
-				
-					
-				}else{
-					uv.setFirstImage(image);
-				}
-				
-				
-			}
-			////////修改的cc封面图
-			if(firstImage!=null && !"".equals(firstImage)){
-				TreeMap<String, String> treeMap = new TreeMap<>();
-				treeMap.put("userid", "91DD94C27B488135");
-				treeMap.put("videoid", videoid);
-				treeMap.put("covertype", "1");
-				treeMap.put("coverurl", firstImage);
-				
-				String address = Thqs.getThqstreeMap("t2iFuY3hnjXsSZ1PKnewAtHOtRhM1WL8",treeMap);
-				
-				Results<byte[]> testByte;
-				try {
-					testByte = Requests.testGet("https://spark.bokecc.com/api/video/coverupload", null, address);
-					byte[] bytess = testByte.getData();
-					String byteString = new String(bytess);
-				} catch (IOException e) {
+				uv.setStatus("0");
+				userVideoService.saveUV(uv);
+				StringBuilder sbuilder1 = new StringBuilder();
+				sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
+				try (PrintWriter writer = response.getWriter())
+			    {
+				writer.print(sbuilder1.toString());
+			    } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-			}
+		/*	}*/
 			
 			
-			
-			
-			StringBuilder sbuilder1 = new StringBuilder();
-			sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
-			try (PrintWriter writer = response.getWriter())
-		    {
-			writer.print(sbuilder1.toString());
-		    } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			String sbuilders="<?xml version='1.0' encoding='UTF-8' ?> <video>OK</video>";
 			return sbuilders;
@@ -150,6 +109,30 @@ public class UserVideoController {
 		}
 		return null;
 		
+		
+	}
+	
+	
+	@RequestMapping("/update/firstimage")
+	public Results<String> getFirstImage(@RequestParam("firstImage")String firstImage,
+			@RequestParam("videoid")String videoid,HttpServletResponse response){
+		
+		Results<String> result=new Results<String>();
+		int count=userVideoService.existVideo(videoid);
+		if(count==0){
+			UserVideo uv=new UserVideo();
+			uv.setId(KeyGen.uuid());
+			uv.setAddtime(new Date());
+			uv.setFirstImage(firstImage);
+			uv.setVideoId(videoid);
+			uv.setStatus("1");
+			userVideoService.savesingleUV(uv);
+		}else{
+			userVideoService.updateImage(videoid,firstImage);
+		}
+		
+		result.setStatus("0");
+		return result;
 		
 	}
 	
@@ -316,7 +299,6 @@ public class UserVideoController {
 		
 		
 	}
-	
 	/**
 	 * 直播的验证回调
 	 * <p>Title: checkedLive</p>  

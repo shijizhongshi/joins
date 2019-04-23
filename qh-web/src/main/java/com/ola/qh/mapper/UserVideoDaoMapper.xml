@@ -23,8 +23,8 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.ola.qh.entity.UserVideo">
-	insert into user_video(id,user_id,doctor_id,video_id,head_img_url,nickname,professional,title,shopname,shop_id,addtime,first_image)
-	values(#{id},#{userId},#{doctorId},#{videoId},#{headImgUrl},#{nickname},#{professional},#{title},#{shopname},#{shopId},#{addtime},#{firstImage})
+	insert into user_video(id,user_id,doctor_id,video_id,head_img_url,nickname,professional,title,shopname,shop_id,addtime,first_image,status)
+	values(#{id},#{userId},#{doctorId},#{videoId},#{headImgUrl},#{nickname},#{professional},#{title},#{shopname},#{shopId},#{addtime},#{firstImage},#{status})
 	</insert>
 	
 	
@@ -33,6 +33,7 @@
 	<if test="userId!=null and userId!='' ">
 	and user_id=#{userId}
 	</if>
+	and status=0
 	order by addtime desc
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
@@ -51,16 +52,50 @@
 	<if test="status!=null and status!='' ">
 	status=#{status},
 	</if>
+	<if test="doctorId!=null and doctorId!='' ">
+	doctor_id=#{doctorId},
+	</if>
+	<if test="headImgUrl!=null and headImgUrl!='' ">
+	head_img_url=#{headImgUrl},
+	</if>
+	<if test="nickname!=null and nickname!='' ">
+	nickname=#{nickname},
+	</if>
+	<if test="professional!=null and professional!='' ">
+	professional=#{professional},
+	</if>
+	<if test="title!=null and title!='' ">
+	title=#{title},
+	</if>
+	<if test="shopname!=null and shopname!='' ">
+	shopname=#{shopname},
+	</if>
+	<if test="shopId!=null and shopId!='' ">
+	shop_id=#{shopId},
+	</if>
+	<if test="userId!=null and userId!='' ">
+	user_id=#{userId},
+	</if>
 	updatetime=#{updatetime}
 	
-	where id=#{id}
+	where 1=1
+	<if test="id!=null and id!=''">
+	and id=#{id}
+	</if>
+	<if test="videoId!=null and videoId!=''">
+	and video_id=#{videoId}
+	</if>
 	</update>
 	
-	
+	<update id="updateImage">
+	update user_video set 
+	first_image=#{firstImage}
+	where video_id=#{videoId}
+	</update>
 	
 	<select id="single" resultMap="UserVideoMap">
 	select id,user_id,doctor_id,shop_id,status,like_number,comment_number from user_video
-	where id=#{id}
+	where id=#{id} and status=0
 	</select>
 	
 	<select id="existVideo" resultType="int">

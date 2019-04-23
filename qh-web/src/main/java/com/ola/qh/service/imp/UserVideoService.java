@@ -444,16 +444,40 @@ public class UserVideoService implements IUserVideoService{
 			uv.setShopId(s.getId());
 			uv.setShopname(s.getShopName());
 		}
-		return userVideoDao.insert(uv);
+		int count=userVideoDao.existVideo(uv.getVideoId());
+		if(count==0){
+			 userVideoDao.insert(uv);
+		}else{
+			//////修改用户的信息
+			userVideoDao.update(uv);
+			
+		}
+		return 1;
 	}
 
 
-
+	@Override
+	public int savesingleUV(UserVideo uv) {
+		// TODO Auto-generated method stub
+		return userVideoDao.insert(uv);
+	}
 	@Override
 	public int existVideo(String videoId) {
 		// TODO Auto-generated method stub
 		return userVideoDao.existVideo(videoId);
 	}
+
+
+
+	@Override
+	public int updateImage(String videoId, String firstImage) {
+		// TODO Auto-generated method stub
+		return userVideoDao.updateImage(videoId, firstImage);
+	}
+
+
+
+	
 
 
 

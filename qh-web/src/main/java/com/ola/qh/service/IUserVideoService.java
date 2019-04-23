@@ -18,6 +18,8 @@ public interface IUserVideoService {
 	
 	public int existVideo(String videoId);
 	
+	public int updateImage(String videoId,String firstImage);
+	
 	public Results<List<UserVideo>> list(String userId,int pageNo,int pageSize,int types);
 	
 	public Results<String> update(String userId,String id,int likeNumber,int types);
@@ -25,5 +27,7 @@ public interface IUserVideoService {
 	public Results<String> insertComment(UserVideoComment vc);
 	
 	public Results<List<UserVideoComment>> listComment(String vid,String userId,int pageNo,int pageSize);
+	
+	public int savesingleUV(UserVideo uv);
 	
 }

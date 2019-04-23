@@ -25,7 +25,7 @@ public interface UserVideoDao {
 	
 	public int existVideo(@Param("videoId")String videoId);
 	
-	
+	public int updateImage(@Param("videoId")String videoId,@Param("firstImage")String firstImage);
 	
 	public int insertComment(UserVideoComment vc);
 	
