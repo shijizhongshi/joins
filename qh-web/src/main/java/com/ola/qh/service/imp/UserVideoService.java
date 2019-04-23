@@ -446,6 +446,8 @@ public class UserVideoService implements IUserVideoService{
 		}
 		int count=userVideoDao.existVideo(uv.getVideoId());
 		if(count==0){
+			uv.setId(KeyGen.uuid());
+			uv.setAddtime(new Date());
 			 userVideoDao.insert(uv);
 		}else{
 			//////修改用户的信息
