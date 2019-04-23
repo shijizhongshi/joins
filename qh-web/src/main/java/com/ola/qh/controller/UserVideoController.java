@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
+import com.ola.qh.util.Thqs;
 import com.ola.qh.vo.LiveShowResultsVo;
 import com.ola.qh.weixin.handler.Requests;
 
@@ -81,20 +83,57 @@ public class UserVideoController {
 			@RequestParam(name="duration",required=true)String duration,
 			@RequestParam(name="image",required=true)String image,HttpServletResponse response){
 		
+		String firstImage=userId.substring(userId.indexOf("image")+5);
 		if("OK".equals(status)){
 			if(userVideoService.existVideo(videoid)==0){
 				UserVideo uv=new UserVideo();
 				uv.setAddtime(new Date());
-				uv.setFirstImage(image);
 				uv.setId(KeyGen.uuid());
 				String userIds=String.valueOf(userId.substring(0, userId.indexOf("title")));
 				uv.setUserId(userIds);
-				String title=String.valueOf(userId.substring(userId.indexOf("title")+5));
+				String title=String.valueOf(userId.substring(userId.indexOf("title")+5,userId.indexOf("image")));
 				uv.setTitle(title);
 				uv.setVideoId(videoid);
-				userVideoService.saveUV(uv);
+				
+				if(firstImage!=null && !"".equals(firstImage)){
+					
+					uv.setFirstImage(firstImage);
+					userVideoService.saveUV(uv);
+					
+				
+					
+				}else{
+					uv.setFirstImage(image);
+				}
+				
 				
 			}
+			////////修改的cc封面图
+			if(firstImage!=null && !"".equals(firstImage)){
+				TreeMap<String, String> treeMap = new TreeMap<>();
+				treeMap.put("userid", "91DD94C27B488135");
+				treeMap.put("videoid", videoid);
+				treeMap.put("covertype", "1");
+				treeMap.put("coverurl", firstImage);
+				
+				String address = Thqs.getThqstreeMap("t2iFuY3hnjXsSZ1PKnewAtHOtRhM1WL8",treeMap);
+				
+				Results<byte[]> testByte;
+				try {
+					testByte = Requests.testGet("https://spark.bokecc.com/api/video/coverupload", null, address);
+					byte[] bytess = testByte.getData();
+					String byteString = new String(bytess);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			}
+			
+			
+			
+			
 			StringBuilder sbuilder1 = new StringBuilder();
 			sbuilder1.append("<?xml version='1.0' encoding='UTF-8' ?>").append("<video>OK</video>");
 			try (PrintWriter writer = response.getWriter())
