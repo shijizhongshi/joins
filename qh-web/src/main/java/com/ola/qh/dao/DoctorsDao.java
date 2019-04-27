@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
 import com.ola.qh.entity.Doctors;
-import com.ola.qh.vo.DoctorAndPatient;
 
 public interface DoctorsDao {
 

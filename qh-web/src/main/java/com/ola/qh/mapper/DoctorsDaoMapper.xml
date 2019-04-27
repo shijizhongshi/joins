@@ -263,7 +263,7 @@
 	</insert>
 
 	<select id="listPatientImg" resultMap="PatientImgMap">
-	select id,img_url from doctor_patient_img where patient_id=#{patientId}
+	select id,img_url imgUrl from doctor_patient_img where patient_id=#{patientId}
 	</select>
 	
 	<select id="selectId" resultType="java.lang.String">
