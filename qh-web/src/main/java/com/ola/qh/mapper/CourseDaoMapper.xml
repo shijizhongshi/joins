@@ -93,8 +93,6 @@
 	    select * from course where id=#{courseId} and course_show=0
 	</select>	
 		
-	
-		
 	<!-- 课程章的查询 -->
 	<select id="courseChapterCount" resultType="int">
 	select count(id) from course_chapter where course_id=#{courseId}

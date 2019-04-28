@@ -51,6 +51,14 @@ public class CourseClassController {
 		return courseClassService.classSingle(classId,userId,address);
 		
 	}	
+	
+	@RequestMapping("/singleAll")
+	public Results<CourseClassVo> singleAll(@RequestParam(name="classId",required=true)String classId,
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="address",required=false)String address){
+		return courseClassService.classSingleAll(classId, userId, address);
+		
+	}	
 	////////免费课程的开始////////////////////////////
 	@RequestMapping(value="/nofreelist",method=RequestMethod.POST)
 	public Results<List<CourseNofree>> nofreeList(@RequestBody CourseClassDomain ccd){
