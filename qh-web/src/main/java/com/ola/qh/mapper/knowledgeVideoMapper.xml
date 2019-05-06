@@ -23,7 +23,7 @@
 		and course_type_subclass_name like concat(concat('%',#{courseTypeSubclassName},'%'))
 		</if>
 		
-		order by orders
+		order by orders desc
 		limit #{pageNo},#{pageSize}
 	</select>
 	
