@@ -3,8 +3,6 @@ package com.ola.qh.service.imp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,6 @@ import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.DoctorPatientImg;
 import com.ola.qh.entity.Doctors;
-import com.ola.qh.entity.Reply;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserLikes;
 import com.ola.qh.service.IDoctorsService;
@@ -216,6 +213,9 @@ public class DoctorsService implements IDoctorsService{
 			
 			doctorPatient.setPublisherHeadImgUrl(user.getHeadimg());
 			UserLikes ul = doctorReplyDao.singleLikes(userId, doctorPatient.getId());
+			
+			List<DoctorPatientImg> listPatientImg=doctorsDao.listPatientImg(doctorPatient.getId());
+			doctorPatient.setImglist(listPatientImg);
 			if(ul==null){
 				/////没有点赞
 				doctorPatient.setIslikes(0);
