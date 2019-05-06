@@ -13,4 +13,6 @@ public interface VideoRecordDao {
 			,@Param("pageSize")int pageSize);
 	
 	public int insertVideoRecord(VideoRecord videoRecord);
+	
+	public int deleteVideoRecord(@Param("id")String id);
 }

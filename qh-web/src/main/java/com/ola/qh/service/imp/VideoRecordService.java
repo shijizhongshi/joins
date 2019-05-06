@@ -34,7 +34,7 @@ public class VideoRecordService implements IVideoRecordService{
 			List<VideoRecord> list=videoRecordDao.VideoRecordList(userId, courseName, chapterName, sectionName, pageNo, pageSize);
 			
 			results.setData(list);
-			results.setStatus("1");
+			results.setStatus("0");
 			return results;
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -74,6 +74,12 @@ public class VideoRecordService implements IVideoRecordService{
 			results.setStatus("1");
 			return results;
 		}
+	}
+
+	@Override
+	public int deleteVideoRecord(String id) {
+		
+		return videoRecordDao.deleteVideoRecord(id);
 	}
 
 }
