@@ -10,6 +10,7 @@
 		<result column="bank_id" property="bankId" />
 		<result column="sub_id" property="subId" />
 		<result column="status" property="status" />
+		<result column="types" property="types" />
 		<result column="number_no" property="numberNo" />
 		<result column="addtime" property="addtime" />
 		<result column="updatetime" property="updatetime" />
@@ -17,8 +18,8 @@
 	</resultMap>
 
 	<insert id="addUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">
-		insert into question_bank_user_finish(id,user_id,bank_id,sub_id,status,number_no,addtime) 
-		values(#{id},#{userId},#{bankId},#{subId},#{status},#{numberNo},#{addtime})
+		insert into question_bank_user_finish(id,user_id,bank_id,sub_id,status,types,number_no,addtime) 
+		values(#{id},#{userId},#{bankId},#{subId},#{status},#{types},#{numberNo},#{addtime})
 	</insert>
 	
 	<select id="showUserFinishCount" resultType="int">
@@ -32,6 +33,11 @@
 	
 	<select id="existUserFinish" resultType="int">
 		select count(id) from question_bank_user_finish where bank_id=#{bankId} and user_id=#{userId}
+	</select>
+	
+	<select id="maxAddtime" resultType="java.util.Date">
+		select addtime from question_bank_user_finish where sub_id=#{subId} and user_id=#{userId}
+		order by addtime desc limit 0,1
 	</select>
 	
 	<update id="updateUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">

@@ -16,6 +16,8 @@ public class QuestionBankUserFinish {
 	private String subId;/////////节或单元id
 	
 	private int status;/////////是否答对或未看解析
+	
+	private int types;/////////
 	@NotEmpty
 	private String numberNo;/////////题目序号
 	
@@ -85,6 +87,14 @@ public class QuestionBankUserFinish {
 
 	public void setSubId(String subId) {
 		this.subId = subId;
+	}
+
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
 	}
 
 	
