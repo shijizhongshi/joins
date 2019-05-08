@@ -41,13 +41,15 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 						.showSubName(userFinishDomain.getExamBeanList().get(0).getSubId());
 				UserFinishDays existDays = userFinishDaysDao.UserFinishDaysSingle(userFinishDomain.getUserId(),
 						courseTypeSubclassName);
+				int userfinsih = 0;
+				int trueuserfinish = 0;
+				UserFinishDays userFinishDays = new UserFinishDays();
+				userFinishDays.setId(KeyGen.uuid());
+				
 				if (existDays == null) {
-					int userfinsih = 0;
-					int trueuserfinish = 0;
-					UserFinishDays userFinishDays = new UserFinishDays();
+					
 					userFinishDays.setAddtime(new Date());
-					userFinishDays.setId(KeyGen.uuid());
-
+					
 					List<QuestionBankUserFinish> userFinishlist = userFinishDomain.getExamBeanList();
 
 					for (QuestionBankUserFinish userFinish : userFinishlist) {
@@ -87,12 +89,9 @@ public class QuestionBankUserFinishService implements IQuestionBankUserFinishSer
 					userFinishDays.setTrueUserFinsihCount(trueuserfinish);
 					userFinishDaysDao.insertUserFinishDays(userFinishDays);
 				} else {
-					int userfinsih = 0;
-					int trueuserfinish = 0;
-					UserFinishDays userFinishDays = new UserFinishDays();
+					
 					userFinishDays.setUpdatetime(new Date());
-					userFinishDays.setId(KeyGen.uuid());
-
+					
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					Date time = questionBankUserFinishDao.maxAddtime(userFinishDomain.getUserId(),
 							userFinishDomain.getExamBeanList().get(0).getSubId());

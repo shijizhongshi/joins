@@ -14,6 +14,8 @@ public class QuestionUnit {
 	
 	private String types;
 	
+	private int status;//////////用户做过传1，没做过传0
+	
 	private String analysis;
 	
 	private String correct;
@@ -94,6 +96,14 @@ public class QuestionUnit {
 
 	public void setUnitAnswer(List<QuestionAnswer> unitAnswer) {
 		this.unitAnswer = unitAnswer;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	
