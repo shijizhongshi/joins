@@ -411,7 +411,6 @@ public class UserVideoController {
 		return userVideoService.list(userId, pageNo, pageSize,types);
 		
 	}
-	
 	/**
 	 * 视频点赞的操作
 	 * @param userId
@@ -429,6 +428,7 @@ public class UserVideoController {
 		
 		return userVideoService.update(userId, id, likeNumber,types);
 	}
+	
 	
 	
 	/**

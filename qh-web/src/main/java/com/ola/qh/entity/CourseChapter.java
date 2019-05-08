@@ -1,40 +1,50 @@
 package com.ola.qh.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
-* @ClassName: CourseChapter  
-* @Description: 课程章的实体类
-* @author guoyuxue  
-* @date 2018年11月19日  
-*
+ * @ClassName: CourseChapter
+ * @Description: 课程章的实体类
+ * @author guoyuxue
+ * @date 2018年11月19日
+ *
  */
 public class CourseChapter {
-	
+
 	private String id;
-	
-	private String courseId;///课程的id
-	
-	private int courseSectionSize;///节总数
-	
-	private String courseChapterName;//课程章的名称
-	
-	private String courseTypeName;////课程类别的名称
-	
-	private String courseTypeSubclassName;///课程子类别的名称
-	
-	private String courseLecturer;////课程的主讲人
-	
-	private String courseChapterCategory;////课程的章类别
-	
-	private int ispay;////1:付费的章节  0:免费的章节
-	
+
+	private String courseId;/// 课程的id
+
+	private int courseSectionSize;/// 节总数
+
+	private String courseChapterName;// 课程章的名称
+
+	private String courseTypeName;//// 课程类别的名称
+
+	private String courseTypeSubclassName;/// 课程子类别的名称
+
+	private String courseLecturer;//// 课程的主讲人
+
+	private String courseChapterCategory;//// 课程的章类别
+
+	private int ispay;//// 1:付费的章节 0:免费的章节
+
 	private Date addtime;
-	
+
 	private Date updatetime;
-	
-	
+
+	private List<CourseSection> courseSections;//节集合
+
+	public List<CourseSection> getCourseSections() {
+		return courseSections;
+	}
+
+	public void setCourseSections(List<CourseSection> courseSections) {
+		this.courseSections = courseSections;
+	}
+
 	public int getCourseSectionSize() {
 		return courseSectionSize;
 	}
@@ -122,7 +132,5 @@ public class CourseChapter {
 	public void setIspay(int ispay) {
 		this.ispay = ispay;
 	}
-
-	
 
 }
