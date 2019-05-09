@@ -1,10 +1,8 @@
 package com.ola.qh.service.imp;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ola.qh.dao.DoctorReplyDao;
 import com.ola.qh.dao.DoctorsDao;
 import com.ola.qh.entity.DoctorInfo;
-import com.ola.qh.entity.DoctorPatient;
-import com.ola.qh.entity.Reply;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.entity.Reply;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserLikes;
 import com.ola.qh.service.IDoctorReplyService;
@@ -22,8 +19,6 @@ import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.DoctorReplyVo;
-import com.ola.qh.vo.DoctorsVo;
 
 @Service
 public class DoctorReplyService implements IDoctorReplyService{
@@ -140,7 +135,7 @@ public class DoctorReplyService implements IDoctorReplyService{
 	@Override
 	public Results<String> insertReply(Reply dr) {
 		// TODO Auto-generated method stub
-		Results<String> result=new Results<String>();
+ 		Results<String> result=new Results<String>();
 		/*DoctorPatient dp=doctorDao.singlePatient(dr.getPatientId());
 		if(dp==null){
 			result.setStatus("1");
