@@ -5,7 +5,7 @@ import com.ola.qh.util.Results;
 
 public interface IQuestionBankService {
 
-	public Results<QuestionBankTypes> selectQuestionBank(String subId);
+	public Results<QuestionBankTypes> selectQuestionBank(String subId,String userId);
 	
 	
 	
