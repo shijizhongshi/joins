@@ -248,16 +248,17 @@ public class DoctorsService implements IDoctorsService{
 		
 		Results<String> results=new Results<String>();
 		
-		//try {
+		try {
 			doctorsDao.deletePatient(userId, id);
 			doctorsDao.deletePatientImg(id);
+			doctorReplyDao.deleteReply(id);
 			results.setStatus("0");
 			return results;
-		/*} catch (Exception e) {
+		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			results.setStatus("1");
 			return results;
-		}*/
+		}
 	}
 
 }
