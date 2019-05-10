@@ -242,4 +242,22 @@ public class DoctorsService implements IDoctorsService{
 		return dp;
 	}
 
+	@Transactional
+	@Override
+	public Results<String> deletePatient(String userId, String id) {
+		
+		Results<String> results=new Results<String>();
+		
+		//try {
+			doctorsDao.deletePatient(userId, id);
+			doctorsDao.deletePatientImg(id);
+			results.setStatus("0");
+			return results;
+		/*} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			results.setStatus("1");
+			return results;
+		}*/
+	}
+
 }

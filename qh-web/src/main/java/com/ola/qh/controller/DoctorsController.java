@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.DoctorPatient;
 import com.ola.qh.entity.Doctors;
+import com.ola.qh.entity.User;
 import com.ola.qh.service.IDoctorsService;
+import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
@@ -34,6 +36,9 @@ public class DoctorsController {
 
 	@Autowired
 	private IDoctorsService doctorsService;
+	
+	@Autowired
+	private IUserService userService;
 
 	/**
 	 * 修改和保存用户的信息
@@ -150,5 +155,19 @@ public class DoctorsController {
 		return result;
 	}
 	
-	
+	@RequestMapping("/deletepatient")
+	public Results<String> deletePatient(@RequestParam(name="id",required=true)String id,@RequestParam(name="userId",required=true)String userId){
+		
+		Results<String> results = new Results<String>();
+		
+		Results<User> userResult = userService.existUser(userId);
+		if("1".equals(userResult.getStatus())){
+			results.setStatus("1");
+			results.setMessage(userResult.getMessage());
+			return results;
+		}else{
+			userId=userResult.getData().getId();
+		}
+		return doctorsService.deletePatient(userId, id);
+	}
 }

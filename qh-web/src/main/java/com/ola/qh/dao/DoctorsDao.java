@@ -31,7 +31,7 @@ public interface DoctorsDao {
 	
 	public int insertPatientImg(DoctorPatientImg dpi);
 	
-	public int deletePatientImg(@Param("id")String id);
+	public int deletePatientImg(@Param("patientId")String patientId);
 	
 	public List<DoctorPatientImg> listPatientImg(@Param("patientId")String patientId);///数据库中的数据参数
 	
@@ -72,4 +72,6 @@ public interface DoctorsDao {
 	public String selectId(@Param("userId")String userId);
 	
 	public List<DoctorPatient> DoctorPatientsList(@Param("topSearch")String topSearch);
+	
+	public int deletePatient(@Param("userId")String userId,@Param("id")String id);
 }
