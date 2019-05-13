@@ -133,6 +133,7 @@ public class DoctorsController {
 			@RequestParam(name="searchName",required=false)String searchName,
 			@RequestParam(name="types",required=false)int types){
 		
+ 
 		int pageSize=Patterns.zupageSize;
 		int pageNo=(page-1)*pageSize;
 		return doctorsService.listPatient(userId,category,searchName,pageNo, pageSize,types);

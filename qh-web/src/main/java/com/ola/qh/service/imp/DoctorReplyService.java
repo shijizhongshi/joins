@@ -194,6 +194,8 @@ public class DoctorReplyService implements IDoctorReplyService{
 				result.setMessage(userResult.getMessage());
 				return result;
 			}
+			
+			
 			userId=userResult.getData().getId();
 		}
 		List<Reply> list = doctorReplyDao.replyList(patientId, pageNo, pageSize);

@@ -17,7 +17,6 @@ import com.ola.qh.entity.Reply;
 import com.ola.qh.service.IDoctorReplyService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.DoctorReplyVo;
 
 @RestController
 @RequestMapping("/api/doctors")
