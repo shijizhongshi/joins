@@ -98,7 +98,6 @@
 	<!-- user_type_subclass表映射       开始   -->
 	<resultMap type="com.ola.qh.entity.UserTypeSubclass" id="UserTypeSubclassMap">
 	<result column="id" property="id"/>
-	<result column="course_type_subclass_id" property="courseTypeSubclassId"/>
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
 	<result column="addtime" property="addTime"/>
 	<result column="updatetime" property="updateTime"/>

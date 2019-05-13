@@ -8,8 +8,6 @@ public class UserTypeSubclass {
 
 	private String userId;
 
-	private String courseTypeSubclassId;
-
 	private String courseTypeSubclassName;
 
 	private Date addTime;
@@ -30,14 +28,6 @@ public class UserTypeSubclass {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getCourseTypeSubclassId() {
-		return courseTypeSubclassId;
-	}
-
-	public void setCourseTypeSubclassId(String courseTypeSubclassId) {
-		this.courseTypeSubclassId = courseTypeSubclassId;
 	}
 
 	public String getCourseTypeSubclassName() {
