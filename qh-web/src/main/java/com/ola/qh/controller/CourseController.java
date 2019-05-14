@@ -22,6 +22,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
+import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -70,6 +71,19 @@ public class CourseController {
 		return result;
 
 	}
+	/**
+	 * 根据二级类别ID查询三级类别集合
+	 * @param courseTypeSubclassId
+	 * @return
+	 */
+	@RequestMapping(value = "/selectThree",method = RequestMethod.GET)
+	public Results<List<CourseTypeSubclassNames>> insertThree (@RequestParam(name = "courseTypeSubclassId")String courseTypeSubclassId) {
+		Results<List<CourseTypeSubclassNames>> results = new Results<List<CourseTypeSubclassNames>>();
+		results = courseService.selectThree(courseTypeSubclassId);
+		
+		return results;
+	}
+
 
 	/**
 	 * 

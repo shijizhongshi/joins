@@ -193,7 +193,8 @@ public class UserService implements IUserService {
 			} else {
 				// 根据ID查询表中专业名
 				UserTypeSubclass userTypeSubclass2 = userDao.selectByUserId(user.getId());
-				if (userlogin.getCourseTypeSubclassName() != null && !userlogin.getCourseTypeSubclassName().equals(userTypeSubclass2.getCourseTypeSubclassName())) {
+				if (userlogin.getCourseTypeSubclassName() != null && !userlogin.getCourseTypeSubclassName()
+						.equals(userTypeSubclass2.getCourseTypeSubclassName())) {
 					// 不一致 进行更新操作
 					Date updateTime = new Date();
 					userDao.updateNameById(user.getId(), userlogin.getCourseTypeSubclassName(), updateTime);
@@ -388,7 +389,8 @@ public class UserService implements IUserService {
 		} else {
 			// 根据ID查询表中专业名
 			UserTypeSubclass userTypeSubclass2 = userDao.selectByUserId(userLogin.getUserId());
-			if (!userTypeSubclass2.getCourseTypeSubclassName().equals(courseTypeSubclassName)) {
+			if (userTypeSubclass2.getCourseTypeSubclassName() == null
+					|| !userTypeSubclass2.getCourseTypeSubclassName().equals(courseTypeSubclassName)) {
 				// 不一致 进行更新操作
 				Date updateTime = new Date();
 				userDao.updateNameById(userLogin.getUserId(), courseTypeSubclassName, updateTime);

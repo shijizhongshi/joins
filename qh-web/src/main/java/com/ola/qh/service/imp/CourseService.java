@@ -16,6 +16,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
@@ -164,6 +165,16 @@ public class CourseService implements ICourseService {
 	public CourseLineCheck singleLineCheck(String mobile) {
 		// TODO Auto-generated method stub
 		return courseDao.singleLineCheck(mobile);
+	}
+
+	@Override
+	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId) {
+		Results<List<CourseTypeSubclassNames>> results = new Results<List<CourseTypeSubclassNames>>();
+		List<CourseTypeSubclassNames> list = courseDao.select(courseTypeSubclassId);
+		results.setStatus("0");
+		results.setData(list);
+
+		return results;
 	}
 
 }
