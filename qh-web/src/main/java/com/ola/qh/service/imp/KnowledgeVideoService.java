@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,19 @@ public class KnowledgeVideoService implements IKnowledgeVideoService {
 
 	@Transactional
 	@Override
-	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo, int pageSize, String courseTypeSubclassName,
-			String userId, String address) {
+	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo, int pageSize, String miniSubclassName,
+			String courseTypeSubclassName, String userId, String address) {
 
 		Results<List<KnowledgeVideo>> results = new Results<List<KnowledgeVideo>>();
-		try {
 
-			List<KnowledgeVideo> list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, courseTypeSubclassName);
-			// 暂时这么写 肯定是可以重构的
+		try {
+			List<KnowledgeVideo> list = new ArrayList<KnowledgeVideo>();
+			if (miniSubclassName !=null) {
+				list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, null,miniSubclassName);
+			}else {
+				list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, courseTypeSubclassName,null);
+			}
+			// 暂时这么写 肯定是可以重构的(if else 太多)
 			// 根据userId和address查询mobile和logos,循环赋值并返回
 			// 1.如果userId不为空，根据userid查询
 			String newAddressString = null;
@@ -117,7 +123,7 @@ public class KnowledgeVideoService implements IKnowledgeVideoService {
 					defaultString = true;
 				}
 			}
-			
+
 			if ((userId == null && address == null) || defaultString) {
 				// 使用默认
 				List<Banner> banner = banderDao.selectBanner("2");

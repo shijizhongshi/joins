@@ -8,10 +8,8 @@ import java.security.DigestException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +36,7 @@ import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-import com.ola.qh.util.Thqs;
 import com.ola.qh.vo.LiveShowResultsVo;
-import com.ola.qh.weixin.handler.Requests;
 
 
 @RestController

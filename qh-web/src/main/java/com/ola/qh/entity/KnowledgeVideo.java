@@ -17,15 +17,25 @@ public class KnowledgeVideo {
 
 	private String courseTypeSubclassName;
 
+	private String miniSubclassName;
+
 	private int orders;
 
 	private Date addtime;
 
 	private Date updatetime;
 
-	private String logos;//加盟商logo
+	private String logos;// 加盟商logo
 
-	private String mobile;//加盟商手机号
+	private String mobile;// 加盟商手机号
+
+	public String getMiniSubclassName() {
+		return miniSubclassName;
+	}
+
+	public void setMiniSubclassName(String miniSubclassName) {
+		this.miniSubclassName = miniSubclassName;
+	}
 
 	public String getLogos() {
 		return logos;
