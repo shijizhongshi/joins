@@ -43,36 +43,34 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public List<CourseType> courseTypeList() {
-		
+
 		return courseDao.courseTypeList(null);
 	}
 
 	@Override
 	public List<CourseType> courseTypeSubclassList(String courseTypeId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-				List<CourseType> list=courseDao.courseTypeList(courseTypeId);
-					////////查出一个集合来
-					for (CourseType courseType : list) {
-						if(courseTypeId!=null && !"".equals(courseTypeId)){
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
-							courseType.setSublist(sublist);
-						}else{
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
-							courseType.setSublist(sublist);
-						}
-						
-					}
-				///通过大类别的查询
-				return list;///// 
+		List<CourseType> list = courseDao.courseTypeList(courseTypeId);
+		//////// 查出一个集合来
+		for (CourseType courseType : list) {
+			if (courseTypeId != null && !"".equals(courseTypeId)) {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
+				courseType.setSublist(sublist);
+			} else {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
+				courseType.setSublist(sublist);
+			}
+
+		}
+		/// 通过大类别的查询
+		return list;/////
 	}
 
 	@Override
 	public List<Course> courseList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		List<Course> list= courseDao.courseList(ccd);
+		List<Course> list = courseDao.courseList(ccd);
 		for (Course course : list) {
-			////总的章数
+			//// 总的章数
 			int num = courseDao.courseChapterCount(course.getId());
 			course.setCourseChapterSize(num);
 		}
@@ -101,27 +99,25 @@ public class CourseService implements ICourseService {
 		// TODO Auto-generated method stub
 		Results<Course> result = new Results<Course>();
 		Course c = courseDao.singleCourse(courseId);
-		if(c!=null && c.getCourseShow()==1){
+		if (c != null && c.getCourseShow() == 1) {
 			result.setStatus("1");
 			result.setMessage("课程已失效");
 			return result;
 		}
 		if (userId != null && !"".equals(userId)) {
 			Results<User> userResult = userService.existUser(userId);
-			if("1".equals(userResult.getStatus())){
+			if ("1".equals(userResult.getStatus())) {
 				result.setStatus("1");
 				result.setMessage(userResult.getMessage());
 				return result;
 			}
-			userId=userResult.getData().getId();
+			userId = userResult.getData().getId();
 			int count = userFavoriteDao.existUserFavorite(courseId, userId);
 			if (count > 0) {
 				c.setIsFavorite(1);
 			}
 		}
-		
-		
-		
+
 		result.setStatus("0");
 		result.setData(c);
 		return result;
@@ -142,7 +138,7 @@ public class CourseService implements ICourseService {
 	@Override
 	public int updateListShow(CourseLineShow cls) {
 		// TODO Auto-generated method stub
-		
+
 		return courseDao.updateListShow(cls);
 	}
 

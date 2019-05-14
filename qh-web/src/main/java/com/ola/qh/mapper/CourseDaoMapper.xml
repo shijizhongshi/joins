@@ -30,6 +30,7 @@
 	<resultMap type="com.ola.qh.entity.CourseType" id="CourseTypeMap">
 	<result column="id" property="id"/>
 	<result column="course_type_name" property="courseTypeName"/>
+	<result column="imgUrl" property="imgUrl"/>
 	</resultMap>
 	<select id="singleCourseType" resultType="com.ola.qh.entity.CourseType">
 	    select id id,course_type_name courseTypeName from course_type where id=#{id}
