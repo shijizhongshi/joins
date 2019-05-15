@@ -23,6 +23,17 @@ public class QuestionUnit {
 	private Date updatetime;
 	
 	private List<QuestionAnswer> unitAnswer=new ArrayList<QuestionAnswer>();
+	
+	private String titleimg;
+	
+
+	public String getTitleimg() {
+		return titleimg;
+	}
+
+	public void setTitleimg(String titleimg) {
+		this.titleimg = titleimg;
+	}
 
 	public String getId() {
 		return id;
