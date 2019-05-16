@@ -1,5 +1,7 @@
 package com.ola.qh.service.imp;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,9 +58,19 @@ public class CourseService implements ICourseService {
 			if (courseTypeId != null && !"".equals(courseTypeId)) {
 				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
 				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
 			} else {
 				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
 				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
 			}
 
 		}
@@ -174,6 +186,23 @@ public class CourseService implements ICourseService {
 		results.setStatus("0");
 		results.setData(list);
 
+		return results;
+	}
+
+	@Override
+	public Results<String> acquire(String lineShowId) {
+		Results<String> results = new Results<String>();
+		//根据直播ID查询直播信息
+		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
+		if (courseLineShow != null) {
+			//获取当前时间
+			long currentTime = System.currentTimeMillis();
+			System.out.println("打印当前时间 = "+currentTime);
+			System.out.println("打印开始时间 = "+courseLineShow.getStarttime());
+			long s =  courseLineShow.getStarttime().getTime();
+			System.out.println(s);
+			System.out.println(s/1000);
+		}
 		return results;
 	}
 
