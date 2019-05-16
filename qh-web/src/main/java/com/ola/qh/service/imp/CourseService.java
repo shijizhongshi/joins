@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.ola.qh.entity.LiveMark;
 import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.ICourseService;
+import com.ola.qh.service.IPushService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
@@ -48,6 +50,9 @@ public class CourseService implements ICourseService {
 
 	@Autowired
 	private UserLoginDao userLoginDao;
+
+	@Autowired
+	private IPushService pushService;
 
 	@Override
 	public List<CourseType> courseTypeList() {
@@ -202,29 +207,21 @@ public class CourseService implements ICourseService {
 		UserLogin userLogin = userLoginDao.selectUserLogin(null, userId);
 		String newUserId = null;
 		if (!"".equals(userLogin)) {
-			 newUserId = userLogin.getUserId();
+			newUserId = userLogin.getUserId();
 		}
 		// 根据直播ID查询直播信息
 		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
 		Integer count = 0;
-		if (courseLineShow != null) {
+		if (courseLineShow.getStarttime() != null) {
 			LiveMark liveMark = new LiveMark();
 			liveMark.setId(KeyGen.uuid());
 			liveMark.setUserId(newUserId);
 			liveMark.setLiveId(courseLineShow.getLiveId());
 			liveMark.setLiveName(courseLineShow.getLiveName());
 			liveMark.setStarttime(courseLineShow.getStarttime());
+			// long s =courseLineShow.getStarttime().getTime();
 			liveMark.setStatus(0);
 			count = courseDao.insertLiveMark(liveMark);
-
-			// 获取当前时间
-			/*
-			 * long currentTime = System.currentTimeMillis();
-			 * System.out.println("打印当前时间 = "+currentTime);
-			 * System.out.println("打印开始时间 = "+courseLineShow.getStarttime()); long s =
-			 * courseLineShow.getStarttime().getTime(); System.out.println(s);
-			 * System.out.println(s/1000);
-			 */
 		}
 		if (count != 0) {
 			results.setStatus("0");
@@ -241,13 +238,39 @@ public class CourseService implements ICourseService {
 	 */
 	@Override
 	public void timedPushOneHour() {
-		// 获取当前时间
+		Date now = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+		System.out.println("当前时间" + sf.format(now));
+		//获取直播集合
+		List<Date> dateList = courseDao.selectLiveShow(sf.format(now));
+		for (Date date : dateList) {
+			System.out.println(date);
+		}
+		// 获取需要推送的直播集合
+		List<LiveMark> list = courseDao.selectStartTime(sf.format(now));
 		long currentTime = System.currentTimeMillis();
-		System.out.println("当前时间戳 = " + currentTime);
-		// 获取直播开始时间
-		List<Date> startTime = courseDao.selectStartTime();
-		for (Date date : startTime) {
-			System.out.println("查询出的时间  = " + date);
+		for (LiveMark liveMark : list) {
+			//直播开始时间转换
+			//long timesTamp = liveMark.getStarttime().getTime();
+			
+			//测试时间
+			long timesTamp = System.currentTimeMillis();
+			// 时间差小于一个小时 发送
+			if (timesTamp - currentTime <= 60 * 60 * 1000) {
+				String userId = liveMark.getUserId();
+				// 标题
+				String title = "直播即将开始";
+				SimpleDateFormat sFormat = new SimpleDateFormat("HH:mm");
+				// 推送
+				String content = "您预约的直播课将于" + sFormat.format(liveMark.getStarttime()) + "开始，记得准时观看哦~";
+				try {
+					pushService.send(userId, title, content);
+					// 根据userId更新状态值
+					courseDao.updateStatus(userId);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

@@ -198,5 +198,13 @@ public class CourseController {
 		
 		return results;
 	}
+	/**
+	 * 测试
+	 */
+	@RequestMapping("/test")
+	public void liveMark() {
+		// 定时发送直播开始的提醒消息
+		courseService.timedPushOneHour();
+	}
 
 }

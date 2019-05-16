@@ -165,6 +165,18 @@
 	where course_chapter_id=#{courseChapterId} order by orders asc
 	</select>
 	
+	
+	
+	<resultMap type="com.ola.qh.entity.CourseLineShow" id="CourseLineShowMap">
+	<result column="id" property="id"/>
+	<result column="course_type_name" property="courseTypeName"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="live_name" property="liveName" />
+	<result column="live_id" property="liveId" />
+	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
+	<result column="isopen" property="isopen" />
+	</resultMap>
+	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen from course_line_show
@@ -185,6 +197,12 @@
 	order by addtime desc
 	limit #{pageNo},#{pageSize}
 	</select>
+	
+	<select id="selectLiveShow" resultType="java.util.Date">
+		select starttime from course_line_show 
+		where date_format(starttime,'%Y%m%d') = "20190515"
+		and isopen = 1;
+	</select>
 
 	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,course_type_subclass_name courseTypeSubclassName from course_line_show
@@ -196,8 +214,10 @@
 	limit 0,1
 	</select>
 	
-	<select id="selectById" resultType="com.ola.qh.entity.CourseLineShow">
-	select live_id,live_name,starttime from course_line_show where 1=1 
+	
+	
+	<select id="selectById" resultMap="CourseLineShowMap">
+	select * from course_line_show where 1=1 
 	<if test="lineShowId!=null and lineShowId!=''">
 	and id = #{lineShowId}
 	</if>
@@ -279,12 +299,19 @@
 	<result column="starttime" property="starttime"/>
 	</resultMap>
 	
+	<!--查询全部开始时间  -->
+	<select id="selectStartTime" resultMap="LiveMarkMap">
+		select * from live_mark where date_format(starttime,'%Y%m%d') = #{date} and status = 0;
+	</select>
+	<!-- 更新状态值 -->
+	<update id="updateStatus">
+	update live_mark set
+	status = 1
+	where 
+	userId = #{userId}
+	</update>
 	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
 	insert into live_mark(userId,live_id,live_name,starttime,status) values (#{userId},#{liveId},#{liveName},#{starttime},#{status});
 	</insert>
-	<!--查询全部开始时间  -->
-	<select id="selectStartTime" resultType="java.util.Date">
-		select starttime from live_mark
-	</select>
 	<!-- 直播预约表 live_mark表映射结束  -->
 	</mapper>

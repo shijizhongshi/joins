@@ -67,7 +67,11 @@ public interface CourseDao {
 
 	public Integer insertLiveMark(LiveMark liveMark);
 
-	public List<Date> selectStartTime();
+	public List<LiveMark> selectStartTime(@Param("date")String date);
+
+	public Integer updateStatus(@Param("userId")String userId);
+
+	public List<Date> selectLiveShow(@Param("date")String date);
 
 	
 }
