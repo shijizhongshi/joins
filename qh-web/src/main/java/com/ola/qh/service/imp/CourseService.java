@@ -196,12 +196,12 @@ public class CourseService implements ICourseService {
 		return results;
 	}
 
-<<<<<<< HEAD
+
 	@Override
 	public List<CourseLineWhite> selectAllByLiveId(String liveId) {
 		// TODO Auto-generated method stub
 		return courseDao.selectAllByLiveId(liveId);
-=======
+	}
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Results<String> acquire(String lineShowId, String userId) {
@@ -257,7 +257,6 @@ public class CourseService implements ICourseService {
 		for (Date date : startTime) {
 			System.out.println("查询出的时间  = " + date);
 		}
->>>>>>> branch 'dev' of https://github.com/shijizhongshi/joins.git
 	}
 
 }

@@ -46,13 +46,13 @@ public interface ICourseService {
 	public CourseLineCheck singleLineCheck(String mobile);
 
 	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId);
-<<<<<<< HEAD
+
 	
 	public List<CourseLineWhite> selectAllByLiveId(String liveId);
-=======
+
 
 	public Results<String> acquire(String lineShowId,String userId);
 
 	public void timedPushOneHour();//定时推送直播提醒
->>>>>>> branch 'dev' of https://github.com/shijizhongshi/joins.git
+
 }
