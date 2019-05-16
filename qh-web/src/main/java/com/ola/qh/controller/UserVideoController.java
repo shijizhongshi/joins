@@ -84,6 +84,7 @@ public class UserVideoController {
 				String title=String.valueOf(userId.substring(userId.indexOf("title")+5));
 				uv.setTitle(title);
 				uv.setVideoId(videoid);
+				uv.setFirstImage(image);
 				uv.setStatus("0");
 				userVideoService.saveUV(uv);
 				StringBuilder sbuilder1 = new StringBuilder();

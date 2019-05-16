@@ -26,7 +26,7 @@
 		and mini_subclass_name like concat(concat('%',#{miniSubclassName},'%'))
 		</if>
 		
-		order by orders
+		order by orders desc
 		limit #{pageNo},#{pageSize}
 	</select>
 	
