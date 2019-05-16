@@ -3,35 +3,43 @@ package com.ola.qh.vo;
 public class CourseClassDomain {
 
 	private String courseTypeName;
-	
+
 	private String courseTypeSubclassName;
-	
+
 	private int pageNo;
-	
+
 	private int pageSize;
-	
-	private int isremmend;////是不是推荐的课程
-	
+
+	private int isremmend;//// 是不是推荐的课程
+
 	private int page;
-	
-	private String classId;///班级的id
-	
+
+	private String classId;/// 班级的id
+
 	private String teacherName;
-	
+
 	private String className;
-	
+
 	private String maxdoudou;
-	
-	private String liveId;//直播id
-	 
-	private String liveRoomId;//直播间id
-	 
-	private String liveBackId;//直播回放id
-	
+
+	private String liveId;// 直播id
+
+	private String liveRoomId;// 直播间id
+
+	private String liveBackId;// 直播回放id
+
 	private String live;
-	
-	
-	 
+
+	private Integer status;
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public String getLive() {
 		return live;
 	}
@@ -143,8 +151,5 @@ public class CourseClassDomain {
 	public void setIsremmend(int isremmend) {
 		this.isremmend = isremmend;
 	}
-	
-	
-	
-	
+
 }

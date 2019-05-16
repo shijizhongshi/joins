@@ -19,7 +19,6 @@ import com.ola.qh.entity.User;
 import com.ola.qh.service.IKnowledgeVideoService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.Results;
-import com.sun.org.apache.xalan.internal.templates.ElemApplyImport;
 
 @Service
 public class KnowledgeVideoService implements IKnowledgeVideoService {
@@ -102,7 +101,7 @@ public class KnowledgeVideoService implements IKnowledgeVideoService {
 					}
 				}
 
-				if (newAddressString == null && address != null) {
+				if (newAddressString == null && !"".equals(address)) {
 					// 根据addres查加盟商
 					Business busines = businessDao.single(null, address);
 					if (busines != null) {

@@ -18,6 +18,16 @@ public class CourseTypeSubclass {
 
 	private String imgUrl;
 
+	private Integer size;// 该类别下三级类别数量
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
 	public String getImgUrl() {
 		return imgUrl;
 	}
