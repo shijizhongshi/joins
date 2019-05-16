@@ -23,4 +23,8 @@
 	select count(id) from question_bank_subcategory where category_id=#{categoryId}
 	</select>
 	
+	<select id="showSubName" resultType="String">
+	select category_id from question_bank_subcategory where id=#{id}
+	</select>
+	
 	</mapper>

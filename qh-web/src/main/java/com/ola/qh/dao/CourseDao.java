@@ -56,9 +56,6 @@ public interface CourseDao {
 			@Param("id")String id);
 	
 	public CourseLineCheck singleLineCheck(@Param("mobile")String mobile);
-	
-	
-	
-	
+
 	
 }
