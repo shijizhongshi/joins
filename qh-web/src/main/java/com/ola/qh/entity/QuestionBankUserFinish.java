@@ -16,12 +16,17 @@ public class QuestionBankUserFinish {
 	private String subId;/////////节或单元id
 	
 	private int status;/////////是否答对或未看解析
+	
+	private int types;/////////
+	
 	@NotEmpty
 	private String numberNo;/////////题目序号
 	
 	private Date addtime;
 	
 	private Date updatetime;
+	
+	private int conditions;/////////1表示为共用题干或共用选项0表示为单选或多选
 
 	public String getId() {
 		return id;
@@ -87,8 +92,22 @@ public class QuestionBankUserFinish {
 		this.subId = subId;
 	}
 
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
+	}
+
+	public int getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(int conditions) {
+		this.conditions = conditions;
+	}
+
 	
-	
-	
-	
+
 }

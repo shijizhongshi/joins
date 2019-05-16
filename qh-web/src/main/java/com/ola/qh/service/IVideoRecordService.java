@@ -10,4 +10,6 @@ public interface IVideoRecordService {
 	public Results<List<VideoRecord>> VideoRecordList(String userId,String courseName,String chapterName,String sectionName,int page);
 	
 	public Results<String> insertVideoRecord(VideoRecord videoRecord);
+	
+	public int deleteVideoRecord(String id);
 }

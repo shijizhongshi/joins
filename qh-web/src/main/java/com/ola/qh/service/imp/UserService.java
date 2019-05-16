@@ -17,6 +17,7 @@ import com.ola.qh.entity.User;
 import com.ola.qh.entity.UserBook;
 import com.ola.qh.entity.UserCode;
 import com.ola.qh.entity.UserLogin;
+import com.ola.qh.entity.UserTypeSubclass;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
@@ -89,6 +90,17 @@ public class UserService implements IUserService {
 				String nickname = users.getMobile().substring(7);
 				users.setNickname(nickname);
 				users.setToken(userlogin.getToken());
+
+				// 向user_type_subclass表添加
+				UserTypeSubclass userTypeSubclass = new UserTypeSubclass();
+				userTypeSubclass.setId(KeyGen.uuid());
+				userTypeSubclass.setUserId(user.getId());
+				userTypeSubclass.setCourseTypeSubclassName(user.getCourseTypeSubclassName());
+				userTypeSubclass.setAddTime(new Date());
+				userDao.insertUserTypeSubclass(userTypeSubclass);
+				// 返回一下选择的专业名
+				users.setCourseTypeSubclassName(user.getCourseTypeSubclassName());
+
 				result.setData(users);
 				result.setStatus("0");
 				return result;
@@ -147,7 +159,7 @@ public class UserService implements IUserService {
 				}
 			}
 
-			UserLogin ulold = userloginDao.selectUserLogin(user.getId(),null);
+			UserLogin ulold = userloginDao.selectUserLogin(user.getId(), null);
 			if (ulold != null) {
 				userlogin.setUserId(user.getId());
 				userlogin.setToken(KeyGen.uuid());
@@ -166,11 +178,39 @@ public class UserService implements IUserService {
 				newul.setToken(KeyGen.uuid());
 				user.setToken(newul.getToken());
 				userloginDao.saveUserLogin(newul);
-
 			}
 
-			results.setStatus("0");
+			// 1.根据userid查询user_type_subclass表
+			UserTypeSubclass userTypeSubclass = userDao.selectByUserId(user.getId());
+			UserTypeSubclass newUserTypeSubclass = null;
+			if (userTypeSubclass == null) {
+				newUserTypeSubclass = new UserTypeSubclass();
+				newUserTypeSubclass.setId(KeyGen.uuid());
+				newUserTypeSubclass.setUserId(user.getId());
+				newUserTypeSubclass.setCourseTypeSubclassName(userlogin.getCourseTypeSubclassName());
+				newUserTypeSubclass.setAddTime(new Date());
+				userDao.insertUserTypeSubclass(newUserTypeSubclass);
+			} else {
+				// 根据ID查询表中专业名
+				UserTypeSubclass userTypeSubclass2 = userDao.selectByUserId(user.getId());
+				if (userlogin.getCourseTypeSubclassName() != null && !userlogin.getCourseTypeSubclassName()
+						.equals(userTypeSubclass2.getCourseTypeSubclassName())) {
+					// 不一致 进行更新操作
+					Date updateTime = new Date();
+					userDao.updateNameById(user.getId(), userlogin.getCourseTypeSubclassName(), updateTime);
+					user.setCourseTypeSubclassName(userlogin.getCourseTypeSubclassName());
+				} else {
+					user.setCourseTypeSubclassName(userlogin.getCourseTypeSubclassName());
+				}
+				user.setPassword(null);
+				results.setStatus("0");
+				results.setData(user);
+				return results;
+			}
+
 			user.setPassword(null);
+			user.setCourseTypeSubclassName(userlogin.getCourseTypeSubclassName());
+			results.setStatus("0");
 			results.setData(user);
 			return results;
 
@@ -193,8 +233,8 @@ public class UserService implements IUserService {
 	public Results<User> existUser(String token) {
 
 		Results<User> result = new Results<User>();
-		UserLogin ul=userloginDao.selectUserLogin(null, token);
-		if(ul==null){
+		UserLogin ul = userloginDao.selectUserLogin(null, token);
+		if (ul == null) {
 			result.setStatus("1");
 			result.setMessage("登录过期,请先登录~");
 			return result;
@@ -277,7 +317,7 @@ public class UserService implements IUserService {
 	 * 登录验证
 	 */
 	@Override
-	public Integer selectByMobileAndPassword(String mobile, String password,HttpServletRequest request) {
+	public Integer selectByMobileAndPassword(String mobile, String password, HttpServletRequest request) {
 		Integer countInteger = 1;
 		User user = userDao.loginUser(mobile, password);
 		if (user != null) {
@@ -287,6 +327,7 @@ public class UserService implements IUserService {
 		}
 		return countInteger;
 	}
+
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Results<User> saveUser(User user, HttpServletRequest request) {
@@ -311,7 +352,7 @@ public class UserService implements IUserService {
 				user.setId(KeyGen.uuid());
 				userDao.saveUser(user);
 				// userDao.loginUser(user.getMobile(), user.getPassword());
-				
+
 				result.setData(users);
 				result.setStatus("0");
 				return result;
@@ -328,4 +369,39 @@ public class UserService implements IUserService {
 		}
 
 	}
+
+	@Override
+	public Results<String> loginAgainUser(String courseTypeSubclassName, String userId) {
+		Results<String> results = new Results<String>();
+		// 传过来的userid是token 需要转换
+		UserLogin userLogin = userloginDao.selectUserLogin(null, userId);
+
+		// 1.根据userid查询user_type_subclass表
+		UserTypeSubclass userTypeSubclass = userDao.selectByUserId(userLogin.getUserId());
+		UserTypeSubclass newUserTypeSubclass = null;
+		if (userTypeSubclass == null) {
+			newUserTypeSubclass = new UserTypeSubclass();
+			newUserTypeSubclass.setId(KeyGen.uuid());
+			newUserTypeSubclass.setUserId(userLogin.getUserId());
+			newUserTypeSubclass.setCourseTypeSubclassName(courseTypeSubclassName);
+			newUserTypeSubclass.setAddTime(new Date());
+			userDao.insertUserTypeSubclass(newUserTypeSubclass);
+		} else {
+			// 根据ID查询表中专业名
+			UserTypeSubclass userTypeSubclass2 = userDao.selectByUserId(userLogin.getUserId());
+			if (userTypeSubclass2.getCourseTypeSubclassName() == null
+					|| !userTypeSubclass2.getCourseTypeSubclassName().equals(courseTypeSubclassName)) {
+				// 不一致 进行更新操作
+				Date updateTime = new Date();
+				userDao.updateNameById(userLogin.getUserId(), courseTypeSubclassName, updateTime);
+			}
+			results.setStatus("0");
+			results.setData(courseTypeSubclassName);
+			return results;
+		}
+		results.setStatus("0");
+		results.setData(newUserTypeSubclass.getCourseTypeSubclassName());
+		return results;
+	}
+
 }

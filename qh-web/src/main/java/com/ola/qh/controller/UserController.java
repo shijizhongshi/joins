@@ -66,7 +66,13 @@ public class UserController {
 		results.setStatus("0");
 		return results;
 	}
-
+	/**
+	 *注册
+	 * @param user
+	 * @param valid
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Results<User> saveUser(@RequestBody @Valid User user, BindingResult valid, HttpServletRequest request) {
 		Results<User> result = new Results<User>();
@@ -86,7 +92,13 @@ public class UserController {
 		}
 		return userService.saveUsers(user, request);
 	}
-
+	/**
+	 *	手机端用户登录(第一次登录)
+	 * @param userlogin
+	 * @param valid
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Results<User> loginUser(@RequestBody @Valid UserLogin userlogin, BindingResult valid,
 			HttpServletRequest request) {
@@ -98,6 +110,18 @@ public class UserController {
 			return result;
 		}
 		return userService.loginUser(userlogin, request);
+	}
+	/**
+	 * 用户在登录状态下再次进入app
+	 */
+	@RequestMapping(value = "/loginAgain",method = RequestMethod.GET)
+	public Results<String> loginAgain (@RequestParam(name = "courseTypeSubclassName") String courseTypeSubclassName,
+			@RequestParam(name = "userId") String userId,
+			HttpServletRequest request) {
+		Results<String> result = new Results<String>();
+		result = userService.loginAgainUser(courseTypeSubclassName,userId);
+				
+		return result;
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -212,4 +236,6 @@ public class UserController {
 
 		return results;
 	}
+	
+	
 }

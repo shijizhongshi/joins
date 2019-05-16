@@ -29,9 +29,10 @@ public class QuestionBankController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Results<QuestionBankTypes> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId){
+	public Results<QuestionBankTypes> selectQuestionBank(@RequestParam(value = "subId",required=true) String subId,
+			@RequestParam(value = "userId",required=false) String userId){
 		
-		return questionBankService.selectQuestionBank(subId);
+		return questionBankService.selectQuestionBank(subId,userId);
 	}
 	
 	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.zxing.Result;
 import com.ola.qh.dao.BannerDao;
 import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
@@ -32,6 +33,8 @@ import com.ola.qh.entity.ShopDrugImg;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.User;
+import com.ola.qh.service.IUserService;
+import com.ola.qh.service.imp.UserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ClassVo;
@@ -66,7 +69,7 @@ public class IndexController {
 	@Autowired
 	private ShopDrugImgDao shopDrugImgDao;
 	@Autowired
-	private UserDao userDao;
+	private IUserService userService;
 	@Autowired
 	private BusinessDao businessDao;
 	
@@ -224,14 +227,25 @@ public class IndexController {
 		List<Banner> bannerlist=new ArrayList<Banner>();
 		Banner banner=new Banner();
 		if(userId!=null && !"".equals(userId)){
-			String businessId = businessDao.singleBusinessUser(userId);
+			Results<User> userresult= userService.existUser(userId);
+			if("0".equals(userresult.getStatus())) {
+				userId=userresult.getData().getId();
+			}else {
+				
+				result.setStatus("1");
+				result.setMessage(userresult.getMessage());
+				return result;
+			}
+				
+				
+			String businessId= businessDao.singleBusinessUser(userId);
 			if(businessId!=null){
 				//////说明这个用户有固定的加盟商
 				Business b = businessDao.single(businessId,null);
 				banner.setImageurl(b.getBanner());
 				bannerlist.add(banner);
 			}else{
-				User user = userDao.singleUser(userId, null);
+				User user = userresult.getData();
 				if(user.getAddress()!=null && user.getAddress()!=""){
 					newAddress=user.getAddress();
 				}

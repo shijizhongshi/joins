@@ -17,7 +17,19 @@ public class CourseType {
 	
 	private String courseTypeName;////名称
 	
+	private String imgUrl;//图片地址
+	
 	private List<CourseTypeSubclass> sublist=new ArrayList<CourseTypeSubclass>();
+	
+	
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 
 	public String getId() {
 		return id;

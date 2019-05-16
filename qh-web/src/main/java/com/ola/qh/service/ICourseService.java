@@ -13,6 +13,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
 
@@ -44,4 +45,6 @@ public interface ICourseService {
 	public int updateLineCheck(String courseTypeSubclassName,String roomid,Date updatetime,String id);
 	
 	public CourseLineCheck singleLineCheck(String mobile);
+
+	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId);
 }

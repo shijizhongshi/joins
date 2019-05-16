@@ -30,6 +30,7 @@
 	<resultMap type="com.ola.qh.entity.CourseType" id="CourseTypeMap">
 	<result column="id" property="id"/>
 	<result column="course_type_name" property="courseTypeName"/>
+	<result column="imgUrl" property="imgUrl"/>
 	</resultMap>
 	<select id="singleCourseType" resultType="com.ola.qh.entity.CourseType">
 	    select id id,course_type_name courseTypeName from course_type where id=#{id}
@@ -68,6 +69,22 @@
 	</select>
 	<!--查用户类别的结束#################### -->
 	
+	<!--三级类别开始#################### -->
+	<resultMap type="com.ola.qh.entity.CourseTypeSubclassNames" id="CourseTypeSubclassNamesMap">
+	<result column="id" property="id"/>
+	<result column="course_type_subclass_id" property="courseTypeSubclassId"/>
+	<result column="mini_subclass_name" property="miniSubclassName"/>
+	</resultMap>
+	
+	<!-- 根据courseTypeSubclassId查询全部  -->
+	<select id = "select" resultMap="CourseTypeSubclassNamesMap">
+	select * from course_type_subclass_names where 1=1
+	<if test="courseTypeSubclassId != null and courseTypeSubclassId !=''"> 
+	and course_type_subclass_id = #{courseTypeSubclassId}
+	</if>
+	</select>
+	<!--三级类别结束#################### -->
+	
 	<!--课程按照不同的条件进行查询-->
 	<select id="courseList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseMap" >
 	
@@ -92,8 +109,6 @@
 	<select id="singleCourse" resultMap="CourseMap">
 	    select * from course where id=#{courseId} and course_show=0
 	</select>	
-		
-	
 		
 	<!-- 课程章的查询 -->
 	<select id="courseChapterCount" resultType="int">

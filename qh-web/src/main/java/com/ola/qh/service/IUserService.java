@@ -35,5 +35,6 @@ public interface IUserService {
 	
 	public Results<User> saveUser(User user, HttpServletRequest request);
 
+	public Results<String> loginAgainUser(String courseTypeSubclassName, String userId);
 
 }
