@@ -3,6 +3,7 @@ package com.ola.qh.service.imp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -199,6 +201,12 @@ public class CourseService implements ICourseService {
 		return results;
 	}
 
+
+	@Override
+	public List<CourseLineWhite> selectAllByLiveId(String liveId) {
+		// TODO Auto-generated method stub
+		return courseDao.selectAllByLiveId(liveId);
+	}
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Results<String> acquire(String lineShowId, String userId) {
@@ -272,6 +280,12 @@ public class CourseService implements ICourseService {
 				}
 			}
 		}
+		/*System.out.println("当前时间戳 = " + currentTime);
+		// 获取直播开始时间
+		List<Date> startTime = courseDao.selectStartTime();
+		for (Date date : startTime) {
+			System.out.println("查询出的时间  = " + date);
+		}*/
 	}
 
 }

@@ -2,12 +2,14 @@ package com.ola.qh.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclassNames;
@@ -45,7 +47,12 @@ public interface ICourseService {
 
 	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId);
 
+	
+	public List<CourseLineWhite> selectAllByLiveId(String liveId);
+
+
 	public Results<String> acquire(String lineShowId,String userId);
 
 	public void timedPushOneHour();//定时推送直播提醒
+
 }
