@@ -2,7 +2,6 @@ package com.ola.qh.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
@@ -49,10 +48,9 @@ public interface ICourseService {
 
 	
 	public List<CourseLineWhite> selectAllByLiveId(String liveId);
+	
+	public Results<String> acquire(String lineShowId, String userId);
 
 
-	public Results<String> acquire(String lineShowId,String userId);
-
-	public void timedPushOneHour();//定时推送直播提醒
 
 }
