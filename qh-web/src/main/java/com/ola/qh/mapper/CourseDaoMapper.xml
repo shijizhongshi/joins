@@ -222,7 +222,7 @@
 	</insert>
 	
 	
-	
+	<!-- 任何人都可以看的视频记录手机号 -->
 	<resultMap type="com.ola.qh.entity.CourseLineCheck" id="CourseLineCheckMap">
 	<result column="id" property="id"/>
 	<result column="mobile" property="mobile"/>
@@ -251,5 +251,14 @@
 	
 	<select id="singleLineCheck" resultMap="CourseLineCheckMap">
 	select * from course_line_check where mobile=#{mobile}
+	</select>
+	
+	
+	<!--直播的白名单获取全部信息 -->
+	<select id="selectAllByLiveId" resultType="com.ola.qh.entity.CourseLineWhite">
+		select id id, username username,password password from course_line_white where 1=1
+		<if test="liveId!=null and liveId!=''">
+		and live_id = #{liveId}
+		</if>
 	</select>
 	</mapper>

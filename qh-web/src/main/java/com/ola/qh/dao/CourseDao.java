@@ -2,6 +2,7 @@ package com.ola.qh.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -10,6 +11,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -59,6 +61,9 @@ public interface CourseDao {
 	public CourseLineCheck singleLineCheck(@Param("mobile")String mobile);
 
 	public List<CourseTypeSubclassNames> select(@Param("courseTypeSubclassId")String courseTypeSubclassId);
+	
+	
+	public List<CourseLineWhite> selectAllByLiveId(@Param("liveId")String liveId);
 
 	
 }
