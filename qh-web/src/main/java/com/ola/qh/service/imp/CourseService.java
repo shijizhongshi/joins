@@ -1,7 +1,5 @@
 package com.ola.qh.service.imp;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserFavoriteDao;
+import com.ola.qh.dao.UserLoginDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
@@ -19,9 +18,12 @@ import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.entity.CourseTypeSubclassNames;
+import com.ola.qh.entity.LiveMark;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
 
@@ -43,6 +45,9 @@ public class CourseService implements ICourseService {
 
 	@Autowired
 	private UserFavoriteDao userFavoriteDao;
+
+	@Autowired
+	private UserLoginDao userLoginDao;
 
 	@Override
 	public List<CourseType> courseTypeList() {
@@ -189,21 +194,61 @@ public class CourseService implements ICourseService {
 		return results;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public Results<String> acquire(String lineShowId) {
+	public Results<String> acquire(String lineShowId, String userId) {
 		Results<String> results = new Results<String>();
-		//根据直播ID查询直播信息
-		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
-		if (courseLineShow != null) {
-			//获取当前时间
-			long currentTime = System.currentTimeMillis();
-			System.out.println("打印当前时间 = "+currentTime);
-			System.out.println("打印开始时间 = "+courseLineShow.getStarttime());
-			long s =  courseLineShow.getStarttime().getTime();
-			System.out.println(s);
-			System.out.println(s/1000);
+		// token转userId
+		UserLogin userLogin = userLoginDao.selectUserLogin(null, userId);
+		String newUserId = null;
+		if (!"".equals(userLogin)) {
+			 newUserId = userLogin.getUserId();
 		}
+		// 根据直播ID查询直播信息
+		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
+		Integer count = 0;
+		if (courseLineShow != null) {
+			LiveMark liveMark = new LiveMark();
+			liveMark.setId(KeyGen.uuid());
+			liveMark.setUserId(newUserId);
+			liveMark.setLiveId(courseLineShow.getLiveId());
+			liveMark.setLiveName(courseLineShow.getLiveName());
+			liveMark.setStarttime(courseLineShow.getStarttime());
+			liveMark.setStatus(0);
+			count = courseDao.insertLiveMark(liveMark);
+
+			// 获取当前时间
+			/*
+			 * long currentTime = System.currentTimeMillis();
+			 * System.out.println("打印当前时间 = "+currentTime);
+			 * System.out.println("打印开始时间 = "+courseLineShow.getStarttime()); long s =
+			 * courseLineShow.getStarttime().getTime(); System.out.println(s);
+			 * System.out.println(s/1000);
+			 */
+		}
+		if (count != 0) {
+			results.setStatus("0");
+
+			return results;
+		}
+		results.setStatus("1");
+
 		return results;
+	}
+
+	/**
+	 * 定时推送直播提醒（间隔一小时）
+	 */
+	@Override
+	public void timedPushOneHour() {
+		// 获取当前时间
+		long currentTime = System.currentTimeMillis();
+		System.out.println("当前时间戳 = " + currentTime);
+		// 获取直播开始时间
+		List<Date> startTime = courseDao.selectStartTime();
+		for (Date date : startTime) {
+			System.out.println("查询出的时间  = " + date);
+		}
 	}
 
 }
