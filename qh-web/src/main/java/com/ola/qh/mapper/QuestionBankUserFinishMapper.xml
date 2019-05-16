@@ -11,6 +11,7 @@
 		<result column="sub_id" property="subId" />
 		<result column="status" property="status" />
 		<result column="types" property="types" />
+		<result column="conditions" property="conditions" />
 		<result column="number_no" property="numberNo" />
 		<result column="addtime" property="addtime" />
 		<result column="updatetime" property="updatetime" />
@@ -18,8 +19,8 @@
 	</resultMap>
 
 	<insert id="addUserFinish" parameterType="com.ola.qh.entity.QuestionBankUserFinish">
-		insert into question_bank_user_finish(id,user_id,bank_id,sub_id,status,types,number_no,addtime) 
-		values(#{id},#{userId},#{bankId},#{subId},#{status},#{types},#{numberNo},#{addtime})
+		insert into question_bank_user_finish(id,user_id,bank_id,sub_id,status,types,conditions,number_no,addtime) 
+		values(#{id},#{userId},#{bankId},#{subId},#{status},#{types},#{conditions},#{numberNo},#{addtime})
 	</insert>
 	
 	<select id="showUserFinishCount" resultType="int">
@@ -28,6 +29,11 @@
 		
 		and user_id=#{userId}
 		</if>
+		
+	</select>
+	
+	<select id="UserFinishList" resultMap="QuestionBankUserFinishMap">
+		select id,user_id,bank_id,`status`,conditions from question_bank_user_finish where sub_id=#{subId} and user_id=#{userId} and types=0
 		
 	</select>
 	

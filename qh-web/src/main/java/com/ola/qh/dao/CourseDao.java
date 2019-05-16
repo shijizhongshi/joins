@@ -13,6 +13,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.vo.CourseClassDomain;
 public interface CourseDao {
 
@@ -56,6 +57,8 @@ public interface CourseDao {
 			@Param("id")String id);
 	
 	public CourseLineCheck singleLineCheck(@Param("mobile")String mobile);
+
+	public List<CourseTypeSubclassNames> select(@Param("courseTypeSubclassId")String courseTypeSubclassId);
 
 	
 }

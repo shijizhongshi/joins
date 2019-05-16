@@ -40,7 +40,16 @@ public class UserLogin {
 	
 	private String token;
 	
+	private String courseTypeSubclassName;//专业名
 	
+	
+	public String getCourseTypeSubclassName() {
+		return courseTypeSubclassName;
+	}
+
+	public void setCourseTypeSubclassName(String courseTypeSubclassName) {
+		this.courseTypeSubclassName = courseTypeSubclassName;
+	}
 
 	public String getToken() {
 		return token;

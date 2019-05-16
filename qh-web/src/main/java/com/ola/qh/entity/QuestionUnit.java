@@ -14,6 +14,8 @@ public class QuestionUnit {
 	
 	private String types;
 	
+	private int status;//////////用户做过传1，没做过传0
+	
 	private String analysis;
 	
 	private String correct;
@@ -23,6 +25,17 @@ public class QuestionUnit {
 	private Date updatetime;
 	
 	private List<QuestionAnswer> unitAnswer=new ArrayList<QuestionAnswer>();
+	
+	private String titleimg;
+	
+
+	public String getTitleimg() {
+		return titleimg;
+	}
+
+	public void setTitleimg(String titleimg) {
+		this.titleimg = titleimg;
+	}
 
 	public String getId() {
 		return id;
@@ -94,6 +107,14 @@ public class QuestionUnit {
 
 	public void setUnitAnswer(List<QuestionAnswer> unitAnswer) {
 		this.unitAnswer = unitAnswer;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

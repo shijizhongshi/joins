@@ -52,4 +52,6 @@ public interface DoctorReplyDao {
 			@Param("likes")int likes,
 			@Param("updatetime")Date updatetime,
 			@Param("id")String id);
+	
+	public int deleteReply(@Param("patientId")String patientId);
 }

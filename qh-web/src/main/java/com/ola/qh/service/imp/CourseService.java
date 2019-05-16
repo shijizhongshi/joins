@@ -1,5 +1,7 @@
 package com.ola.qh.service.imp;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.entity.User;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
@@ -43,36 +46,44 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public List<CourseType> courseTypeList() {
-		
+
 		return courseDao.courseTypeList(null);
 	}
 
 	@Override
 	public List<CourseType> courseTypeSubclassList(String courseTypeId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-				List<CourseType> list=courseDao.courseTypeList(courseTypeId);
-					////////查出一个集合来
-					for (CourseType courseType : list) {
-						if(courseTypeId!=null && !"".equals(courseTypeId)){
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
-							courseType.setSublist(sublist);
-						}else{
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
-							courseType.setSublist(sublist);
-						}
-						
-					}
-				///通过大类别的查询
-				return list;///// 
+		List<CourseType> list = courseDao.courseTypeList(courseTypeId);
+		//////// 查出一个集合来
+		for (CourseType courseType : list) {
+			if (courseTypeId != null && !"".equals(courseTypeId)) {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
+				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
+			} else {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
+				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
+			}
+
+		}
+		/// 通过大类别的查询
+		return list;/////
 	}
 
 	@Override
 	public List<Course> courseList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		List<Course> list= courseDao.courseList(ccd);
+		List<Course> list = courseDao.courseList(ccd);
 		for (Course course : list) {
-			////总的章数
+			//// 总的章数
 			int num = courseDao.courseChapterCount(course.getId());
 			course.setCourseChapterSize(num);
 		}
@@ -101,27 +112,25 @@ public class CourseService implements ICourseService {
 		// TODO Auto-generated method stub
 		Results<Course> result = new Results<Course>();
 		Course c = courseDao.singleCourse(courseId);
-		if(c!=null && c.getCourseShow()==1){
+		if (c != null && c.getCourseShow() == 1) {
 			result.setStatus("1");
 			result.setMessage("课程已失效");
 			return result;
 		}
 		if (userId != null && !"".equals(userId)) {
 			Results<User> userResult = userService.existUser(userId);
-			if("1".equals(userResult.getStatus())){
+			if ("1".equals(userResult.getStatus())) {
 				result.setStatus("1");
 				result.setMessage(userResult.getMessage());
 				return result;
 			}
-			userId=userResult.getData().getId();
+			userId = userResult.getData().getId();
 			int count = userFavoriteDao.existUserFavorite(courseId, userId);
 			if (count > 0) {
 				c.setIsFavorite(1);
 			}
 		}
-		
-		
-		
+
 		result.setStatus("0");
 		result.setData(c);
 		return result;
@@ -142,7 +151,7 @@ public class CourseService implements ICourseService {
 	@Override
 	public int updateListShow(CourseLineShow cls) {
 		// TODO Auto-generated method stub
-		
+
 		return courseDao.updateListShow(cls);
 	}
 
@@ -168,6 +177,33 @@ public class CourseService implements ICourseService {
 	public CourseLineCheck singleLineCheck(String mobile) {
 		// TODO Auto-generated method stub
 		return courseDao.singleLineCheck(mobile);
+	}
+
+	@Override
+	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId) {
+		Results<List<CourseTypeSubclassNames>> results = new Results<List<CourseTypeSubclassNames>>();
+		List<CourseTypeSubclassNames> list = courseDao.select(courseTypeSubclassId);
+		results.setStatus("0");
+		results.setData(list);
+
+		return results;
+	}
+
+	@Override
+	public Results<String> acquire(String lineShowId) {
+		Results<String> results = new Results<String>();
+		//根据直播ID查询直播信息
+		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
+		if (courseLineShow != null) {
+			//获取当前时间
+			long currentTime = System.currentTimeMillis();
+			System.out.println("打印当前时间 = "+currentTime);
+			System.out.println("打印开始时间 = "+courseLineShow.getStarttime());
+			long s =  courseLineShow.getStarttime().getTime();
+			System.out.println(s);
+			System.out.println(s/1000);
+		}
+		return results;
 	}
 
 }

@@ -12,17 +12,47 @@ public class KnowledgeVideo {
 	private String title;
 	@NotEmpty
 	private String videoId;
-	
+
 	private String times;
-	
+
 	private String courseTypeSubclassName;
-	
+
+	private String miniSubclassName;
+
 	private int orders;
-	
+
 	private Date addtime;
-	
+
 	private Date updatetime;
-	
+
+	private String logos;// 加盟商logo
+
+	private String mobile;// 加盟商手机号
+
+	public String getMiniSubclassName() {
+		return miniSubclassName;
+	}
+
+	public void setMiniSubclassName(String miniSubclassName) {
+		this.miniSubclassName = miniSubclassName;
+	}
+
+	public String getLogos() {
+		return logos;
+	}
+
+	public void setLogos(String logos) {
+		this.logos = logos;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -95,6 +125,4 @@ public class KnowledgeVideo {
 		this.times = times;
 	}
 
-	
-	
 }
