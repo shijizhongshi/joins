@@ -166,6 +166,7 @@ public class CourseController {
 			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
 			@RequestParam(name="isremmend",required=false)String isremmend,
 			@RequestParam(name="className",required=false)String className,
+			@RequestParam(name="status",required=false)Integer status,
 			@RequestParam(name="page",required=true)int page
 			){
 		Results<List<CourseLineShow>> result=new Results<List<CourseLineShow>>();
@@ -177,11 +178,25 @@ public class CourseController {
 		ccd.setCourseTypeSubclassName(courseTypeSubclassName);
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
+		ccd.setStatus(status);
 		
 		List<CourseLineShow> list = courseService.selectLiveList(ccd);
 		result.setData(list);
 		result.setStatus("0");
 		return result;
+	}
+	/***
+	 * 点击预约保存直播与用户的相关信息
+	 * @param lineShowId
+	 * @return
+	 */
+	@RequestMapping("/acquire")
+	public Results<String> acquire (@RequestParam(name="lineShowId")String lineShowId,
+			@RequestParam(name="userId")String userId) {
+		Results<String> results = new Results<String>();
+		results = courseService.acquire(lineShowId,userId);
+		
+		return results;
 	}
 
 }

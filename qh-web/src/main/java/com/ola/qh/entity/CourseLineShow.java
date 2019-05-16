@@ -8,29 +8,44 @@ public class CourseLineShow {
 	private String courseTypeSubclassName;
 	private String liveName;
 	private String imgUrl;
-	private String outLinks;/////直播跳转的连接
-	
+	private String outLinks;///// 直播跳转的连接
 
-	private String isremmend;////1是推荐
-	private String isshow;///1:可见
-	private String liveRoomId;//直播间id
-	private String liveId;//直播id
-	private String liveBackId;//回放id
-	
-	private int status;////0:未开始直播   1:直播开始  2:直播结束  3:离线回放
-	
+	private String isremmend;//// 1是推荐
+	private String isshow;/// 1:可见
+	private String liveRoomId;// 直播间id
+	private String liveId;// 直播id
+	private String liveBackId;// 回放id
+
+	private int status;//// 0:未开始直播 1:直播开始 2:直播结束 3:离线回放
+
+	private Date starttime;// 直播开始时间
+
 	private Date addtime;
-	
+
 	private Date endtime;
-	
+
 	private Date updatetime;
-	
+
 	private String offlineUrl;
-	
-	
 
+	private Integer isopen;// 是否是公开课 0:不公开 1:公开
 
-	
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Integer getIsopen() {
+		return isopen;
+	}
+
+	public void setIsopen(Integer isopen) {
+		this.isopen = isopen;
+	}
+
 	public String getOfflineUrl() {
 		return offlineUrl;
 	}
@@ -158,6 +173,5 @@ public class CourseLineShow {
 	public void setIsshow(String isshow) {
 		this.isshow = isshow;
 	}
-	
-	
+
 }

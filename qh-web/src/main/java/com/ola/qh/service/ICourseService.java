@@ -3,8 +3,6 @@ package com.ola.qh.service;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
@@ -12,7 +10,6 @@ import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
-import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
@@ -47,4 +44,8 @@ public interface ICourseService {
 	public CourseLineCheck singleLineCheck(String mobile);
 
 	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId);
+
+	public Results<String> acquire(String lineShowId,String userId);
+
+	public void timedPushOneHour();//定时推送直播提醒
 }

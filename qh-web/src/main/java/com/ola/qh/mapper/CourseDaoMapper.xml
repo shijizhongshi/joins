@@ -83,6 +83,12 @@
 	and course_type_subclass_id = #{courseTypeSubclassId}
 	</if>
 	</select>
+	<select id="selectMiniByTypeSubclassId" resultType="int">
+	select count(*) from course_type_subclass_names where 1=1
+	<if test="courseTypeSubclassId != null and courseTypeSubclassId !=''">
+	and course_type_subclass_id = #{courseTypeSubclassId}
+	</if>
+	</select>
 	<!--三级类别结束#################### -->
 	
 	<!--课程按照不同的条件进行查询-->
@@ -161,7 +167,7 @@
 	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
@@ -171,6 +177,9 @@
 	</if>
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
+	</if>
+	<if test="status!=null">
+	and status=#{status}
 	</if>
 	and isshow=1
 	order by addtime desc
@@ -185,6 +194,14 @@
 	</if>
 	order by addtime desc
 	limit 0,1
+	</select>
+	
+	<select id="selectById" resultType="com.ola.qh.entity.CourseLineShow">
+	select live_id,live_name,starttime from course_line_show where 1=1 
+	<if test="lineShowId!=null and lineShowId!=''">
+	and id = #{lineShowId}
+	</if>
+	and isopen = 1;
 	</select>
 	
 	
@@ -252,4 +269,22 @@
 	<select id="singleLineCheck" resultMap="CourseLineCheckMap">
 	select * from course_line_check where mobile=#{mobile}
 	</select>
+	
+	<!-- 直播预约表 live_mark表映射开始  -->
+	<resultMap type="com.ola.qh.entity.LiveMark" id="LiveMarkMap">
+	<result column="userId" property="userId"/>
+	<result column="live_name" property="liveName"/>
+	<result column="live_id" property="liveId"/>
+	<result column="status" property="status"/>
+	<result column="starttime" property="starttime"/>
+	</resultMap>
+	
+	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
+	insert into live_mark(userId,live_id,live_name,starttime,status) values (#{userId},#{liveId},#{liveName},#{starttime},#{status});
+	</insert>
+	<!--查询全部开始时间  -->
+	<select id="selectStartTime" resultType="java.util.Date">
+		select starttime from live_mark
+	</select>
+	<!-- 直播预约表 live_mark表映射结束  -->
 	</mapper>
