@@ -64,6 +64,7 @@ public class UserService implements IUserService {
 				}
 				user.setAddtime(new Date());
 				user.setId(KeyGen.uuid());
+				user.setTypes("App");
 				userDao.saveUser(user);
 				// userDao.loginUser(user.getMobile(), user.getPassword());
 
