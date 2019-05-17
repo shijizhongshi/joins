@@ -13,6 +13,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -168,6 +169,12 @@ public class CourseService implements ICourseService {
 	public CourseLineCheck singleLineCheck(String mobile) {
 		// TODO Auto-generated method stub
 		return courseDao.singleLineCheck(mobile);
+	}
+
+	@Override
+	public List<CourseLineWhite> selectAllByLiveId(String liveId) {
+		// TODO Auto-generated method stub
+		return courseDao.selectAllByLiveId(liveId);
 	}
 
 }

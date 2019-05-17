@@ -10,6 +10,7 @@ import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
@@ -56,6 +57,8 @@ public interface CourseDao {
 			@Param("id")String id);
 	
 	public CourseLineCheck singleLineCheck(@Param("mobile")String mobile);
+	
+	public List<CourseLineWhite> selectAllByLiveId(@Param("liveId")String liveId);
 	
 	
 	

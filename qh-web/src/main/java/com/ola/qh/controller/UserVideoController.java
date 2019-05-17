@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.CourseLineCCresult;
 import com.ola.qh.entity.CourseLineCheck;
 import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.ResultChecked;
 import com.ola.qh.entity.ResultCheckedLive;
 import com.ola.qh.entity.UserVideo;
@@ -38,9 +38,7 @@ import com.ola.qh.util.Json;
 import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
-import com.ola.qh.util.Thqs;
 import com.ola.qh.vo.LiveShowResultsVo;
-import com.ola.qh.weixin.handler.Requests;
 
 
 @RestController
@@ -318,14 +316,18 @@ public class UserVideoController {
 		
 		
 		ResultCheckedLive resultlive=new ResultCheckedLive();
-		
 		Pattern pattern = Pattern.compile(Patterns.INTERNAL_MOBILE_PATTERN);
-		if (!pattern.matcher(viewername).matches()) {
+		if (!pattern.matcher(viewertoken).matches()) {
 			resultlive.setResult("1");
-			resultlive.setMessage("请输入正确的手机号");
+			resultlive.setMessage("请输入手机号作为密码进入直播间~");
 			return resultlive;
 		}
-		CourseLineCheck clc=courseService.singleLineCheck(viewername);
+		if(viewername==null || "".equals(viewername)){
+			resultlive.setResult("1");
+			resultlive.setMessage("请输入用户名~");
+			return resultlive;
+		}
+		CourseLineCheck clc=courseService.singleLineCheck(viewertoken);
 		
 		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
 		String courseTypeSubclassName=null;
@@ -379,7 +381,7 @@ public class UserVideoController {
 			clcnew.setId(id);
 			clcnew.setAddtime(new Date());
 			clcnew.setCourseTypeSubclassName(courseTypeSubclassName);
-			clcnew.setMobile(viewername);
+			clcnew.setMobile(viewertoken);
 			clcnew.setRoomid(roomid);
 			clcnew.setToken(viewertoken);
 			courseService.insertLineCheck(clcnew);
@@ -392,6 +394,71 @@ public class UserVideoController {
 		rc.setName(viewername);
 		resultlive.setUser(rc);
 		return resultlive;
+		
+	}
+	
+	
+	
+	/**
+	 * 直播的验证回调(有白名单的)
+	 * <p>Title: checkedLive</p>  
+	 * <p>Description: </p>  
+	 * @return
+	 */
+	@RequestMapping(value="/notify/white/lineShow",method=RequestMethod.POST)
+	public ResultCheckedLive whiteLive(
+			@RequestParam(name="userid",required=false)String userid,
+			@RequestParam(name="roomid",required=false)String roomid,
+			@RequestParam(name="viewername",required=false)String viewername,
+			@RequestParam(name="viewertoken",required=false)String viewertoken,
+			@RequestParam(name="viewercustomua",required=false)String viewercustomua,
+			@RequestParam(name="liveid",required=false)String liveid,
+			@RequestParam(name="recordid",required=false)String recordid){
+		
+		
+		ResultCheckedLive resultlive=new ResultCheckedLive();
+		///////通过roomid去查最新的直播
+		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
+		if(liveShow.getLiveId()==null || "".equals(liveShow.getLiveId())){
+			resultlive.setResult("fail");
+			resultlive.setMessage("还未开播,请稍后~");
+			return resultlive;
+		}else{
+			String liveshowId=liveShow.getId();
+			List<CourseLineWhite> list=courseService.selectAllByLiveId(liveshowId);
+			int i=0;
+			for (;i<list.size();i++) {
+				if(list.get(i).getUsername().equals(viewername)){
+					break;
+				}
+			}
+			if(i>=list.size()){
+				resultlive.setResult("fail");
+				resultlive.setMessage("您没有权限,联系客服");
+				return resultlive;
+			}
+			if(viewername.equals(list.get(i).getUsername()) && viewertoken.equals(list.get(i).getPassword())){
+				//////用户名密码都相同的时候
+				resultlive.setResult("ok");
+				resultlive.setMessage("登录成功");
+				ResultChecked rc=new ResultChecked();
+				rc.setId(list.get(i).getId());
+				rc.setName(viewername);
+				resultlive.setUser(rc);
+				return resultlive;
+			}else{
+				resultlive.setResult("fail");
+				resultlive.setMessage("您的用户名或者密码不对,联系客服");
+				return resultlive;
+			}
+			
+			
+			
+		}
+			
+			
+		
+		
 		
 	}
 	  
@@ -412,7 +479,6 @@ public class UserVideoController {
 		return userVideoService.list(userId, pageNo, pageSize,types);
 		
 	}
-	
 	/**
 	 * 视频点赞的操作
 	 * @param userId
@@ -430,6 +496,7 @@ public class UserVideoController {
 		
 		return userVideoService.update(userId, id, likeNumber,types);
 	}
+	
 	
 	
 	/**
