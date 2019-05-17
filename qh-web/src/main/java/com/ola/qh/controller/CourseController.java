@@ -23,6 +23,7 @@ import com.ola.qh.entity.CourseLineShow;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclassNames;
+import com.ola.qh.entity.LiveMark;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
@@ -197,10 +198,8 @@ public class CourseController {
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
 		ccd.setStatus(status);
-
-		List<CourseLineShow> list = courseService.selectLiveList(ccd);
-		result.setData(list);
-		result.setStatus("0");
+		result = courseService.selectLiveList(ccd);
+		
 		return result;
 	}
 	/***
@@ -210,9 +209,9 @@ public class CourseController {
 	 * @return
 	 */
 	@RequestMapping("/acquire")
-	public Results<String> acquire(@RequestParam(name = "lineShowId") String lineShowId,
+	public Results<Integer> acquire(@RequestParam(name = "lineShowId") String lineShowId,
 			@RequestParam(name = "userId") String userId) {
-		Results<String> results = new Results<String>();
+		Results<Integer> results = new Results<Integer>();
 		results = courseService.acquire(lineShowId, userId);
 
 		return results;

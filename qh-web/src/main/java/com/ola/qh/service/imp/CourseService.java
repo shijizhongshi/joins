@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -143,9 +144,27 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
-		// TODO Auto-generated method stub
-		return courseDao.selectLiveList(ccd);
+	public Results<List<CourseLineShow>> selectLiveList(CourseClassDomain ccd) {
+		Results<List<CourseLineShow>> results = new Results<List<CourseLineShow>>();
+		List<CourseLineShow> list = courseDao.selectLiveList(ccd);
+		for (CourseLineShow courseLineShow : list) {
+			// 格式化时间
+			// 直播日期格式 05-17
+			SimpleDateFormat sf = new SimpleDateFormat("MM-dd");
+			if (courseLineShow.getStarttime() != null) {
+				courseLineShow.setDate(sf.format(courseLineShow.getStarttime()));
+			}
+			// 直播时间段格式  12:00-13:00
+			SimpleDateFormat sFormat = new SimpleDateFormat("HH:mm");
+			if (courseLineShow.getStarttime() != null && courseLineShow.getEndtime() != null) {
+				courseLineShow.setStartToEnd(
+						sFormat.format(courseLineShow.getStarttime()) + "-" + sFormat.format(courseLineShow.getEndtime()));
+			}
+		}
+		results.setData(list);
+		results.setStatus("0");
+
+		return results;
 	}
 
 	@Override
@@ -203,8 +222,8 @@ public class CourseService implements ICourseService {
 
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public Results<String> acquire(String lineShowId, String userId) {
-		Results<String> results = new Results<String>();
+	public Results<Integer> acquire(String lineShowId, String userId) {
+		Results<Integer> results = new Results<Integer>();
 		// token转userId
 		UserLogin userLogin = userLoginDao.selectUserLogin(null, userId);
 		String newUserId = null;
@@ -216,21 +235,33 @@ public class CourseService implements ICourseService {
 		Integer count = 0;
 		if (courseLineShow.getStarttime() != null) {
 			LiveMark liveMark = new LiveMark();
+			// 根据userid查询 直播预约表
+			Integer countInteger = courseDao.selectCount(newUserId);
+			if (countInteger != 0) {
+				liveMark.setIsShow(1);
+				results.setStatus("1");
+				results.setData(1);
+				
+				return results;
+			}
 			liveMark.setId(KeyGen.uuid());
 			liveMark.setUserId(newUserId);
 			liveMark.setLiveId(courseLineShow.getLiveId());
 			liveMark.setLiveName(courseLineShow.getLiveName());
 			liveMark.setStarttime(courseLineShow.getStarttime());
 			// long s =courseLineShow.getStarttime().getTime();
+			liveMark.setIsShow(0);
 			liveMark.setStatus(0);
 			count = courseDao.insertLiveMark(liveMark);
 		}
 		if (count != 0) {
 			results.setStatus("0");
+			results.setData(0);
 
 			return results;
 		}
 		results.setStatus("1");
+		results.setData(0);
 
 		return results;
 	}

@@ -30,6 +30,36 @@ public class CourseLineShow {
 
 	private Integer isopen;// 是否是公开课 0:不公开 1:公开
 
+	private String date;// 格式化后的日期
+
+	private String startToEnd;// 格式化后的开始结束时间
+
+	private String lecturer; // 主讲老师
+
+	public String getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(String lecturer) {
+		this.lecturer = lecturer;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getStartToEnd() {
+		return startToEnd;
+	}
+
+	public void setStartToEnd(String startToEnd) {
+		this.startToEnd = startToEnd;
+	}
+
 	public Date getStarttime() {
 		return starttime;
 	}

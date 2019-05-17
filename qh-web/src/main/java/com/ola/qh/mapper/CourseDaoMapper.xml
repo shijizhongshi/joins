@@ -179,7 +179,7 @@
 	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen,lecturer,starttime from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
@@ -190,8 +190,11 @@
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
 	</if>
-	<if test="status!=null">
+	<if test="status!=null and status !=3">
 	and status=#{status}
+	</if>
+	<if test="status!=null and status ==3">
+	and status in (3,4)
 	</if>
 	and isshow=1
 	order by addtime desc
@@ -290,8 +293,15 @@
 	</select>
 	
 	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
-	insert into live_mark(userId,live_id,live_name,starttime,status) values (#{userId},#{liveId},#{liveName},#{starttime},#{status});
+	insert into live_mark(id,userId,live_id,live_name,starttime,status,isshow) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status},#{isShow});
 	</insert>
+	
+	<select id="selectCount" resultType="int">
+	select count(*) from live_mark where 1=1
+	<if test="userId!=null and userId!=''">
+	and userId = #{userId}
+	</if>
+	</select>
 
 
 	</mapper>

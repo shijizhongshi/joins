@@ -6,15 +6,25 @@ public class LiveMark {
 
 	private String id;
 
-	private String userId;
+	private String userId;// 用户ID
 
-	private String liveName;
+	private String liveName;// 直播名
 
-	private String liveId;
+	private String liveId;// 直播ID
 
-	private Integer status;
+	private Integer status;// 是否推送过信息 0：没推送过 1：推送过
 
-	private Date starttime;
+	private Date starttime;// 直播开始时间
+
+	private Integer isShow;// 状态值 0:无操作 1：给提示 "不能重复预约直播"
+
+	public Integer getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
+	}
 
 	public String getId() {
 		return id;
