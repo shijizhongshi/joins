@@ -432,6 +432,11 @@ public class UserVideoController {
 					break;
 				}
 			}
+			if(i>=list.size()){
+				resultlive.setResult("fail");
+				resultlive.setMessage("您没有权限,联系客服");
+				return resultlive;
+			}
 			if(viewername.equals(list.get(i).getUsername()) && viewertoken.equals(list.get(i).getPassword())){
 				//////用户名密码都相同的时候
 				resultlive.setResult("ok");
@@ -443,7 +448,7 @@ public class UserVideoController {
 				return resultlive;
 			}else{
 				resultlive.setResult("fail");
-				resultlive.setMessage("您没有权限,联系客服");
+				resultlive.setMessage("您的用户名或者密码不对,联系客服");
 				return resultlive;
 			}
 			
