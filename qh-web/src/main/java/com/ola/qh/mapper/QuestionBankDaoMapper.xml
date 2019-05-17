@@ -38,11 +38,12 @@
 	<result column="options" property="options"/>
 	<result column="correct" property="correct"/>
 	<result column="orders" property="orders"/>
+	<result column="titleimg" property="titleimg"/>
 	<result column="updatetime" property="updatetime"/>
 	</resultMap>
 	
 	<select id="selectQuestionAnswer" resultMap="QuestionAnswerMap"> 
-	select id,bank_unit_id,answers,options,correct,orders from question_bank_answer where bank_unit_id=#{bankUnitId}
+	select id,bank_unit_id,answers,options,correct,orders,titleimg from question_bank_answer where bank_unit_id=#{bankUnitId}
 	order by options asc
 	</select>
 	
