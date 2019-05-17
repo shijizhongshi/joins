@@ -56,6 +56,16 @@ public class User {
 	private String realname;
 
 	private String courseTypeSubclassName;//用户选择的专业
+	
+	private String types;
+
+	public String getTypes() {
+		return types;
+	}
+
+	public void setTypes(String types) {
+		this.types = types;
+	}
 
 	public String getCourseTypeSubclassName() {
 		return courseTypeSubclassName;

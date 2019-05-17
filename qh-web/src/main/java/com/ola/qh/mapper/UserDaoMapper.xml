@@ -24,7 +24,7 @@
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
-		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
+		insert into user(id,mobile,password,addtime,types) values(#{id},#{mobile},#{password},#{addtime},#{types})
 	</insert>
 	
 	<select id="loginUser"  resultMap="UserMap">
@@ -85,7 +85,7 @@
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	
-	<insert id="" parameterType="com.ola.qh.entity.UserCode">
+	<insert id="insertCode" parameterType="com.ola.qh.entity.UserCode">
 	insert into user_code(id,mobile,code,addtime)values(#{id},#{mobile},#{code},#{addtime})
 	</insert>
 	<select id="singleCode" resultMap="UserCodeMap">
