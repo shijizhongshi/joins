@@ -36,6 +36,16 @@ public class CourseLineShow {
 
 	private String lecturer; // 主讲老师
 
+	private Integer isMark;
+
+	public Integer getIsMark() {
+		return isMark;
+	}
+
+	public void setIsMark(Integer isMark) {
+		this.isMark = isMark;
+	}
+
 	public String getLecturer() {
 		return lecturer;
 	}

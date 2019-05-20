@@ -12,7 +12,6 @@ import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclassNames;
-import com.ola.qh.entity.LiveMark;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
 
@@ -30,7 +29,7 @@ public interface ICourseService {
 	
 	public List<CourseSection> courseSectionList(String courseChapterId);
 	
-	public Results<List<CourseLineShow>> selectLiveList(CourseClassDomain ccd);
+	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd);
 	
 	public CourseLineShow singleLiveShow(String roomId);
 	

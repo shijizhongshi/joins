@@ -68,6 +68,8 @@ public interface CourseDao {
 
 	public CourseLineShow selectById(@Param("lineShowId")String lineShowId);
 
-	public Integer selectCount(@Param("userId")String userId);
+	public Integer selectCount(@Param("userId")String userId,@Param("liveId") String liveId);
+
+	public List<LiveMark> selectByUserId(@Param("userId")String userId);
 
 }

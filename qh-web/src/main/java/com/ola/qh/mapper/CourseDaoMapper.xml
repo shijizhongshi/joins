@@ -198,7 +198,9 @@
 	</if>
 	and isshow=1
 	order by addtime desc
+	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
+	</if>
 	</select>
 	
 	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
@@ -292,14 +294,36 @@
 		</if>
 	</select>
 	
+	
+	<resultMap type="com.ola.qh.entity.LiveMark" id="LiveMarkMap">
+	<result column="id" property="id"/>
+	<result column="live_name" property="liveName"/>
+	<result column="live_id" property="liveId"/>
+	<result column="status" property="status"/>
+	<result column="starttime" property="starttime"/>
+	<result column="userId" property="userId"/>
+	<result column="ismark" property="isMark"/>
+	</resultMap>
+	
+	<select id="selectByUserId" resultMap="LiveMarkMap">
+		select * from live_mark where 1=1
+		<if test="userId!=null and userId!=''">
+		and userId = #{userId}
+		</if>
+	</select>
+	
+	
 	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
-	insert into live_mark(id,userId,live_id,live_name,starttime,status) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status});
+	insert into live_mark(id,userId,live_id,live_name,starttime,status,ismark) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status},#{isMark});
 	</insert>
 	
 	<select id="selectCount" resultType="int">
 	select count(*) from live_mark where 1=1
 	<if test="userId!=null and userId!=''">
 	and userId = #{userId}
+	</if>
+	<if test="liveId!=null and liveId!=''">
+	and live_id = #{liveId}
 	</if>
 	</select>
 

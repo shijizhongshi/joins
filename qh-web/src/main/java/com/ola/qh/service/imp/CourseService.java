@@ -144,8 +144,8 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public Results<List<CourseLineShow>> selectLiveList(CourseClassDomain ccd) {
-		Results<List<CourseLineShow>> results = new Results<List<CourseLineShow>>();
+	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
+		// 这个接口返回值不要使用result封装好再返回，封装好不适用全部的controller
 		List<CourseLineShow> list = courseDao.selectLiveList(ccd);
 		for (CourseLineShow courseLineShow : list) {
 			// 格式化时间
@@ -154,17 +154,26 @@ public class CourseService implements ICourseService {
 			if (courseLineShow.getStarttime() != null) {
 				courseLineShow.setDate(sf.format(courseLineShow.getStarttime()));
 			}
-			// 直播时间段格式  12:00-13:00
+			// 直播时间段格式 12:00-13:00
 			SimpleDateFormat sFormat = new SimpleDateFormat("HH:mm");
 			if (courseLineShow.getStarttime() != null && courseLineShow.getEndtime() != null) {
-				courseLineShow.setStartToEnd(
-						sFormat.format(courseLineShow.getStarttime()) + "-" + sFormat.format(courseLineShow.getEndtime()));
+				courseLineShow.setStartToEnd(sFormat.format(courseLineShow.getStarttime()) + "-"
+						+ sFormat.format(courseLineShow.getEndtime()));
+			}
+			if (ccd.getUserId() != null || "".equals(ccd.getUserId())) {
+				// 根据userid查询live_mark表，返回isMark字段
+				List<LiveMark> markList = courseDao.selectByUserId(ccd.getUserId());
+				for (LiveMark liveMark : markList) {
+					if (liveMark.getLiveId() != null && liveMark.getLiveId().equals(courseLineShow.getLiveId())) {
+						courseLineShow.setIsMark(liveMark.getIsMark());
+					} else {
+						courseLineShow.setIsMark(0);
+					}
+				}
 			}
 		}
-		results.setData(list);
-		results.setStatus("0");
 
-		return results;
+		return list;
 	}
 
 	@Override
@@ -233,12 +242,13 @@ public class CourseService implements ICourseService {
 		// 根据直播ID查询直播信息
 		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
 		Integer count = 0;
-		if (courseLineShow.getStarttime() != null) {
+		if (courseLineShow != null && courseLineShow.getStarttime() != null) {
 			// 根据userid查询 直播预约表
-			Integer countInteger = courseDao.selectCount(newUserId);
+			Integer countInteger = courseDao.selectCount(newUserId, courseLineShow.getLiveId());
 			if (countInteger != 0) {
 				results.setStatus("1");
 				results.setData(1);
+				results.setMessage("重复预约");
 				
 				return results;
 			}
@@ -250,9 +260,11 @@ public class CourseService implements ICourseService {
 			liveMark.setStarttime(courseLineShow.getStarttime());
 			// long s =courseLineShow.getStarttime().getTime();
 			liveMark.setStatus(0);
+			liveMark.setIsMark(1);
 			count = courseDao.insertLiveMark(liveMark);
 		}
 		if (count != 0) {
+			results.setMessage("保存预约信息，成功");
 			results.setStatus("0");
 			results.setData(0);
 
@@ -260,7 +272,8 @@ public class CourseService implements ICourseService {
 		}
 		results.setStatus("1");
 		results.setData(0);
-
+		results.setMessage("报错");
+		
 		return results;
 	}
 

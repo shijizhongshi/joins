@@ -16,14 +16,14 @@ public class LiveMark {
 
 	private Date starttime;// 直播开始时间
 
-	private Integer isShow;// 状态值 0:无操作 1：给提示 "不能重复预约直播"
+	private Integer isMark;// 预约状态 0：未预约 1：预约
 
-	public Integer getIsShow() {
-		return isShow;
+	public Integer getIsMark() {
+		return isMark;
 	}
 
-	public void setIsShow(Integer isShow) {
-		this.isShow = isShow;
+	public void setIsMark(Integer isMark) {
+		this.isMark = isMark;
 	}
 
 	public String getId() {

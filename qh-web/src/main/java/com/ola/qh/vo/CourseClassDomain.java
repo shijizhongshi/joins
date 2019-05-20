@@ -32,6 +32,26 @@ public class CourseClassDomain {
 
 	private Integer status;
 
+	private Integer isMark;// 是否预约 0：未预约 1：已预约
+
+	private String userId;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Integer getIsMark() {
+		return isMark;
+	}
+
+	public void setIsMark(Integer isMark) {
+		this.isMark = isMark;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}

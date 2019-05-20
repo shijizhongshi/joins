@@ -8,6 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ola.qh.entity.Course;
+import com.ola.qh.entity.CourseChapter;
+import com.ola.qh.entity.CourseLineShow;
+import com.ola.qh.entity.CourseSection;
+import com.ola.qh.entity.CourseType;
+import com.ola.qh.entity.CourseTypeSubclassNames;
+import com.ola.qh.service.ICourseService;
+import com.ola.qh.util.Patterns;
+import com.ola.qh.util.Results;
+import com.ola.qh.vo.CourseClassDomain;
 /**
  * 
 * @ClassName: CourseController  
@@ -16,19 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 * @date 2018年11月19日  
 *
  */
-
-import com.ola.qh.entity.Course;
-import com.ola.qh.entity.CourseChapter;
-import com.ola.qh.entity.CourseLineShow;
-import com.ola.qh.entity.CourseSection;
-import com.ola.qh.entity.CourseType;
-import com.ola.qh.entity.CourseTypeSubclassNames;
-import com.ola.qh.entity.LiveMark;
-import com.ola.qh.service.ICourseService;
-import com.ola.qh.util.Patterns;
-import com.ola.qh.util.Results;
-import com.ola.qh.vo.CourseClassDomain;
-
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
@@ -198,7 +196,10 @@ public class CourseController {
 		ccd.setPageNo(pageNo);
 		ccd.setPageSize(pageSize);
 		ccd.setStatus(status);
-		result = courseService.selectLiveList(ccd);
+		List<CourseLineShow> list = courseService.selectLiveList(ccd);
+		
+		result.setStatus("0");
+		result.setData(list);
 		
 		return result;
 	}

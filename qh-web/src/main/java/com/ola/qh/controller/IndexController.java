@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.zxing.Result;
 import com.ola.qh.dao.BannerDao;
 import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
@@ -22,7 +21,6 @@ import com.ola.qh.dao.ShopDrugDao;
 import com.ola.qh.dao.ShopDrugImgDao;
 import com.ola.qh.dao.ShopServeDao;
 import com.ola.qh.dao.UserCommentDao;
-import com.ola.qh.dao.UserDao;
 import com.ola.qh.entity.Banner;
 import com.ola.qh.entity.Business;
 import com.ola.qh.entity.CourseLineShow;
@@ -33,8 +31,8 @@ import com.ola.qh.entity.ShopDrugImg;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.User;
+import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
-import com.ola.qh.service.imp.UserService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ClassVo;
@@ -72,6 +70,8 @@ public class IndexController {
 	private IUserService userService;
 	@Autowired
 	private BusinessDao businessDao;
+	@Autowired
+	private ICourseService courseService;
 	
 	
 	@RequestMapping("/select")
@@ -220,7 +220,9 @@ public class IndexController {
 	public Results<ClassVo> courseClass(
 			@RequestParam(name="typeName",required=false)String typeName,
 			@RequestParam(name="address",required=false)String address,
-			@RequestParam(name="userId",required=false)String userId){
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="status",required=false)Integer status){
+		
 		Results<ClassVo> result=new Results<ClassVo>();
 		ClassVo vo =new ClassVo();
 		String newAddress=null;
@@ -231,7 +233,6 @@ public class IndexController {
 			if("0".equals(userresult.getStatus())) {
 				userId=userresult.getData().getId();
 			}else {
-				
 				result.setStatus("1");
 				result.setMessage(userresult.getMessage());
 				return result;
@@ -288,9 +289,12 @@ public class IndexController {
 			CourseClassDomain ccdlive=new CourseClassDomain();
 			ccdlive.setIsremmend(1);
 			ccdlive.setPageNo(0);
-			ccdlive.setPageSize(4);
-			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
-			vo.setLivelist(livelist);
+			ccdlive.setPageSize(0);
+			ccdlive.setStatus(status);
+			ccdlive.setUserId(userId);
+			List<CourseLineShow> list = courseService.selectLiveList(ccdlive);
+			//List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
+			vo.setLivelist(list);
 		}else{
 			CourseClassDomain ccd=new CourseClassDomain();
 			ccd.setCourseTypeSubclassName(typeName);
@@ -305,9 +309,11 @@ public class IndexController {
 			ccdlive.setIsremmend(1);
 			ccdlive.setPageNo(0);
 			ccdlive.setPageSize(4);
+			ccdlive.setStatus(status);
 			ccd.setCourseTypeSubclassName(typeName);
-			List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
-			vo.setLivelist(livelist);
+			List<CourseLineShow> list = courseService.selectLiveList(ccdlive);
+			//List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
+			vo.setLivelist(list);
 		}
 		
 		
