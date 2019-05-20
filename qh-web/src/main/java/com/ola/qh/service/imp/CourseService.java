@@ -234,23 +234,21 @@ public class CourseService implements ICourseService {
 		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
 		Integer count = 0;
 		if (courseLineShow.getStarttime() != null) {
-			LiveMark liveMark = new LiveMark();
 			// 根据userid查询 直播预约表
 			Integer countInteger = courseDao.selectCount(newUserId);
 			if (countInteger != 0) {
-				liveMark.setIsShow(1);
 				results.setStatus("1");
 				results.setData(1);
 				
 				return results;
 			}
+			LiveMark liveMark = new LiveMark();
 			liveMark.setId(KeyGen.uuid());
 			liveMark.setUserId(newUserId);
 			liveMark.setLiveId(courseLineShow.getLiveId());
 			liveMark.setLiveName(courseLineShow.getLiveName());
 			liveMark.setStarttime(courseLineShow.getStarttime());
 			// long s =courseLineShow.getStarttime().getTime();
-			liveMark.setIsShow(0);
 			liveMark.setStatus(0);
 			count = courseDao.insertLiveMark(liveMark);
 		}

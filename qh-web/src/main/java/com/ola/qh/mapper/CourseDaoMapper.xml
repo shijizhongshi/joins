@@ -293,7 +293,7 @@
 	</select>
 	
 	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
-	insert into live_mark(id,userId,live_id,live_name,starttime,status,isshow) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status},#{isShow});
+	insert into live_mark(id,userId,live_id,live_name,starttime,status) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status});
 	</insert>
 	
 	<select id="selectCount" resultType="int">
