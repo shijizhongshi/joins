@@ -310,6 +310,7 @@ public class IndexController {
 			ccdlive.setPageNo(0);
 			ccdlive.setPageSize(4);
 			ccdlive.setStatus(status);
+			ccdlive.setUserId(userId);
 			ccd.setCourseTypeSubclassName(typeName);
 			List<CourseLineShow> list = courseService.selectLiveList(ccdlive);
 			//List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
