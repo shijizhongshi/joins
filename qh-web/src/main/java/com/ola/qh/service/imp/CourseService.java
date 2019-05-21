@@ -145,7 +145,7 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
-		// 这个接口返回值不要使用result封装好再返回，封装好不适用全部的controller
+		// 这个接口返回值不要使用result封装好再返回，封装不适用全部的controller
 		List<CourseLineShow> list = courseDao.selectLiveList(ccd);
 		for (CourseLineShow courseLineShow : list) {
 			// 格式化时间
@@ -156,9 +156,9 @@ public class CourseService implements ICourseService {
 			}
 			// 直播时间段格式 12:00-13:00
 			SimpleDateFormat sFormat = new SimpleDateFormat("HH:mm");
-			if (courseLineShow.getStarttime() != null && courseLineShow.getEndtime() != null) {
+			if (courseLineShow.getStarttime() != null && courseLineShow.getStoptime() != null) {
 				courseLineShow.setStartToEnd(sFormat.format(courseLineShow.getStarttime()) + "-"
-						+ sFormat.format(courseLineShow.getEndtime()));
+						+ sFormat.format(courseLineShow.getStoptime()));
 			}
 			if (ccd.getUserId() != null || "".equals(ccd.getUserId())) {
 				// 根据userid查询live_mark表，返回isMark字段
@@ -249,7 +249,7 @@ public class CourseService implements ICourseService {
 				results.setStatus("1");
 				results.setData(1);
 				results.setMessage("重复预约");
-				
+
 				return results;
 			}
 			LiveMark liveMark = new LiveMark();
@@ -273,7 +273,7 @@ public class CourseService implements ICourseService {
 		results.setStatus("1");
 		results.setData(0);
 		results.setMessage("报错");
-		
+
 		return results;
 	}
 

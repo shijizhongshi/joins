@@ -18,11 +18,13 @@ public class CourseLineShow {
 
 	private int status;//// 0:未开始直播 1:直播开始 2:直播结束 3:离线回放
 
-	private Date starttime;// 直播开始时间
+	private Date starttime;// 手动输入的直播开始时间
 
-	private Date addtime;
+	private Date stoptime;// 手动输入的直播结束时间
 
-	private Date endtime;
+	private Date addtime;// 精确的直播开始时间
+
+	private Date endtime;// 精确的直播结束时间
 
 	private Date updatetime;
 
@@ -36,7 +38,15 @@ public class CourseLineShow {
 
 	private String lecturer; // 主讲老师
 
-	private Integer isMark;
+	private Integer isMark;// 状态值 是否预约
+
+	public Date getStoptime() {
+		return stoptime;
+	}
+
+	public void setStoptime(Date stoptime) {
+		this.stoptime = stoptime;
+	}
 
 	public Integer getIsMark() {
 		return isMark;
