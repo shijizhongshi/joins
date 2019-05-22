@@ -191,14 +191,18 @@
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
 	</if>
-	<if test="status!=null and status !=3">
+	<if test="status!=null and status !=3 and status != 5">
 	and status=#{status}
 	</if>
-	<if test="status!=null and status ==3">
+	<if test="status!=null and status == 3">
 	and status in (3,4)
+	</if>
+	<if test="status!=null and status == 5">
+	and status in (0,1)
 	</if>
 	and isshow=1
 	and isopen = 1
+	<!-- and status = 0 -->
 	order by addtime desc
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}

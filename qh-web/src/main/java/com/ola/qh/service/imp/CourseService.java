@@ -161,15 +161,22 @@ public class CourseService implements ICourseService {
 						+ sFormat.format(courseLineShow.getStoptime()));
 			}
 			if (ccd.getUserId() != null || "".equals(ccd.getUserId())) {
+				//根据userid和liveID查询直播预约表
+				Integer countInteger = courseDao.selectCount(ccd.getUserId(), courseLineShow.getLiveId());
+				if (countInteger >= 1) {
+					courseLineShow.setIsMark(1);
+				}else {
+					courseLineShow.setIsMark(0);
+				}
 				// 根据userid查询live_mark表，返回isMark字段
-				List<LiveMark> markList = courseDao.selectByUserId(ccd.getUserId());
+				/*List<LiveMark> markList = courseDao.selectByUserId(ccd.getUserId());
 				for (LiveMark liveMark : markList) {
 					if (liveMark.getLiveId() != null && liveMark.getLiveId().equals(courseLineShow.getLiveId())) {
 						courseLineShow.setIsMark(liveMark.getIsMark());
 					} else {
 						courseLineShow.setIsMark(0);
 					}
-				}
+				}*/
 			}
 		}
 
