@@ -220,7 +220,6 @@
 	and status in (0,1)
 	</if>
 	and isshow=1
-	and isopen = 1
 	<!-- and status = 0 -->
 	order by addtime desc
 	<if test="pageSize!=0">
