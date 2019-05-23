@@ -36,6 +36,16 @@ public class CourseClassDomain {
 
 	private String userId;
 
+	private Integer isopen;// 是否是公开课
+
+	public Integer getIsopen() {
+		return isopen;
+	}
+
+	public void setIsopen(Integer isopen) {
+		this.isopen = isopen;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

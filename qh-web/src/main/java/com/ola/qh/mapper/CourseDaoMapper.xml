@@ -172,14 +172,33 @@
 	<result column="course_type_name" property="courseTypeName"/>
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
 	<result column="live_name" property="liveName" />
+	<result column="img_url" property="imgUrl" />
+	
 	<result column="live_id" property="liveId" />
-	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
+	<result column="live_room_id" property="liveRoomId" />
+	<result column="live_back_id" property="liveBackId" />
+	
+	<result column="status" property="status" />
+	<result column="isshow" property="isshow" />
 	<result column="isopen" property="isopen" />
+	
+	<result column="addtime" property="addtime" />
+	<result column="endtime" property="endtime" />
+	<result column="updatetime" property="updatetime" />
+	
+	<result column="lecturer" property="lecturer" />
+	<result column="headImgUrl" property="headImgUrl" />
+	
+	
+	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
+	<result column="stoptime" jdbcType="DATE" property="stoptime" javaType="java.util.Date"/>
+	
 	</resultMap>
 	
 	<!-- 直播课程的查询 -->
-	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen,lecturer,starttime,stoptime 
+	<select id="selectLiveList" resultMap="CourseLineShowMap" parameterType="com.ola.qh.vo.CourseClassDomain">
+	select 
+	*
 	from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">

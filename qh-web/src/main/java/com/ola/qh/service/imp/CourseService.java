@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserFavoriteDao;
-import com.ola.qh.dao.UserLoginDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
@@ -22,7 +21,6 @@ import com.ola.qh.entity.CourseTypeSubclass;
 import com.ola.qh.entity.CourseTypeSubclassNames;
 import com.ola.qh.entity.LiveMark;
 import com.ola.qh.entity.User;
-import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
@@ -47,9 +45,6 @@ public class CourseService implements ICourseService {
 
 	@Autowired
 	private UserFavoriteDao userFavoriteDao;
-
-	@Autowired
-	private UserLoginDao userLoginDao;
 
 	@Override
 	public List<CourseType> courseTypeList() {
@@ -160,23 +155,16 @@ public class CourseService implements ICourseService {
 				courseLineShow.setStartToEnd(sFormat.format(courseLineShow.getStarttime()) + "-"
 						+ sFormat.format(courseLineShow.getStoptime()));
 			}
-			if (ccd.getUserId() != null || "".equals(ccd.getUserId())) {
-				//根据userid和liveID查询直播预约表
-				Integer countInteger = courseDao.selectCount(ccd.getUserId(), courseLineShow.getLiveId());
+			if (ccd.getUserId() != null && !"".equals(ccd.getUserId())) {
+				// 根据userid和liveID查询直播预约表
+				Integer countInteger = courseDao.selectCount(ccd.getUserId(), courseLineShow.getId());
 				if (countInteger >= 1) {
 					courseLineShow.setIsMark(1);
-				}else {
+				} else {
 					courseLineShow.setIsMark(0);
 				}
-				// 根据userid查询live_mark表，返回isMark字段
-				/*List<LiveMark> markList = courseDao.selectByUserId(ccd.getUserId());
-				for (LiveMark liveMark : markList) {
-					if (liveMark.getLiveId() != null && liveMark.getLiveId().equals(courseLineShow.getLiveId())) {
-						courseLineShow.setIsMark(liveMark.getIsMark());
-					} else {
-						courseLineShow.setIsMark(0);
-					}
-				}*/
+			} else {
+				courseLineShow.setIsMark(0);
 			}
 		}
 
@@ -236,22 +224,24 @@ public class CourseService implements ICourseService {
 		return courseDao.selectAllByLiveId(liveId);
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Results<Integer> acquire(String lineShowId, String userId) {
 		Results<Integer> results = new Results<Integer>();
 		// token转userId
-		UserLogin userLogin = userLoginDao.selectUserLogin(null, userId);
-		String newUserId = null;
-		if (!"".equals(userLogin)) {
-			newUserId = userLogin.getUserId();
+		Results<User> userresult = userService.existUser(userId);
+		if ("0".equals(userresult.getStatus())) {
+			userId = userresult.getData().getId();
+		} else {
+			results.setStatus("1");
+			results.setMessage(userresult.getMessage());
+			return results;
 		}
 		// 根据直播ID查询直播信息
 		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
 		Integer count = 0;
 		if (courseLineShow != null && courseLineShow.getStarttime() != null) {
 			// 根据userid查询 直播预约表
-			Integer countInteger = courseDao.selectCount(newUserId, courseLineShow.getLiveId());
+			Integer countInteger = courseDao.selectCount(userId, courseLineShow.getId());
 			if (countInteger != 0) {
 				results.setStatus("1");
 				results.setData(1);
@@ -260,9 +250,10 @@ public class CourseService implements ICourseService {
 				return results;
 			}
 			LiveMark liveMark = new LiveMark();
+
 			liveMark.setId(KeyGen.uuid());
-			liveMark.setUserId(newUserId);
-			liveMark.setLiveId(courseLineShow.getLiveId());
+			liveMark.setUserId(userId);
+			liveMark.setLiveId(courseLineShow.getId());
 			liveMark.setLiveName(courseLineShow.getLiveName());
 			liveMark.setStarttime(courseLineShow.getStarttime());
 			// long s =courseLineShow.getStarttime().getTime();
@@ -279,7 +270,7 @@ public class CourseService implements ICourseService {
 		}
 		results.setStatus("1");
 		results.setData(0);
-		results.setMessage("报错");
+		results.setMessage("保存预约信息失败");
 
 		return results;
 	}
