@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.dao.BannerDao;
 import com.ola.qh.dao.BusinessDao;
 import com.ola.qh.dao.CourseClassDao;
-import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.NewsDao;
 import com.ola.qh.dao.ShopDao;
 import com.ola.qh.dao.ShopDrugDao;
@@ -62,8 +61,6 @@ public class IndexController {
 	private ShopServeDao shopServeDao;
 	@Autowired
 	private UserCommentDao userCommentDao;
-	@Autowired
-	private CourseDao courseDao;
 	@Autowired
 	private ShopDrugImgDao shopDrugImgDao;
 	@Autowired
@@ -275,7 +272,8 @@ public class IndexController {
 			vo.setBannerlist(bannerlist);
 		}
 		
-		
+		//提前new  避免空指针
+		List<CourseLineShow> list = new ArrayList<>();
 		if(typeName==null || "".equals(typeName)){
 			CourseClassDomain ccd=new CourseClassDomain();
 			ccd.setIsremmend(1);
@@ -289,10 +287,23 @@ public class IndexController {
 			CourseClassDomain ccdlive=new CourseClassDomain();
 			ccdlive.setIsremmend(1);
 			ccdlive.setPageNo(0);
-			ccdlive.setPageSize(0);
+			ccdlive.setPageSize(4);
 			ccdlive.setStatus(status);
 			ccdlive.setUserId(userId);
-			List<CourseLineShow> list = courseService.selectLiveList(ccdlive);
+			ccdlive.setIsopen(1);
+			//根据条件查公开课
+			list = courseService.selectLiveList(ccdlive);
+			if (list.size() < 4) {
+				//公开课不足四条  用非公开课补上差值
+				ccdlive.setIsremmend(1);
+				ccdlive.setPageNo(0);
+				ccdlive.setPageSize(4-list.size());
+				ccdlive.setStatus(status);
+				ccdlive.setUserId(userId);
+				ccdlive.setIsopen(0);
+				List<CourseLineShow> notOpenList = courseService.selectLiveList(ccdlive);
+				list.addAll(notOpenList);
+			}
 			//List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
 			vo.setLivelist(list);
 		}else{
@@ -311,8 +322,20 @@ public class IndexController {
 			ccdlive.setPageSize(4);
 			ccdlive.setStatus(status);
 			ccdlive.setUserId(userId);
-			ccd.setCourseTypeSubclassName(typeName);
-			List<CourseLineShow> list = courseService.selectLiveList(ccdlive);
+			ccdlive.setIsopen(1);
+			ccdlive.setCourseTypeSubclassName(typeName);
+			list = courseService.selectLiveList(ccdlive);
+			if (list.size() < 4) {
+				ccdlive.setIsremmend(1);
+				ccdlive.setPageNo(0);
+				ccdlive.setPageSize(4-list.size());
+				ccdlive.setStatus(status);
+				ccdlive.setUserId(userId);
+				ccdlive.setIsopen(0);
+				ccdlive.setCourseTypeSubclassName(null);
+				List<CourseLineShow> notOpenList = courseService.selectLiveList(ccdlive);
+				list.addAll(notOpenList);
+			}
 			//List<CourseLineShow> livelist = courseDao.selectLiveList(ccdlive);
 			vo.setLivelist(list);
 		}

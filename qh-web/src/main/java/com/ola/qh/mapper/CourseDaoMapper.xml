@@ -173,26 +173,22 @@
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
 	<result column="live_name" property="liveName" />
 	<result column="img_url" property="imgUrl" />
-	
-	<result column="live_id" property="liveId" />
-	<result column="live_room_id" property="liveRoomId" />
-	<result column="live_back_id" property="liveBackId" />
-	
-	<result column="status" property="status" />
+	<result column="out_links" property="outLinks" />
+	<result column="isremmend" property="isremmend" />
 	<result column="isshow" property="isshow" />
-	<result column="isopen" property="isopen" />
-	
+	<result column="live_room_id" property="liveRoomId" />
+	<result column="live_id" property="liveId" />
+	<result column="live_back_id" property="liveBackId" />
+	<result column="status" property="status" />
+	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
+	<result column="stoptime" jdbcType="DATE" property="stoptime" javaType="java.util.Date"/>
 	<result column="addtime" property="addtime" />
 	<result column="endtime" property="endtime" />
 	<result column="updatetime" property="updatetime" />
-	
+	<result column="offline_url" property="offlineUrl" />
 	<result column="lecturer" property="lecturer" />
 	<result column="headImgUrl" property="headImgUrl" />
-	
-	
-	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
-	<result column="stoptime" jdbcType="DATE" property="stoptime" javaType="java.util.Date"/>
-	
+	<result column="isopen" property="isopen" />
 	</resultMap>
 	
 	<!-- 直播课程的查询 -->
@@ -220,8 +216,11 @@
 	and status in (0,1)
 	</if>
 	and isshow=1
+	<if test="isopen != null">
+	and isopen = #{isopen}
+	</if>
 	<!-- and status = 0 -->
-	order by addtime desc
+	order by addtime
 	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
 	</if>
