@@ -30,15 +30,28 @@ public class CourseLineShow {
 
 	private String offlineUrl;
 
-	private Integer isopen;// 是否是公开课 0:不公开 1:公开
+
 
 	private String date;// 格式化后的日期
-
 	private String startToEnd;// 格式化后的开始结束时间
 
 	private String lecturer; // 主讲老师
 
 	private Integer isMark;// 状态值 是否预约
+	
+	private String headImgUrl;//老师头像图片
+	
+	private Integer isopen;// 是否是公开课 0:不公开 1:公开
+	
+	
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
 
 	public Date getStoptime() {
 		return stoptime;
