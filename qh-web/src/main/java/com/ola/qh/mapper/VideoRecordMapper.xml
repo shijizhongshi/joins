@@ -40,4 +40,8 @@
 		values(#{id},#{userId},#{videoId},#{courseId},#{courseName},#{chapterId},#{chapterName},#{sectionId},
 		#{sectionName},#{startTime},#{endtime},#{howlong},#{addtime})
 	</insert>
+	
+	<delete id="deleteVideoRecord">
+		delete from video_record where id=#{id}
+	</delete>
 </mapper>

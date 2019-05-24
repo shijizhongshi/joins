@@ -92,6 +92,11 @@
 		
 	</select>
 	
+	<delete id="deleteReply" >
+		delete from doctor_reply_patient where patient_id=#{patientId}
+		
+	</delete>
+	
 	<!--问答详情医生的集合 
 	<select id="doctorReplyList" resultType="com.ola.qh.vo.DoctorsVo">
 		select d.name,d.head_img headImg,d.hospital,d.offices,d.professional,d.skilled,drp.doctor_id doctorId  from doctor_reply_patient drp

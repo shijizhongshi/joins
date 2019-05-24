@@ -7,6 +7,6 @@ import com.ola.qh.util.Results;
 
 public interface IKnowledgeVideoService {
 
-	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo,int pageSize,String courseTypeSubclassName);
+	public Results<List<KnowledgeVideo>> KnowledgeVideoList(int pageNo,int pageSize,String miniSubclassName,String courseTypeSubclassName,String userId,String address);
 	
 }

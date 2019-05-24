@@ -31,4 +31,5 @@ public interface IDoctorsService {
 	
 	public DoctorPatient singlePatient(String id);
 	
+	public Results<String> deletePatient(String userId,String id);
 }

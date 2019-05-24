@@ -1,5 +1,6 @@
 package com.ola.qh.service.imp;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ola.qh.dao.CourseDao;
 import com.ola.qh.dao.UserFavoriteDao;
+import com.ola.qh.dao.UserLoginDao;
 import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseChapter;
 import com.ola.qh.entity.CourseLineCCresult;
@@ -17,9 +19,13 @@ import com.ola.qh.entity.CourseLineWhite;
 import com.ola.qh.entity.CourseSection;
 import com.ola.qh.entity.CourseType;
 import com.ola.qh.entity.CourseTypeSubclass;
+import com.ola.qh.entity.CourseTypeSubclassNames;
+import com.ola.qh.entity.LiveMark;
 import com.ola.qh.entity.User;
+import com.ola.qh.entity.UserLogin;
 import com.ola.qh.service.ICourseService;
 import com.ola.qh.service.IUserService;
+import com.ola.qh.util.KeyGen;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CourseClassDomain;
 
@@ -42,38 +48,49 @@ public class CourseService implements ICourseService {
 	@Autowired
 	private UserFavoriteDao userFavoriteDao;
 
+	@Autowired
+	private UserLoginDao userLoginDao;
+
 	@Override
 	public List<CourseType> courseTypeList() {
-		
+
 		return courseDao.courseTypeList(null);
 	}
 
 	@Override
 	public List<CourseType> courseTypeSubclassList(String courseTypeId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-				List<CourseType> list=courseDao.courseTypeList(courseTypeId);
-					////////查出一个集合来
-					for (CourseType courseType : list) {
-						if(courseTypeId!=null && !"".equals(courseTypeId)){
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
-							courseType.setSublist(sublist);
-						}else{
-							List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
-							courseType.setSublist(sublist);
-						}
-						
-					}
-				///通过大类别的查询
-				return list;///// 
+		List<CourseType> list = courseDao.courseTypeList(courseTypeId);
+		//////// 查出一个集合来
+		for (CourseType courseType : list) {
+			if (courseTypeId != null && !"".equals(courseTypeId)) {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseTypeId);
+				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
+			} else {
+				List<CourseTypeSubclass> sublist = courseDao.courseTypeSubclassList(courseType.getId());
+				courseType.setSublist(sublist);
+				for (CourseTypeSubclass courseTypeSubclass : sublist) {
+					// 根据二级ID查是否有三级
+					Integer size = courseDao.selectMiniByTypeSubclassId(courseTypeSubclass.getId());
+					courseTypeSubclass.setSize(size);
+				}
+			}
+
+		}
+		/// 通过大类别的查询
+		return list;/////
 	}
 
 	@Override
 	public List<Course> courseList(CourseClassDomain ccd) {
 		// TODO Auto-generated method stub
-		List<Course> list= courseDao.courseList(ccd);
+		List<Course> list = courseDao.courseList(ccd);
 		for (Course course : list) {
-			////总的章数
+			//// 总的章数
 			int num = courseDao.courseChapterCount(course.getId());
 			course.setCourseChapterSize(num);
 		}
@@ -102,27 +119,25 @@ public class CourseService implements ICourseService {
 		// TODO Auto-generated method stub
 		Results<Course> result = new Results<Course>();
 		Course c = courseDao.singleCourse(courseId);
-		if(c!=null && c.getCourseShow()==1){
+		if (c != null && c.getCourseShow() == 1) {
 			result.setStatus("1");
 			result.setMessage("课程已失效");
 			return result;
 		}
 		if (userId != null && !"".equals(userId)) {
 			Results<User> userResult = userService.existUser(userId);
-			if("1".equals(userResult.getStatus())){
+			if ("1".equals(userResult.getStatus())) {
 				result.setStatus("1");
 				result.setMessage(userResult.getMessage());
 				return result;
 			}
-			userId=userResult.getData().getId();
+			userId = userResult.getData().getId();
 			int count = userFavoriteDao.existUserFavorite(courseId, userId);
 			if (count > 0) {
 				c.setIsFavorite(1);
 			}
 		}
-		
-		
-		
+
 		result.setStatus("0");
 		result.setData(c);
 		return result;
@@ -130,8 +145,42 @@ public class CourseService implements ICourseService {
 
 	@Override
 	public List<CourseLineShow> selectLiveList(CourseClassDomain ccd) {
-		// TODO Auto-generated method stub
-		return courseDao.selectLiveList(ccd);
+		// 这个接口返回值不要使用result封装好再返回，封装不适用全部的controller
+		List<CourseLineShow> list = courseDao.selectLiveList(ccd);
+		for (CourseLineShow courseLineShow : list) {
+			// 格式化时间
+			// 直播日期格式 05-17
+			SimpleDateFormat sf = new SimpleDateFormat("MM-dd");
+			if (courseLineShow.getStarttime() != null) {
+				courseLineShow.setDate(sf.format(courseLineShow.getStarttime()));
+			}
+			// 直播时间段格式 12:00-13:00
+			SimpleDateFormat sFormat = new SimpleDateFormat("HH:mm");
+			if (courseLineShow.getStarttime() != null && courseLineShow.getStoptime() != null) {
+				courseLineShow.setStartToEnd(sFormat.format(courseLineShow.getStarttime()) + "-"
+						+ sFormat.format(courseLineShow.getStoptime()));
+			}
+			if (ccd.getUserId() != null || "".equals(ccd.getUserId())) {
+				//根据userid和liveID查询直播预约表
+				Integer countInteger = courseDao.selectCount(ccd.getUserId(), courseLineShow.getLiveId());
+				if (countInteger >= 1) {
+					courseLineShow.setIsMark(1);
+				}else {
+					courseLineShow.setIsMark(0);
+				}
+				// 根据userid查询live_mark表，返回isMark字段
+				/*List<LiveMark> markList = courseDao.selectByUserId(ccd.getUserId());
+				for (LiveMark liveMark : markList) {
+					if (liveMark.getLiveId() != null && liveMark.getLiveId().equals(courseLineShow.getLiveId())) {
+						courseLineShow.setIsMark(liveMark.getIsMark());
+					} else {
+						courseLineShow.setIsMark(0);
+					}
+				}*/
+			}
+		}
+
+		return list;
 	}
 
 	@Override
@@ -143,7 +192,7 @@ public class CourseService implements ICourseService {
 	@Override
 	public int updateListShow(CourseLineShow cls) {
 		// TODO Auto-generated method stub
-		
+
 		return courseDao.updateListShow(cls);
 	}
 
@@ -171,10 +220,70 @@ public class CourseService implements ICourseService {
 		return courseDao.singleLineCheck(mobile);
 	}
 
+
+
+	public Results<List<CourseTypeSubclassNames>> selectThree(String courseTypeSubclassId) {
+		Results<List<CourseTypeSubclassNames>> results = new Results<List<CourseTypeSubclassNames>>();
+		List<CourseTypeSubclassNames> list = courseDao.select(courseTypeSubclassId);
+		results.setStatus("0");
+		results.setData(list);
+
+		return results;
+	}
+
 	@Override
 	public List<CourseLineWhite> selectAllByLiveId(String liveId) {
 		// TODO Auto-generated method stub
 		return courseDao.selectAllByLiveId(liveId);
+	}
+
+	@SuppressWarnings("unlikely-arg-type")
+	@Override
+	public Results<Integer> acquire(String lineShowId, String userId) {
+		Results<Integer> results = new Results<Integer>();
+		// token转userId
+		UserLogin userLogin = userLoginDao.selectUserLogin(null, userId);
+		String newUserId = null;
+		if (!"".equals(userLogin)) {
+			newUserId = userLogin.getUserId();
+		}
+		// 根据直播ID查询直播信息
+		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
+		Integer count = 0;
+		if (courseLineShow != null && courseLineShow.getStarttime() != null) {
+			// 根据userid查询 直播预约表
+			Integer countInteger = courseDao.selectCount(newUserId, courseLineShow.getLiveId());
+			if (countInteger != 0) {
+				results.setStatus("1");
+				results.setData(1);
+				results.setMessage("重复预约");
+
+				return results;
+			}
+			LiveMark liveMark = new LiveMark();
+			liveMark.setId(KeyGen.uuid());
+			liveMark.setUserId(newUserId);
+			liveMark.setLiveId(courseLineShow.getLiveId());
+			liveMark.setLiveName(courseLineShow.getLiveName());
+			liveMark.setStarttime(courseLineShow.getStarttime());
+			// long s =courseLineShow.getStarttime().getTime();
+			liveMark.setStatus(0);
+			liveMark.setIsMark(1);
+			count = courseDao.insertLiveMark(liveMark);
+		}
+		if (count != 0) {
+			results.setMessage("保存预约信息，成功");
+			results.setStatus("0");
+			results.setData(0);
+
+			return results;
+		}
+		results.setStatus("1");
+		results.setData(0);
+		results.setMessage("报错");
+
+		return results;
+
 	}
 
 }

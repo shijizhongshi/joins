@@ -253,9 +253,15 @@
 		updatetime=#{updatetime}
 		where id=#{id}
 	</update>
+	
+	<delete id="deletePatient">
+	delete from doctor_patient where id=#{id} and user_id=#{userId}
+	</delete>
 	<resultMap type="com.ola.qh.entity.DoctorPatientImg" id="PatientImgMap">
 	<result column="id" property="id"/>
+	<result column="patient_id" property="patientId"/>
 	<result column="img_url" property="imgUrl"/>
+	<result column="addtime" property="addtime"/>
 	</resultMap>
 	
 	<insert id="insertPatientImg" parameterType="com.ola.qh.entity.DoctorPatientImg">
@@ -271,7 +277,7 @@
 	</select>
 	
 	<delete id="deletePatientImg">
-	delete from doctor_patient_img where id=#{id}
+	delete from doctor_patient_img where patient_id=#{patientId}
 	</delete>
 
 	<!-- 患者的信息结束************************* -->

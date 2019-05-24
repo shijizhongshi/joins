@@ -12,4 +12,6 @@ public interface QuestionSubcategoryDao {
 	
 	public int countSubCategory(@Param("categoryId")String categoryId);
 	
+	public String showSubName(@Param("id")String id);////////每日一练查询专业用
+	
 }

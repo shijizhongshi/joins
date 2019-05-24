@@ -28,11 +28,24 @@ public class QuestionBank {
 	
 	private Date updatetime;
 	
+	private int status;//////////用户做过传1，没做过传0
+	
 	private String bankId;/////共用题干类型的题 小单元题
 	 
 	private List<QuestionAnswer> answer=new ArrayList<QuestionAnswer>();
 	
 	private QuestionUnitTypes unit=new QuestionUnitTypes();
+	
+	private String titleimg;
+	
+	
+	public String getTitleimg() {
+		return titleimg;
+	}
+
+	public void setTitleimg(String titleimg) {
+		this.titleimg = titleimg;
+	}
 
 	public String getCorrect() {
 		return correct;
@@ -144,6 +157,14 @@ public class QuestionBank {
 
 	public void setTitles(String[] titles) {
 		this.titles = titles;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

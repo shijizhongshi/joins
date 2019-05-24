@@ -1,59 +1,68 @@
 package com.ola.qh.entity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /**
  * 
-* @ClassName: Course  
-* @Description: 课程的实体类
-* @author guoyuxue  
-* @date 2018年11月19日  
-*
+ * @ClassName: Course
+ * @Description: 课程的实体类
+ * @author guoyuxue
+ * @date 2018年11月19日
+ *
  */
 public class Course {
-	
-	private String id;
-	
-	private String userId;////课程所属者
 
-	private String courseName;//课程名称
-	
-	private String courseTypeName;///课程类别的名称
-	
-	private String courseTypeSubclassName;////课程子类别的名称
-	
-	private int courseChapterSize;////课程的章节数
-	
-	private BigDecimal coursePrice;////课程的价格
-	
-	private BigDecimal courseDiscountPrice;////课程折扣价格
-	
-	private int maxdoudou;////购买整个课程最多的豆豆数
-	
-	private String courseYear;////课程年限
-	
-	private int courseShow;////课程是否展示
-	
-	private int courseExcellent;///是否是优秀课程
-	
-	private String courseResourceType;/////课程资源类别
-	
-	private String courseUseDifference;/////课程用途类别
-	
-	private String courseImg;////课程的图片
-	
+	private String id;
+
+	private String userId;//// 课程所属者
+
+	private String courseName;// 课程名称
+
+	private String courseTypeName;/// 课程类别的名称
+
+	private String courseTypeSubclassName;//// 课程子类别的名称
+
+	private int courseChapterSize;//// 课程的章节数
+
+	private BigDecimal coursePrice;//// 课程的价格
+
+	private BigDecimal courseDiscountPrice;//// 课程折扣价格
+
+	private int maxdoudou;//// 购买整个课程最多的豆豆数
+
+	private String courseYear;//// 课程年限
+
+	private int courseShow;//// 课程是否展示
+
+	private int courseExcellent;/// 是否是优秀课程
+
+	private String courseResourceType;///// 课程资源类别
+
+	private String courseUseDifference;///// 课程用途类别
+
+	private String courseImg;//// 课程的图片
+
 	private Date addtime;
-	
+
 	private Date updatetime;
-	
-	private int isFavorite;///1:已经收藏   0:没有收藏
-	
-	private String classId;///按照班级的ID查
-	
-	private int courseStatus;////1:已经购买了
-	
+
+	private int isFavorite;/// 1:已经收藏 0:没有收藏
+
+	private String classId;/// 按照班级的ID查
+
+	private int courseStatus;//// 1:已经购买了
+
+	private List<CourseChapter> courseChapters;//章集合
+
+	public List<CourseChapter> getCourseChapters() {
+		return courseChapters;
+	}
+
+	public void setCourseChapters(List<CourseChapter> courseChapters) {
+		this.courseChapters = courseChapters;
+	}
 
 	public int getMaxdoudou() {
 		return maxdoudou;
@@ -111,7 +120,6 @@ public class Course {
 		this.courseTypeSubclassName = courseTypeSubclassName;
 	}
 
-
 	public int getCourseChapterSize() {
 		return courseChapterSize;
 	}
@@ -144,7 +152,6 @@ public class Course {
 		this.courseYear = courseYear;
 	}
 
-	
 	public int getCourseShow() {
 		return courseShow;
 	}
@@ -209,7 +216,6 @@ public class Course {
 		this.id = id;
 	}
 
-
 	public String getUserId() {
 		return userId;
 	}
@@ -218,6 +224,4 @@ public class Course {
 		this.userId = userId;
 	}
 
-	
-	
 }

@@ -8,29 +8,94 @@ public class CourseLineShow {
 	private String courseTypeSubclassName;
 	private String liveName;
 	private String imgUrl;
-	private String outLinks;/////直播跳转的连接
-	
+	private String outLinks;///// 直播跳转的连接
 
-	private String isremmend;////1是推荐
-	private String isshow;///1:可见
-	private String liveRoomId;//直播间id
-	private String liveId;//直播id
-	private String liveBackId;//回放id
-	
-	private int status;////0:未开始直播   1:直播开始  2:直播结束  3:离线回放
-	
-	private Date addtime;
-	
-	private Date endtime;
-	
+	private String isremmend;//// 1是推荐
+	private String isshow;/// 1:可见
+	private String liveRoomId;// 直播间id
+	private String liveId;// 直播id
+	private String liveBackId;// 回放id
+
+	private int status;//// 0:未开始直播 1:直播开始 2:直播结束 3:离线回放
+
+	private Date starttime;// 手动输入的直播开始时间
+
+	private Date stoptime;// 手动输入的直播结束时间
+
+	private Date addtime;// 精确的直播开始时间
+
+	private Date endtime;// 精确的直播结束时间
+
 	private Date updatetime;
-	
+
 	private String offlineUrl;
-	
-	
 
+	private Integer isopen;// 是否是公开课 0:不公开 1:公开
 
-	
+	private String date;// 格式化后的日期
+
+	private String startToEnd;// 格式化后的开始结束时间
+
+	private String lecturer; // 主讲老师
+
+	private Integer isMark;// 状态值 是否预约
+
+	public Date getStoptime() {
+		return stoptime;
+	}
+
+	public void setStoptime(Date stoptime) {
+		this.stoptime = stoptime;
+	}
+
+	public Integer getIsMark() {
+		return isMark;
+	}
+
+	public void setIsMark(Integer isMark) {
+		this.isMark = isMark;
+	}
+
+	public String getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(String lecturer) {
+		this.lecturer = lecturer;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getStartToEnd() {
+		return startToEnd;
+	}
+
+	public void setStartToEnd(String startToEnd) {
+		this.startToEnd = startToEnd;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Integer getIsopen() {
+		return isopen;
+	}
+
+	public void setIsopen(Integer isopen) {
+		this.isopen = isopen;
+	}
+
 	public String getOfflineUrl() {
 		return offlineUrl;
 	}
@@ -158,6 +223,5 @@ public class CourseLineShow {
 	public void setIsshow(String isshow) {
 		this.isshow = isshow;
 	}
-	
-	
+
 }

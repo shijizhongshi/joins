@@ -22,12 +22,15 @@ public class KnowledgeVideoController {
 	
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public Results<List<KnowledgeVideo>> KnowledgeVideoList(@RequestParam(name="page",required=true)int page,
-			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName){
+			@RequestParam(name="courseTypeSubclassName",required=false)String courseTypeSubclassName,
+			@RequestParam(name="miniSubclassName",required=false)String miniSubclassName,
+			@RequestParam(name="userId",required=false)String userId,
+			@RequestParam(name="address",required=false)String address){
 		
 		int pageNo=(page - 1) * Patterns.zupageSize;
 		int pageSize=Patterns.zupageSize;
 		
-		return knowledgeVideoService.KnowledgeVideoList(pageNo,pageSize,courseTypeSubclassName);
+		return knowledgeVideoService.KnowledgeVideoList(pageNo,pageSize,miniSubclassName,courseTypeSubclassName,userId,address);
 	}
 	
 	

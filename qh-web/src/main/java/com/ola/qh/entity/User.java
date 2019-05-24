@@ -11,50 +11,70 @@ import com.sun.istack.NotNull;
 public class User {
 
 	private String id;
-	
-	private String nickname;//用户昵称
-	
-	@NotEmpty(message="密码不能为空")
+
+	private String nickname;// 用户昵称
+
+	@NotEmpty(message = "密码不能为空")
 	private String password;
-	
-	@NotEmpty(message="验证码不能为空")
+
+	@NotEmpty(message = "验证码不能为空")
 	private String verification;
-	
+
 	private String address;
-	
+
 	private Date addtime;
-	
-	private String headimg;//用户头像
-	
-	private int userrole;//用户类型
-	
-	@NotEmpty(message="手机号不能为空")
+
+	private String headimg;// 用户头像
+
+	private int userrole;// 用户类型
+
+	@NotEmpty(message = "手机号不能为空")
 	private String mobile;
-	
+
 	@NotEmpty(message = "设备名称不能为空")
 	private String deviceName;
-	
+
 	@NotEmpty(message = "设备ID不能为空")
 	private String deviceId;
-	
+
 	@NotEmpty(message = "设备编号不能为空")
 	private String deviceToken;
 	@Valid
 	@NotNull
-	private int deviceType;//设备类型
-	
+	private int deviceType;// 设备类型
+
 	private Date updatetime;
-	
+
 	private String birthday;
-	
-	private int isdoctor;//1是医生   0:不是医生
-	
+
+	private int isdoctor;// 1是医生 0:不是医生
+
 	private String token;
-	
+
 	private String sex;
-	
+
 	private String realname;
+
+	private String courseTypeSubclassName;//用户选择的专业
 	
+	private String types;
+
+	public String getTypes() {
+		return types;
+	}
+
+	public void setTypes(String types) {
+		this.types = types;
+	}
+
+	public String getCourseTypeSubclassName() {
+		return courseTypeSubclassName;
+	}
+
+	public void setCourseTypeSubclassName(String courseTypeSubclassName) {
+		this.courseTypeSubclassName = courseTypeSubclassName;
+	}
+
 	public String getSex() {
 		return sex;
 	}
@@ -207,6 +227,4 @@ public class User {
 		this.realname = realname;
 	}
 
-	
-	
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ola.qh.dao.UserFinishDaysDao">
+	<resultMap type="com.ola.qh.entity.UserFinishDays"  id="UserFinishDaysMap">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="courseTypeSubclassName" property="courseTypeSubclassName" />
+		<result column="userFinsihCount" property="userFinsihCount" />
+		<result column="trueUserFinsihCount" property="trueUserFinsihCount" />
+		<result column="days" property="days" />
+		<result column="addtime" property="addtime" />
+		<result column="updatetime" property="updatetime" />
+		
+	</resultMap>
+	
+	<select id="UserFinishDaysSingle" resultType="com.ola.qh.entity.UserFinishDays">
+		select id,user_id,courseTypeSubclassName,userFinsihCount,trueUserFinsihCount,days,addtime 
+		from user_finish_days 
+		where user_id=#{userId}
+		<if test="courseTypeSubclassName!=null and courseTypeSubclassName!=''">
+			and courseTypeSubclassName=#{courseTypeSubclassName}
+		</if>
+	</select>
+	
+	<insert id="insertUserFinishDays" parameterType="com.ola.qh.entity.UserFinishDays">
+		insert into user_finish_days(id,user_id,courseTypeSubclassName,userFinsihCount,trueUserFinsihCount,days,addtime)
+		values(#{id},#{userId},#{courseTypeSubclassName},#{userFinsihCount},#{trueUserFinsihCount},#{days},#{addtime})
+	</insert>
+	
+	<update id="UserFinishDaysUpdate" parameterType="com.ola.qh.entity.UserFinishDays">
+		update user_finish_days set 
+		<if test="userFinsihCount!=null and userFinsihCount!=''">
+		userFinsihCount=#{userFinsihCount},
+		</if>
+		<if test="trueUserFinsihCount!=null and trueUserFinsihCount!=''">
+		trueUserFinsihCount=#{trueUserFinsihCount},
+		</if>
+		<if test="days!=null and days!=''">
+		days=#{days},
+		</if>
+		updatetime=#{updatetime}
+		where user_id=#{userId} and courseTypeSubclassName=#{courseTypeSubclassName}
+	</update>
+</mapper>

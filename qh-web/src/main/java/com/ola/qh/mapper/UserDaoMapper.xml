@@ -24,7 +24,7 @@
 	</sql>
 
 	<insert id="saveUser" parameterType="com.ola.qh.entity.User" >
-		insert into user(id,mobile,password,addtime) values(#{id},#{mobile},#{password},#{addtime})
+		insert into user(id,mobile,password,addtime,types) values(#{id},#{mobile},#{password},#{addtime},#{types})
 	</insert>
 	
 	<select id="loginUser"  resultMap="UserMap">
@@ -94,4 +94,38 @@
 	<update id="updateCode">
 	update user_code set code=#{code} where mobile=#{mobile}
 	</update>
+	
+	<!-- user_type_subclass表映射       开始   -->
+	<resultMap type="com.ola.qh.entity.UserTypeSubclass" id="UserTypeSubclassMap">
+	<result column="id" property="id"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="addtime" property="addTime"/>
+	<result column="updatetime" property="updateTime"/>
+	</resultMap>
+	
+	<!-- 根据ID查询全部  -->
+	<select id="selectByUserId" resultMap="UserTypeSubclassMap">
+	select * from user_type_subclass where 1=1 
+	<if test="userId != null and userId !=''">
+	and userId = #{userId}
+	</if>
+	</select>
+	
+	<!--添加  -->
+	<insert id="insertUserTypeSubclass" parameterType="com.ola.qh.entity.UserTypeSubclass">
+	insert into user_type_subclass(id,userId,course_type_subclass_name,addtime)values(#{id},#{userId},#{courseTypeSubclassName},#{addTime})
+	</insert>
+	
+	<!-- 根据userid更新专业名  -->
+	<update id="updateNameById" parameterType="com.ola.qh.entity.UserTypeSubclass">
+	update user_type_subclass set
+	<if test="courseTypeSubclassName != null and courseTypeSubclassName !=''">
+	course_type_subclass_name = #{courseTypeSubclassName},
+	</if>
+	<if test="updateTime != null">
+	updatetime = #{updateTime}
+	</if>
+	where userId = #{userId}
+	</update>
+	<!-- user_type_subclass表映射       结束   -->
 </mapper>

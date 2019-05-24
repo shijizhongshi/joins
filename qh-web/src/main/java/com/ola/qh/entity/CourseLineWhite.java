@@ -7,13 +7,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class CourseLineWhite {
 
 	private String id;
-	@NotEmpty
+
 	private String liveId;
 	
-	@NotEmpty
 	private String username;
 	
-	@NotEmpty
 	private String password;
 
 	private Date addtime;

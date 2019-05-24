@@ -30,6 +30,7 @@
 	<resultMap type="com.ola.qh.entity.CourseType" id="CourseTypeMap">
 	<result column="id" property="id"/>
 	<result column="course_type_name" property="courseTypeName"/>
+	<result column="imgUrl" property="imgUrl"/>
 	</resultMap>
 	<select id="singleCourseType" resultType="com.ola.qh.entity.CourseType">
 	    select id id,course_type_name courseTypeName from course_type where id=#{id}
@@ -68,6 +69,28 @@
 	</select>
 	<!--查用户类别的结束#################### -->
 	
+	<!--三级类别开始#################### -->
+	<resultMap type="com.ola.qh.entity.CourseTypeSubclassNames" id="CourseTypeSubclassNamesMap">
+	<result column="id" property="id"/>
+	<result column="course_type_subclass_id" property="courseTypeSubclassId"/>
+	<result column="mini_subclass_name" property="miniSubclassName"/>
+	</resultMap>
+	
+	<!-- 根据courseTypeSubclassId查询全部  -->
+	<select id = "select" resultMap="CourseTypeSubclassNamesMap">
+	select * from course_type_subclass_names where 1=1
+	<if test="courseTypeSubclassId != null and courseTypeSubclassId !=''"> 
+	and course_type_subclass_id = #{courseTypeSubclassId}
+	</if>
+	</select>
+	<select id="selectMiniByTypeSubclassId" resultType="int">
+	select count(*) from course_type_subclass_names where 1=1
+	<if test="courseTypeSubclassId != null and courseTypeSubclassId !=''">
+	and course_type_subclass_id = #{courseTypeSubclassId}
+	</if>
+	</select>
+	<!--三级类别结束#################### -->
+	
 	<!--课程按照不同的条件进行查询-->
 	<select id="courseList" parameterType="com.ola.qh.vo.CourseClassDomain" resultMap="CourseMap" >
 	
@@ -92,8 +115,6 @@
 	<select id="singleCourse" resultMap="CourseMap">
 	    select * from course where id=#{courseId} and course_show=0
 	</select>	
-		
-	
 		
 	<!-- 课程章的查询 -->
 	<select id="courseChapterCount" resultType="int">
@@ -144,9 +165,22 @@
 	where course_chapter_id=#{courseChapterId} order by orders asc
 	</select>
 	
+	
+	
+	<resultMap type="com.ola.qh.entity.CourseLineShow" id="CourseLineShowMap">
+	<result column="id" property="id"/>
+	<result column="course_type_name" property="courseTypeName"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="live_name" property="liveName" />
+	<result column="live_id" property="liveId" />
+	<result column="starttime" jdbcType="DATE" property="starttime" javaType="java.util.Date"/>
+	<result column="isopen" property="isopen" />
+	</resultMap>
+	
 	<!-- 直播课程的查询 -->
 	<select id="selectLiveList" resultType="com.ola.qh.entity.CourseLineShow" parameterType="com.ola.qh.vo.CourseClassDomain">
-	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status from course_line_show
+	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,isopen,lecturer,starttime,stoptime 
+	from course_line_show
 	where 1=1
 	<if test="courseTypeName!=null and courseTypeName!='' ">
 	and course_type_name=#{courseTypeName}
@@ -157,11 +191,24 @@
 	<if test="className!=null and className!='' ">
 	and live_name=#{className}
 	</if>
+	<if test="status!=null and status !=3 and status != 5">
+	and status=#{status}
+	</if>
+	<if test="status!=null and status == 3">
+	and status in (3,4)
+	</if>
+	<if test="status!=null and status == 5">
+	and status in (0,1)
+	</if>
 	and isshow=1
+	and isopen = 1
+	<!-- and status = 0 -->
 	order by addtime desc
+	<if test="pageSize!=0">
 	limit #{pageNo},#{pageSize}
+	</if>
 	</select>
-
+	
 	<select id="singleLiveShow" resultType="com.ola.qh.entity.CourseLineShow">
 	select id,live_name  liveName, img_url imgUrl,isshow,out_links outLinks,live_id liveId,live_back_id liveBackId,live_room_id liveRoomId,offline_url offlineUrl,endtime,addtime,status,course_type_subclass_name courseTypeSubclassName from course_line_show
 	where 1=1
@@ -172,6 +219,13 @@
 	limit 0,1
 	</select>
 	
+	<select id="selectById" resultMap="CourseLineShowMap">
+	select * from course_line_show where 1=1 
+	<if test="lineShowId!=null and lineShowId!=''">
+	and id = #{lineShowId}
+	</if>
+	and isopen = 1;
+	</select>
 	
 	<update id="updateListShow" parameterType="com.ola.qh.entity.CourseLineShow">
 		update course_line_show set 
@@ -207,7 +261,7 @@
 	</insert>
 	
 	
-	
+	<!-- 任何人都可以看的视频记录手机号 -->
 	<resultMap type="com.ola.qh.entity.CourseLineCheck" id="CourseLineCheckMap">
 	<result column="id" property="id"/>
 	<result column="mobile" property="mobile"/>
@@ -245,4 +299,39 @@
 		and live_id = #{liveId}
 		</if>
 	</select>
+	
+
+	
+	<resultMap type="com.ola.qh.entity.LiveMark" id="LiveMarkMap">
+	<result column="id" property="id"/>
+	<result column="live_name" property="liveName"/>
+	<result column="live_id" property="liveId"/>
+	<result column="status" property="status"/>
+	<result column="starttime" property="starttime"/>
+	<result column="userId" property="userId"/>
+	<result column="ismark" property="isMark"/>
+	</resultMap>
+	
+	<select id="selectByUserId" resultMap="LiveMarkMap">
+		select * from live_mark where 1=1
+		<if test="userId!=null and userId!=''">
+		and userId = #{userId}
+		</if>
+	</select>
+	
+	
+	<insert id="insertLiveMark" parameterType="com.ola.qh.entity.LiveMark">
+	insert into live_mark(id,userId,live_id,live_name,starttime,status,ismark) values (#{id},#{userId},#{liveId},#{liveName},#{starttime},#{status},#{isMark});
+	</insert>
+	
+	<select id="selectCount" resultType="int">
+	select count(*) from live_mark where 1=1
+	<if test="userId!=null and userId!=''">
+	and userId = #{userId}
+	</if>
+	<if test="liveId!=null and liveId!=''">
+	and live_id = #{liveId}
+	</if>
+	</select>
+
 	</mapper>

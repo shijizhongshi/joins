@@ -36,4 +36,18 @@ public class VideoRecordController {
 		
 		return videoRecordService.insertVideoRecord(videoRecord);
 	}
+	
+	@RequestMapping(value="/delete",method=RequestMethod.GET)
+	public Results<String> deleteVideoRecord(@RequestParam(name="id",required=true)String id){
+		
+		Results<String> results=new Results<String>();
+		
+		int delete =videoRecordService.deleteVideoRecord(id);
+		if(delete<=0){
+			results.setStatus("1");
+			return results;
+		}
+		results.setStatus("0");
+		return results;
+	}
 }
