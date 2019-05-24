@@ -51,6 +51,8 @@ public interface ICourseService {
 	
 	public Results<Integer> acquire(String lineShowId, String userId);
 
+	public List<CourseChapter> courseChapterListAll(String courseId);
+
 
 
 }

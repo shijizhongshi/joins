@@ -133,7 +133,7 @@ public class CourseController {
 	}
 
 	/**
-	 * 通过课程的id查对应的章的id
+	 * 通过课程的id查对应的章的id  返回章集合
 	 * <p>
 	 * Title: ListCourseChapter
 	 * </p>
@@ -151,6 +151,21 @@ public class CourseController {
 		Results<List<CourseChapter>> result = new Results<List<CourseChapter>>();
 
 		result.setData(courseService.courseChapterList(courseId));
+		result.setStatus("0");
+		return result;
+	}
+	/**
+	 * 通过课程的id查对应的章  返回章集合和每个章的节集合
+	 * @param courseId
+	 * @return
+	 */
+	@RequestMapping("/courseChapterListAll")
+	public Results<List<CourseChapter>> ListCourseChapterAll(
+			@RequestParam(name = "courseId", required = true) String courseId) {
+
+		Results<List<CourseChapter>> result = new Results<List<CourseChapter>>();
+
+		result.setData(courseService.courseChapterListAll(courseId));
 		result.setStatus("0");
 		return result;
 	}

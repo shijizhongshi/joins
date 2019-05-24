@@ -234,13 +234,14 @@ public class CourseService implements ICourseService {
 		} else {
 			results.setStatus("1");
 			results.setMessage(userresult.getMessage());
+
 			return results;
 		}
-		// 根据直播ID查询直播信息
+		// 根据直播的ID查询直播信息
 		CourseLineShow courseLineShow = courseDao.selectById(lineShowId);
 		Integer count = 0;
 		if (courseLineShow != null && courseLineShow.getStarttime() != null) {
-			// 根据userid查询 直播预约表
+			// 根据userid和直播的ID查询 直播预约表
 			Integer countInteger = courseDao.selectCount(userId, courseLineShow.getId());
 			if (countInteger != 0) {
 				results.setStatus("1");
@@ -273,6 +274,20 @@ public class CourseService implements ICourseService {
 		results.setMessage("保存预约信息失败");
 
 		return results;
+	}
+
+	@Override
+	public List<CourseChapter> courseChapterListAll(String courseId) {
+		List<CourseChapter> list = courseDao.courseChapterList(courseId);
+		for (CourseChapter courseChapter : list) {
+			//获取章下面的节数量
+			int num = courseDao.courseSectionCount(courseChapter.getId());
+			courseChapter.setCourseSectionSize(num);
+			//获取章下面的节集合
+			List<CourseSection> sectionList = courseSectionList(courseChapter.getId());
+			courseChapter.setCourseSections(sectionList);
+		}
+		return list;
 	}
 
 }
