@@ -44,7 +44,7 @@ public class KnowledgeVideoService implements IKnowledgeVideoService {
 		try {
 			List<KnowledgeVideo> list = new ArrayList<KnowledgeVideo>();
 			if (!"".equals(miniSubclassName)) {
-				list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, null,miniSubclassName);
+				list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, courseTypeSubclassName,miniSubclassName);
 			}else {
 				list = knowledgeVideoDao.KnowledgeVideoList(pageNo, pageSize, courseTypeSubclassName,null);
 			}
