@@ -125,12 +125,13 @@
 	<result column="id" property="id"/>
 	<result column="course_id" property="courseId"/>
 	<result column="course_chapter_name" property="courseChapterName"/>
+	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
 	<result column="course_lecturer" property="courseLecturer"/>
 	<result column="ispay" property="ispay"/><!-- 是否付费 -->
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	<select id="courseChapterList" resultMap="CourseChapterMap">
-	select id,course_id,course_chapter_name,course_lecturer,addtime from course_chapter
+	select id,course_id,course_chapter_name,course_lecturer,addtime,course_type_subclass_name from course_chapter
 	where course_id=#{courseId} order by orders asc
 	</select>
 	
