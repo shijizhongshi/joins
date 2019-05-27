@@ -172,9 +172,9 @@ public class CourseService implements ICourseService {
 	}
 
 	@Override
-	public CourseLineShow singleLiveShow(String roomId) {
+	public CourseLineShow singleLiveShow(String roomId,String liveId) {
 		// TODO Auto-generated method stub
-		return courseDao.singleLiveShow(roomId);
+		return courseDao.singleLiveShow(roomId,liveId);
 	}
 
 	@Override

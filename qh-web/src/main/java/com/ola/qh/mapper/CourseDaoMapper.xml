@@ -232,6 +232,9 @@
 	<if test="roomId!=null and roomId!='' ">
 	and live_room_id=#{roomId}
 	</if>
+	<if test="liveId!=null and liveId!='' ">
+	and liveId=#{liveId}
+	</if>
 	order by addtime desc
 	limit 0,1
 	</select>

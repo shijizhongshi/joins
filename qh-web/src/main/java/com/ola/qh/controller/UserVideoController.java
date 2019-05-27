@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.security.DigestException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -181,7 +182,7 @@ public class UserVideoController {
 			@RequestParam(name="offlineUrl",required=false)String offlineUrl,
 			HttpServletResponse response) throws ParseException{
 		
-			CourseLineShow liveShow=courseService.singleLiveShow(roomId);
+			CourseLineShow liveShow=courseService.singleLiveShow(roomId,null);
 			if(liveShow!=null){
 				//////将直播开启为开始直播的状态(修改成直播中)
 				CourseLineShow cls=new CourseLineShow();
@@ -329,7 +330,14 @@ public class UserVideoController {
 		}
 		CourseLineCheck clc=courseService.singleLineCheck(viewertoken);
 		
-		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
+		//CourseLineShow liveShow=courseService.singleLiveShow(roomid,null);
+		CourseLineShow liveShow=new CourseLineShow();
+		if(liveid!=null && !"".equals(liveid)){
+			liveShow=courseService.singleLiveShow(roomid,liveid);
+		}else{
+			liveShow=courseService.singleLiveShow(roomid,null);
+			
+		}
 		String courseTypeSubclassName=null;
 		if(liveShow!=null){
 			courseTypeSubclassName=liveShow.getCourseTypeSubclassName();
@@ -417,15 +425,24 @@ public class UserVideoController {
 		
 		
 		ResultCheckedLive resultlive=new ResultCheckedLive();
-		///////通过roomid去查最新的直播
-		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
-		if(liveShow.getLiveId()==null || "".equals(liveShow.getLiveId())){
-			resultlive.setResult("fail");
-			resultlive.setMessage("还未开播,请稍后~");
-			return resultlive;
+		
+		CourseLineShow liveShow=new CourseLineShow();
+		if(liveid!=null && !"".equals(liveid)){
+			liveShow=courseService.singleLiveShow(roomid,liveid);
 		}else{
-			String liveshowId=liveShow.getId();
-			List<CourseLineWhite> list=courseService.selectAllByLiveId(liveshowId);
+			liveShow=courseService.singleLiveShow(roomid,null);
+			
+		}
+		String liveshowId=liveShow.getId();
+		List<CourseLineWhite> list=courseService.selectAllByLiveId(liveshowId);
+//		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
+//		if(liveShow.getLiveId()==null || "".equals(liveShow.getLiveId())){
+//			resultlive.setResult("fail");
+//			resultlive.setMessage("还未开播,请稍后~");
+//			return resultlive;
+//		}else{
+//			String liveshowId=liveShow.getId();
+//			List<CourseLineWhite> list=courseService.selectAllByLiveId(liveshowId);
 			int i=0;
 			for (;i<list.size();i++) {
 				if(list.get(i).getUsername().equals(viewername)){
@@ -454,7 +471,7 @@ public class UserVideoController {
 			
 			
 			
-		}
+//		}
 			
 			
 		
