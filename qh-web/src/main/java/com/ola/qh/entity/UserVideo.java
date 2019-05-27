@@ -36,6 +36,8 @@ public class UserVideo {
 	
 	private String status;
 	
+	private int types;////////1:与知识点视频同步，0不与知识点视频同步
+	
 	private String likeNumber;////点赞数量
 	
 	private String commentNumber;////评论的数量
@@ -191,6 +193,14 @@ public class UserVideo {
 
 	public void setUserHeadImgUrl(String userHeadImgUrl) {
 		this.userHeadImgUrl = userHeadImgUrl;
+	}
+
+	public int getTypes() {
+		return types;
+	}
+
+	public void setTypes(int types) {
+		this.types = types;
 	}
 
 	

@@ -1,10 +1,6 @@
 package com.ola.qh.service;
 
-import java.security.DigestException;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.UserVideo;
 import com.ola.qh.entity.UserVideoComment;
@@ -12,8 +8,6 @@ import com.ola.qh.util.Results;
 
 public interface IUserVideoService {
 
-	public Results<String> save(UserVideo uv) throws DigestException; 
-	
 	public int saveUV(UserVideo uv);
 	
 	public int existVideo(String videoId);
