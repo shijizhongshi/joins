@@ -233,7 +233,7 @@
 	and live_room_id=#{roomId}
 	</if>
 	<if test="liveId!=null and liveId!='' ">
-	and liveId=#{liveId}
+	and live_id=#{liveId}
 	</if>
 	order by addtime desc
 	limit 0,1

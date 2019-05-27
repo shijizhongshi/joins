@@ -435,6 +435,11 @@ public class UserVideoController {
 		}
 		String liveshowId=liveShow.getId();
 		List<CourseLineWhite> list=courseService.selectAllByLiveId(liveshowId);
+		if(list.size()==0){
+			resultlive.setResult("fail");
+			resultlive.setMessage("请稍后重试");
+			return resultlive;
+		}
 //		CourseLineShow liveShow=courseService.singleLiveShow(roomid);
 //		if(liveShow.getLiveId()==null || "".equals(liveShow.getLiveId())){
 //			resultlive.setResult("fail");
