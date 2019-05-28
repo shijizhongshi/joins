@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ola.qh.entity.UserVideo;
 import com.ola.qh.entity.UserVideoComment;

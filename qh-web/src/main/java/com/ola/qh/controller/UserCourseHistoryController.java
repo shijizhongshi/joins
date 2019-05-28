@@ -18,7 +18,6 @@ import com.ola.qh.entity.UserCourseHistory;
 import com.ola.qh.service.IUserCourseHistoryService;
 import com.ola.qh.service.IUserService;
 import com.ola.qh.util.KeyGen;
-import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 
 @RestController

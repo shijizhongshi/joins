@@ -3,8 +3,6 @@ package com.ola.qh.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ola.qh.vo.DoctorAndPatient;
-
 public class TopicSquare {
 
 	

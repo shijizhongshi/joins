@@ -2,8 +2,6 @@ package com.ola.qh.entity;
 
 import java.util.Date;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class CourseLineWhite {
 
 	private String id;
