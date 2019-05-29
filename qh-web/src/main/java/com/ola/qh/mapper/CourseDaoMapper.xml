@@ -235,7 +235,7 @@
 	<if test="liveId!=null and liveId!='' ">
 	and live_id=#{liveId}
 	</if>
-	order by addtime desc
+	order by starttime desc
 	limit 0,1
 	</select>
 	
