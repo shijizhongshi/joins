@@ -53,6 +53,5 @@ public interface ICourseService {
 
 	public List<CourseChapter> courseChapterListAll(String courseId);
 
-	public String selectPlayBack(String liveId);
-
+	
 }

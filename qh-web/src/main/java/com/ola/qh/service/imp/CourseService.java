@@ -290,10 +290,4 @@ public class CourseService implements ICourseService {
 		return list;
 	}
 
-	@Override
-	public String selectPlayBack(String liveId) {
-		// TODO Auto-generated method stub
-		return courseDao.selectPlayBack(liveId);
-	}
-
 }

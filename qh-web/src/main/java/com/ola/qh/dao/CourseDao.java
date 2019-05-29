@@ -72,5 +72,4 @@ public interface CourseDao {
 
 	public List<LiveMark> selectByUserId(@Param("userId")String userId);
 
-	public String selectPlayBack(@Param("liveId")String liveId);
 }
