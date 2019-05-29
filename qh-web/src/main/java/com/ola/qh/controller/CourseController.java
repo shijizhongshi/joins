@@ -212,7 +212,10 @@ public class CourseController {
 		ccd.setPageSize(pageSize);
 		ccd.setStatus(status);
 		List<CourseLineShow> list = courseService.selectLiveList(ccd);
-		
+		for (CourseLineShow courseLineShow : list) {
+			
+			courseLineShow.setPlayBackVideoId(courseService.selectPlayBack(courseLineShow.getId()));
+		}
 		result.setStatus("0");
 		result.setData(list);
 		

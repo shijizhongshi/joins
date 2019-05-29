@@ -245,6 +245,11 @@
 	and isopen = 1;
 	</select>
 	
+	<select id="selectPlayBack" resultType="String">
+	select video_id from playback
+	where live_id=#{liveId}
+	</select>
+	
 	<update id="updateListShow" parameterType="com.ola.qh.entity.CourseLineShow">
 		update course_line_show set 
 		<if test="status!=0">

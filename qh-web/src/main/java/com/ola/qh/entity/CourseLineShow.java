@@ -43,7 +43,7 @@ public class CourseLineShow {
 	
 	private Integer isopen;// 是否是公开课 0:不公开 1:公开
 	
-	
+	private String playBackVideoId;///////////////回放的id
 
 	public String getHeadImgUrl() {
 		return headImgUrl;
@@ -235,6 +235,14 @@ public class CourseLineShow {
 
 	public void setIsshow(String isshow) {
 		this.isshow = isshow;
+	}
+
+	public String getPlayBackVideoId() {
+		return playBackVideoId;
+	}
+
+	public void setPlayBackVideoId(String playBackVideoId) {
+		this.playBackVideoId = playBackVideoId;
 	}
 
 }
