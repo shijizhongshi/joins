@@ -1,16 +1,8 @@
 package com.ola.qh.vo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopImg;
 import com.ola.qh.entity.ShopServe;
 import com.ola.qh.entity.UserComment;

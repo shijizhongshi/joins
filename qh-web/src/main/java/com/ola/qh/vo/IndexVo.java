@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ola.qh.entity.Banner;
-import com.ola.qh.entity.Course;
 import com.ola.qh.entity.CourseClass;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.Shop;

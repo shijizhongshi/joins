@@ -3,7 +3,6 @@ package com.ola.qh.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ola.qh.entity.Shop;
 import com.ola.qh.entity.ShopServe;

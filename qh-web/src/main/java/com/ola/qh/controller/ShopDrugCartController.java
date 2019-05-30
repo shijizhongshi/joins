@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ola.qh.entity.ShopDrugCart;
 import com.ola.qh.service.IShopDrugCartService;
-import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.CartVo;
 

@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -57,18 +56,6 @@ public class UserVideoController {
 	 * @return
 	 * @throws DigestException 
 	 */
-	@RequestMapping(value="/save",method=RequestMethod.POST)
-	public Results<String> save(@RequestBody @Valid UserVideo uv,BindingResult valid) throws DigestException{
-		Results<String> result=new Results<String>();
-		
-		if(valid.hasErrors()){
-			result.setStatus("1");
-			result.setMessage("短视频信息填写不完整");
-			return result;
-		}
-		return userVideoService.save(uv);
-		
-	}
 	
 	@RequestMapping(value="/notify",method=RequestMethod.GET)
 	public String ccnotifyUrl(

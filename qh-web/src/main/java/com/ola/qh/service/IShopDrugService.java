@@ -1,7 +1,5 @@
 package com.ola.qh.service;
 
-import java.util.List;
-
 import com.ola.qh.entity.ShopDrug;
 import com.ola.qh.util.Results;
 import com.ola.qh.vo.ShopCountVo;

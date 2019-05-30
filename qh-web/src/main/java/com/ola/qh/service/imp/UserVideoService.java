@@ -1,7 +1,5 @@
 package com.ola.qh.service.imp;
 
-import static org.mockito.Mockito.reset;
-
 import java.io.IOException;
 import java.security.DigestException;
 import java.security.MessageDigest;
@@ -57,64 +55,6 @@ public class UserVideoService implements IUserVideoService {
 	private UserDao userDao;
 	@Autowired
 	private DoctorReplyDao doctorReplyDao;
-
-	@Transactional
-	@Override
-	public Results<String> save(UserVideo uv) throws DigestException {
-		// TODO Auto-generated method stub
-		Results<String> result = new Results<String>();
-		Results<User> userResult = userService.existUser(uv.getUserId());
-		if ("1".equals(userResult.getStatus())) {
-			result.setStatus("1");
-			result.setMessage(userResult.getMessage());
-			return result;
-		}
-		uv.setUserId(userResult.getData().getId());
-		User user = userService.sinleUser(uv.getUserId(), null);
-		if (user.getIsdoctor() != 1 && user.getUserrole() == 0) {
-			///// 说明既不是医师护也不是店铺没有权限发送小视频
-			result.setStatus("1");
-			result.setMessage("您没有上传小视频的权限");
-			return result;
-
-		}
-		if (user.getIsdoctor() == 1) {
-
-			Doctors d = doctorDao.singleDoctors(null, user.getId(), "1");
-			if (d != null) {
-				uv.setHeadImgUrl(d.getHeadImg());
-				uv.setNickname(d.getName());
-				uv.setProfessional(d.getProfessional());
-				uv.setDoctorId(d.getId());////// 这个是医生的id
-			}
-
-		} else {
-			Shop s = new Shop();
-			if (user.getUserrole() == 1) {
-				//// 服务店铺
-				s = shopDao.singleShop(uv.getUserId(), null, 1, null);
-
-			} else if (user.getUserrole() == 2) {
-				//// 商城店铺
-				s = shopDao.singleShop(uv.getUserId(), null, 2, null);
-
-			} else {
-				////// 两种店铺都有(取商城店铺的名称)
-				s = shopDao.singleShop(uv.getUserId(), null, 2, null);
-
-			}
-			uv.setShopId(s.getId());
-			uv.setShopname(s.getShopName());
-		}
-
-		uv.setId(KeyGen.uuid());
-		uv.setAddtime(new Date());
-		String firstImage = getVideo(uv.getVideoId());
-		uv.setFirstImage(firstImage);
-		userVideoDao.insert(uv);
-		result.setStatus("0");////// 保存用户上传的视频成功
-		return result;
-	}
 
 	public static String getVideo(String vid) throws DigestException {
 

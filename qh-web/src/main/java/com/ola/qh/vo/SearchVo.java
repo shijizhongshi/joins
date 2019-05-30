@@ -3,8 +3,6 @@ package com.ola.qh.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ola.qh.entity.Shop;
-
 public class SearchVo {
 
 	public List<SearchProductVo> productVo=new ArrayList<SearchProductVo>();

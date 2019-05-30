@@ -52,5 +52,4 @@ public interface ICourseService {
 
 	public List<CourseChapter> courseChapterListAll(String courseId);
 
-
 }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ola.qh.entity.News;
 import com.ola.qh.entity.TopicSquare;
 import com.ola.qh.service.INewsService;
-import com.ola.qh.service.imp.NewsService;
 import com.ola.qh.util.Patterns;
 import com.ola.qh.util.Results;
 

@@ -1,10 +1,6 @@
 package com.ola.qh.vo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ola.qh.entity.Shop;
 
 public class SearchProductVo {
 

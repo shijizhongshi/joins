@@ -23,7 +23,9 @@
 		and course_type_subclass_name=#{courseTypeSubclassName}
 		</if>
 		<if test="miniSubclassName!=null and miniSubclassName!=''">
+
 		and mini_subclass_name=#{miniSubclassName}
+
 		</if>
 		
 		order by orders desc

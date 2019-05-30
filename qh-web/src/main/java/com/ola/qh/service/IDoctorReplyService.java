@@ -1,14 +1,10 @@
 package com.ola.qh.service;
 
-import java.util.Date;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import com.ola.qh.entity.DoctorInfo;
 import com.ola.qh.entity.Reply;
 import com.ola.qh.util.Results;
-import com.ola.qh.vo.DoctorReplyVo;
 
 
 public interface IDoctorReplyService {
