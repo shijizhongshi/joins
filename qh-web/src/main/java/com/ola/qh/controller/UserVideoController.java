@@ -332,8 +332,8 @@ public class UserVideoController {
 		
 		//CourseLineShow liveShow=courseService.singleLiveShow(roomid,null);
 		CourseLineShow liveShow=new CourseLineShow();
-		if(liveid!=null && !"".equals(liveid)){
-			liveShow=courseService.singleLiveShow(roomid,liveid);
+		if(recordid!=null && !"".equals(recordid)){
+			liveShow=courseService.singleLiveShow(roomid,recordid);
 		}else{
 			liveShow=courseService.singleLiveShow(roomid,null);
 			
@@ -392,6 +392,7 @@ public class UserVideoController {
 			clcnew.setMobile(viewertoken);
 			clcnew.setRoomid(roomid);
 			clcnew.setToken(viewertoken);
+			clcnew.setUsername(viewername);
 			courseService.insertLineCheck(clcnew);
 			
 		}
@@ -427,8 +428,8 @@ public class UserVideoController {
 		ResultCheckedLive resultlive=new ResultCheckedLive();
 		
 		CourseLineShow liveShow=new CourseLineShow();
-		if(liveid!=null && !"".equals(liveid)){
-			liveShow=courseService.singleLiveShow(roomid,liveid);
+		if(recordid!=null && !"".equals(recordid)){
+			liveShow=courseService.singleLiveShow(roomid,recordid);
 		}else{
 			liveShow=courseService.singleLiveShow(roomid,null);
 			

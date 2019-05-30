@@ -233,7 +233,7 @@
 	and live_room_id=#{roomId}
 	</if>
 	<if test="liveId!=null and liveId!='' ">
-	and live_id=#{liveId}
+	and live_back_id=#{liveId}
 	</if>
 	order by starttime desc
 	limit 0,1
@@ -288,11 +288,12 @@
 	<result column="token" property="token"/>
 	<result column="roomid" property="roomid"/>
 	<result column="course_type_subclass_name" property="courseTypeSubclassName"/>
+	<result column="username" property="username"/>
 	<result column="addtime" property="addtime"/>
 	</resultMap>
 	<insert id="insertLineCheck" parameterType="com.ola.qh.entity.CourseLineCheck">
-	insert into course_line_check(id,mobile,token,roomid,course_type_subclass_name,addtime)
-	values(#{id},#{mobile},#{token},#{roomid},#{courseTypeSubclassName},#{addtime})
+	insert into course_line_check(id,mobile,token,roomid,course_type_subclass_name,addtime,username)
+	values(#{id},#{mobile},#{token},#{roomid},#{courseTypeSubclassName},#{addtime},#{username})
 	</insert>
 	
 	<update id="updateLineCheck">
